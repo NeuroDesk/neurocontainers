@@ -1,0 +1,12 @@
+tgv.img
+testfiles/
+*.simg
+ROBEXv12.linux64.tar.gz
+ROBEXv12.source.all_platforms.zip
+magnitude.nii.nii
+*.zip
+*.tar.gz
+*.tar
+ashs-1.0.0/
+ashs_atlas_upennpmc_20170810/
+
