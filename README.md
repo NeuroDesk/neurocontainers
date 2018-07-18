@@ -1,5 +1,7 @@
 # Centre for Advanced imaging processing pipeline containers
 
+[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1270)
+
 ## Use minc container
 ```
 singularity pull shub://CAIsr/caid:minc_1p9p16
