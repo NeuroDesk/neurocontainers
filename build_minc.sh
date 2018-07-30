@@ -4,24 +4,6 @@ set -e
 imageName='minc_1p9p16'
 buildDate=`date +%Y%m%d`
 
-
-buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
-
-echo $buildPlatform
-
-if [ "$buildPlatform" = "AuthenticAMD" ]; then
-   echo "detected amd"
-   export buildPlatform='amd'
- fi
-
- if [ "$buildPlatform" = "GenuineIntel" ]; then
-   echo "detected intel"
-   export buildPlatform='intel'
- fi
-
-imageName=${imageName}_${buildPlatform}
-
-
 echo "building $imageName"
 
 
@@ -31,7 +13,7 @@ echo "building $imageName"
 #upgrade neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 #or
-#pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
+pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
 
 neurodocker generate docker \
