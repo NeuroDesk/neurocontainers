@@ -13,7 +13,7 @@ echo "building $imageName"
 #upgrade neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 #or
-pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
+#pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
 
 neurodocker generate docker \
@@ -23,9 +23,23 @@ neurodocker generate docker \
    --run="chmod +x /usr/bin/ll" \
    --copy globalMountPointList.txt /globalMountPointList.txt \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
-   --minc version=1.9.16 method=binaries \
+   --install wget libc6 libstdc++6 imagemagick perl octave libgl1-mesa-glx libglu1-mesa \
+   --workdir / \
+   --run="wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
+   --run="dpkg -i /minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
+   --run="rm /minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
    --user=neuro \
-   --env DEPLOY_PATH=/opt/minc-1.9.16/bin/ \
+   --env DEPLOY_PATH=/opt/minc/1.9.16/bin/ \
+   --env MINC_TOOLKIT=/opt/minc/1.9.16/ \
+   --env MINC_TOOLKIT_VERSION="1.9.16-20180117" \
+   --env PATH="/opt/minc/1.9.16/bin:/opt/minc/1.9.16/pipeline:$PATH" \
+   --env PERL5LIB="/opt/minc/1.9.16/perl:/opt/minc/1.9.16/pipeline:$PERL5LIB" \
+   --env LD_LIBRARY_PATH="/opt/minc/1.9.16/lib:/opt/minc/1.9.16/lib/InsightToolkit:$LD_LIBRARY_PATH" \
+   --env MNI_DATAPATH=/opt/minc/1.9.16/../share \
+   --env MINC_FORCE_V2="1" \
+   --env MINC_COMPRESS="4" \
+   --env VOLUME_CACHE_THRESHOLD="-1" \
+   --env MANPATH="/opt/minc/1.9.16/man:$MANPATH" \
    > Dockerfile.${imageName}
 
 
