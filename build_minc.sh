@@ -17,7 +17,7 @@ pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master
 
 
 neurodocker generate docker \
-   --base=centos:6.10 \
+   --base=centos:6.9 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
