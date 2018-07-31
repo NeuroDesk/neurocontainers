@@ -17,13 +17,13 @@ echo "building $imageName"
 
 
 neurodocker generate docker \
-   --base=debian:stretch \
+   --base=ubuntu:xenial \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --copy globalMountPointList.txt /globalMountPointList.txt \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
-   --install wget libc6 libstdc++6 imagemagick perl octave libgl1-mesa-glx libglu1-mesa \
+   --install wget libc6 libstdc++6 imagemagick perl octave bc libxi6  libxmu6  libjpeg8  libgl1-mesa-glx libglu1-mesa ed libxml2-dev libcurl4-openssl-dev libssl-dev \
    --workdir / \
    --run="wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
    --run="dpkg -i /minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
