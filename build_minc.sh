@@ -17,8 +17,8 @@ pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master
 
 
 neurodocker generate docker \
-   --base=neurodebian:jessie \
-   --pkg-manager apt \
+   --base=centos:6.10 \
+   --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --copy globalMountPointList.txt /globalMountPointList.txt \
