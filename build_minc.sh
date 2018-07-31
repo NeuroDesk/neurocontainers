@@ -17,7 +17,7 @@ echo "building $imageName"
 
 
 neurodocker generate docker \
-   --base=debian:wheezy \
+   --base=debian:stretch \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
