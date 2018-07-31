@@ -17,7 +17,7 @@ echo "building $imageName"
 
 
 neurodocker generate docker \
-   --base=ubuntu:xenial \
+   --base=debian:wheezy \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -28,6 +28,7 @@ neurodocker generate docker \
    --run="wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
    --run="dpkg -i /minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
    --run="rm /minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb" \
+   --run="cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg" \
    --user=neuro \
    --env DEPLOY_PATH=/opt/minc/1.9.16/bin/ \
    --env MINC_TOOLKIT=/opt/minc/1.9.16/ \
