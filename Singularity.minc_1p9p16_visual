@@ -7,7 +7,7 @@ From: vfonov/minc-toolkit-containers:base
 # install minc packages
 %post
     # update locales
-    locale-gen en_US.UTF-8 en_US en_CA.UTF-8 en_CA
+    locale-gen en_AU.UTF-8 en_AU en_US.UTF-8 en_US en_CA.UTF-8 en_CA
     dpkg-reconfigure locales
 
 
@@ -46,7 +46,7 @@ From: vfonov/minc-toolkit-containers:base
 
     echo ". /opt/minc/1.9.16/minc-toolkit-config.sh" >> $SINGULARITY_ENVIRONMENT
     cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
-
+    echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
 
 %labels
     Maintainer Vladimir S. Fonov
