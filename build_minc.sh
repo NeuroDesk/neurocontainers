@@ -25,7 +25,7 @@ neurodocker generate docker \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
    --minc version=1.9.16 method=binaries \
    --user=neuro \
-   --env DEPLOY_PATH=/opt/minc/1.9.16/bin/ \
+   --env DEPLOY_PATH=/opt/minc-1.9.16/bin/ \
    > Dockerfile.${imageName}
 
 
