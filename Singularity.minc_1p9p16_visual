@@ -10,6 +10,9 @@ From: vfonov/minc-toolkit-containers:base
     locale-gen en_AU.UTF-8 en_AU en_US.UTF-8 en_US en_CA.UTF-8 en_CA
     dpkg-reconfigure locales
 
+    # octave for volgenmodel
+    apt-get update
+    apt-get install octave
 
     mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working
     # install minc-toolkit 1.9.16
@@ -23,8 +26,6 @@ From: vfonov/minc-toolkit-containers:base
     dpkg -i bic-mni-models-0.1.1-20120421.deb 
     rm -f bic-mni-models-0.1.1-20120421.deb
 
-    # octave for volgenmodel
-    apt-get install octave
 
     apt-get autoclean 
     rm -rf /var/lib/apt/lists/*
