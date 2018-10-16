@@ -11,8 +11,8 @@ From: vfonov/minc-toolkit-containers:base
     dpkg-reconfigure locales
 
     # octave for volgenmodel
-    apt-get update
-    apt-get install octave
+    apt-get -y update
+    apt-get -y install octave
 
     mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working
     # install minc-toolkit 1.9.16
