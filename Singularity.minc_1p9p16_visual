@@ -23,6 +23,9 @@ From: vfonov/minc-toolkit-containers:base
     dpkg -i bic-mni-models-0.1.1-20120421.deb 
     rm -f bic-mni-models-0.1.1-20120421.deb
 
+    # octave for volgenmodel
+    apt-get install octave
+
     apt-get autoclean 
     rm -rf /var/lib/apt/lists/*
 
