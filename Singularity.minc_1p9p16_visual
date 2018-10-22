@@ -44,10 +44,10 @@ From: vfonov/minc-toolkit-containers:base
 #    python minc2-simple-0/python/setup.py install && \
 #    rm -rf v0.tar.gz release-1.2.01.tar.gz minc2-simple-0 
 
-    echo ". /opt/minc/1.9.16/minc-toolkit-config.sh" >> $SINGULARITY_ENVIRONMENT
-    cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
-    ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
-    echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
+#    echo ". /opt/minc/1.9.16/minc-toolkit-config.sh" >> $SINGULARITY_ENVIRONMENT
+#    cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
+#    ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
+#    echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
 
     # octave for volgenmodel
     apt-get -y update
