@@ -14,7 +14,6 @@ From: vfonov/minc-toolkit-containers:base
     apt-get -y update
     apt-get -y install octave
 
-    update-alternatives --set liblapack.so.3 /usr/lib/lapack/liblapack.so.3
 
     mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working
     # install minc-toolkit 1.9.16
@@ -54,7 +53,7 @@ From: vfonov/minc-toolkit-containers:base
     cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
     ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
     echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
-   
+    update-alternatives --set liblapack.so.3 /usr/lib/lapack/liblapack.so.3
 
 
 %labels
