@@ -43,17 +43,30 @@ From: vfonov/minc-toolkit-containers:base
 #    python minc2-simple-0/python/setup.py install && \
 #    rm -rf v0.tar.gz release-1.2.01.tar.gz minc2-simple-0 
 
-    echo ". /opt/minc/1.9.16/minc-toolkit-config.sh" >> $SINGULARITY_ENVIRONMENT
+#    echo ". /opt/minc/1.9.16/minc-toolkit-config.sh" >> $SINGULARITY_ENVIRONMENT
+
+
+   echo 'export MINC_TOOLKIT=/opt/minc/1.9.16' >> $SINGULARITY_ENVIRONMENT
+   echo 'export MINC_TOOLKIT_VERSION="1.9.16-20180117"' >> $SINGULARITY_ENVIRONMENT
+   echo 'export PATH=${MINC_TOOLKIT}/bin:${MINC_TOOLKIT}/pipeline:${PATH}' >> $SINGULARITY_ENVIRONMENT
+   echo 'export PERL5LIB=${MINC_TOOLKIT}/perl:${MINC_TOOLKIT}/pipeline:${PERL5LIB}' >> $SINGULARITY_ENVIRONMENT
+  # echo 'export LD_LIBRARY_PATH=${MINC_TOOLKIT}/lib:${MINC_TOOLKIT}/lib/InsightToolkit:${LD_LIBRARY_PATH}' >> $SINGULARITY_ENVIRONMENT
+   echo 'export MNI_DATAPATH=${MINC_TOOLKIT}/../share' >> $SINGULARITY_ENVIRONMENT
+   echo 'export MINC_FORCE_V2=1' >> $SINGULARITY_ENVIRONMENT
+   echo 'export MINC_COMPRESS=4' >> $SINGULARITY_ENVIRONMENT
+   echo 'export VOLUME_CACHE_THRESHOLD=-1' >> $SINGULARITY_ENVIRONMENT
+   echo 'export MANPATH=${MINC_TOOLKIT}/man:${MANPATH}' >> $SINGULARITY_ENVIRONMENT
+
     cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
- #   ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
+    ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
     echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
 
     # octave for volgenmodel - The libaries in minc break octave!
-  #  apt-get -y update
-  #  apt-get -y install octave
-  #  update-alternatives --set liblapack.so.3 /usr/lib/lapack/liblapack.so.3
-  #  apt-get autoclean 
-  #  rm -rf /var/lib/apt/lists/*
+    apt-get -y update
+    apt-get -y install octave
+    update-alternatives --set liblapack.so.3 /usr/lib/lapack/liblapack.so.3
+    apt-get autoclean 
+    rm -rf /var/lib/apt/lists/*
 
 
 %labels
