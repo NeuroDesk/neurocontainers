@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-imageName='minc_1p9p16_visual'
+imageName='minc_1p9p16_test'
 buildDate=`date +%Y%m%d`
 
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
