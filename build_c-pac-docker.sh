@@ -12,7 +12,7 @@ neurodocker generate docker \
    --copy globalMountPointList.txt /globalMountPointList.txt \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
    --user=neuro \
-   --env DEPLOY_PATH=/usr/local/miniconda/bin/cpac/ \
+   --env DEPLOY_PATH=/usr/local/miniconda/bin/ \
    > Dockerfile.${imageName}
 
 docker build -t ${imageName}:$buildDate -f  Dockerfile.${imageName} .
