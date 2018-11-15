@@ -32,6 +32,7 @@ docker push caid/${imageName}:latest
 echo "BootStrap:docker" > Singularity.${imageName}
 echo "From:caid/${imageName}" >> Singularity.${imageName}
 
+rm ${imageName}_${buildDate}.simg
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
 
 source ../setupSwift.sh
