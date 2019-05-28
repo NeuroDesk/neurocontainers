@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-imageName='ants_2p2p0'
+imageName='braincharter_vasculature_master'
 buildDate=`date +%Y%m%d`
 
 echo "building $imageName"
@@ -11,9 +11,7 @@ echo "building $imageName"
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 #upgrade neurodocker
-#pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
-#or
-#pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
+#pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 
 neurodocker generate docker \
@@ -23,9 +21,22 @@ neurodocker generate docker \
    --run="chmod +x /usr/bin/ll" \
    --copy globalMountPointList.txt /globalMountPointList.txt \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
-   --ants version=2.2.0 \
+   --ants version=2.3.1 \
+   --install python2.7 git python-pip libinsighttoolkit4-dev cmake-curses-gui gcc vmtk python-setuptools python-numpy python-dev python-dipy make g++ insighttoolkit4-python python-vtkgdcm python-gdcm libvtkgdcm2.6 libvtkgdcm2-dev libvtkgdcm-tools libvtkgdcm-java libvtkgdcm-cil libgdcm2.6-dbg libgdcm2.6 libgdcm2-dev libgdcm-tools libgdcm-java libgdcm-cil gdcm-doc libboost-all-dev fftw3 libfftw3-dev \
+   --run="pip install --upgrade pip" \
+   --run="pip install scikit-image" \
+   --run="git clone https://github.com/braincharter/vasculature.git" \
+   --workdir /vasculature/cplusplus_frangi_iter/build \
+   --run="sed -i 's/4.9.1/4.9.0/g' ../CMakeLists.txt" \
+   --run="ln -s /usr/lib/cli/vtkgdcm-sharp-2.6/libvtkgdcmsharpglue.so /usr/lib/x86_64-linux-gnu/libvtkgdcmsharpglue.so" \
+   --run="mkdir -p /usr/lib/python/dist-packages/" \
+   --run="ln -s /usr/lib/x86_64-linux-gnu/libvtkgdcmPythonD.so /usr/lib/python/dist-packages/libvtkgdcmPython.so" \
+   --run="cmake ../" \
+   --run="make " \
+   --workdir /vasculature/bin \
+   --run="cp /vasculature/cplusplus_frangi_iter/build/itkVEDMain /vasculature/bin" \
+   --env DEPLOY_PATH=/vasculature/bin \
    --user=neuro \
-   --env DEPLOY_PATH=/opt/ants-2.2.0/ \
    > Dockerfile.${imageName}
 
 
