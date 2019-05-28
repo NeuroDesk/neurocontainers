@@ -36,6 +36,7 @@ neurodocker generate docker \
    --workdir /vasculature/bin \
    --run="cp /vasculature/cplusplus_frangi_iter/build/itkVEDMain /vasculature/bin" \
    --env DEPLOY_PATH=/vasculature/bin \
+   --env PATH="/vasculature/bin:$PATH" \
    --user=neuro \
    > Dockerfile.${imageName}
 
