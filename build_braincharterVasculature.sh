@@ -23,7 +23,7 @@ neurodocker generate docker \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
    --ants version=2.3.1 \
    --afni version=latest \
-   --install python2.7 git python-pip libinsighttoolkit4-dev cmake-curses-gui gcc vmtk python-setuptools python-numpy python-dev python-dipy make g++ insighttoolkit4-python python-vtkgdcm python-gdcm libvtkgdcm2.6 libvtkgdcm2-dev libvtkgdcm-tools libvtkgdcm-java libvtkgdcm-cil libgdcm2.6-dbg libgdcm2.6 libgdcm2-dev libgdcm-tools libgdcm-java libgdcm-cil gdcm-doc libboost-all-dev fftw3 libfftw3-dev \
+   --install python2.7 git python-pip libinsighttoolkit4-dev cmake-curses-gui gcc vmtk python-setuptools python-numpy python-dev python-dipy make g++ insighttoolkit4-python python-vtkgdcm python-gdcm libvtkgdcm2.6 libvtkgdcm2-dev libvtkgdcm-tools libvtkgdcm-java libvtkgdcm-cil libgdcm2.6-dbg libgdcm2.6 libgdcm2-dev libgdcm-tools libgdcm-java libgdcm-cil gdcm-doc libboost-all-dev fftw3 libfftw3-dev bc\
    --run="pip install --upgrade pip" \
    --run="pip install scikit-image" \
    --run="git clone https://github.com/braincharter/vasculature.git" \
@@ -38,7 +38,7 @@ neurodocker generate docker \
    --run="rm /vasculature/itkVEDMain" \
    --run="cp /vasculature/cplusplus_frangi_iter/build/itkVEDMain /vasculature/bin" \
    --env DEPLOY_PATH=/vasculature/bin \
-   --env PATH="/vasculature/bin:$PATH" \
+   --env PATH="/vasculature/bin:/opt/afni-latest/:$PATH" \
    --user=neuro \
    > Dockerfile.${imageName}
 
