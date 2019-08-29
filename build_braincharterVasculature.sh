@@ -25,7 +25,7 @@ neurodocker generate docker \
    --afni version=latest \
    --install python2.7 git python-pip libinsighttoolkit4-dev cmake-curses-gui gcc vmtk python-setuptools python-numpy python-dev python-dipy make g++ insighttoolkit4-python python-vtkgdcm python-gdcm libvtkgdcm2.6 libvtkgdcm2-dev libvtkgdcm-tools libvtkgdcm-java libvtkgdcm-cil libgdcm2.6-dbg libgdcm2.6 libgdcm2-dev libgdcm-tools libgdcm-java libgdcm-cil gdcm-doc libboost-all-dev fftw3 libfftw3-dev bc\
    --run="pip install --upgrade pip" \
-   --run="pip install scikit-image" \
+   --run="pip install scikit-image nibabel" \
    --run="git clone https://github.com/braincharter/vasculature.git" \
    --workdir /vasculature/cplusplus_frangi_iter/build \
    --run="sed -i 's/4.9.1/4.9.0/g' ../CMakeLists.txt" \
