@@ -41,6 +41,7 @@ neurodocker generate docker \
    --env MINC_COMPRESS="4" \
    --env VOLUME_CACHE_THRESHOLD="-1" \
    --env MANPATH="/opt/minc/1.9.16/man:$MANPATH" \
+   --env ANTSPATH=/opt/minc/1.9.16/bin/ \
    > Dockerfile.${imageName}
 
 

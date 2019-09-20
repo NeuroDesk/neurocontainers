@@ -26,6 +26,7 @@ neurodocker generate docker \
    --ants version=2.2.0 \
    --user=neuro \
    --env DEPLOY_PATH=/opt/ants-2.2.0/ \
+   --env ANTSPATH=/opt/minc/1.9.16/bin/ \
    > Dockerfile.${imageName}
 
 

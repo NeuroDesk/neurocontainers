@@ -56,7 +56,7 @@ From: vfonov/minc-toolkit-containers:base
    echo 'export MINC_COMPRESS=4' >> $SINGULARITY_ENVIRONMENT
    echo 'export VOLUME_CACHE_THRESHOLD=-1' >> $SINGULARITY_ENVIRONMENT
    echo 'export MANPATH=${MINC_TOOLKIT}/man:${MANPATH}' >> $SINGULARITY_ENVIRONMENT
-
+   echo 'export ANTSPATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
     cp /opt/minc/1.9.16/bin/bestlinreg.pl /opt/minc/1.9.16/bin/bestlinreg
     ln -s /usr/bin/octave /opt/minc/1.9.16/bin/
     echo 'export DEPLOY_PATH=/opt/minc/1.9.16/bin/' >> $SINGULARITY_ENVIRONMENT
