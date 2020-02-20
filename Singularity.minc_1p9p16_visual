@@ -63,8 +63,8 @@ From: vfonov/minc-toolkit-containers:base
 
     # octave for volgenmodel - The libaries in minc break octave!
     apt-get -y update
-    apt-get -y install octave
     update-alternatives --set liblapack.so.3 /usr/lib/lapack/liblapack.so.3
+    apt-get -y install octave
     apt-get autoclean 
     rm -rf /var/lib/apt/lists/*
 
