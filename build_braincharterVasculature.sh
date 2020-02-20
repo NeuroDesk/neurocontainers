@@ -36,10 +36,10 @@ neurodocker generate docker \
    --run="make " \
    --workdir /vasculature/bin \
    --run="rm /vasculature/itkVEDMain" \
-   --run="cp /vasculature/cplusplus_frangi_iter/build/itkVEDMain /vasculature/bin" \
-   --env DEPLOY_PATH=/vasculature/bin \
-   --copy align_vasc_to_orig.py /vasculature/bin/align_vasc_to_orig.py \
-   --env PATH="/vasculature/bin:/opt/afni-latest/:/opt/ants-2.3.1:$PATH" \
+   --run="cp /vasculature/cplusplus_frangi_iter/build/itkVEDMain /vasculature/" \
+   --env DEPLOY_PATH=/vasculature \
+   --copy align_vasc_to_orig.py /vasculature/align_vasc_to_orig.py \
+   --env PATH="/vasculature:/opt/afni-latest/:/opt/ants-2.3.1:$PATH" \
    --user=neuro \
    > Dockerfile.${imageName}
 
