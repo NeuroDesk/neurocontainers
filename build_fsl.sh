@@ -16,31 +16,38 @@ echo "building $imageName"
 # install development version
 pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
-neurodocker generate singularity \
-   --base debian:wheezy \
-   --pkg-manager apt \
-   --fsl version=6.0.3 \
-  > Singularity.${imageName}
+mountPointList=$( cat globalMountPointList.txt )
 
-#   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-#   --run="chmod +x /usr/bin/ll" \
-#   --copy globalMountPointList.txt /globalMountPointList.txt \
-#   --run="mkdir \`cat /globalMountPointList.txt\`" \
-#   --env FSLOUTPUTTYPE=NIFTI_GZ \
-#   --env DEPLOY_PATH=/opt/fsl-6.0.3/bin/ \
-#   --user=neuro \
+echo "mount points to be created inside image:"
+echo $mountPointList
+
+neurodocker generate singularity \
+   --base debian:stretch \
+   --pkg-manager apt \
+   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
+   --run="chmod +x /usr/bin/ll" \
+   --run="mkdir ${mountPointList}" \
+   --fsl version=6.0.3 \
+   --env FSLOUTPUTTYPE=NIFTI_GZ \
+   --env DEPLOY_PATH=/opt/fsl-6.0.3/bin/ \
+   --user=neuro \
+  > Singularity.${imageName}
 
 if [ -f ${imageName}_${buildDate}.simg ] ; then
        rm ${imageName}_${buildDate}.simg
 fi
 
-sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
+
+# local build:
+#sudo singularity build ${imageName}_${buildDate}.sif Singularity.${imageName}
+
+# remote build:
+# has to be done every 30days:
+# singularity remote login
+singularity build --remote ${imageName}_${buildDate}.sif Singularity.${imageName}
 
 # test:
-sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
-
-source ../setupSwift.sh
-swift upload singularityImages ${imageName}_${buildDate}.simg
+#sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 
 git commit -am 'auto commit after build run'
 git push
