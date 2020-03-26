@@ -21,7 +21,7 @@ mountPointList=$( cat globalMountPointList.txt )
 echo "mount points to be created inside image:"
 echo $mountPointList
 
-neurodocker generate singularity \
+neurodocker generate docker \
    --base debian:stretch \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -31,12 +31,31 @@ neurodocker generate singularity \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/fsl-6.0.3/bin/ \
    --user=neuro \
-  > Singularity.${imageName}
+  > Dockerfile.${imageName}
+
+
+sudo docker build -t ${imageName}:$buildDate -f  Dockerfile.${imageName} .
+
+
+echo "tesing image in docker now:"
+docker run -it ${imageName}:$buildDate
+
+docker tag ${imageName}:$buildDate caid/${imageName}:$buildDate
+
+#run docker login if never logged in on that box:
+#docker login
+
+docker push caid/${imageName}:$buildDate
+docker tag ${imageName}:$buildDate caid/${imageName}:latest
+docker push caid/${imageName}:latest
+
+## BUILD singularity container based on docker container:
+echo "BootStrap:docker" > Singularity.${imageName}
+echo "From:caid/${imageName}" >> Singularity.${imageName}
 
 if [ -f ${imageName}_${buildDate}.simg ] ; then
        rm ${imageName}_${buildDate}.simg
 fi
-
 
 # local build:
 #sudo singularity build ${imageName}_${buildDate}.sif Singularity.${imageName}
