@@ -1,6 +1,7 @@
 tgv.img
 testfiles/
 *.simg
+*.sif
 ROBEXv12.linux64.tar.gz
 ROBEXv12.source.all_platforms.zip
 magnitude.nii.nii
@@ -9,7 +10,5 @@ magnitude.nii.nii
 *.tar
 ashs-1.0.0/
 ashs_atlas_upennpmc_20170810/
-Dockerfile.*
-Singularity.*
 additional_files/
 archived_images/

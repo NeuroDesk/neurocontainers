@@ -3,8 +3,19 @@ set -e
 
 imageName='fsl_6p0p3'
 buildDate=`date +%Y%m%d`
+buildMode='singularity'  # docker or docker_singularity
+localBuild='true'
+uploadTo='swift'
+testImageSingularity='true'
 
-echo "building $imageName"
+if [ "$buildMode" = "singularity" ]; then
+       neurodocker_buildMode="singularity"
+else
+       neurodocker_buildMode="docker"
+fi
+
+
+echo "building $imageName in mode $buildMode" 
 
 
 #install neurodocker
@@ -21,7 +32,7 @@ mountPointList=$( cat globalMountPointList.txt )
 echo "mount points to be created inside image:"
 echo $mountPointList
 
-neurodocker generate docker \
+neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -29,44 +40,54 @@ neurodocker generate docker \
    --run="mkdir ${mountPointList}" \
    --fsl version=6.0.3 \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --env DEPLOY_PATH=/opt/fsl-6.0.3/bin/ \
+   --env DEPLOY_PATH=/opt/fsl-6.0.3/bin/:/opt/fsl-6.0.3/fslpython/envs/fslpython/bin/ \
    --user=neuro \
-  > Dockerfile.${imageName}
+  > recipe.${imageName}
+
+if [ "$buildMode" = "docker" ]; then
+       sudo docker build -t ${imageName}:$buildDate -f  recipe.${imageName} .
 
 
-sudo docker build -t ${imageName}:$buildDate -f  Dockerfile.${imageName} .
+       echo "tesing image in docker now:"
+       sudo docker run -it ${imageName}:$buildDate
 
+       sudo docker tag ${imageName}:$buildDate caid/${imageName}:$buildDate
 
-echo "tesing image in docker now:"
-docker run -it ${imageName}:$buildDate
+       #run docker login if never logged in on that box:
+       #sudo docker login
 
-docker tag ${imageName}:$buildDate caid/${imageName}:$buildDate
-
-#run docker login if never logged in on that box:
-#docker login
-
-docker push caid/${imageName}:$buildDate
-docker tag ${imageName}:$buildDate caid/${imageName}:latest
-docker push caid/${imageName}:latest
-
-## BUILD singularity container based on docker container:
-echo "BootStrap:docker" > Singularity.${imageName}
-echo "From:caid/${imageName}" >> Singularity.${imageName}
-
-if [ -f ${imageName}_${buildDate}.simg ] ; then
-       rm ${imageName}_${buildDate}.simg
+       sudo docker push caid/${imageName}:$buildDate
+       sudo docker tag ${imageName}:$buildDate caid/${imageName}:latest
+       sudo docker push caid/${imageName}:latest
 fi
 
-# local build:
-#sudo singularity build ${imageName}_${buildDate}.sif Singularity.${imageName}
+if [ "$buildMode" = "docker_singularity" ]; then
+       # Build singularity container based on docker container:
+       echo "BootStrap:docker" > recipe.${imageName}
+       echo "From:caid/${imageName}" >> recipe.${imageName}      
+fi
 
-# remote build:
-# has to be done every 30days:
-# singularity remote login
-singularity build --remote ${imageName}_${buildDate}.sif Singularity.${imageName}
+if [ "$localBuild" = "true" ]; then
+       if [ -f ${imageName}_${buildDate}.sif ] ; then
+                     rm ${imageName}_${buildDate}.sif
+       fi
 
-# test:
-#sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
+       sudo singularity build ${imageName}_${buildDate}.sif recipe.${imageName}
+else
+       # remote login has to be done every 30days:
+       singularity remote login
+       singularity build --remote ${imageName}_${buildDate}.sif recipe.${imageName}
+fi
+
+if [ "$testImageSingularity" = "true" ]; then
+       sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
+fi
+
+
+if [ "$uploadTo" = "swift" ]; then
+       source ../setupSwift.sh
+       swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
+fi
 
 git commit -am 'auto commit after build run'
 git push
