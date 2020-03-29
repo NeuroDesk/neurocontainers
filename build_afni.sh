@@ -5,25 +5,7 @@ set -e
 export imageName='afni_20p0p23'
 export buildDate=`date +%Y%m%d`
 
-export buildMode='docker_singularity'  #singularity or docker_singularity
-export localBuild='true'
-export remoteBuild='true'
-export uploadToSwift='true'
-export testImageDocker='true'
-export testImageSingularity='false'
-
-if [ "$buildMode" = "singularity" ]; then
-       neurodocker_buildMode="singularity"
-else
-       neurodocker_buildMode="docker"
-fi
-
-echo "building $imageName in mode $buildMode" 
-
-mountPointList=$( cat globalMountPointList.txt )
-
-echo "mount points to be created inside image:"
-echo $mountPointList
+./main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \

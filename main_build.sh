@@ -41,12 +41,12 @@ if [ "$remoteBuild" = "true" ]; then
        singularity build --remote ${imageName}_${buildDate}.sif recipe.${imageName}
 fi
 
-if [ "$testImageSingularity" = "true" ] && ["$localBuild" = "true"]; then
+if [ "$testImageSingularity" = "true" ] && [ "$localBuild" = "true" ]; then
        sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 fi
 
 
-if [ "$uploadToSwift" = "true" ] && ["$localBuild" = "true"]; then
+if [ "$uploadToSwift" = "true" ] && [ "$localBuild" = "true" ]; then
        source ../setupSwift.sh
        swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
 fi
