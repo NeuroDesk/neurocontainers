@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-imageName='fsl_6p0p3'
-buildDate=`date +%Y%m%d`
+export imageName='fsl_6p0p3'
+export buildDate=`date +%Y%m%d`
+
 buildMode='docker_singularity'  #singularity or docker_singularity
 localBuild='true'
-uploadTo='swift'
+uploadToSwift='true'
 testImageSingularity='false'
 testImageDocker='false'
 
@@ -85,7 +86,7 @@ if [ "$testImageSingularity" = "true" ]; then
 fi
 
 
-if [ "$uploadTo" = "swift" ]; then
+if [ "$uploadToSwift" = "true" ]; then
        source ../setupSwift.sh
        swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
 fi
