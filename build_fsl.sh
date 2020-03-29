@@ -2,26 +2,8 @@
 set -e
 
 export imageName='fsl_6p0p3'
-export buildDate=`date +%Y%m%d`
 
-buildMode='docker_singularity'  #singularity or docker_singularity
-localBuild='true'
-uploadToSwift='true'
-testImageSingularity='false'
-testImageDocker='false'
-
-if [ "$buildMode" = "singularity" ]; then
-       neurodocker_buildMode="singularity"
-else
-       neurodocker_buildMode="docker"
-fi
-
-echo "building $imageName in mode $buildMode" 
-
-mountPointList=$( cat globalMountPointList.txt )
-
-echo "mount points to be created inside image:"
-echo $mountPointList
+source main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \

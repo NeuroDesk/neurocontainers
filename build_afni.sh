@@ -3,9 +3,8 @@ set -e
 
 # https://afni.nimh.nih.gov/
 export imageName='afni_20p0p23'
-export buildDate=`date +%Y%m%d`
 
-./main_setup.sh
+source main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \

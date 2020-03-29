@@ -18,8 +18,10 @@ export testImageSingularity='false'
 
 if [ "$buildMode" = "singularity" ]; then
        export neurodocker_buildMode="singularity"
+       echo "generating singularity recipe..."
 else
        export neurodocker_buildMode="docker"
+       echo "generating docker recipe..."
 fi
 
 export buildDate=`date +%Y%m%d`
