@@ -58,8 +58,6 @@ fi
 
 
 if [ "$localSingularityBuild" = "true" ]; then
-
-       
        echo "starting local build:"
        echo "----------------------"
        sudo singularity build ${imageName}_${buildDate}.sif recipe.${imageName}
@@ -78,6 +76,27 @@ if [ "$uploadToSwift" = "true" ]; then
        source ../setupSwift.sh
        swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
 fi
+
+if [ "$uploadToSylabs" = "true" ]; then
+       echo "====================================================="
+       echo "singularity remote login has to be done every 30days:"
+       echo "singularity remote login"
+       echo "====================================================="
+
+       echo "sign image:"
+       echo "create keypair if necessary: singularity key newpair"
+       singularity sign ${imageName}_${buildDate}.sif
+
+       echo "uploading image to sylabs registry:"
+       echo "----------------------"
+       singularity push ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion},${buildDate}
+
+       echo "container uploaded - it can now be found via:"
+       echo "singularity search ${imageName}"
+       echo "and pull via:"
+       echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}"
+fi
+
 
 git commit -am 'auto commit after build run'
 git push

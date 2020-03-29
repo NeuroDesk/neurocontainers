@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-export imageName='convert3d_1p0p0'
+export toolName='convert3d'
+export toolVersion='1p0p0'
+export imageName=${toolName}_${toolVersion}
 
 source main_setup.sh
 

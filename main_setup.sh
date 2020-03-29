@@ -9,12 +9,14 @@
 # pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
 
-export buildMode='docker_singularity'  #singularity or docker_singularity
+export buildMode='singularity'  #singularity or docker_singularity
 export testImageDocker='false'
-export localSingularityBuild='false'
-export remoteSingularityBuild='true'
+export localSingularityBuild='true'
+export remoteSingularityBuild='false'
 export testImageSingularity='false'
 export uploadToSwift='true'
+export uploadToSylabs='true'
+
 
 if [ "$buildMode" = "singularity" ]; then
        export neurodocker_buildMode="singularity"
