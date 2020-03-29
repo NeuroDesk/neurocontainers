@@ -18,16 +18,6 @@ fi
 
 echo "building $imageName in mode $buildMode" 
 
-
-#install neurodocker
-#pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
-
-#upgrade neurodocker
-#pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
-
-# install development version
-pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
-
 mountPointList=$( cat globalMountPointList.txt )
 
 echo "mount points to be created inside image:"
