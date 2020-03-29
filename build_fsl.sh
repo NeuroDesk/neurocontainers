@@ -3,10 +3,10 @@ set -e
 
 imageName='fsl_6p0p3'
 buildDate=`date +%Y%m%d`
-buildMode='singularity'  # docker or docker_singularity
+buildMode='docker_singularity'  #singularity or docker_singularity
 localBuild='true'
 uploadTo='swift'
-testImageSingularity='true'
+testImageSingularity='false'
 
 if [ "$buildMode" = "singularity" ]; then
        neurodocker_buildMode="singularity"
@@ -44,7 +44,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > recipe.${imageName}
 
-if [ "$buildMode" = "docker" ]; then
+if [ "$buildMode" = "docker_singularity" ]; then
        sudo docker build -t ${imageName}:$buildDate -f  recipe.${imageName} .
 
 
