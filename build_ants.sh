@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-export imageName='ants_2p3p1'
+export toolName='ants'
+export toolVersion='2p3p1'
 
 source main_setup.sh
 

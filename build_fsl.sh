@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-export imageName='fsl_6p0p3'
+export toolName='fsl'
+export toolVersion='6p0p3'
 
 source main_setup.sh
 

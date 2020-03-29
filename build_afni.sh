@@ -2,7 +2,8 @@
 set -e
 
 # https://afni.nimh.nih.gov/
-export imageName='afni_20p0p23'
+export toolName='afni'
+export toolVersion='20p0p23'
 
 source main_setup.sh
 

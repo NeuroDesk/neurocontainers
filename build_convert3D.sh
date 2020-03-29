@@ -3,7 +3,6 @@ set -e
 
 export toolName='convert3d'
 export toolVersion='1p0p0'
-export imageName=${toolName}_${toolVersion}
 
 source main_setup.sh
 

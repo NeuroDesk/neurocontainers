@@ -28,6 +28,8 @@ fi
 
 export buildDate=`date +%Y%m%d`
 
+export imageName=${toolName}_${toolVersion}
+
 
 echo "building $imageName in mode $buildMode" 
 

@@ -97,6 +97,7 @@ if [ "$uploadToSylabs" = "true" ]; then
        echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}"
 fi
 
+mv ${imageName}_${buildDate}.sif archived_images
 
 git commit -am 'auto commit after build run'
 git push
