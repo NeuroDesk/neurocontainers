@@ -33,18 +33,20 @@ if [ "$localBuild" = "true" ]; then
        fi
 
        sudo singularity build ${imageName}_${buildDate}.sif recipe.${imageName}
-else
+fi
+
+if [ "$remoteBuild" = "true" ]; then
        # remote login has to be done every 30days:
-       singularity remote login
+       # singularity remote login
        singularity build --remote ${imageName}_${buildDate}.sif recipe.${imageName}
 fi
 
-if [ "$testImageSingularity" = "true" ]; then
+if [ "$testImageSingularity" = "true" ] && ["$localBuild" = "true"]; then
        sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 fi
 
 
-if [ "$uploadToSwift" = "true" ]; then
+if [ "$uploadToSwift" = "true" ] && ["$localBuild" = "true"]; then
        source ../setupSwift.sh
        swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
 fi

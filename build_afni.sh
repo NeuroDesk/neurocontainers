@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
+# https://afni.nimh.nih.gov/
 export imageName='afni_20p0p23'
 export buildDate=`date +%Y%m%d`
 
-buildMode='docker_singularity'  #singularity or docker_singularity
-localBuild='true'
-uploadToSwift='true'
-testImageDocker='true'
-testImageSingularity='false'
+export buildMode='docker_singularity'  #singularity or docker_singularity
+export localBuild='true'
+export remoteBuild='true'
+export uploadToSwift='true'
+export testImageDocker='true'
+export testImageSingularity='false'
 
 if [ "$buildMode" = "singularity" ]; then
        neurodocker_buildMode="singularity"
@@ -30,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest \
-   --env DEPLOY_PATH=/opt/afni-20.0.23/bin/ \
+   --env DEPLOY_PATH=/opt/afni-latest/bin/ \
    --user=neuro \
   > recipe.${imageName}
 
