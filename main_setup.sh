@@ -13,7 +13,7 @@ export buildMode='docker_singularity'  #singularity or docker_singularity
 export localBuild='true'
 export remoteBuild='true'
 export uploadToSwift='true'
-export testImageDocker='true'
+export testImageDocker='false'
 export testImageSingularity='false'
 
 if [ "$buildMode" = "singularity" ]; then
@@ -21,6 +21,9 @@ if [ "$buildMode" = "singularity" ]; then
 else
        export neurodocker_buildMode="docker"
 fi
+
+export buildDate=`date +%Y%m%d`
+
 
 echo "building $imageName in mode $buildMode" 
 

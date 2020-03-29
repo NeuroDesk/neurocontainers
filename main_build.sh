@@ -22,9 +22,16 @@ if [ "$buildMode" = "docker_singularity" ]; then
 fi
 
 if [ "$buildMode" = "docker_singularity" ]; then
-       # Build singularity container based on docker container:
-       echo "BootStrap:docker" > recipe.${imageName}
-       echo "From:caid/${imageName}" >> recipe.${imageName}      
+        # Build singularity container based on docker container:
+        echo "BootStrap:docker" > recipe.${imageName}
+        echo "From:caid/${imageName}" >> recipe.${imageName}
+        echo "" >> recipe.${imageName}
+        echo "%labels" > recipe.${imageName}
+        echo "OWNER Steffen.Bollmann@cai.uq.edu.au" > recipe.${imageName}
+        echo "build-date $buildDate" > recipe.${imageName}
+        echo "name $imageName" > recipe.${imageName}
+        echo "description $imageName" > recipe.${imageName}
+        echo "version $buildDate" > recipe.${imageName}           
 fi
 
 if [ "$localBuild" = "true" ]; then
