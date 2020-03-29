@@ -10,11 +10,11 @@
 
 
 export buildMode='docker_singularity'  #singularity or docker_singularity
-export localBuild='true'
-export remoteBuild='true'
-export uploadToSwift='true'
 export testImageDocker='false'
+export localSingularityBuild='false'
+export remoteSingularityBuild='true'
 export testImageSingularity='false'
+export uploadToSwift='true'
 
 if [ "$buildMode" = "singularity" ]; then
        export neurodocker_buildMode="singularity"

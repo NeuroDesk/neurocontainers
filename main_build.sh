@@ -34,10 +34,10 @@ if [ "$buildMode" = "docker_singularity" ]; then
         echo "" >> recipe.${imageName}
         echo "%labels" >> recipe.${imageName}
         echo "OWNER Steffen.Bollmann@cai.uq.edu.au" >> recipe.${imageName}
-        echo "build-date $buildDate" >> recipe.${imageName}
-        echo "name $imageName" >> recipe.${imageName}
-        echo "description $imageName" >> recipe.${imageName}
-        echo "version $buildDate" >> recipe.${imageName}           
+        echo "Build-date $buildDate" >> recipe.${imageName}
+        echo "NAME $imageName" >> recipe.${imageName}
+        echo "Description $imageName" >> recipe.${imageName}
+        echo "VERSION $buildDate" >> recipe.${imageName}           
 fi
 
 if [ -f ${imageName}_${buildDate}.sif ] ; then
@@ -46,7 +46,7 @@ if [ -f ${imageName}_${buildDate}.sif ] ; then
        rm -rf ${imageName}_${buildDate}.sif
 fi
 
-if [ "$remoteBuild" = "true" ]; then
+if [ "$remoteSingularityBuild" = "true" ]; then
        echo "====================================================="
        echo "singularity remote login has to be done every 30days:"
        echo "singularity remote login"
@@ -57,7 +57,7 @@ if [ "$remoteBuild" = "true" ]; then
 fi
 
 
-if [ "$localBuild" = "true" ]; then
+if [ "$localSingularityBuild" = "true" ]; then
 
        
        echo "starting local build:"
@@ -66,13 +66,13 @@ if [ "$localBuild" = "true" ]; then
 fi
 
 
-if [ "$testImageSingularity" = "true" ] && [ "$localBuild" = "true" ]; then
+if [ "$testImageSingularity" = "true" ]; then
        echo "testing singularity image:"
        echo "----------------------"
        sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 fi
 
-if [ "$uploadToSwift" = "true" ] && [ "$localBuild" = "true" ]; then
+if [ "$uploadToSwift" = "true" ]; then
        echo "uploading image to swift storage:"
        echo "----------------------"
        source ../setupSwift.sh
