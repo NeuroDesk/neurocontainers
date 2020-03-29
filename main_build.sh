@@ -89,12 +89,12 @@ if [ "$uploadToSylabs" = "true" ]; then
 
        echo "uploading image to sylabs registry:"
        echo "----------------------"
-       singularity push ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion},${buildDate}
+       singularity push ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}
 
        echo "container uploaded - it can now be found via:"
        echo "singularity search ${imageName}"
        echo "and pull via:"
-       echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}"
+       echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}"
 fi
 
 mv ${imageName}_${buildDate}.sif archived_images
