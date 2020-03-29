@@ -7,13 +7,13 @@ buildMode='docker_singularity'  #singularity or docker_singularity
 localBuild='true'
 uploadTo='swift'
 testImageSingularity='false'
+testImageDocker='false'
 
 if [ "$buildMode" = "singularity" ]; then
        neurodocker_buildMode="singularity"
 else
        neurodocker_buildMode="docker"
 fi
-
 
 echo "building $imageName in mode $buildMode" 
 
@@ -47,9 +47,10 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$buildMode" = "docker_singularity" ]; then
        sudo docker build -t ${imageName}:$buildDate -f  recipe.${imageName} .
 
-
-       echo "tesing image in docker now:"
-       sudo docker run -it ${imageName}:$buildDate
+       if [ "$testImageDocker" = "true" ]; then
+              echo "tesing image in docker now:"
+              sudo docker run -it ${imageName}:$buildDate
+       fi
 
        sudo docker tag ${imageName}:$buildDate caid/${imageName}:$buildDate
 
