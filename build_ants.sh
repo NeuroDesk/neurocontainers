@@ -13,7 +13,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --ants version=2.3.1 \
-   --env DEPLOY_PATH=/opt/ants-2.3.1/bin/ \
+   --env DEPLOY_PATH=/opt/ants-2.3.1/ \
    --user=neuro \
   > recipe.${imageName}
 
