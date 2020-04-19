@@ -85,7 +85,7 @@ if [ "$uploadToSylabs" = "true" ]; then
 
        echo "sign image:"
        echo "create keypair if necessary: singularity key newpair"
-       singularity sign ${imageName}_${buildDate}.sif
+       singularity sign -k 2 ${imageName}_${buildDate}.sif
 
        echo "uploading image to sylabs registry:"
        echo "----------------------"
