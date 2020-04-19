@@ -2,7 +2,7 @@
 set -e
 
 export toolName='convert3d'
-export toolVersion='1p0p0'
+export toolVersion=1.0.0
 
 source main_setup.sh
 
@@ -12,8 +12,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --convert3d version=1.0.0 \
-   --env DEPLOY_PATH=/opt/convert3d-1.0.0/bin/ \
+   --convert3d version=${toolVersion} \
+   --env DEPLOY_PATH=/opt/convert3d-${toolVersion}/bin/ \
    --user=neuro \
   > recipe.${imageName}
 
