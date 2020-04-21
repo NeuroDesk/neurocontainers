@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# https://afni.nimh.nih.gov/
+
 export toolName='afni'
-export toolVersion='20p0p23'
+# check latest version number here https://afni.nimh.nih.gov/ Current AFNI Version
+export toolVersion='20.1.01'
 
 source main_setup.sh
 
