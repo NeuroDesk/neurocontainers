@@ -2,12 +2,12 @@
 set -e
 
 export toolName='minc'
-export toolVersion=1.9.15
+export toolVersion=1.9.17
 
 source main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base debian:stretch \
+   --base centos:6 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
