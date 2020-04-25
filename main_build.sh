@@ -80,7 +80,7 @@ fi
 if [ "$uploadToSwift" = "true" ]; then
        echo "uploading image to swift storage:"
        echo "----------------------"
-       source ../setupSwift.sh
+       source ../../setupSwift.sh
        swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
 fi
 

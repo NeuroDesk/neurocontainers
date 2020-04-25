@@ -11,8 +11,8 @@ pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/sb_dev
 
 export buildMode='singularity'  #singularity or docker_singularity
 export testImageDocker='false'
-export localSingularityBuild='false'
-export localSingularityBuildWritable='true'
+export localSingularityBuild='true'
+export localSingularityBuildWritable='false'
 export remoteSingularityBuild='false'
 export testImageSingularity='false'
 export uploadToSwift='true'
