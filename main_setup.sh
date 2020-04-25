@@ -34,7 +34,7 @@ export imageName=${toolName}_${toolVersion}
 
 echo "building $imageName in mode $buildMode" 
 
-export mountPointList=$( cat globalMountPointList.txt )
+export mountPointList=$( cat ../globalMountPointList.txt )
 
 echo "mount points to be created inside image:"
 echo $mountPointList

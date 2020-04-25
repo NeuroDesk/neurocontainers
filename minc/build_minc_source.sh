@@ -4,7 +4,7 @@ set -e
 export toolName='minc'
 export toolVersion='1.9.17'
 
-source main_setup.sh
+source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
@@ -17,4 +17,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > recipe.${imageName}
 
-./main_build.sh
+./../main_build.sh
