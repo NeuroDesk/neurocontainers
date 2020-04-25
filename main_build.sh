@@ -64,6 +64,13 @@ if [ "$localSingularityBuild" = "true" ]; then
 fi
 
 
+if [ "$localSingularityBuildWritable" = "true" ]; then
+       echo "starting local build for development purposes with a writable image file:"
+       echo "----------------------"
+       sudo singularity build --sandbox ${imageName}_${buildDate}.sif recipe.${imageName}
+fi
+
+
 if [ "$testImageSingularity" = "true" ]; then
        echo "testing singularity image:"
        echo "----------------------"
