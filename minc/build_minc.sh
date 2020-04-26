@@ -2,7 +2,7 @@
 set -e
 
 export toolName='minc'
-export toolVersion=1.9.17
+export toolVersion=1.9.16
 
 source ../main_setup.sh
 
