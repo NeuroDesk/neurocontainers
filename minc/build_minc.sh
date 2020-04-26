@@ -7,7 +7,7 @@ export toolVersion=1.9.15
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base centos:7 \
+   --base centos:6 \
    --pkg-manager yum \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
