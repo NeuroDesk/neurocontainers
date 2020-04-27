@@ -106,3 +106,7 @@ fi
 
 git commit -am 'auto commit after build run'
 git push
+
+if [ "$cleanupSif" = "true" ]; then
+       rm ${imageName}_${buildDate}.sif
+fi
