@@ -15,7 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest \
-   --env DEPLOY_PATH=/opt/afni-latest/bin/ \
+   --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --user=neuro \
   > recipe.${imageName}
 
