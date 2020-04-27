@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='convert3d'
-export toolVersion=1.0.0
+export toolName='freesurfer'
+export toolVersion=6.0.0-min
 
-source main_setup.sh
+source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
@@ -12,9 +12,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --convert3d version=${toolVersion} \
-   --env DEPLOY_PATH=/opt/convert3d-${toolVersion}/bin/ \
+   --${toolName} version=${toolVersion} \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
   > recipe.${imageName}
 
-./main_build.sh
+./../main_build.sh

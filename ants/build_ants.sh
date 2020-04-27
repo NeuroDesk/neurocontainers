@@ -2,9 +2,9 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.0'
+export toolVersion='2.3.1'
 
-source main_setup.sh
+source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
@@ -17,4 +17,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > recipe.${imageName}
 
-./main_build.sh
+./../main_build.sh

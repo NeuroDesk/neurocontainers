@@ -4,9 +4,9 @@ set -e
 
 export toolName='afni'
 # check latest version number here https://afni.nimh.nih.gov/ Current AFNI Version
-export toolVersion='20.1.01'
+export toolVersion='20.1.02'
 
-source main_setup.sh
+source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
@@ -19,4 +19,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > recipe.${imageName}
 
-./main_build.sh
+./../main_build.sh

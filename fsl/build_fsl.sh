@@ -4,7 +4,7 @@ set -e
 export toolName='fsl'
 export toolVersion='6.0.3'
 
-source main_setup.sh
+source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
@@ -18,4 +18,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > recipe.${imageName}
 
-./main_build.sh
+./../main_build.sh
