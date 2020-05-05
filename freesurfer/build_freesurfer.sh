@@ -7,12 +7,13 @@ export toolVersion=6.0.1
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base debian:stretch \
-   --pkg-manager apt \
+   --base centos:6 \
+   --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
+   --copy ../../license.txt /opt/${toolName}-${toolVersion}/ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
   > recipe.${imageName}
