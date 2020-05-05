@@ -6,6 +6,9 @@ export toolVersion='3.8.0'
 
 source ../main_setup.sh
 
+export localSingularityBuild='false'
+export localSingularityBuildWritable='true'
+
 neurodocker generate ${neurodocker_buildMode} \
    --base debian:stretch \
    --pkg-manager apt \
