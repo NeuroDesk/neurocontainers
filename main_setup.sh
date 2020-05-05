@@ -17,7 +17,7 @@ export remoteSingularityBuild='false'
 export testImageSingularity='false'
 export uploadToSwift='true'
 export uploadToSylabs='false'
-export cleanupSif='true'
+export cleanupSif='false'
 
 
 if [ "$buildMode" = "singularity" ]; then
