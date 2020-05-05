@@ -77,7 +77,7 @@ if [ "$testImageSingularity" = "true" ]; then
        sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 fi
 
-if [ "$uploadToSwift" = "true" ]; then
+if [[ "$uploadToSwift" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
        echo "uploading image to swift storage:"
        echo "----------------------"
        source ../../setupSwift.sh
