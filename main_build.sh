@@ -104,8 +104,8 @@ if [ "$uploadToSylabs" = "true" ]; then
        echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}"
 fi
 
-git commit -am 'auto commit after build run'
-git push
+# git commit -am 'auto commit after build run'
+# git push
 
 if [ "$cleanupSif" = "true" ]; then
        rm ${imageName}_${buildDate}.sif
