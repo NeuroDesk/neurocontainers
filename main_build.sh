@@ -108,5 +108,5 @@ fi
 # git push
 
 if [ "$cleanupSif" = "true" ]; then
-       rm ${imageName}_${buildDate}.sif
+       mv ${imageName}_${buildDate}.sif ../../container_built
 fi
