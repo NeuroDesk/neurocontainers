@@ -2,7 +2,7 @@
 set -e
 
 export toolName='freesurfer'
-export toolVersion=6.0.0-min
+export toolVersion=6.0.1
 
 source ../main_setup.sh
 

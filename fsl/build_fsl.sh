@@ -12,9 +12,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --fsl version=${toolVersion} \
+   --${toolName} version=${toolVersion} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --env DEPLOY_PATH=/opt/fsl-${toolVersion}/bin/:/opt/fsl-${toolVersion}/fslpython/envs/fslpython/bin/ \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fslpython/envs/fslpython/bin/ \
    --user=neuro \
   > recipe.${imageName}
 
