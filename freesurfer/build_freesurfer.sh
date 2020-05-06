@@ -10,8 +10,8 @@ export localSingularityBuild='false'
 export localSingularityBuildWritable='true'
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base centos:6 \
-   --pkg-manager yum \
+   --base ubuntu:16.04 \
+   --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \

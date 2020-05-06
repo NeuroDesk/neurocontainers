@@ -43,7 +43,7 @@ fi
 if [[ -f ${imageName}_${buildDate}.sif ]] || [[ -d ${imageName}_${buildDate}.sif ]] ; then
        echo "removing old local image file:"
        echo "----------------------"
-       rm -rf ${imageName}_${buildDate}.sif
+       sudo rm -rf ${imageName}_${buildDate}.sif
 fi
 
 if [ "$remoteSingularityBuild" = "true" ]; then
@@ -107,6 +107,6 @@ fi
 # git commit -am 'auto commit after build run'
 # git push
 
-if [ "$cleanupSif" = "true" ]; then
+if [[ "$cleanupSif" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
        mv ${imageName}_${buildDate}.sif ../../container_built
 fi
