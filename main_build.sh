@@ -40,7 +40,7 @@ if [ "$buildMode" = "docker_singularity" ]; then
         echo "VERSION $buildDate" >> recipe.${imageName}           
 fi
 
-if [-f ${imageName}_${buildDate}.sif] || [-d ${imageName}_${buildDate}.sif] ; then
+if [[-f ${imageName}_${buildDate}.sif || -d ${imageName}_${buildDate}.sif]] ; then
        echo "removing old local image file:"
        echo "----------------------"
        rm -rf ${imageName}_${buildDate}.sif
