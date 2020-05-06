@@ -108,5 +108,5 @@ fi
 # git push
 
 if [[ "$cleanupSif" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
-       mv ${imageName}_${buildDate}.sif ../../container_built
+       mv ${imageName}_${buildDate}.sif ../../container_built/
 fi
