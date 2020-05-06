@@ -77,7 +77,7 @@ if [ "$testImageSingularity" = "true" ]; then
        sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
 fi
 
-if [ "$uploadToSwift" = "true" ]; then
+if [[ "$uploadToSwift" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
        echo "uploading image to swift storage:"
        echo "----------------------"
        source ../../setupSwift.sh
@@ -104,9 +104,9 @@ if [ "$uploadToSylabs" = "true" ]; then
        echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}"
 fi
 
-git commit -am 'auto commit after build run'
-git push
+# git commit -am 'auto commit after build run'
+# git push
 
 if [ "$cleanupSif" = "true" ]; then
-       rm ${imageName}_${buildDate}.sif
+       mv ${imageName}_${buildDate}.sif ../../container_built
 fi

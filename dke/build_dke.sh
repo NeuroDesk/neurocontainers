@@ -15,7 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --run="wget https://www.nitrc.org/frs/download.php/11150/Linux_FT.zip /opt" \
+   --run="curl -O Linux_FT.zip" \
    --run="unzip /opt/Linux_FT.zip" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
