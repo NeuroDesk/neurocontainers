@@ -13,8 +13,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:20.04 \
    --pkg-manager apt \
    --run="mkdir ${mountPointList}" \
+   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
+   --run="chmod +x /usr/bin/ll" \
    --install $toolName \
-   --env DEPLOY_PATH=/usr/bin/$toolName \
+   --env DEPLOY_PATH=/usr/bin/ \
    --entrypoint /usr/bin/$toolName \
    --user=neuro \
   > recipe.${imageName}

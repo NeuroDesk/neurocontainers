@@ -2,12 +2,13 @@
 set -e
 
 export toolName='itksnap'
-export toolVersion='3.8.0'
+# export toolVersion='3.8.0'
+export toolVersion='master'
 
 source ../main_setup.sh
 
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
+export localSingularityBuild='false'
+export localSingularityBuildWritable='true'
 
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
