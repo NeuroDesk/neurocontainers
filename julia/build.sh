@@ -16,7 +16,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --install libzstd1 $toolName \
-   --env DEPLOY_PATH=/usr/bin/ \
+   --env DEPLOY_PATH=/usr/bin/julia \
    --entrypoint /usr/bin/$toolName \
    --user=neuro \
   > recipe.${imageName}
