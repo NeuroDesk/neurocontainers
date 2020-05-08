@@ -15,7 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --install $toolName \
+   --install libzstd1 $toolName \
    --env DEPLOY_PATH=/usr/bin/ \
    --entrypoint /usr/bin/$toolName \
    --user=neuro \
