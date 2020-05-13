@@ -7,4 +7,6 @@ echo Enter container filename to be deleted on SWIFT storage:
 read containerName
 
 source ../setupSwift.sh
+
+echo "deleting ..."
 swift delete singularityImages ${containerName}
