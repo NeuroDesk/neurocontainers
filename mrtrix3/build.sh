@@ -6,8 +6,8 @@ export toolVersion='3.0.0'
 
 source ../main_setup.sh
 
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
+#export localSingularityBuild='false'
+#export localSingularityBuildWritable='true'
 
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
