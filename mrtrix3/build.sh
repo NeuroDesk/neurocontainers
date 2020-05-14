@@ -17,6 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} method="source" \
    --fsl version="6.0.3" install_path="/opt/fsl" \
+   --ants version="2.3.1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
   > recipe.${imageName}

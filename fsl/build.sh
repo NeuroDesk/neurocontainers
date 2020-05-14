@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.3'
+export toolVersion='6.0.2'
 
 source ../main_setup.sh
 
