@@ -10,7 +10,7 @@ source ../main_setup.sh
 # export localSingularityBuildWritable='true'
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base centos:6 \
+   --base centos:7 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
