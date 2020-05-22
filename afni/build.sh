@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-
 export toolName='afni'
 # check latest version number here https://afni.nimh.nih.gov/ Current AFNI Version
 export toolVersion='20.1.06'
