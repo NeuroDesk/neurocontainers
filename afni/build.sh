@@ -8,13 +8,17 @@ export toolVersion='20.1.06'
 
 source ../main_setup.sh
 
+# export localSingularityBuild='false'
+# export localSingularityBuildWritable='true'
+
 neurodocker generate ${neurodocker_buildMode} \
-   --base debian:stretch \
-   --pkg-manager apt \
+   --base centos:7 \
+   --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --afni version=latest \
+   --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
+   --miniconda create_env=neuro conda_install='python=3.6' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --user=neuro \
   > recipe.${imageName}
