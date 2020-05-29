@@ -10,7 +10,7 @@
 pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/fix_afni_R --upgrade
 
 
-export buildMode='docker_singularity'  #singularity or docker_singularity
+export buildMode='singularity'  #singularity or docker_singularity
 export testImageDocker='false'
 export localSingularityBuild='true'
 export localSingularityBuildWritable='false'
