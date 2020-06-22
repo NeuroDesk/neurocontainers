@@ -59,6 +59,7 @@ if [ "$buildMode" = "docker_hub" ]; then
 fi
 
 if [ "$buildMode" = "docker_singularity" ]; then
+        cp recipe.${imageName} Dockerfile
         echo "BootStrap:docker" > recipe.${imageName}
         echo "From:vnmc/${imageName}" >> recipe.${imageName}
         echo "" >> recipe.${imageName}
