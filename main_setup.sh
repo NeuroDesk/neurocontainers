@@ -8,7 +8,7 @@
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 
 
-export buildMode='docker_hub'  #docker_local or docker_hub or singularity or docker_singularity
+export buildMode='docker_singularity'  #docker_local or docker_hub or singularity or docker_singularity
 export testImageDocker='false'
 export localSingularityBuild='false'
 export localSingularityBuildWritable='false'
