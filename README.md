@@ -4,3 +4,5 @@ The containers can for be used in combination with our transparent singularity t
 https://github.com/NeuroDesk/transparent-singularity/
 
 The containers are build on dockerhub
+
+The build scripts need to be executed in bash (WSL for windows will work)

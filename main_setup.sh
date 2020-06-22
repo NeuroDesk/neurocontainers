@@ -1,15 +1,14 @@
+#install miniconda
+# wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 #install neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
-
-#upgrade neurodocker
-#pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 # install development version
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 
 
-export buildMode='docker'  #singularity or docker_singularity
+export buildMode='docker_hub'  #docker_local or docker_hub or singularity or docker_singularity
 export testImageDocker='false'
 export localSingularityBuild='false'
 export localSingularityBuildWritable='false'

@@ -28,6 +28,36 @@ if [ "$buildMode" = "docker_singularity" ]; then
        sudo docker push caid/${imageName}:latest
 fi
 
+if [ "$buildMode" = "docker_local" ]; then
+       echo "starting local docker build:"
+       echo "---------------------------"
+       sudo docker build -t ${imageName}:$buildDate -f  Dockerfile .
+
+       if [ "$testImageDocker" = "true" ]; then
+              echo "tesing image in docker now:"
+              echo "---------------------------"
+              sudo docker run -it ${imageName}:$buildDate
+       fi
+
+       echo "uploading docker image now:"
+       echo "---------------------------"
+       sudo docker tag ${imageName}:$buildDate vnmd/${imageName}:$buildDate
+
+       echo "====================================================="
+       echo "run docker login if never logged in on that box:"
+       echo "sudo docker login"
+       echo "====================================================="
+
+       sudo docker push caid/${imageName}:$buildDate
+       sudo docker tag ${imageName}:$buildDate caid/${imageName}:latest
+       sudo docker push caid/${imageName}:latest
+fi
+
+if [ "$buildMode" = "docker_hub" ]; then
+       echo "Generating docker recipe:"
+       echo "---------------------------"
+fi
+
 if [ "$buildMode" = "docker_singularity" ]; then
         echo "BootStrap:docker" > recipe.${imageName}
         echo "From:caid/${imageName}" >> recipe.${imageName}
