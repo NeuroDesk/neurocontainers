@@ -10,7 +10,7 @@ pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mast
 
 export buildMode='docker_singularity'  #docker_local or docker_hub or singularity or docker_singularity
 export testImageDocker='false'
-export localSingularityBuild='false'
+export localSingularityBuild='true'
 export localSingularityBuildWritable='false'
 export remoteSingularityBuild='false'
 export testImageSingularity='false'
