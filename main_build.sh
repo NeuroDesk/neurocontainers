@@ -16,16 +16,16 @@ if [ "$buildMode" = "docker_singularity" ]; then
 
        echo "uploading docker image now:"
        echo "---------------------------"
-       sudo docker tag ${imageName}:$buildDate caid/${imageName}:$buildDate
+       sudo docker tag ${imageName}:$buildDate vnmc/${imageName}:$buildDate
 
        echo "====================================================="
        echo "run docker login if never logged in on that box:"
        echo "sudo docker login"
        echo "====================================================="
 
-       sudo docker push caid/${imageName}:$buildDate
-       sudo docker tag ${imageName}:$buildDate caid/${imageName}:latest
-       sudo docker push caid/${imageName}:latest
+       sudo docker push vnmc/${imageName}:$buildDate
+       sudo docker tag ${imageName}:$buildDate vnmc/${imageName}:latest
+       sudo docker push vnmc/${imageName}:latest
 fi
 
 if [ "$buildMode" = "docker_local" ]; then
@@ -48,9 +48,9 @@ if [ "$buildMode" = "docker_local" ]; then
        echo "sudo docker login"
        echo "====================================================="
 
-       sudo docker push caid/${imageName}:$buildDate
-       sudo docker tag ${imageName}:$buildDate caid/${imageName}:latest
-       sudo docker push caid/${imageName}:latest
+       sudo docker push vnmc/${imageName}:$buildDate
+       sudo docker tag ${imageName}:$buildDate vnmc/${imageName}:latest
+       sudo docker push vnmc/${imageName}:latest
 fi
 
 if [ "$buildMode" = "docker_hub" ]; then
@@ -60,7 +60,7 @@ fi
 
 if [ "$buildMode" = "docker_singularity" ]; then
         echo "BootStrap:docker" > recipe.${imageName}
-        echo "From:caid/${imageName}" >> recipe.${imageName}
+        echo "From:vnmc/${imageName}" >> recipe.${imageName}
         echo "" >> recipe.${imageName}
         echo "%labels" >> recipe.${imageName}
         echo "OWNER Steffen.Bollmann@cai.uq.edu.au" >> recipe.${imageName}
@@ -126,12 +126,12 @@ if [ "$uploadToSylabs" = "true" ]; then
 
        echo "uploading image to sylabs registry:"
        echo "----------------------"
-       singularity push ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}
+       singularity push ${imageName}_${buildDate}.sif library://sbollmann/vnmc/${toolName}:${toolVersion}_${buildDate}
 
        echo "container uploaded - it can now be found via:"
        echo "singularity search ${imageName}"
        echo "and pull via:"
-       echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/caid/${toolName}:${toolVersion}_${buildDate}"
+       echo "singularity pull ${imageName}_${buildDate}.sif library://sbollmann/vnmc/${toolName}:${toolVersion}_${buildDate}"
 fi
 
 # git commit -am 'auto commit after build run'
