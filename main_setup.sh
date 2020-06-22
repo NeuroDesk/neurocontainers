@@ -6,19 +6,18 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 # install development version
-# pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/sb_dev --upgrade
-pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/fix_afni_R --upgrade
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 
 
-export buildMode='singularity'  #singularity or docker_singularity
+export buildMode='docker'  #singularity or docker_singularity
 export testImageDocker='false'
-export localSingularityBuild='true'
+export localSingularityBuild='false'
 export localSingularityBuildWritable='false'
 export remoteSingularityBuild='false'
 export testImageSingularity='false'
-export uploadToSwift='true'
+export uploadToSwift='false'
 export uploadToSylabs='false'
-export cleanupSif='true'
+export cleanupSif='false'
 
 
 if [ "$buildMode" = "singularity" ]; then

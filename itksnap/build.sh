@@ -6,9 +6,6 @@ export toolVersion='3.8.0'
 
 source ../main_setup.sh
 
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
-
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
    --pkg-manager apt \
@@ -19,6 +16,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --entrypoint /opt/${toolName}-${toolVersion}/bin/itksnap \
    --user=neuro \
-  > recipe.${imageName}
+  > Dockerfile
 
 ./../main_build.sh
