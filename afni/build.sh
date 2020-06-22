@@ -3,12 +3,9 @@ set -e
 
 export toolName='afni'
 # check latest version number here https://afni.nimh.nih.gov/ Current AFNI Version
-export toolVersion='20.1.06'
+export toolVersion='20.1.17'
 
 source ../main_setup.sh
-
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
 
 neurodocker generate ${neurodocker_buildMode} \
    --base centos:7 \
