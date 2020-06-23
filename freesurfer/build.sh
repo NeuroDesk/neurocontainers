@@ -16,7 +16,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
-   --copy ../../license.txt /opt/${toolName}-${toolVersion}/ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
   > recipe.${imageName}

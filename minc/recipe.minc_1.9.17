@@ -1,0 +1,9 @@
+BootStrap:docker
+From:vnmd/minc_1.9.17
+
+%labels
+OWNER Steffen.Bollmann@cai.uq.edu.au
+Build-date 20200622
+NAME minc_1.9.17
+Description minc_1.9.17
+VERSION 20200622
