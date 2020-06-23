@@ -1,6 +1,7 @@
-name: Docker Image CI
+name: itksnap CI
 
 on:
+  
   push:
     branches: [ github-ci ]
   pull_request:
