@@ -5,8 +5,8 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 # install development version
-# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mrtrix_git_checkout_fix --upgrade
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
+# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mrtrix_git_checkout_fix --upgrade
 
 
 export buildMode='docker_singularity'  #docker_local or docker_hub or singularity or docker_singularity
