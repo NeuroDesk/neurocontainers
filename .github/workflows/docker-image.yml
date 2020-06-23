@@ -16,7 +16,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
-          path: itksnap
+          path: ./itksnap
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
