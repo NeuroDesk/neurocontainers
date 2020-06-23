@@ -1,0 +1,9 @@
+BootStrap:docker
+From:vnmd/convert3d_1.0.0
+
+%labels
+OWNER Steffen.Bollmann@cai.uq.edu.au
+Build-date 20200622
+NAME convert3d_1.0.0
+Description convert3d_1.0.0
+VERSION 20200622
