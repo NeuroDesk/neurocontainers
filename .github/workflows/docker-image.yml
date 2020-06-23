@@ -13,12 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v1
-        with:
-          path: ./itksnap
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: vnmd/itksnap_3.8.0
-          tags: latest
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Build the latest Docker image
+      run: docker build . --file itksnap/Dockerfile --tag vnmd/itksnap_3.8.0:latest
+    - name: Push the latest Docker image
+      run: docker push vnmd/itksnap_3.8.0:latest
