@@ -16,6 +16,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --entrypoint /opt/${toolName}-${toolVersion}/bin/itksnap \
    --user=neuro \
-  > recipe.${imageName}
+  > ${imageName}.${neurodocker_buildExt}
 
 ./../main_build.sh

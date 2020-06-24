@@ -16,6 +16,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fslpython/envs/fslpython/bin/ \
    --user=neuro \
-  > recipe.${imageName}
+  > ${imageName}.${neurodocker_buildExt}
 
 ./../main_build.sh

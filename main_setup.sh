@@ -9,7 +9,7 @@ pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mast
 # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mrtrix_git_checkout_fix --upgrade
 
 
-export buildMode='docker_singularity'  #docker_local or docker_hub or singularity or docker_singularity
+export buildMode='singularity'  #docker_local or docker_hub or singularity or docker_singularity
 export testImageDocker='false'
 export localSingularityBuild='true'
 export localSingularityBuildWritable='false'
@@ -22,9 +22,11 @@ export cleanupSif='true'
 
 if [ "$buildMode" = "singularity" ]; then
        export neurodocker_buildMode="singularity"
+       export neurodocker_buildExt="Singularity"
        echo "generating singularity recipe..."
 else
        export neurodocker_buildMode="docker"
+       export neurodocker_buildExt="Dockerfile"
        echo "generating docker recipe..."
 fi
 
@@ -33,7 +35,7 @@ export buildDate=`date +%Y%m%d`
 export imageName=${toolName}_${toolVersion}
 
 
-echo "building $imageName in mode $buildMode" 
+echo "building $imageName in mode $buildMode"
 
 export mountPointList=$( cat ../globalMountPointList.txt )
 
