@@ -1,11 +1,13 @@
 name: itksnap CI
 
 on:
-  
+
   push:
-    branches: [ github-ci ]
+    paths:
+      - itksnap/*
   pull_request:
-    branches: [ github-ci ]
+    paths:
+      - itksnap/*
 
 jobs:
 
