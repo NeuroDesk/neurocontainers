@@ -27,6 +27,7 @@ jobs:
       run: |
         IMAGE_NAME=itksnap_3.8.0
         IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         VERSION=latest
 
         echo IMAGE_ID=$IMAGE_ID
