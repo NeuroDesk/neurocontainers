@@ -25,7 +25,7 @@ jobs:
       run: docker build . --file itksnap/Dockerfile --tag caid/itksnap_3.8.0:latest
     - name: Push image
       run: |
-        IMAGE_NAME=itksnap_3.8.0:latest
+        IMAGE_NAME=itksnap_3.8.0
         IMAGE_ID=docker.pkg.github.com/neurodesk/caid/$IMAGE_NAME
         VERSION=latest
 
