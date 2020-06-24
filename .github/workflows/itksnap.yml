@@ -17,9 +17,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Login to DockerHub Registry
-      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Login to Github Package Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Build the latest Docker image
       run: docker build . --file itksnap/Dockerfile --tag vnmd/itksnap_3.8.0:latest
-    - name: Push the latest Docker image
-      run: docker push vnmd/itksnap_3.8.0:latest
+    - name: Push image
+      run: |
+        IMAGE_NAME=itksnap_3.8.0
+        IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+        VERSION=latest
+
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+
+        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
