@@ -30,6 +30,7 @@ The build scripts need to be executed in bash (WSL for windows will work).
 | Minc       | minc_1.9.17_20200427.sif              | yes                          | no        |
 |            | minc_1.9.17_20200622.sif              | yes                          | yes       |
 | MRTrix     | mrtrix3_3.0.0_20200514.sif            | yes                          | no        |
+|            | mrtrix3_3.0.0_20200624.sif            | yes                          | yes       |
 | TGV QSM    | tgvqsm_fsl_5p0p11_intel_20180730.simg | yes                          | no        |
 |            | tgvqsm_intel_2630_20181018.simg       | yes                          | no        |
 
