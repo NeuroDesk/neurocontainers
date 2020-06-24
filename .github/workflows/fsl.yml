@@ -1,11 +1,13 @@
 name: FSL CI
 
 on:
-  
+
   push:
-    branches: [ github-ci ]
+    paths:
+      - fsl/*
   pull_request:
-    branches: [ github-ci ]
+    paths:
+      - fsl/*
 
 jobs:
 
