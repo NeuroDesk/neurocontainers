@@ -22,15 +22,11 @@ jobs:
     - name: Login to Github Package Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Build the latest Docker image
-      run: docker build . --file itksnap/Dockerfile --tag caid/itksnap_3.8.0:latest
+      run: docker build . --file itksnap/Dockerfile --tag itksnap_3.8.0
     - name: Push image
       run: |
-        IMAGE_NAME=itksnap_3.8.0
-        IMAGE_ID=docker.pkg.github.com/neurodesk/caid/$IMAGE_NAME
-        VERSION=latest
-
+        IMAGE_ID=docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
         echo IMAGE_ID=$IMAGE_ID
-        echo VERSION=$VERSION
 
-        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-        docker push $IMAGE_ID:$VERSION
+        docker tag itksnap_3.8.0 $IMAGE_ID
+        docker push $IMAGE_ID
