@@ -20,5 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-    - run: docker pull docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
-    - run: docker build . --file itksnap/Dockerfile --tag docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
+    - run: docker pull docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0 || true
+    - run: docker build . --file itksnap/Dockerfile --tag docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0
+    - run: docker push docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0 || true
