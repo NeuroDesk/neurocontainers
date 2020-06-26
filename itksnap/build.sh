@@ -18,4 +18,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > ${imageName}.${neurodocker_buildExt}
 
-./../main_build.sh
+#./../main_build.sh
