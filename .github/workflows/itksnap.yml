@@ -18,8 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-    - run: docker pull docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
-    - run: docker build . --file itksnap/Dockerfile --tag docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest --cache-from docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
-    - run: docker push docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
+      - uses: actions/checkout@v20
+        env:
+          DOCKERFILE: itksnap/Dockerfile
+          IMAGEID: docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
+      - run: echo IMAGEID=$IMAGEID && echo DOCKERFILE=$DOCKERFILE
+      - name: Login to Github Package Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Pull latest package image for caching
+        run: docker pull $IMAGEID
+      - name: Build new image using cache
+        run: docker build . --file $DOCKERFILE --tag $IMAGEID--cache-from $IMAGEID
+      - name: Push image to Github Package Registry
+        run: docker push $IMAGEID
