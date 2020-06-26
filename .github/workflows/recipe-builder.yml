@@ -1,0 +1,23 @@
+name: Recipe Builder
+
+on:
+  push:
+    paths:
+      - itksnap/build.sh
+      - .github/workflows/recipe-builder.yml
+  pull_request:
+    paths:
+      - itksnap/build.sh
+      - .github/workflows/recipe-builder.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Run build.sh
+        run: cd itksnap && ./build.sh 
