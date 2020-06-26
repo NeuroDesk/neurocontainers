@@ -6,7 +6,7 @@ export toolVersion='3.8.0'
 
 source ../main_setup.sh
 
-neurodocker generate ${neurodocker_buildMode} \
+neurodocker generate docker \
    --base ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -16,6 +16,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --entrypoint /opt/${toolName}-${toolVersion}/bin/itksnap \
    --user=neuro \
-  > ${imageName}.${neurodocker_buildExt}
-
-#./../main_build.sh
+  > ${imageName}.Dockerfile
