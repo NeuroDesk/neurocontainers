@@ -21,3 +21,5 @@ jobs:
           python-version: 3.8
       - name: Run build.sh
         run: cd itksnap && ./build.sh 
+      - name: Print recipe file
+        run: cat ${imageName}.${neurodocker_buildExt}
