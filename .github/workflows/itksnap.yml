@@ -12,7 +12,7 @@ on:
 
 env:
   DOCKERFILE: itksnap/Dockerfile
-  IMAGEID: docker.pkg.github.com/neurodesk/caid/itksnap_3.8.0:latest
+  IMAGEID: docker.pkg.github.com/${{GITHUB_REPOSITORY}}/itksnap_3.8.0:latest
 
 jobs:
   build:
