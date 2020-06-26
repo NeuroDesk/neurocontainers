@@ -12,18 +12,20 @@ on:
 
 env:
   DOCKERFILE: itksnap/Dockerfile
-  IMAGEID: docker.pkg.github.com/${{GITHUB_REPOSITORY}}/itksnap_3.8.0:latest
+  IMAGENAME: itksnap_3.8.0:latest
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Evaluate Image ID
+        run: IMAGEID=docker.pkg.github.com/${{ github.repository }}/${{ env.IMAGENAME }}
       - name: Login to Github Package Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Pull latest package image for caching
-        run: docker pull ${{env.IMAGEID}}
+        run: docker pull ${{ IMAGEID }}
       - name: Build new image using cache
-        run: docker build . --file ${{env.DOCKERFILE}} --tag ${{env.IMAGEID}} --cache-from ${{env.IMAGEID}}
+        run: docker build . --file ${{ env.DOCKERFILE }} --tag ${{ IMAGEID }} --cache-from ${{ IMAGEID }}
       - name: Push image to Github Package Registry
-        run: docker push ${{env.IMAGEID}}
+        run: docker push ${{ IMAGEID }}
