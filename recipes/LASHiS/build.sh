@@ -6,9 +6,6 @@ export toolVersion=1.0
 
 source ../main_setup.sh
 
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
-
 neurodocker generate ${neurodocker_buildMode} \
     --base neurodebian:stretch-non-free \
 	--pkg-manager apt \
@@ -21,6 +18,6 @@ neurodocker generate ${neurodocker_buildMode} \
 	--ants version=2.3.0 \
 	--copy antsJointLabelFusion2.sh /opt/ants-2.3.0/antsJointLabelFusion2.sh \
 	--copy LASHiS.sh /LASHiS.sh \
-	--entrypoint /LASHiS.sh  > recipe.${imageName}
-./../main_build.sh
+	--entrypoint /LASHiS.sh
+  > ${imageName}.Dockerfile
 

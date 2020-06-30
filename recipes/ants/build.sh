@@ -15,6 +15,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=${toolVersion} \
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/ \
    --user=neuro \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile

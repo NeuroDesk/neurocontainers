@@ -12,6 +12,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/volgenmodel-nipype/extra-scripts:/opt/${toolName}-${toolVersion}/pipeline \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile

@@ -17,6 +17,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda create_env=neuro conda_install='python=3.6' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --user=neuro \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile

@@ -15,6 +15,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --convert3d version=${toolVersion} \
    --env DEPLOY_PATH=/opt/convert3d-${toolVersion}/bin/ \
    --user=neuro \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile

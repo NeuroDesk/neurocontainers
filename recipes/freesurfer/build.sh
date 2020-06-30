@@ -6,9 +6,6 @@ export toolVersion=7.1.0
 
 source ../main_setup.sh
 
-# export localSingularityBuild='false'
-# export localSingularityBuildWritable='true'
-
 neurodocker generate ${neurodocker_buildMode} \
    --base centos:7 \
    --pkg-manager yum \
@@ -18,6 +15,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile

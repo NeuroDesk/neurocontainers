@@ -6,9 +6,6 @@ export toolVersion='3.0.0'
 
 source ../main_setup.sh
 
-#export localSingularityBuild='false'
-#export localSingularityBuildWritable='true'
-
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
    --pkg-manager apt \
@@ -20,6 +17,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version="2.3.1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
-  > recipe.${imageName}
-
-./../main_build.sh
+  > ${imageName}.Dockerfile
