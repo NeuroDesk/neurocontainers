@@ -30,4 +30,5 @@ jobs:
       - name: Create recipe and build image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}"" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           bash .github/workflows/build.sh
