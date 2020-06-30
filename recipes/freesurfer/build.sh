@@ -1,18 +1,34 @@
-#!/usr/bin/env bash
-set -e
+name: freesurfer
 
-export toolName='freesurfer'
-export toolVersion=7.1.0
+on:
+  push:
+    paths:
+      - recipes/*
+      - recipes/freesurfer/*
+      - .github/workflows/freesurfer.yml
+      - .github/workflows/build.sh
 
-source ../main_setup.sh
+  pull_request:
+    paths:
+      - recipes/*
+      - recipes/freesurfer/*
+      - .github/workflows/freesurfer.yml
+      - .github/workflows/build.sh
 
-neurodocker generate ${neurodocker_buildMode} \
-   --base centos:7 \
-   --pkg-manager yum \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-   --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --${toolName} version=${toolVersion} \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
-   --user=neuro \
-  > ${imageName}.Dockerfile
+env:
+  APPLICATION: freesurfer
+  PYTHON_VER: 3.8
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VER }}
+      - name: Run Recipe and Image builder
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          bash .github/workflows/build.sh
