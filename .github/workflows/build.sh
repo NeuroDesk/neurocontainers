@@ -28,8 +28,7 @@ for dockerfile in ./*.Dockerfile; do
   docker pull $IMAGEID:latest || echo "$IMAGEID not found. Resuming build..."
 
   # Build image
-  docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest \
-    docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest
+  docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest
 
   # Push to GH Packages
   docker push $IMAGEID:latest
