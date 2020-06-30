@@ -23,8 +23,15 @@ for dockerfile in ./*.Dockerfile; do
   IMAGENAME=$(basename $dockerfile .Dockerfile)
   IMAGEID=docker.pkg.github.com/$GITHUB_REPOSITORY/$IMAGENAME
   IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
+
+  # Pull latest image from GH Packages
   docker pull $IMAGEID:latest || true
-  docker build . --file $dockerfile --tag $IMAGEID:latest --cache-from $IMAGEID:latest
+
+  # Build image
+  docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest
+
+  # Push to GH Packages
   docker push $IMAGEID:latest
+  # Push to Dockerhub
   docker push vnmd/$IMAGENAME:latest
 done
