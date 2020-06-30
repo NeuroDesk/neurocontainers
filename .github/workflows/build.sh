@@ -25,10 +25,11 @@ for dockerfile in ./*.Dockerfile; do
   IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
 
   # Pull latest image from GH Packages
-  docker pull $IMAGEID:latest || true
+  docker pull $IMAGEID:latest || echo "$IMAGEID not found. Resuming build..."
 
   # Build image
-  docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest
+  docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest \
+    docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest
 
   # Push to GH Packages
   docker push $IMAGEID:latest
