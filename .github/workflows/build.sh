@@ -21,6 +21,7 @@ git push github HEAD:${GITHUB_REF}
 # Build and Push Dockerfile images
 for dockerfile in ./*.Dockerfile; do
   IMAGENAME=$(basename $dockerfile .Dockerfile)
+  IMAGENAME=$(echo $IMAGENAME | tr '[A-Z]' '[a-z]')
   IMAGEID=docker.pkg.github.com/$GITHUB_REPOSITORY/$IMAGENAME
   IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
 
