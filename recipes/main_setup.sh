@@ -20,15 +20,16 @@ export uploadToSylabs='false'
 export cleanupSif='true'
 
 
-if [ "$buildMode" = "singularity" ]; then
-       export neurodocker_buildMode="singularity"
-       export neurodocker_buildExt="Singularity"
-       echo "generating singularity recipe..."
-else
-       export neurodocker_buildMode="docker"
-       export neurodocker_buildExt="Dockerfile"
-       echo "generating docker recipe..."
-fi
+# if [ "$buildMode" = "singularity" ]; then
+#        export neurodocker_buildMode="singularity"
+#        export neurodocker_buildExt="Singularity"
+#        echo "generating singularity recipe..."
+# else
+#        export neurodocker_buildMode="docker"
+#        export neurodocker_buildExt="Dockerfile"
+#        echo "generating docker recipe..."
+# fi
+neurodocker_buildMode='docker'
 
 export buildDate=`date +%Y%m%d`
 

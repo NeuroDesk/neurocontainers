@@ -6,7 +6,7 @@ export toolVersion='3.8.0'
 
 source ../main_setup.sh
 
-neurodocker generate docker \
+neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
