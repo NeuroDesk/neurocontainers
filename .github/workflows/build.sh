@@ -14,7 +14,9 @@ cd recipes/$APPLICATION
 
 # Remove commments
 for dockerfile in ./*.Dockerfile; do
-  sed '/^#/d' $dockerfile > $dockerfile
+  tmp=`tempfile`
+  grep -v "^#" $dockerfile > $tmp
+  mv $tmp $dockerfile
 done
 
 # Commmit and push recipe
