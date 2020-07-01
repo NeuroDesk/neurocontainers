@@ -12,9 +12,6 @@ git pull github ${GITHUB_REF} --ff-only
 cd recipes/$APPLICATION
 /bin/bash build.sh
 
-echo $IMAGENAME >> ../container_list.txt
-git add ../container_list.txt
-
 # Commmit and push recipe
 git add .
 git commit -m "$GITHUB_SHA"
@@ -43,4 +40,9 @@ for dockerfile in ./*.Dockerfile; do
   docker push vnmd/$IMAGENAME:latest
   docker tag $IMAGEID:latest vnmd/$IMAGENAME:$BUILDDATE
   docker push vnmd/$IMAGENAME:$BUILDDATE
+
+  echo $IMAGENAME >> ../container_list.txt
+  git add ../container_list.txt
+  git commit -m "$GITHUB_SHA"
+  git push github HEAD:${GITHUB_REF}
 done
