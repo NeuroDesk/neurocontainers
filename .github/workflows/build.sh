@@ -46,10 +46,10 @@ for dockerfile in ./*.Dockerfile; do
   docker tag $IMAGEID:latest vnmd/$IMAGENAME:$BUILDDATE
   docker push vnmd/$IMAGENAME:$BUILDDATE
 
-  # Write Container List (avoid merge conflicts for now?)
-  git pull github ${GITHUB_REF}
-  echo $IMAGENAME >> container_list.txt
-  git add container_list.txt
-  git commit -m "$GITHUB_SHA"
-  git push github HEAD:${GITHUB_REF}
+#   # Write Container List (avoid merge conflicts for now?)
+#   git pull github ${GITHUB_REF}
+#   echo $IMAGENAME >> container_list.txt
+#   git add container_list.txt
+#   git commit -m "$GITHUB_SHA"
+#   git push github HEAD:${GITHUB_REF}
 done
