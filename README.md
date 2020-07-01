@@ -16,10 +16,10 @@ docker search vnmd
 # pull containers
 docker
 ```
-docker pull vnmd/julia_1.4.1:20200622
+docker pull vnmd/julia_1.4.1
 ```
 
 singularity from dockerhub
 ```
-singularity pull docker://vnmd/julia_1.4.1:20200622
+singularity pull docker://vnmd/julia_1.4.1
 ```
