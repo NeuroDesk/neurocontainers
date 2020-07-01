@@ -35,12 +35,11 @@ for dockerfile in ./*.Dockerfile; do
 
   export BUILDDATE=`date +%Y%m%d`
   # Push to GH Packages
-  docker push $IMAGEID:latest
-  docker tag $IMAGEID:$BUILDDATE vnmd/$IMAGEID:$BUILDDATE
-  docker push $IMAGEID:$BUILDDATE
+  # docker push $IMAGEID:latest
+  # docker tag $IMAGEID:latest $IMAGEID:$BUILDDATE
+  # docker push $IMAGEID:$BUILDDATE
   # Push to Dockerhub
-  docker push vnmd/$IMAGENAME:latest
-  docker tag $IMAGEID:$BUILDDATE vnmd/$IMAGEID:$BUILDDATE
-  docker push vnmd/$IMAGENAME:$BUILDDATE
-
+  docker push vnmd/$IMAGEID:latest
+  docker tag $IMAGEID:latest vnmd/$IMAGEID:$BUILDDATE
+  docker push vnmd/$IMAGEID:$BUILDDATE
 done
