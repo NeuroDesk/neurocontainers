@@ -31,8 +31,11 @@ for dockerfile in ./*.Dockerfile; do
   # Build image
   docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest
 
+  export buildDate=`date +%Y%m%d`
   # Push to GH Packages
   docker push $IMAGEID:latest
+  docker push $IMAGEID:$buildDate
   # Push to Dockerhub
   docker push vnmd/$IMAGENAME:latest
+  docker push vnmd/$IMAGENAME:$buildDate
 done
