@@ -12,6 +12,8 @@ git pull github ${GITHUB_REF} --ff-only
 cd recipes/$APPLICATION
 /bin/bash build.sh
 
+echo $IMAGENAME >> ../container_list.txt
+
 # Commmit and push recipe
 git add .
 git commit -m "$GITHUB_SHA"
@@ -34,8 +36,11 @@ for dockerfile in ./*.Dockerfile; do
   export buildDate=`date +%Y%m%d`
   # Push to GH Packages
   docker push $IMAGEID:latest
+  docker tag $IMAGEID:latest vnmd/${imageName}:$buildDate
   docker push $IMAGEID:$buildDate
   # Push to Dockerhub
   docker push vnmd/$IMAGENAME:latest
+  docker tag $IMAGEID:$buildDate vnmd/${imageName}:$buildDate
   docker push vnmd/$IMAGENAME:$buildDate
+
 done
