@@ -39,7 +39,7 @@ for dockerfile in ./*.Dockerfile; do
   # docker tag $IMAGEID:latest $IMAGEID:$BUILDDATE
   # docker push $IMAGEID:$BUILDDATE
   # Push to Dockerhub
-  docker push vnmd/$IMAGEID:latest
+  docker push vnmd/$IMAGENAME:latest
   # docker tag $IMAGEID:latest vnmd/$IMAGEID:$BUILDDATE
   # docker push vnmd/$IMAGEID:$BUILDDATE
 done
