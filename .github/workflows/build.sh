@@ -12,6 +12,11 @@ git pull github ${GITHUB_REF} --ff-only
 cd recipes/$APPLICATION
 /bin/bash build.sh
 
+# Remove commments
+for dockerfile in ./*.Dockerfile; do
+  sed '/^#/d' $dockerfile > $dockerfile
+done
+
 # Commmit and push recipe
 git add .
 git commit -m "$GITHUB_SHA"
