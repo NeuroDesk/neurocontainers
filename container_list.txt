@@ -1,3 +1,0 @@
-julia_1.4.1
-convert3d_1.0.0
-fsl_6.0.2
