@@ -1,12 +1,10 @@
-# Sub-containers for VNM
+# Automatic Container building and testing
 
-The containers can for be used in combination with our transparent singularity or neurodesk tool, that wraps the executables inside a container to make them easily available for pipelines:
+The containers can for be used in combination with our transparent singularity or neurodesk tool, that wrap the executables inside a container to make them easily available for pipelines:
 https://github.com/NeuroDesk/transparent-singularity/
 https://github.com/NeuroDesk/neurodesk/
 
 The containers are hosted on dockerhub (https://hub.docker.com/orgs/vnmd/repositories)
-
-The build scripts need to be executed in bash (WSL for windows will work).
 
 ## currently available tools
 ```
