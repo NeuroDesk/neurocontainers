@@ -4,10 +4,6 @@
 git config --local user.email "action@github.com"
 git config --local user.name "GitHub Action"
 
-# Sync local repo with remote
-git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-git pull github ${GITHUB_REF} --ff-only
-
 # Build recipe
 cd recipes/$APPLICATION
 /bin/bash build.sh
@@ -22,6 +18,8 @@ done
 # Commmit and push recipe
 git add .
 git commit -m "$GITHUB_SHA"
+git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+git pull github ${GITHUB_REF} --ff-only
 git push github HEAD:${GITHUB_REF}
 
 # Loop through Local Dockerfiles
