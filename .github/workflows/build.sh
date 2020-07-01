@@ -42,7 +42,7 @@ for dockerfile in ./*.Dockerfile; do
   docker push vnmd/$IMAGENAME:$BUILDDATE
 
   # Write Container List
-  git pull github ${GITHUB_REF} --ff-only
+  git pull github ${GITHUB_REF}
   echo $IMAGENAME >> ../../container_list.txt
   git add ../../container_list.txt
   git commit -m "$GITHUB_SHA"
