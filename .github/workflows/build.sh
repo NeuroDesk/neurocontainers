@@ -19,7 +19,7 @@ done
 git add .
 git commit -m "$GITHUB_SHA"
 git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-git pull github ${GITHUB_REF} --ff-only
+git pull github ${GITHUB_REF}
 git push github HEAD:${GITHUB_REF}
 
 # Loop through Local Dockerfiles
