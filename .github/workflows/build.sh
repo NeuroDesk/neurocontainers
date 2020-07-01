@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Set git user to gh-actions service account
-git config --local user.email "action@github.com"
-git config --local user.name "GitHub Action"
+# # Set git user to gh-actions service account
+# git config --local user.email "action@github.com"
+# git config --local user.name "GitHub Action"
 
 # Build recipe
 cd recipes/$APPLICATION
@@ -15,12 +15,12 @@ for dockerfile in ./*.Dockerfile; do
   mv $tmp $dockerfile
 done
 
-# Commmit and push recipe
-git add .
-git commit -m "$GITHUB_SHA"
-git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-git pull github ${GITHUB_REF}
-git push github HEAD:${GITHUB_REF}
+# # Commmit and push recipe
+# git add .
+# git commit -m "$GITHUB_SHA"
+# git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+# git pull github ${GITHUB_REF}
+# git push github HEAD:${GITHUB_REF}
 
 # Loop through Local Dockerfiles
 # Build and Push Dockerfile images
