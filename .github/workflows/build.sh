@@ -13,6 +13,7 @@ cd recipes/$APPLICATION
 /bin/bash build.sh
 
 echo $IMAGENAME >> ../container_list.txt
+git add ../container_list.txt
 
 # Commmit and push recipe
 git add .
@@ -40,6 +41,6 @@ for dockerfile in ./*.Dockerfile; do
   docker push $IMAGEID:$BUILDDATE
   # Push to Dockerhub
   docker push vnmd/$IMAGENAME:latest
-  # docker tag $IMAGEID:latest vnmd/$IMAGEID:$BUILDDATE
-  # docker push vnmd/$IMAGEID:$BUILDDATE
+  docker tag $IMAGEID:latest vnmd/$IMAGENAME:$BUILDDATE
+  docker push vnmd/$IMAGENAME:$BUILDDATE
 done
