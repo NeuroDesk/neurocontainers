@@ -27,7 +27,23 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VER }}
-      - name: Free disk space
+      - name: check free disk space and installed stuff
+        run: |
+          sudo apt list --installed
+          df -h
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+      - name: Run Recipe and Image builder
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          bash .github/workflows/build.sh
+      - name: Free disk space (not working yet!)
         run: |
             sudo apt-get remove aria2 ansible azure-cli shellcheck rpm xorriso zsync \
               clang-6.0 lldb-6.0 lld-6.0 clang-format-6.0 clang-8 lldb-8 lld-8 clang-format-8 \
@@ -68,9 +84,4 @@ jobs:
             sudo apt-get autoremove -y >/dev/null 2>&1
             sudo apt-get autoclean -y >/dev/null 2>&1
             sudo rm -rf /usr/local/lib/android >/dev/null 2>&1
-            docker rmi $(docker image ls -aq) >/dev/null 2>&1
-      - name: Run Recipe and Image builder
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          bash .github/workflows/build.sh
+            
