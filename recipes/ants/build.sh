@@ -7,7 +7,7 @@ export toolVersion='2.3.1'
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base debian:stretch \
+   --base ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
