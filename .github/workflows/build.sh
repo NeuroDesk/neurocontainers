@@ -8,12 +8,12 @@
 cd recipes/$APPLICATION
 /bin/bash build.sh
 
-# Remove commments
-for dockerfile in ./*.Dockerfile; do
-  tmp=`tempfile`
-  grep -v "^#" $dockerfile > $tmp
-  mv $tmp $dockerfile
-done
+# # Remove commments
+# for dockerfile in ./*.Dockerfile; do
+#   tmp=$(tempfile)
+#   grep -v "^#" $dockerfile > $tmp
+#   mv $tmp $dockerfile
+# done
 
 # # Commmit and push recipe
 # git add .
@@ -21,7 +21,7 @@ done
 # git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 # git pull github ${GITHUB_REF}
 # git push github HEAD:${GITHUB_REF}
-SHORT_SHA=`git rev-parse --short $GITHUB_SHA`
+SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
 
 # Loop through Local Dockerfiles
 # Build and Push Dockerfile images
@@ -35,30 +35,37 @@ for dockerfile in ./*.Dockerfile; do
   docker pull $IMAGEID || echo "$IMAGEID not found. Resuming build..."
 
   # Build image
-  docker build . --file $dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID
+  docker build . --file $dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
 
-  export BUILDDATE=`date +%Y%m%d`
-  # Push to GH Packages
-  docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
-  docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-  docker push $IMAGEID:$SHORT_SHA
-  docker push $IMAGEID:$BUILDDATE
-  docker push $IMAGEID:latest
+  # Get image RootFS to check for changes
+  ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
+  ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 
-  # Push to Dockerhub
-  if [ -n "$DOCKERHUB_REPO" ]; then
-    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$SHORT_SHA
-    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
-    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:latest
-    docker push $DOCKERHUB_REPO/$IMAGENAME:$SHORT_SHA
-    docker push $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
-    docker push $DOCKERHUB_REPO/$IMAGENAME:latest
+  # Tag and Push if new image RootFS differs from cached image
+  if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
+      echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
+    else
+      echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
+    export BUILDDATE=`date +%Y%m%d`
+    # Push to GH Packages
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
+    docker push $IMAGEID:$BUILDDATE
+    docker push $IMAGEID:latest
+
+    # Push to Dockerhub
+    if [ -n "$DOCKERHUB_REPO" ]; then
+      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
+      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:latest
+      docker push $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
+      docker push $DOCKERHUB_REPO/$IMAGENAME:latest
+    fi
+
+  #   # Write Container List (avoid merge conflicts for now?)
+  #   git pull github ${GITHUB_REF}
+  #   echo $IMAGENAME >> container_list.txt
+  #   git add container_list.txt
+  #   git commit -m "$GITHUB_SHA"
+  #   git push github HEAD:${GITHUB_REF}
   fi
-
-#   # Write Container List (avoid merge conflicts for now?)
-#   git pull github ${GITHUB_REF}
-#   echo $IMAGENAME >> container_list.txt
-#   git add container_list.txt
-#   git commit -m "$GITHUB_SHA"
-#   git push github HEAD:${GITHUB_REF}
 done
