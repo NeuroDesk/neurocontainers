@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.1'
+export toolVersion='2.3.4'
 
 source ../main_setup.sh
 
