@@ -18,6 +18,7 @@ on:
 env:
   APPLICATION: freesurfer
   PYTHON_VER: 3.8
+  DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_REPO }}
 
 jobs:
   build:

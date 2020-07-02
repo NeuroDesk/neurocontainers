@@ -32,10 +32,10 @@ for dockerfile in ./*.Dockerfile; do
   IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
 
   # Pull latest image from GH Packages
-  docker pull $IMAGEID:latest || echo "$IMAGEID not found. Resuming build..."
+  docker pull $IMAGEID || echo "$IMAGEID not found. Resuming build..."
 
   # Build image
-  docker build . --file $dockerfile --tag $IMAGEID:$SHORT_SHA --tag  vnmd/$IMAGENAME:$SHORT_SHA --cache-from $IMAGEID
+  docker build . --file $dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID
 
   export BUILDDATE=`date +%Y%m%d`
   # Push to GH Packages
@@ -46,12 +46,14 @@ for dockerfile in ./*.Dockerfile; do
   docker push $IMAGEID:latest
 
   # Push to Dockerhub
-  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:$SHORT_SHA
-  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:$BUILDDATE
-  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:latest
-  docker push vnmd/$IMAGENAME:$SHORT_SHA
-  docker push vnmd/$IMAGENAME:$BUILDDATE
-  docker push vnmd/$IMAGENAME:latest
+  if [ -n "$DOCKERHUB_REPO" ]; then
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$SHORT_SHA
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:latest
+    docker push $DOCKERHUB_REPO/$IMAGENAME:$SHORT_SHA
+    docker push $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
+    docker push $DOCKERHUB_REPO/$IMAGENAME:latest
+  fi
 
 #   # Write Container List (avoid merge conflicts for now?)
 #   git pull github ${GITHUB_REF}
