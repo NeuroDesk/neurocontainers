@@ -21,6 +21,7 @@ done
 # git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 # git pull github ${GITHUB_REF}
 # git push github HEAD:${GITHUB_REF}
+SHORT_SHA=`git rev-parse --short $GITHUB_SHA`
 
 # Loop through Local Dockerfiles
 # Build and Push Dockerfile images
@@ -36,15 +37,14 @@ for dockerfile in ./*.Dockerfile; do
   # Build image
   docker build . --file $dockerfile --tag $IMAGEID:latest --tag  vnmd/$IMAGENAME:latest --cache-from $IMAGEID:latest
 
-  export BUILDDATE=`date +%Y%m%d`
   # Push to GH Packages
   docker push $IMAGEID:latest
-  docker tag $IMAGEID:latest $IMAGEID:$BUILDDATE
-  docker push $IMAGEID:$BUILDDATE
+  docker tag $IMAGEID:latest $IMAGEID:$SHORT_SHA
+  docker push $IMAGEID:$SHORT_SHA
   # Push to Dockerhub
   docker push vnmd/$IMAGENAME:latest
-  docker tag $IMAGEID:latest vnmd/$IMAGENAME:$BUILDDATE
-  docker push vnmd/$IMAGENAME:$BUILDDATE
+  docker tag $IMAGEID:latest vnmd/$IMAGENAME:$SHORT_SHA
+  docker push vnmd/$IMAGENAME:$SHORT_SHA
 
 #   # Write Container List (avoid merge conflicts for now?)
 #   git pull github ${GITHUB_REF}
