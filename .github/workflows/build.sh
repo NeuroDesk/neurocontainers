@@ -46,9 +46,9 @@ for dockerfile in ./*.Dockerfile; do
   docker push $IMAGEID:$latest
 
   # Push to Dockerhub
-  docker tag $IMAGEID:SHORT_SHA vnmd/$IMAGENAME:$SHORT_SHA
-  docker tag $IMAGEID:SHORT_SHA vnmd/$IMAGENAME:$BUILDDATE
-  docker tag $IMAGEID:SHORT_SHA vnmd/$IMAGENAME:$latest
+  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:$SHORT_SHA
+  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:$BUILDDATE
+  docker tag $IMAGEID:$SHORT_SHA vnmd/$IMAGENAME:$latest
   docker push vnmd/$IMAGENAME:$SHORT_SHA
   docker push vnmd/$IMAGENAME:$BUILDDATE
   docker push vnmd/$IMAGENAME:latest
