@@ -11,3 +11,4 @@
 | ITKsnap   | itksnap_3.8.0     | 20200701  |
 | Julia     | julia_1.4.1       | 20200701  |
 | Minc      | minc_1.9.17       | 20200701  |
+| MRtrix3   | mrtrix3_3.0.0     | 20200702  |
