@@ -14,3 +14,4 @@ additional_files/
 archived_images/
 *rootfs*
 ashs-fastashs_beta
+*.Dockerfile
