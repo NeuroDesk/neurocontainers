@@ -90,7 +90,7 @@ fi
 if [ "$localSingularityBuild" = "true" ]; then
        echo "starting local build:"
        echo "----------------------"
-       sudo singularity build ${imageName}_${buildDate}.sif ${imageName}.${neurodocker_buildExt}
+       sudo singularity build ${imageName}_${buildDate}.sif ${imageName}.Singularity
 fi
 
 

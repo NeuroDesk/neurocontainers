@@ -4,7 +4,7 @@
 | ANTS      | ants_2.3.4        | 20200702  |
 |           | ants_2.3.1        | 20200701  |
 | Convert3d | convert3d_1.0.0   | 20200701  |
-| Freesurfer| freesurfer_7.1.0  | 20200701  |
+| Freesurfer| freesurfer_7.1.0  | 20200708  |
 | FSL       | fsl_6.0.3         | 20200702  |
 |           | fsl_6.0.2         | 20200701  |
 |           | fsl_6.0.1         | 20200702  |
