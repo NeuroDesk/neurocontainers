@@ -9,27 +9,29 @@ pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mast
 # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mrtrix_git_checkout_fix --upgrade
 
 
-export buildMode='singularity'  #docker_local or docker_hub or singularity or docker_singularity
-export testImageDocker='false'
-export localSingularityBuild='true'
-export localSingularityBuildWritable='false'
-export remoteSingularityBuild='false'
-export testImageSingularity='false'
-export uploadToSwift='true'
-export uploadToSylabs='false'
-export cleanupSif='true'
+export buildMode='docker'  #docker_local or docker_hub or singularity or docker_singularity
 
+if [ "$debug" = "true" ]; then
+    export buildMode='docker_singularity' 
+    export testImageDocker='false'
+    export localSingularityBuild='true'
+    export localSingularityBuildWritable='false'
+    export remoteSingularityBuild='false'
+    export testImageSingularity='false'
+    export uploadToSwift='false'
+    export uploadToSylabs='false'
+    export cleanupSif='false'
+fi
 
-# if [ "$buildMode" = "singularity" ]; then
-#        export neurodocker_buildMode="singularity"
-#        export neurodocker_buildExt="Singularity"
-#        echo "generating singularity recipe..."
-# else
-#        export neurodocker_buildMode="docker"
-#        export neurodocker_buildExt="Dockerfile"
-#        echo "generating docker recipe..."
-# fi
-neurodocker_buildMode='docker'
+if [ "$buildMode" = "singularity" ]; then
+       export neurodocker_buildMode="singularity"
+       export neurodocker_buildExt="Singularity"
+       echo "generating singularity recipe..."
+else
+       export neurodocker_buildMode="docker"
+       export neurodocker_buildExt="Dockerfile"
+       echo "generating docker recipe..."
+fi
 
 export buildDate=`date +%Y%m%d`
 

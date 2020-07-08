@@ -6,7 +6,7 @@ echo "buildMode: $buildMode"
 if [ "$buildMode" = "docker_singularity" ]; then
        echo "starting local docker build:"
        echo "---------------------------"
-       sudo docker build -t ${imageName}:$buildDate -f  recipe.${imageName} .
+       sudo docker build -t ${imageName}:$buildDate -f  ${imageName}.${neurodocker_buildExt} .
 
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
@@ -59,7 +59,7 @@ if [ "$buildMode" = "docker_hub" ]; then
 fi
 
 if [ "$buildMode" = "docker_singularity" ]; then
-        cp recipe.${imageName} Dockerfile
+        cp ${imageName}.${neurodocker_buildExt} Dockerfile
         echo "BootStrap:docker" > recipe.${imageName}
         echo "From:vnmd/${imageName}" >> recipe.${imageName}
         echo "" >> recipe.${imageName}
@@ -91,7 +91,7 @@ fi
 if [ "$localSingularityBuild" = "true" ]; then
        echo "starting local build:"
        echo "----------------------"
-       sudo singularity build ${imageName}_${buildDate}.sif recipe.${imageName}
+       sudo singularity build ${imageName}_${buildDate}.sif ${imageName}.${neurodocker_buildExt}
 fi
 
 
