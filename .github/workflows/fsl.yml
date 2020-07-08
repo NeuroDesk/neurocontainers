@@ -79,9 +79,10 @@ jobs:
               sudo apt-get autoclean -y
               sudo rm -rf /usr/local/lib/android
               df -h
+      - name: Log into Github Package registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: env.DOCKERHUB_REPO != ''
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Run Recipe and Image builder
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          bash .github/workflows/build.sh
-
+        run: bash .github/workflows/build.sh

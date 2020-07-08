@@ -34,5 +34,4 @@ jobs:
         if: env.DOCKERHUB_REPO != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Run Recipe and Image builder
-        run: |
-          bash .github/workflows/build.sh
+        run: bash .github/workflows/build.sh
