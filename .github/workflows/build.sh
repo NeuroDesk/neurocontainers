@@ -32,13 +32,15 @@ for dockerfile in ./*.Dockerfile; do
   IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
 
   # Pull latest image from GH Packages
-  docker pull $IMAGEID || echo "$IMAGEID not found. Resuming build..."
+  {
+    docker pull $IMAGEID \
+      && ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
+  } || echo "$IMAGEID not found. Resuming build..."
 
   # Build image
   docker build . --file $dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
 
   # Get image RootFS to check for changes
-  ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
   ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 
   # Tag and Push if new image RootFS differs from cached image
