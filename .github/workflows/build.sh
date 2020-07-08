@@ -56,11 +56,11 @@ for dockerfile in ./*.Dockerfile; do
     docker push $IMAGEID:latest
 
     # Push to Dockerhub
-    if [ -n "$DOCKERHUB_REPO" ]; then
-      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
-      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_REPO/$IMAGENAME:latest
-      docker push $DOCKERHUB_REPO/$IMAGENAME:$BUILDDATE
-      docker push $DOCKERHUB_REPO/$IMAGENAME:latest
+    if [ -n "$DOCKERHUB_ORG" ]; then
+      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
+      docker push $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+      docker push $DOCKERHUB_ORG/$IMAGENAME:latest
     fi
 
   #   # Write Container List (avoid merge conflicts for now?)

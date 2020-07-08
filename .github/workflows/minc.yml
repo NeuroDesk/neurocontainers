@@ -18,7 +18,7 @@ on:
 env:
   APPLICATION: minc
   PYTHON_VER: 3.8
-  DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_REPO }}
+  DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
-        if: env.DOCKERHUB_REPO != ''
+        if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Run Recipe and Image builder
         run: bash .github/workflows/build.sh
