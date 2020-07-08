@@ -1,9 +1,0 @@
-BootStrap:docker
-From:vnmd/freesurfer_7.1.0
-
-%labels
-OWNER Steffen.Bollmann@cai.uq.edu.au
-Build-date 20200708
-NAME freesurfer_7.1.0
-Description freesurfer_7.1.0
-VERSION 20200708

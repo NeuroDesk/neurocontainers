@@ -6,7 +6,7 @@ echo "buildMode: $buildMode"
 if [ "$buildMode" = "docker_singularity" ]; then
        echo "starting local docker build:"
        echo "---------------------------"
-       sudo docker build -t ${imageName}:$buildDate -f  ${imageName}.${neurodocker_buildExt} .
+       sudo docker build -t ${imageName}:$buildDate -f  ${imageName}.Dockerfile .
 
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
@@ -31,7 +31,7 @@ fi
 if [ "$buildMode" = "docker_local" ]; then
        echo "starting local docker build:"
        echo "---------------------------"
-       sudo docker build -t ${imageName}:$buildDate -f  Dockerfile .
+       sudo docker build -t ${imageName}:$buildDate -f  ${imageName}.Dockerfile .
 
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
@@ -59,16 +59,15 @@ if [ "$buildMode" = "docker_hub" ]; then
 fi
 
 if [ "$buildMode" = "docker_singularity" ]; then
-        cp ${imageName}.${neurodocker_buildExt} Dockerfile
-        echo "BootStrap:docker" > recipe.${imageName}
-        echo "From:vnmd/${imageName}" >> recipe.${imageName}
-        echo "" >> recipe.${imageName}
-        echo "%labels" >> recipe.${imageName}
-        echo "OWNER Steffen.Bollmann@cai.uq.edu.au" >> recipe.${imageName}
-        echo "Build-date $buildDate" >> recipe.${imageName}
-        echo "NAME $imageName" >> recipe.${imageName}
-        echo "Description $imageName" >> recipe.${imageName}
-        echo "VERSION $buildDate" >> recipe.${imageName}           
+        echo "BootStrap:docker" > ${imageName}.Singularity
+        echo "From:vnmd/${imageName}" >> ${imageName}.Singularity
+        echo "" >> ${imageName}.Singularity
+        echo "%labels" >> ${imageName}.Singularity
+        echo "OWNER Steffen.Bollmann@cai.uq.edu.au" >> ${imageName}.Singularity
+        echo "Build-date $buildDate" >> ${imageName}.Singularity
+        echo "NAME $imageName" >> ${imageName}.Singularity
+        echo "Description $imageName" >> ${imageName}.Singularity
+        echo "VERSION $buildDate" >> ${imageName}.Singularity           
 fi
 
 if [[ -f ${imageName}_${buildDate}.sif ]] || [[ -d ${imageName}_${buildDate}.sif ]] ; then
@@ -84,7 +83,7 @@ if [ "$remoteSingularityBuild" = "true" ]; then
        echo "====================================================="
        echo "starting remote build:"
        echo "----------------------"
-       singularity build --remote ${imageName}_${buildDate}.sif recipe.${imageName}
+       singularity build --remote ${imageName}_${buildDate}.sif ${imageName}.Singularity
 fi
 
 
@@ -98,7 +97,7 @@ fi
 if [ "$localSingularityBuildWritable" = "true" ]; then
        echo "starting local build for development purposes with a writable image file:"
        echo "----------------------"
-       sudo singularity build --sandbox ${imageName}_${buildDate}.sif recipe.${imageName}
+       sudo singularity build --sandbox ${imageName}_${buildDate}.sif ${imageName}.Singularity
 fi
 
 
