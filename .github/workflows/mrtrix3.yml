@@ -27,7 +27,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VER }}
+        python-version: ${{ env.PYTHON_VER }}
+      - name: Free up disk space on runner
+        run: bash .github/workflows/free-up-space.sh
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
