@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
 	--ashs version=2.0.0 \
 	--ants version=2.3.0 \
 	--run="git clone https://github.com/thomshaw92/LASHiS/ /LASHiS" \
-	--entrypoint /LASHiS/LASHiS.sh
+	--entrypoint /LASHiS/LASHiS.sh \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then
