@@ -4,7 +4,14 @@ set -e
 export toolName='lashis'
 export toolVersion=1.0
 
+if [ "$1" != "" ]; then
+    echo "Entering Debug mode"
+    export debug="true"
+fi
+
 source ../main_setup.sh
+
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/stebo85/issue8 --upgrade
 
 neurodocker generate ${neurodocker_buildMode} \
     --base neurodebian:stretch-non-free \
@@ -13,11 +20,12 @@ neurodocker generate ${neurodocker_buildMode} \
 	--run="chmod +x /usr/bin/ll" \
 	--run="mkdir ${mountPointList}" \
 	--install libxt6 libxext6 libxtst6 libgl1-mesa-glx libc6 libice6 libsm6 libx11-6 \
-	--copy ./ashs-fastashs_beta /ashs-fastashs_beta \
-	--env ASHS_ROOT="/ashs-fastashs_beta" \
+	--ashs version=2.0.0 \
 	--ants version=2.3.0 \
-	--copy antsJointLabelFusion2.sh /opt/ants-2.3.0/antsJointLabelFusion2.sh \
-	--copy LASHiS.sh /LASHiS.sh \
-	--entrypoint /LASHiS.sh
-  > ${imageName}.Dockerfile
+	--run="git clone https://github.com/thomshaw92/LASHiS/ /LASHiS" \
+	--entrypoint /LASHiS/LASHiS.sh
+  > ${imageName}.${neurodocker_buildExt}
 
+if [ "$debug" = "true" ]; then
+   ./../main_build.sh
+fi
