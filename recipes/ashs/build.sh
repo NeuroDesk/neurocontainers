@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
+export toolName='ashs'
+export toolVersion='2.0.0'
+
+export debug="true"
+
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug="true"
 fi
 
-export toolName='ashs'
-export toolVersion='2.0.0'
-
 source ../main_setup.sh
+
+if [ "$debug" = "true" ]; then
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/stebo85/issue8 --upgrade
+fi
 
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
@@ -18,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ashs-fastashs_beta/bin/ \
    --user=neuro \
   > ${imageName}.${neurodocker_buildExt}
 
