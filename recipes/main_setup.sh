@@ -5,15 +5,15 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 # install development version
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
-# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mrtrix_git_checkout_fix --upgrade
+# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/stebo85/issue8 --upgrade
 
 
 export buildMode='docker'  #docker_local or docker_hub or singularity or docker_singularity
 
 if [ "$debug" = "true" ]; then
     export buildMode='docker_singularity' 
-    export testImageDocker='false'
+    export testImageDocker='true'
     export localSingularityBuild='true'
     export localSingularityBuildWritable='false'
     export remoteSingularityBuild='false'
