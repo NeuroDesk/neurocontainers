@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
 	--run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
 	--run="chmod +x /usr/bin/ll" \
 	--run="mkdir ${mountPointList}" \
-	--install libxt6 libxext6 libxtst6 libgl1-mesa-glx libc6 libice6 libsm6 libx11-6 \
+	--install git libxt6 libxext6 libxtst6 libgl1-mesa-glx libc6 libice6 libsm6 libx11-6 \
 	--ashs version=2.0.0 \
 	--ants version=2.3.0 \
 	--run="git clone https://github.com/thomshaw92/LASHiS/ /LASHiS" \
