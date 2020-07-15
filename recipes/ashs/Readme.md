@@ -5,7 +5,7 @@ curl -o sub-01_ses-01_7T_T2w_run-1_tse.nii.gz "https://files.au-1.osf.io/v1/reso
 
 mkdir myworkdir
 
-$ASHS_ROOT/bin/ashs_main.sh -I subj001 -a /atlas_ashs_atlas_magdeburg_7t_20180416 \
+$ASHS_ROOT/bin/ashs_main.sh -I subj001 -a /ashs_atlas_* \
    -g sub-01_ses-01_7T_T1w_defaced.nii.gz -f sub-01_ses-01_7T_T2w_run-1_tse.nii.gz \
    -w myworkdir/subj001
    
