@@ -11,6 +11,8 @@ export toolVersion=7.1.0
 
 source ../main_setup.sh
 
+# I applied for the freesurfer license for 400 users. When he hit tha many users, we need to renew the license!
+
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:16.04 \
    --pkg-manager apt \
@@ -18,6 +20,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
+   --copy license.txt /license.txt \
+   --env FS_LICENSE=/license.txt \
    --install dbus-x11 \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
