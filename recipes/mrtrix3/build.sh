@@ -2,7 +2,7 @@
 set -e
 
 export toolName='mrtrix3'
-export toolVersion='3.0.0'
+export toolVersion='3.0.1'
 
 source ../main_setup.sh
 
