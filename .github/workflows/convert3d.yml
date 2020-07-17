@@ -3,17 +3,13 @@ name: convert3D
 on:
   push:
     paths:
-      - recipes/*
       - recipes/convert3D/*
       - .github/workflows/convert3D.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/convert3D/*
       - .github/workflows/convert3D.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: convert3D

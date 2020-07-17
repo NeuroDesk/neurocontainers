@@ -3,17 +3,13 @@ name: fsl
 on:
   push:
     paths:
-      - recipes/*
       - recipes/fsl/*
       - .github/workflows/fsl.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/fsl/*
       - .github/workflows/fsl.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: fsl

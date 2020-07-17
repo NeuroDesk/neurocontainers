@@ -3,17 +3,13 @@ name: afni
 on:
   push:
     paths:
-      - recipes/*
       - recipes/afni/*
       - .github/workflows/afni.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/afni/*
       - .github/workflows/afni.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: afni

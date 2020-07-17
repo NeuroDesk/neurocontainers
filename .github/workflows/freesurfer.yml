@@ -3,17 +3,13 @@ name: freesurfer
 on:
   push:
     paths:
-      - recipes/*
       - recipes/freesurfer/*
       - .github/workflows/freesurfer.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/freesurfer/*
       - .github/workflows/freesurfer.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: freesurfer

@@ -3,17 +3,13 @@ name: minc
 on:
   push:
     paths:
-      - recipes/*
       - recipes/minc/*
       - .github/workflows/minc.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/minc/*
       - .github/workflows/minc.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: minc

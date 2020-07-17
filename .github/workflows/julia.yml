@@ -3,17 +3,13 @@ name: julia
 on:
   push:
     paths:
-      - recipes/*
       - recipes/julia/*
       - .github/workflows/julia.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/julia/*
       - .github/workflows/julia.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: julia

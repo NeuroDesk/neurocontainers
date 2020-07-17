@@ -3,17 +3,13 @@ name: mrtrix3
 on:
   push:
     paths:
-      - recipes/*
       - recipes/mrtrix3/*
       - .github/workflows/mrtrix3.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/mrtrix3/*
       - .github/workflows/mrtrix3.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: mrtrix3

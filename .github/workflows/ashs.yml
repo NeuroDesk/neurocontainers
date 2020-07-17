@@ -3,17 +3,13 @@ name: ashs
 on:
   push:
     paths:
-      - recipes/*
       - recipes/ashs/*
       - .github/workflows/ashs.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/ashs/*
       - .github/workflows/ashs.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: ashs

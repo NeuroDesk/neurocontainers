@@ -3,17 +3,13 @@ name: lashis
 on:
   push:
     paths:
-      - recipes/*
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: lashis

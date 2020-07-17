@@ -3,17 +3,13 @@ name: ants
 on:
   push:
     paths:
-      - recipes/*
       - recipes/ants/*
       - .github/workflows/ants.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/ants/*
       - .github/workflows/ants.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: ants

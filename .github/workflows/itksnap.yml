@@ -3,17 +3,13 @@ name: itksnap
 on:
   push:
     paths:
-      - recipes/*
       - recipes/itksnap/*
       - .github/workflows/itksnap.yml
-      - .github/workflows/build.sh
 
   pull_request:
     paths:
-      - recipes/*
       - recipes/itksnap/*
       - .github/workflows/itksnap.yml
-      - .github/workflows/build.sh
 
 env:
   APPLICATION: itksnap
@@ -33,5 +29,7 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Log into Singularity Hub
+        run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
       - name: Run Recipe and Image builder
         run: bash .github/workflows/build.sh
