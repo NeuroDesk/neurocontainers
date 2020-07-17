@@ -1,3 +1,4 @@
+#TODO replace by package install after building
 export VERSION=1.13 OS=linux ARCH=amd64 && \  # Replace the values as needed
   wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && \ # Downloads the required Go package
   sudo tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz && \ # Extracts the archive

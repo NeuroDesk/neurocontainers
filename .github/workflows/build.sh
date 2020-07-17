@@ -44,9 +44,9 @@ for dockerfile in ./*.Dockerfile; do
   ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 
   # Tag and Push if new image RootFS differs from cached image
-  # if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
+  if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
       echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
-    # else
+  else
       echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
     export BUILDDATE=`date +%Y%m%d`
     # Push to GH Packages
@@ -86,9 +86,8 @@ for dockerfile in ./*.Dockerfile; do
     export OS_USER_DOMAIN_NAME="Default"
     export OS_REGION_NAME="Melbourne"
 
-    swift --version
     echo "attempting upload to swift ... "
     swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
-  # fi
+  fi
 
 done

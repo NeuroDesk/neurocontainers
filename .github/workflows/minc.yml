@@ -3,18 +3,28 @@ name: minc
 on:
   push:
     paths:
+      - recipes/*
       - recipes/minc/*
       - .github/workflows/minc.yml
+      - .github/workflows/build.sh
 
   pull_request:
     paths:
+      - recipes/*
       - recipes/minc/*
       - .github/workflows/minc.yml
+      - .github/workflows/build.sh
+
 
 env:
   APPLICATION: minc
   PYTHON_VER: 3.8
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
+  OS_PASSWORD: ${{ secrets.SWIFT_OS_PASSWORD }}
+  OS_PROJECT_ID: ${{ secrets.SWIFT_OS_PROJECT_ID }}
+  OS_USERNAME: ${{ secrets.SWIFT_OS_USERNAME }}
+  OS_APPLICATION_CREDENTIAL_ID: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_ID }}
+  OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
   build:
@@ -29,5 +39,9 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Setup Singularity 
+        run: bash .github/workflows/setup_singularity.sh
+      - name: Log into Singularity Hub
+        run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
       - name: Run Recipe and Image builder
         run: bash .github/workflows/build.sh
