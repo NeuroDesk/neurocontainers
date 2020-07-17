@@ -1,18 +1,18 @@
-name: ants
+name: convert3D
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/ants/*
-      - .github/workflows/ants.yml
+      - recipes/convert3D/*
+      - .github/workflows/convert3D.yml
       - .github/workflows/build.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/ants/*
-      - .github/workflows/ants.yml
+      - recipes/convert3D/*
+      - .github/workflows/convert3D.yml
       - .github/workflows/build.sh
 
 env:

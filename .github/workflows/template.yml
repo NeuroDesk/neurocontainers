@@ -1,19 +1,19 @@
-name: ants
+name: template
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/ants/*
-      - .github/workflows/ants.yml
-      - .github/workflows/build.sh
+      - recipes/template/*
+      - .github/workflows/template.yml
+      - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/ants/*
-      - .github/workflows/ants.yml
-      - .github/workflows/build.sh
+      - recipes/template/*
+      - .github/workflows/template.yml
+      - .github/workflows/*.sh
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
