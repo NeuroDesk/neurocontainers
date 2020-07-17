@@ -33,5 +33,5 @@ jobs:
         run: bash .github/workflows/setup_singularity.sh
       - name: Log into Singularity Hub
         run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
-      - name: Run Recipe and Image builder
+      - name: Run Recipe and Image builder + Upload to docker, github and singularity registry
         run: bash .github/workflows/build.sh

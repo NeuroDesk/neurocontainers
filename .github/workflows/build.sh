@@ -64,6 +64,7 @@ for dockerfile in ./*.Dockerfile; do
     fi
 
     # Push to https://cloud.sylabs.io/library/caid
+    echo "Attempting to push image to singularity hub"
     singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
     singularity push $IMAGENAME_$BUILDDATE.sif library://caid/default/
 
