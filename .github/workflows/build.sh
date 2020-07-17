@@ -44,7 +44,7 @@ for dockerfile in ./*.Dockerfile; do
   ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 
   # Tag and Push if new image RootFS differs from cached image
-  if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
+  # if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
       echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
     else
       echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
@@ -70,7 +70,6 @@ for dockerfile in ./*.Dockerfile; do
   #   git add container_list.txt
   #   git commit -m "$GITHUB_SHA"
   #   git push github HEAD:${GITHUB_REF}
-  fi
 
    # Push to https://cloud.sylabs.io/library/caid
     # This might work one day, but currently this registry just sucks! (11GB of storage and slow)
@@ -82,11 +81,13 @@ for dockerfile in ./*.Dockerfile; do
     pip install python-swiftclient
     #configure swift
     export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
-    export OS_AUTH_TYPE=password
+    export OS_AUTH_TYPE=v3applicationcredential
     export OS_PROJECT_NAME="CAI_Container_Builder"
     export OS_USER_DOMAIN_NAME="Default"
     export OS_REGION_NAME="Melbourne"
 
+    echo "attempting upload to swift ... "
     swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
+  # fi
 
 done

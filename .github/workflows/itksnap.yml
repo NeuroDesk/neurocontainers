@@ -3,13 +3,17 @@ name: itksnap
 on:
   push:
     paths:
+      - recipes/*
       - recipes/itksnap/*
       - .github/workflows/itksnap.yml
+      - .github/workflows/build.sh
 
   pull_request:
     paths:
+      - recipes/*
       - recipes/itksnap/*
       - .github/workflows/itksnap.yml
+      - .github/workflows/build.sh
 
 env:
   APPLICATION: itksnap
