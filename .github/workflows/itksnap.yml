@@ -15,6 +15,9 @@ env:
   APPLICATION: itksnap
   PYTHON_VER: 3.8
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
+  OS_PASSWORD: ${{ secrets.SWIFT_OS_PASSWORD }}
+  OS_PROJECT_ID: ${{ secrets.SWIFT_OS_PROJECT_ID }}
+  OS_USERNAME: ${{ secrets.SWIFT_OS_USERNAME }}
 
 jobs:
   build:
