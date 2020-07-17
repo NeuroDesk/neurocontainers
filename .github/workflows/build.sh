@@ -46,7 +46,7 @@ for dockerfile in ./*.Dockerfile; do
   # Tag and Push if new image RootFS differs from cached image
   # if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
       echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
-    else
+    # else
       echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
     export BUILDDATE=`date +%Y%m%d`
     # Push to GH Packages
