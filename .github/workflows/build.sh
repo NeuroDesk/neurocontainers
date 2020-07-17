@@ -75,17 +75,18 @@ for dockerfile in ./*.Dockerfile; do
     # This might work one day, but currently this registry just sucks! (11GB of storage and slow)
     echo "Attempting to push image to singularity hub"
     singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
-    singularity push $IMAGENAME_$BUILDDATE.sif library://caid/default/
+    singularity push ${IMAGENAME}_${BUILDDATE}.sif library://caid/default/
 
 
     pip install python-swiftclient
     #configure swift
     export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
-    export OS_AUTH_TYPE=v3applicationcredential
+    export OS_AUTH_TYPE=password
     export OS_PROJECT_NAME="CAI_Container_Builder"
     export OS_USER_DOMAIN_NAME="Default"
     export OS_REGION_NAME="Melbourne"
 
+    swift --version
     echo "attempting upload to swift ... "
     swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
   # fi
