@@ -18,7 +18,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: centos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -30,7 +30,6 @@ jobs:
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Log into Singularity Hub
-        run: cat /etc/os-release
-        run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
+        run: yum install singularity && echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
       - name: Run Recipe and Image builder
         run: bash .github/workflows/build.sh
