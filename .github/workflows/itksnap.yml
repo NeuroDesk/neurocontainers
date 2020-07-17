@@ -1,7 +1,7 @@
 name: itksnap
 
 on:
-  [push, pull_request]:
+  push, pull_request:
     paths:
       - recipes/*
       - recipes/itksnap/*
