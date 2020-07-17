@@ -45,8 +45,8 @@ for dockerfile in ./*.Dockerfile; do
 
   # Tag and Push if new image RootFS differs from cached image
   if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
-  #     echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
-  # else
+      echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
+  else
       echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
     export BUILDDATE=`date +%Y%m%d`
     # Push to GH Packages
@@ -59,7 +59,7 @@ for dockerfile in ./*.Dockerfile; do
     if [ -n "$DOCKERHUB_ORG" ]; then
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
-      docker push $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+      docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
       docker push $DOCKERHUB_ORG/$IMAGENAME:latest
     fi
 
@@ -71,11 +71,25 @@ for dockerfile in ./*.Dockerfile; do
   #   git commit -m "$GITHUB_SHA"
   #   git push github HEAD:${GITHUB_REF}
 
+ if curl --output /dev/null --silent --head --fail "https://swift.rc.nectar.org.au:8888/v1/AUTH_d6165cc7b52841659ce8644df1884d5e/singularityImages/${IMAGENAME}_${BUILDDATE}.sif"; then
+    echo "${IMAGENAME}_${BUILDDATE}.sif exists"
+  else
+    echo "check space:"
+    df -h
+
+    echo "cleanup:"
+    docker rmi $(docker image ls -aq)
+
+    echo "check space:"
+    df -h
+
+    echo "build singularity container"
+    singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+
    # Push to https://cloud.sylabs.io/library/caid
     # This might work one day, but currently this registry just sucks! (11GB of storage and slow)
-    echo "Attempting to push image to singularity hub"
-    singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
-    singularity push -U ${IMAGENAME}_${BUILDDATE}.sif library://caid/default/
+    # echo "Attempting to push image to singularity hub"
+    # singularity push -U ${IMAGENAME}_${BUILDDATE}.sif library://caid/
 
 
     pip install python-swiftclient python-keystoneclient
@@ -88,6 +102,7 @@ for dockerfile in ./*.Dockerfile; do
 
     echo "attempting upload to swift ... "
     swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
+    fi
   fi
 
 done
