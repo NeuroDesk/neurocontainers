@@ -78,7 +78,7 @@ for dockerfile in ./*.Dockerfile; do
     singularity push ${IMAGENAME}_${BUILDDATE}.sif library://caid/default/
 
 
-    pip install python-swiftclient
+    pip install python-swiftclient python-keystoneclient
     #configure swift
     export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
     export OS_AUTH_TYPE=v3applicationcredential
