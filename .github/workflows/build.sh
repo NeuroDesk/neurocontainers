@@ -63,6 +63,10 @@ for dockerfile in ./*.Dockerfile; do
       docker push $DOCKERHUB_ORG/$IMAGENAME:latest
     fi
 
+    # Push to https://cloud.sylabs.io/library/caid
+    singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+    singularity push $IMAGENAME_$BUILDDATE.sif library://caid/default/
+
   #   # Write Container List (avoid merge conflicts for now?)
   #   git pull github ${GITHUB_REF}
   #   echo $IMAGENAME >> container_list.txt
