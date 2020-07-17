@@ -6,14 +6,14 @@ on:
       - recipes/*
       - recipes/template/*
       - .github/workflows/template.yml
-      - .github/workflows/build.sh
+      - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
       - recipes/template/*
       - .github/workflows/template.yml
-      - .github/workflows/build.sh
+      - .github/workflows/*.sh
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
