@@ -45,8 +45,8 @@ for dockerfile in ./*.Dockerfile; do
 
   # Tag and Push if new image RootFS differs from cached image
   if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
-      echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
-  else
+  #     echo "Skipping push to registry. No changes found in $IMAGEID:$SHORT_SHA"
+  # else
       echo "Pushing to registry. Changes found in $IMAGEID:$SHORT_SHA"
     export BUILDDATE=`date +%Y%m%d`
     # Push to GH Packages
@@ -75,7 +75,7 @@ for dockerfile in ./*.Dockerfile; do
     # This might work one day, but currently this registry just sucks! (11GB of storage and slow)
     echo "Attempting to push image to singularity hub"
     singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
-    singularity push ${IMAGENAME}_${BUILDDATE}.sif library://caid/default/
+    singularity push -U ${IMAGENAME}_${BUILDDATE}.sif library://caid/default/
 
 
     pip install python-swiftclient python-keystoneclient
