@@ -1,0 +1,88 @@
+name: lashis
+
+on:
+  push:
+    paths:
+      - recipes/*
+      - recipes/lashis/*
+      - .github/workflows/lashis.yml
+      - .github/workflows/build.sh
+ 
+  pull_request:
+    paths:
+      - recipes/*
+      - recipes/lashis/*
+      - .github/workflows/lashis.yml
+      - .github/workflows/build.sh
+
+env:
+  DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
+  OS_PASSWORD: ${{ secrets.SWIFT_OS_PASSWORD }}
+  OS_PROJECT_ID: ${{ secrets.SWIFT_OS_PROJECT_ID }}
+  OS_USERNAME: ${{ secrets.SWIFT_OS_USERNAME }}
+  OS_APPLICATION_CREDENTIAL_ID: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_ID }}
+  OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    outputs:
+      BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
+      IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set environment variables
+        id: ENVVARS
+        run: |
+          APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
+          SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+          BUILDDATE=`date +%Y%m%d`
+          echo "::set-env name=APPLICATION::$APPLICATION"
+          echo "::set-env name=SHORT_SHA::$SHORT_SHA"
+          echo "::set-env name=BUILDDATE::$BUILDDATE"
+          echo "::set-output name=BUILDDATE::$BUILDDATE"
+  
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name : Build recipes
+        run: |
+          cd recipes/$APPLICATION
+          /bin/bash build.sh
+
+      - name: Set image variables
+        id: IMAGEVARS
+        run: |
+          GHPACKAGE_ORG=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+          IMAGELIST=()
+          for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
+            IMAGELIST+=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+          done
+          echo "::set-env name=GHPACKAGE_ORG::$GHPACKAGE_ORG"
+          echo "::set-env name=IMAGELIST::$IMAGELIST"
+          echo "::set-output name=IMAGELIST::$IMAGELIST"
+      - name: Log into Github Package registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: env.DOCKERHUB_ORG != ''
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Free up disk space on runner (optional)
+        if: env.APPLICATION == 'fsl'
+        run: bash .github/workflows/free-up-space.sh
+      - name : Run docker builder + Upload to docker and github registry
+        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh; done
+
+  build-singularity:
+    runs-on: ubuntu-latest
+    needs: build-docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Singularity 
+        run: bash .github/workflows/setup_singularity.sh
+      - name: Log into Singularity Hub
+        run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
+      - name : Run singularity builder + Upload singularity registry
+        run: | 
+          BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
+          IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
+          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh; done
