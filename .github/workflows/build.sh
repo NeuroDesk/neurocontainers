@@ -81,7 +81,7 @@ for dockerfile in ./*.Dockerfile; do
     pip install python-swiftclient
     #configure swift
     export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
-    export OS_AUTH_TYPE=password
+    export OS_AUTH_TYPE=v3applicationcredential
     export OS_PROJECT_NAME="CAI_Container_Builder"
     export OS_USER_DOMAIN_NAME="Default"
     export OS_REGION_NAME="Melbourne"
