@@ -22,6 +22,8 @@ env:
   OS_PASSWORD: ${{ secrets.SWIFT_OS_PASSWORD }}
   OS_PROJECT_ID: ${{ secrets.SWIFT_OS_PROJECT_ID }}
   OS_USERNAME: ${{ secrets.SWIFT_OS_USERNAME }}
+  SWIFT_CREDENTIAL_ID: ${{ secrets.SWIFT_CREDENTIAL_ID }}
+  SWIFT_CREDENTIAL_SECRET: ${{ secrets.SWIFT_CREDENTIAL_ID }}
 
 jobs:
   build:
