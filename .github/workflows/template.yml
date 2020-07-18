@@ -75,7 +75,7 @@ jobs:
     needs: build-docker
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Singularity 
+      # - name: Setup Singularity 
         # run: bash .github/workflows/setup_singularity.sh
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
