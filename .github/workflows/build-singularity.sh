@@ -13,8 +13,10 @@ else
     REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
     IMAGEID="$REGISTRY/$IMAGENAME"
 
+    # Pulling latest singularity build
+    docker pull $REGISTRY/singularity
     echo "build singularity container"
-    singularity pull docker://$IMAGEID:$BUILDDATE
+    docker run $REGISTRY/singularity pull docker://$IMAGEID:$BUILDDATE
 
     pip install python-swiftclient python-keystoneclient
     #configure swift
