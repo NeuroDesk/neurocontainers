@@ -53,12 +53,10 @@ jobs:
       - name: Set image variables
         id: IMAGEVARS
         run: |
-          GHPACKAGE_ORG=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
           IMAGELIST=()
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
             IMAGELIST+=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
           done
-          echo "::set-env name=GHPACKAGE_ORG::$GHPACKAGE_ORG"
           echo "::set-env name=IMAGELIST::$IMAGELIST"
           echo "::set-output name=IMAGELIST::$IMAGELIST"
       - name: Log into Github Package registry
