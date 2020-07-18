@@ -2,17 +2,21 @@
 if curl --output /dev/null --silent --head --fail "https://swift.rc.nectar.org.au:8888/v1/AUTH_d6165cc7b52841659ce8644df1884d5e/singularityImages/${IMAGENAMENAME}_${BUILDDATE}.sif"; then
     echo "${IMAGENAME}_${BUILDDATE}.sif exists"
 else
-    echo "check space:"
-    df -h
+#     echo "check space:"
+#     df -h
 
-    echo "cleanup:"
-    docker rmi $(docker image ls -aq)
+#     echo "cleanup:"
+#     docker rmi $(docker image ls -aq)
 
-    echo "check space:"
-    df -h
+#     echo "check space:"
+#     df -h
+    REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+    IMAGEID="$REGISTRY/$IMAGENAME"
 
+    # Pulling latest singularity build
+    docker pull $REGISTRY/singularity
     echo "build singularity container"
-    singularity pull docker://$DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+    docker run $REGISTRY/singularity pull docker://$IMAGEID:$BUILDDATE
 
     pip install python-swiftclient python-keystoneclient
     #configure swift
