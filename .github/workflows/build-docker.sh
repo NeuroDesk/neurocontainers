@@ -1,21 +1,22 @@
 #!/bin/bash
 
-# Loop through Local Dockerfiles
-# Build and Push Dockerfile images
-
+echo "[DEBUG] recipes/$APPLICATION"
 cd recipes/$APPLICATION
 
 IMAGENAME=$1
 REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
 IMAGEID="$REGISTRY/$IMAGENAME"
+echo "[DEBUG] IMAGENAME: $IMAGENAME"
+echo "[DEBUG] REGISTRY: $REGISTRY"
+echo "[DEBUG] IMAGEID: $IMAGEID"
 
-# Pull latest image from GH Packages
+echo "[DEBUG] Pulling $IMAGEID"
 {
   docker pull $IMAGEID \
     && ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
-} || echo "$IMAGEID not found. Resuming      build..."
+} || echo "$IMAGEID not found. Resuming build..."
 
-# Build image
+echo "[DEBUG] Docker build ..."
 docker build . --file $IMAGENAME --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
 
 # Get image RootFS to check for changes
