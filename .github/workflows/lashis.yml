@@ -6,14 +6,14 @@ on:
       - recipes/*
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/build.sh
+      - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/build.sh
+      - .github/workflows/*.sh
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
@@ -47,18 +47,19 @@ jobs:
           python-version: 3.8
       - name : Build recipes
         run: |
+          echo "APPLICATION: $APPLICATION"
           cd recipes/$APPLICATION
           /bin/bash build.sh
 
       - name: Set image variables
         id: IMAGEVARS
         run: |
-          GHPACKAGE_ORG=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
           IMAGELIST=()
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
-            IMAGELIST+=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+            IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+            echo "IMAGENAME: $IMAGENAME"
+            IMAGELIST+=$IMAGENAME
           done
-          echo "::set-env name=GHPACKAGE_ORG::$GHPACKAGE_ORG"
           echo "::set-env name=IMAGELIST::$IMAGELIST"
           echo "::set-output name=IMAGELIST::$IMAGELIST"
       - name: Log into Github Package registry
@@ -70,19 +71,25 @@ jobs:
         if: env.APPLICATION == 'fsl'
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
-        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh; done
+        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
 
   build-singularity:
     runs-on: ubuntu-latest
     needs: build-docker
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Singularity 
-        run: bash .github/workflows/setup_singularity.sh
-      - name: Log into Singularity Hub
-        run: echo "${{ secrets.SINGULARITY_REMOTE_LOGIN }}" | singularity remote login
+      # - name: Setup Singularity 
+        # run: bash .github/workflows/setup_singularity.sh
+      - name: Log into Github Package registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: env.DOCKERHUB_ORG != ''
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name : Run singularity builder + Upload singularity registry
         run: | 
-          BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
+          export BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
           IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
-          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh; done
+          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh $IMAGENAME; done
