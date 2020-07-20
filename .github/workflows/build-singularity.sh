@@ -10,25 +10,27 @@ else
 
 #     echo "check space:"
 #     df -h
+    echo "[DEBUG] BUILDDATE: $BUILDDATE"
+    echo "[DEBUG] DOCKERHUB_ORG: $DOCKERHUB_ORG"
     REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+    echo "[DEBUG] REGISTRY: $REGISTRY"
     IMAGEID="vnmd/$IMAGENAME"
+    echo "[DEBUG] IMAGEID: $IMAGEID"
 
-    # Pulling latest singularity build
+    echo "[DEBUG] Pulling latest build of singularity ..."
     docker pull $REGISTRY/singularity
-    echo "build singularity container"
-    echo "/home/$IMAGENAME_$BUILDDATE.sif"
+    echo "[DEBUG] Build singularity container"
     docker run -v /github/home:/home $REGISTRY/singularity build "/home/$IMAGENAME_$BUILDDATE.sif" docker://vnmd/$IMAGENAME
 
+    echo "[DEBUG] Configure for SWIFT storage"
     pip install python-swiftclient python-keystoneclient
-    #configure swift
     export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v3/
     export OS_AUTH_TYPE=v3applicationcredential
     export OS_PROJECT_NAME="CAI_Container_Builder"
     export OS_USER_DOMAIN_NAME="Default"
     export OS_REGION_NAME="Melbourne"
 
-    echo "attempting upload to swift ... "
-
+    echo "[DEBUG] Attempting upload to swift ..."
     if [ "$GITHUB_REF" == "refs/heads/master" ]; then
         swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
     fi
