@@ -22,8 +22,8 @@ else
     echo "[DEBUG] Pulling latest build of singularity ..."
     docker pull $REGISTRY/singularity
     echo "[DEBUG] Build singularity container ..."
-    echo "[DEBUG] docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_$BUILDDATE.sif docker://vnmd/$IMAGENAME"
-    docker run -v /github/home:/home $REGISTRY/singularity build "/home/$IMAGENAME_$BUILDDATE.sif" docker://vnmd/$IMAGENAME
+    echo "[DEBUG] docker run -v /github/home:/home $REGISTRY/singularity build /home/${IMAGENAME}_${BUILDDATE}.sif docker://vnmd/$IMAGENAME"
+    docker run -v /github/home:/home $REGISTRY/singularity build "/home/${IMAGENAME}_${BUILDDATE}.sif" docker://vnmd/$IMAGENAME
 
     echo "[DEBUG] Configure for SWIFT storage"
     pip install python-swiftclient python-keystoneclient
@@ -35,6 +35,6 @@ else
 
     echo "[DEBUG] Attempting upload to swift ..."
     if [ "$GITHUB_REF" == "refs/heads/master" ]; then
-        swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
+        swift upload singularityImages /home/${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
     fi
 fi
