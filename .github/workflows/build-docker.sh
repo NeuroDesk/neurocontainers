@@ -5,6 +5,7 @@
 
 cd recipes/$APPLICATION
 
+IMAGENAME=$1
 REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
 IMAGEID="$REGISTRY/$IMAGENAME"
 
