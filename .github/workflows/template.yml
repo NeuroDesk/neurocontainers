@@ -90,7 +90,6 @@ jobs:
           python-version: 3.8
       - name : Run singularity builder + Upload singularity registry
         run: | 
-          BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
-          echo "::set-env name=BUILDDATE::$BUILDDATE"
+          export BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
           IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
           for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh $IMAGENAME; done
