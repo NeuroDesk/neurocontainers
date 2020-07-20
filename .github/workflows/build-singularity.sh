@@ -27,6 +27,7 @@ else
 
     echo "[DEBUG] Attempting upload to swift ..."
     if [ "$GITHUB_REF" == "refs/heads/master" ]; then
+        cd $HOME
         swift upload singularityImages ${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
     fi
 fi
