@@ -17,7 +17,7 @@ echo "[DEBUG] Pulling $IMAGEID"
 } || echo "$IMAGEID not found. Resuming build..."
 
 echo "[DEBUG] Docker build ..."
-docker build . --file $IMAGENAME --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
+docker build . --file ${IMAGENAME}.Dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
 
 echo "[DEBUG] # Get image RootFS to check for changes ..."
 ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
