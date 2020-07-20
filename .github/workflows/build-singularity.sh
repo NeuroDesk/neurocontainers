@@ -14,12 +14,15 @@ else
     echo "[DEBUG] DOCKERHUB_ORG: $DOCKERHUB_ORG"
     REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
     echo "[DEBUG] REGISTRY: $REGISTRY"
+    IMAGENAME=$1
+    echo "[DEBUG] IMAGENAME: $IMAGENAME"
     IMAGEID="vnmd/$IMAGENAME"
     echo "[DEBUG] IMAGEID: $IMAGEID"
 
     echo "[DEBUG] Pulling latest build of singularity ..."
     docker pull $REGISTRY/singularity
-    echo "[DEBUG] Build singularity container"
+    echo "[DEBUG] Build singularity container ..."
+    echo "[DEBUG] "docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_$BUILDDATE.sif docker://vnmd/$IMAGENAME"
     docker run -v /github/home:/home $REGISTRY/singularity build "/home/$IMAGENAME_$BUILDDATE.sif" docker://vnmd/$IMAGENAME
 
     echo "[DEBUG] Configure for SWIFT storage"
