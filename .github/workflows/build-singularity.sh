@@ -22,7 +22,7 @@ else
     echo "[DEBUG] Pulling latest build of singularity ..."
     docker pull $REGISTRY/singularity
     echo "[DEBUG] Build singularity container ..."
-    echo "[DEBUG] "docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_$BUILDDATE.sif docker://vnmd/$IMAGENAME"
+    echo "[DEBUG] docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_$BUILDDATE.sif docker://vnmd/$IMAGENAME"
     docker run -v /github/home:/home $REGISTRY/singularity build "/home/$IMAGENAME_$BUILDDATE.sif" docker://vnmd/$IMAGENAME
 
     echo "[DEBUG] Configure for SWIFT storage"
