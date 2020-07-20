@@ -47,6 +47,7 @@ jobs:
           python-version: 3.8
       - name : Build recipes
         run: |
+          echo "APPLICATION: $APPLICATION"
           cd recipes/$APPLICATION
           /bin/bash build.sh
 
@@ -55,7 +56,9 @@ jobs:
         run: |
           IMAGELIST=()
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
-            IMAGELIST+=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+            IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+            echo "IMAGENAME: $IMAGENAME"
+            IMAGELIST+=$IMAGENAME
           done
           echo "::set-env name=IMAGELIST::$IMAGELIST"
           echo "::set-output name=IMAGELIST::$IMAGELIST"
