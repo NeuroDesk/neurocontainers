@@ -68,7 +68,7 @@ jobs:
         if: env.APPLICATION == 'fsl'
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
-        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh; done
+        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
 
   build-singularity:
     runs-on: ubuntu-latest
@@ -89,4 +89,4 @@ jobs:
         run: | 
           BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
           IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
-          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh; done
+          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh $IMAGENAME; done
