@@ -11,7 +11,7 @@ else
 #     echo "check space:"
 #     df -h
     REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
-    IMAGEID="$DOCKERHUB_ORG/$IMAGENAME"
+    IMAGEID="vnmd/$IMAGENAME"
 
     # Pulling latest singularity build
     docker pull $REGISTRY/singularity
