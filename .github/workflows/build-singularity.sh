@@ -16,7 +16,8 @@ else
     # Pulling latest singularity build
     docker pull $REGISTRY/singularity
     echo "build singularity container"
-    docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_${BUILDDATE}.sif docker://vnmd/$IMAGENAME
+    echo "/home/$IMAGENAME_$BUILDDATE.sif"
+    docker run -v /github/home:/home $REGISTRY/singularity build "/home/$IMAGENAME_$BUILDDATE.sif" docker://vnmd/$IMAGENAME
 
     pip install python-swiftclient python-keystoneclient
     #configure swift
