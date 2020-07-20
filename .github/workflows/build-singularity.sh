@@ -16,7 +16,7 @@ else
     # Pulling latest singularity build
     docker pull $REGISTRY/singularity
     echo "build singularity container"
-    docker run $REGISTRY/singularity pull docker://$IMAGEID:$BUILDDATE
+    docker run $REGISTRY/singularity pull docker://$IMAGEID
 
     pip install python-swiftclient python-keystoneclient
     #configure swift
