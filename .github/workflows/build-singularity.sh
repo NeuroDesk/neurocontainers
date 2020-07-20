@@ -16,7 +16,7 @@ else
     # Pulling latest singularity build
     docker pull $REGISTRY/singularity
     echo "build singularity container"
-    docker run -v /github/home:/home $REGISTRY/singularity build /home/itksnap_3.8.0_${BUILDDATE}.sif docker://vnmd/itksnap_3.8.0
+    docker run -v /github/home:/home $REGISTRY/singularity build /home/$IMAGENAME_${BUILDDATE}.sif docker://vnmd/$IMAGENAME
 
     pip install python-swiftclient python-keystoneclient
     #configure swift
