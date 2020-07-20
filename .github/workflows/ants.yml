@@ -78,8 +78,12 @@ jobs:
     needs: build-docker
     steps:
       - uses: actions/checkout@v2
-      # - name: Setup Singularity 
-        # run: bash .github/workflows/setup_singularity.sh
+      - name: Set environment variables
+        run: |
+          APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
+          BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
+          echo "::set-env name=APPLICATION::$APPLICATION"
+          echo "::set-env name=BUILDDATE::$BUILDDATE"
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
@@ -93,6 +97,5 @@ jobs:
           python-version: 3.8
       - name : Run singularity builder + Upload singularity registry
         run: | 
-          export BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
           IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
           for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh $IMAGENAME; done
