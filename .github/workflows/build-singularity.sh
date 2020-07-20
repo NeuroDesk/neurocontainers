@@ -35,6 +35,6 @@ else
 
     echo "[DEBUG] Attempting upload to swift ..."
     if [ "$GITHUB_REF" == "refs/heads/master" ]; then
-        swift upload singularityImages /home/${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
+        swift upload singularityImages /github/home/${IMAGENAME}_${BUILDDATE}.sif --segment-size 1073741824
     fi
 fi
