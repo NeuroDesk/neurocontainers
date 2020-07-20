@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
-  > ${imageName}.${neurodocker_buildExt}
+  > template.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
