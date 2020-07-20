@@ -79,6 +79,9 @@ jobs:
         # run: bash .github/workflows/setup_singularity.sh
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: env.DOCKERHUB_ORG != ''
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
