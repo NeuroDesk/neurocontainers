@@ -1,18 +1,18 @@
-name: mrtrix3
+name: template
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/mrtrix3/*
-      - .github/workflows/mrtrix3.yml
+      - recipes/template/*
+      - .github/workflows/template.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/mrtrix3/*
-      - .github/workflows/mrtrix3.yml
+      - recipes/template/*
+      - .github/workflows/template.yml
       - .github/workflows/*.sh
 
 env:
