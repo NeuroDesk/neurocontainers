@@ -14,6 +14,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --miniconda create_env=neuro conda_install='python=3.6' \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --user=neuro \
   > ${imageName}.Dockerfile
