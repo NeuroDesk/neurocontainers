@@ -17,3 +17,4 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --user=neuro \
   > ${imageName}.Dockerfile
+
