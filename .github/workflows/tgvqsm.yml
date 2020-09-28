@@ -1,18 +1,18 @@
-name: tgv_qsm
+name: tgvqsm
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/tgv_qsm/*
-      - .github/workflows/tgv_qsm.yml
+      - recipes/tgvqsm/*
+      - .github/workflows/tgvqsm.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/tgv_qsm/*
-      - .github/workflows/tgv_qsm.yml
+      - recipes/tgvqsm/*
+      - .github/workflows/tgvqsm.yml
       - .github/workflows/*.sh
 
 env:
