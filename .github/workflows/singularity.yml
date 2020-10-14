@@ -24,9 +24,9 @@ jobs:
           {
             docker pull $IMAGEID \
               && ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID) \
-              && echo "::set-env name=ROOTFS_CACHE::$ROOTFS_CACHE"
+              && echo "ROOTFS_CACHE=$ROOTFS_CACHE" >> $GITHUB_ENV
           } || echo "$IMAGEID not found. Resuming build..."
-          echo "::set-env name=IMAGEID::$IMAGEID"
+          echo "IMAGEID=$IMAGEID" >> $GITHUB_ENV
       - name: Build new image
         run: |
           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
@@ -34,9 +34,9 @@ jobs:
           docker build . --file Dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
           ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
           BUILDDATE=`date +%Y%m%d`
-          echo "::set-env name=SHORT_SHA::$SHORT_SHA"
-          echo "::set-env name=ROOTFS_NEW::$ROOTFS_NEW"
-          echo "::set-env name=BUILDDATE::$BUILDDATE"
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+          echo "ROOTFS_NEW=$ROOTFS_NEW" >> $GITHUB_ENV
+          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
       - name: Push to Github packages (if changes found)
         if: env.GITHUB_REF == 'refs/heads/master' && env.ROOTFS_NEW != env.ROOTFS_CACHE
         run: |
