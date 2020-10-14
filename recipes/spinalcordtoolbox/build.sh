@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --run="curl -fsSL --retry 5 https://github.com/neuropoly/spinalcordtoolbox/archive/${toolVersion}.tar.gz | tar -xz -C /opt/ " \
-   --user=neuro \
+   --user=${toolName} \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="yes | ./install_sct" \
    --env DEPLOY_PATH=/home/neuro/sct_${toolVersion}/bin/ \
