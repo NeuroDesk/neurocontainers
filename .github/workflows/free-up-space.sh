@@ -6,6 +6,15 @@ sudo rm -f /swapfile
 sudo apt clean
 docker rmi $(docker image ls -aq)
 
+df -ha
+echo $AGENT_TOOLSDIRECTORY
+du -sh /usr/local/share/boost
+du -sh $AGENT_TOOLSDIRECTORY
+df -ha
+
+sudo rm -rf "/usr/local/share/boost"
+sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
 # Free disk space packages (about 20GB)
 sudo apt-get remove aria2 ansible azure-cli shellcheck rpm xorriso zsync \
     clang-6.0 lld-6.0 clang-format-6.0 clang-8 lld-8 clang-format-8 \
