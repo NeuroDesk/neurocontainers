@@ -27,6 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > ${toolName}_${toolVersion}.Dockerfile
 
+
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
