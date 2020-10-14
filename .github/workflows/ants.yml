@@ -82,8 +82,8 @@ jobs:
         run: |
           APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
           BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
-          echo "::set-env name=APPLICATION::$APPLICATION"
-          echo "::set-env name=BUILDDATE::$BUILDDATE"
+          echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
+          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
       - name: Log into Github Package registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
