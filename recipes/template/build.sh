@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='template'
-export toolVersion='1.0.0'
+# this template file builds itksnap and is then used as a docker base image for layer caching
+export toolName='itksnap'
+export toolVersion='3.8.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -23,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=neuro \
-  > ${toolName}-${toolVersion}.Dockerfile
+  > template.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
