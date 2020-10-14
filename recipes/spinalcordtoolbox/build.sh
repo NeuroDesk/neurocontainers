@@ -23,6 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="yes | ./install_sct" \
    --env DEPLOY_PATH=/home/neuro/sct_${toolVersion}/bin/ \
+   --env PATH=/home/neuro/sct_${toolVersion}/bin/:$PATH \
   > ${toolName}_${toolVersion}.Dockerfile
 
 
