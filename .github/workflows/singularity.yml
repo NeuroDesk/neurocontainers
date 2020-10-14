@@ -24,7 +24,7 @@ jobs:
           {
             docker pull $IMAGEID \
               && ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID) \
-              && echo "::set-env name=ROOTFS_CACHE::$ROOTFS_CACHE"
+              && echo "ROOTFS_CACHE=$ROOTFS_CACHE" >> $GITHUB_ENV
           } || echo "$IMAGEID not found. Resuming build..."
           echo "IMAGEID=$IMAGEID" >> $GITHUB_ENV
       - name: Build new image
