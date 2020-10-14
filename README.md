@@ -19,6 +19,7 @@ https://github.com/NeuroDesk/caid/packages
 * ![lashis](https://github.com/NeuroDesk/caid/workflows/lashis/badge.svg)
 * ![minc](https://github.com/NeuroDesk/caid/workflows/minc/badge.svg)
 * ![mrtrix3](https://github.com/NeuroDesk/caid/workflows/mrtrix3/badge.svg)
+* ![spinalcordtoolbox](https://github.com/NeuroDesk/caid/workflows/spinalcordtoolbox/badge.svg)
 
 
 # pull containers
