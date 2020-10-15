@@ -12,8 +12,15 @@ du -sh /usr/local/share/boost
 du -sh $AGENT_TOOLSDIRECTORY
 df -ha
 
-sudo rm -rf "/usr/local/share/boost"
-sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+# 14G	/opt
+sudo rm -rf /opt/ghc
+sudo rm -rf /opt/google
+sudo rm -rf /opt/hhvm
+sudo rm -rf /opt/hostedtoolcache
+sudo rm -rf /opt/microsoft
+sudo rm -rf /opt/mssql-tools
+sudo rm -rf /opt/python-aws-sam-cli
+sudo rm -rf /opt/runner
 
 # Free disk space packages (about 20GB)
 sudo apt-get remove aria2 ansible azure-cli shellcheck rpm xorriso zsync \
