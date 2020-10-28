@@ -4,6 +4,11 @@ set -e
 export toolName='fsl'
 export toolVersion='6.0.4'
 
+if [ "$1" != "" ]; then
+    echo "Entering Debug mode"
+    export debug="true"
+fi
+
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -15,5 +20,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fslpython/envs/fslpython/bin/ \
-   --user=neuro \
+   --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
   > ${imageName}.Dockerfile
+
+if [ "$debug" = "true" ]; then
+   ./../main_build.sh
+fi
