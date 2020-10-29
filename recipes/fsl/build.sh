@@ -19,7 +19,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fslpython/envs/fslpython/bin/ \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_BINS=fsleyes \
    --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
   > ${imageName}.Dockerfile
 
