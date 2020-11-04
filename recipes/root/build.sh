@@ -19,6 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --env DEPLOY_BINS=root \
+   --copy README.md /README.md \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
