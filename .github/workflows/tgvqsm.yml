@@ -1,18 +1,18 @@
-name: minc
+name: tgvqsm
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/tgvqsm/*
+      - .github/workflows/tgvqsm.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/tgvqsm/*
+      - .github/workflows/tgvqsm.yml
       - .github/workflows/*.sh
 
 env:

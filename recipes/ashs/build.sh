@@ -9,6 +9,7 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
+
 source ../main_setup.sh
 
 pip install --no-cache-dir git+https://github.com/NeuroDesk/neurodocker.git@stebo85/issue8 --upgrade

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='fsl'
-export toolVersion='6.0.4'
+# this template file builds itksnap and is then used as a docker base image for layer caching
+export toolName='itksnap'
+export toolVersion='3.8.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -17,12 +18,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
+   --run="curl -o /example_data.zip https://www.nitrc.org/frs/download.php/750/MRI-crop.zip " \
+   --run="unzip /example_data.zip" \
    --${toolName} version=${toolVersion} \
-   --env FSLOUTPUTTYPE=NIFTI_GZ \
+   --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
-   --env DEPLOY_BINS=fsleyes \
-   --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
-  > ${imageName}.Dockerfile
+   --user=neuro \
+  > template.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh

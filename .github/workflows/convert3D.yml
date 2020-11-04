@@ -1,18 +1,18 @@
-name: minc
+name: convert3D
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/convert3D/*
+      - .github/workflows/convert3D.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/convert3D/*
+      - .github/workflows/convert3D.yml
       - .github/workflows/*.sh
 
 env:

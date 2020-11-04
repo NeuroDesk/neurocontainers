@@ -1,18 +1,18 @@
-name: minc
+name: template
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/template/*
+      - .github/workflows/template.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/minc/*
-      - .github/workflows/minc.yml
+      - recipes/template/*
+      - .github/workflows/template.yml
       - .github/workflows/*.sh
 
 env:

@@ -19,6 +19,8 @@ https://github.com/NeuroDesk/caid/packages
 * ![lashis](https://github.com/NeuroDesk/caid/workflows/lashis/badge.svg)
 * ![minc](https://github.com/NeuroDesk/caid/workflows/minc/badge.svg)
 * ![mrtrix3](https://github.com/NeuroDesk/caid/workflows/mrtrix3/badge.svg)
+* ![spinalcordtoolbox](https://github.com/NeuroDesk/caid/workflows/spinalcordtoolbox/badge.svg)
+* ![tgvqsm](https://github.com/NeuroDesk/caid/workflows/tgvqsm/badge.svg)
 
 
 # pull containers
@@ -31,3 +33,13 @@ singularity from dockerhub
 ```
 singularity pull docker://vnmd/julia_1.4.1
 ```
+
+# Adding new recipes
+Refer to neurodocker for more information on neurodocker recipes  
+https://github.com/NeuroDesk/neurodocker  
+To add an application (e.g. _newapp_), follow these steps.
+1. Clone the repository
+1. Create the directory _newapp_ in `caid/recipes`
+2. Add a `build.sh` to `caid/recipes/newapp`
+3. Run update-builders.sh from caid. This will auto-create the CI workflow for the application
+4. git commit and push
