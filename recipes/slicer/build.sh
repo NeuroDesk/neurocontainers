@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
-   --install libpulse-dev libnss3 libglu1-mesa libsm6 libxrender1 \
+   --install libpulse-dev libnss3 libglu1-mesa libsm6 libxrender1 libxt6 \
    --env DEPLOY_PATH=/opt/Slicer-${toolVersion}-linux-amd64/bin \
    --env DEPLOY_BINS=Slicer \
    --env PATH=/usr/bin:/opt/Slicer-${toolVersion}-linux-amd64/bin:/opt/Slicer-${toolVersion}-linux-amd64 \
