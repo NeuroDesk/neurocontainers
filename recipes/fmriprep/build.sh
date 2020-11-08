@@ -2,7 +2,8 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='20.2.1'
+export toolVersion='20.2.0'
+# check if version is here: https://hub.docker.com/r/poldracklab/fmriprep/tags
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
