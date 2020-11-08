@@ -3,5 +3,5 @@ Julia was designed from the beginning for high performance. Julia programs compi
 Short example of running julia:
 julia
 
-
 More documentation can be found here: https://docs.julialang.org/en/v1/
+
