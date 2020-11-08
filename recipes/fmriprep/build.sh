@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --env DEPLOY_BINS=bids-validator \
+   --env DEPLOY_BINS=bids-validator:fmriprep \
    --copy README.md /README.md \
   > ${imageName}.Dockerfile
 
