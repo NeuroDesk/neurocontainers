@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='20.2.0'
+export toolVersion='20.2.1'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
