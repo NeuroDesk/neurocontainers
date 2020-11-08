@@ -16,3 +16,4 @@ SCT also has low-level tools:
 - NIFTI volume manipulation tools for common operations
 
 More documentation can be found here: https://spinalcordtoolbox.com/en/latest/user_section/getting-started.html
+
