@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --${toolName} version=master method="source" \
    --ants version="2.3.4" \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_PATH=/opt/${toolName}-master/bin/ \
    --copy README.md /README.md \
   > ${imageName}.Dockerfile
 
