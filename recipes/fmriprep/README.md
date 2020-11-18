@@ -34,11 +34,7 @@ fmriprep [-h] [--version] [--skip_bids_validation]
                 bids_dir output_dir {participant}
 
 example:
-fmriprep \
-  /work/04168/asdf/lonestar/ $WORK/lonestar/output \
-  participant \
-  --participant-label 387 --nthreads 16 -w $WORK/lonestar/work \
-  --omp-nthreads 16
+fmriprep replace_with_bidsdirectory replace_with_outputdirecotry participant --fs-license-file ~/.license.txt
 ```
 
 More documentation can be found here: https://mriqc.readthedocs.io/en/stable/running.html
