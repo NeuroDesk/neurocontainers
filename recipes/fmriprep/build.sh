@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='20.2.0'
+export toolVersion='20.1.3'
 # check if version is here: https://hub.docker.com/r/poldracklab/fmriprep/tags
 
 if [ "$1" != "" ]; then
