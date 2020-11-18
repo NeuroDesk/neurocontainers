@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
               conda_install='python=3.6 traits' \
               pip_install='bidscoin' \
    --dcm2niix method=source version=latest \
-   --install libgl1 libglib2.0 \
+   --install apt_opts="--quiet" libgl1 libglib2.0 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper  \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
