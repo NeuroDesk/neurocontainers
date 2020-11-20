@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
-   --env DEPLOY_BINS=spm12_glnxa64 \
+   --env DEPLOY_BINS=run_spm12.sh \
    --env PATH=/opt/spm12-r7219/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile

@@ -5,7 +5,7 @@ SPM12 standalone with Matlab Compiler Runtime
 
 Example:
 ```
-spm12_glnxa64
+run_spm12.sh /opt/matlabmcr-2010a/
 ```
 
 More documentation can be found here: https://www.fil.ion.ucl.ac.uk/spm/doc/
