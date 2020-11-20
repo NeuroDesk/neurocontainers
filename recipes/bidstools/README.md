@@ -15,6 +15,11 @@ deface
 dicomsort
 pydeface
 rawmapper
+
+convert dicom to bids:
+dicomsort dicomfolder/sub-folder -r -e .IMA
+bidsmapper dicomfolder bidsoutputfolder
+bidscoiner dicomfolder bidsoutputfolder
 ```
 
 More documentation can be found here:
