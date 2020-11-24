@@ -17,7 +17,7 @@ echo "FROM gentoo/stage3" > ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN chmod +x /usr/bin/ll" >> ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN mkdir ${mountPointList}" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN emerge --sync" >> ${toolName}_${toolVersion}.Dockerfile
-echo "RUN emerge --verbose dev-vcs/git" >> ${toolName}_${toolVersion}.Dockerfile
+echo "RUN emerge dev-vcs/git" >> ${toolName}_${toolVersion}.Dockerfile
 echo "WORKDIR /etc/portage/repos.conf/" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN wget https://gitweb.gentoo.org/proj/sci.git/plain/metadata/science.conf -O /etc/portage/repos.conf/science" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN emaint sync --repo science" >> ${toolName}_${toolVersion}.Dockerfile
@@ -27,7 +27,7 @@ echo "RUN emaint sync --repo science" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN echo 'ACCEPT_KEYWORDS=\"~amd64\"' >> /etc/portage/make.conf" >> ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN  emerge --sync" >> ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN  emerge -vDNu world" >> ${toolName}_${toolVersion}.Dockerfile
-echo "RUN emerge -v samri --autounmask-continue" >> ${toolName}_${toolVersion}.Dockerfile
+echo "RUN emerge samri --autounmask-continue" >> ${toolName}_${toolVersion}.Dockerfile
 
 # https://github.com/IBT-FMI/SAMRI/issues/102/ 
 

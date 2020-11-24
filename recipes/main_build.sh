@@ -11,7 +11,7 @@ if [ "$buildMode" = "docker_singularity" ]; then
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
               echo "---------------------------"
-              sudo docker run -it --security-opt seccomp=unconfined ${imageName}:$buildDate
+              sudo docker run -it ${imageName}:$buildDate
        fi
 
        echo "uploading docker image now:"
