@@ -25,8 +25,8 @@ echo "RUN emaint sync --repo science" >> ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN printf '*/*::science ~%s' "$(portageq envvar ARCH)" >> /etc/portage/package.accept_keywords/SCIENCE" >> ${toolName}_${toolVersion}.Dockerfile
 # echo "RUN printf '*/*::gentoo ~%s' "$(portageq envvar ARCH)" >> /etc/portage/package.accept_keywords/GENTOO" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN echo 'ACCEPT_KEYWORDS=\"~amd64\"' >> /etc/portage/make.conf" >> ${toolName}_${toolVersion}.Dockerfile
-echo "RUN  emerge --sync" >> ${toolName}_${toolVersion}.Dockerfile
-echo "RUN  emerge -vaDNu world" >> ${toolName}_${toolVersion}.Dockerfile
+# echo "RUN  emerge --sync" >> ${toolName}_${toolVersion}.Dockerfile
+# echo "RUN  emerge -vDNu world" >> ${toolName}_${toolVersion}.Dockerfile
 echo "RUN emerge -v samri --autounmask-continue" >> ${toolName}_${toolVersion}.Dockerfile
 
 # https://github.com/IBT-FMI/SAMRI/issues/102/ 
