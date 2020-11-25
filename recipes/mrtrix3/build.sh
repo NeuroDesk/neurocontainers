@@ -2,7 +2,12 @@
 set -e
 
 export toolName='mrtrix3'
-export toolVersion='3.0.1'
+export toolVersion='3.0.2'
+
+if [ "$1" != "" ]; then
+    echo "Entering Debug mode"
+    export debug="true"
+fi
 
 source ../main_setup.sh
 
@@ -13,5 +18,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version="2.3.4" \
    --install dbus-x11 \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --copy README.md /README.md \
    --user=neuro \
   > ${imageName}.Dockerfile
+
+if [ "$debug" = "true" ]; then
+   ./../main_build.sh
+fi
