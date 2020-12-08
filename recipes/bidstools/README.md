@@ -20,6 +20,9 @@ convert dicom to bids:
 dicomsort dicomfolder/sub-folder -r -e .IMA
 bidsmapper dicomfolder bidsoutputfolder
 bidscoiner dicomfolder bidsoutputfolder
+
+also contains Bru2Nii: https://github.com/neurolabusc/Bru2Nii
+Bru2 -o /Users/cr/dir2/out /Users/cr/dir/acqp
 ```
 
 More documentation can be found here:
