@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --miniconda use_env=base \
               conda_install='python=3.7 nipy nilearn traits argh joblib matplotlib numpy pandas scipy seaborn statsmodels nipype' \
-              pip_install='nibabel scikit-image pybids=0.6.5 pynrrd' \
+              pip_install='nibabel scikit-image pybids==0.6.5 pynrrd' \
    --install git zip wget libgtk2.0-0 blender \
    --workdir /opt \
    --run="git clone https://github.com/IBT-FMI/SAMRI.git" \
