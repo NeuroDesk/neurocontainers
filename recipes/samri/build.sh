@@ -32,7 +32,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/bru2 \
    --workdir /opt \
    --ants version=2.3.4 \
-   --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --run="git clone https://github.com/IBT-FMI/mouse-brain-atlases_generator.git" \
    --workdir /opt/mouse-brain-atlases_generator \
    --run="./make_archives.sh -v 0.5 -m" \
@@ -41,6 +40,7 @@ neurodocker generate ${neurodocker_buildMode} \
   > ${toolName}_${toolVersion}.Dockerfile
 
 
+   # --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
 # git clone git@github.com:TheChymera/LabbookDB.git
 # cd LabbookDB
 # python setup.py install --user
