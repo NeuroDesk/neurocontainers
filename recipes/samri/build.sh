@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds tools required for dicom conversion to bids
+# https://github.com/IBT-FMI/SAMRI
 export toolName='samri'
 export toolVersion='0.5'
 
@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:20.04 \
+   --base docker.pkg.github.com/neurodesk/caid/fsl_6.0.3:20200905 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -31,7 +31,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="unzip Bru2_Linux.zip" \
    --env PATH='$PATH':/opt/bru2 \
    --workdir /opt \
-   --fsl version=5.0.9 \
    --ants version=2.3.4 \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --run="git clone https://github.com/IBT-FMI/mouse-brain-atlases_generator.git" \
