@@ -35,12 +35,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --run="git clone https://github.com/IBT-FMI/mouse-brain-atlases_generator.git" \
    --workdir /opt/mouse-brain-atlases_generator \
-   --afni version=latest method=binaries install_r_pkgs='false' install_python3='false' \
    --env DEPLOY_BINS=SAMRI  \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
 
+   # --afni version=latest method=binaries install_r_pkgs='false' install_python3='false' \
    # --run="./make_archives.sh -v 0.5 -m" \
 # git clone git@github.com:TheChymera/LabbookDB.git
 # cd LabbookDB
