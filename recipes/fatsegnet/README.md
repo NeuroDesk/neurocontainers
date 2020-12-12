@@ -14,5 +14,5 @@ fatsegnet
 
 More documentation can be found here: https://github.com/Deep-MI/FatSegNet
 
-To run container outside of this environment: ml fatsegnet/1.0.cpu
+To run container outside of this environment: ml fatsegnet/1.0.gpu
 +++++++++++++++++++++ fatsegnet +++++++++++++++++++++++++
