@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone https://github.com/Deep-MI/FatSegNet.git" \
    --workdir /opt/FatSegNet \
    --run="mv tool /tool" \
-   --run="pip3 --no-cache-dir install pandas==0.21.0 scikit-learn==0.19.1 scipy==1.1. scikit-image==0.15.0 SimpleITK==1.1.0 nibabel==2.2.1 keras==2.2.4 numpy==1.15.4"
+   --run="pip3 --no-cache-dir install pandas==0.21.0 scikit-learn==0.19.1 scipy==1.1. scikit-image==0.15.0 SimpleITK==1.1.0 nibabel==2.2.1 keras==2.2.4 numpy==1.15.4" \
    --workdir /tool \
    --run="bash /tool/bash_profile" \
    --copy README.md /README.md \
