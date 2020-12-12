@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='root'
-export toolVersion='6.22.02'
+# Check latest version here
+# https://github.com/frankyeh/DSI-Studio/releases
+export toolName='dsistudio'
+export toolVersion='2020.10'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,14 +14,14 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base rootproject/${toolName}:$toolVersion-centos7 \
-   --pkg-manager yum \
+   --base dsistudio/dsistudio:latest \
+   --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --env DEPLOY_BINS=root \
+   --env DEPLOY_DIR=/opt/dsi-studio/dsi_studio_64 \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh

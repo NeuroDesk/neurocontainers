@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='root'
-export toolVersion='6.22.02'
+export toolName='gimp'
+export toolVersion='2.10.18'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,14 +12,15 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base rootproject/${toolName}:$toolVersion-centos7 \
-   --pkg-manager yum \
+   --base ubuntu:20.10 \
+   --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --env DEPLOY_BINS=root \
+   --install gimp gimp-data-extras gimp-dcraw gimp-dds gimp-gap \
+   --env DEPLOY_BINS=gimp \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh

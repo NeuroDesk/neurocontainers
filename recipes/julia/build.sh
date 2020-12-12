@@ -13,7 +13,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --install zlib1g-dev libzstd1 $toolName \
-   --env DEPLOY_PATH=/usr/bin/julia \
+   --env DEPLOY_BINS=julia \
    --entrypoint /usr/bin/$toolName \
-   --user=neuro \
+   --copy README.md /README.md \
   > ${imageName}.Dockerfile
