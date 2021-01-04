@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --miniconda create_env=neuro conda_install='python=3.6' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
+   --copy README.md /README.md \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
