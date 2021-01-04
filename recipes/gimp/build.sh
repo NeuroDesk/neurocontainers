@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install gimp gimp-data-extras gimp-dcraw gimp-dds gimp-gap \
+   --install apt_opts="--quiet" gtk2-engines-pixbuf gimp gimp-data-extras gimp-dcraw gimp-dds gimp-gap \
    --env DEPLOY_BINS=gimp \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
