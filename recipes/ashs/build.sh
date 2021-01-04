@@ -23,6 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --${toolName} version=${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --copy README.md /README.md \
    --user=neuro \
   > ${imageName}.${neurodocker_buildExt}
 
