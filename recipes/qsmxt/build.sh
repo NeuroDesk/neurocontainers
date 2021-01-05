@@ -12,7 +12,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base ubuntu:20.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -32,9 +32,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --workdir /opt \
+   --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev \
    --run="git clone https://github.com/QSMxT/QSMxT" \
-   --install git python3-tk python3-pip python3-dev \
-   --run="pip install nipype[all]" \
+   --run="pip3 install nipype[all]" \
    --copy README.md /README.md \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
   > ${imageName}.Dockerfile
