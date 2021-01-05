@@ -1,18 +1,18 @@
-name: template
+name: qsmxt
 
 on:
   push:
     paths:
       - recipes/*
-      - recipes/template/*
-      - .github/workflows/template.yml
+      - recipes/qsmxt/*
+      - .github/workflows/qsmxt.yml
       - .github/workflows/*.sh
  
   pull_request:
     paths:
       - recipes/*
-      - recipes/template/*
-      - .github/workflows/template.yml
+      - recipes/qsmxt/*
+      - .github/workflows/qsmxt.yml
       - .github/workflows/*.sh
 
 env:
