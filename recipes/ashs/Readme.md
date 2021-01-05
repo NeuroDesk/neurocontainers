@@ -15,7 +15,6 @@ $ASHS_ROOT/bin/ashs_main.sh -I subj001 -a /ashs_atlas_* \
    -w myworkdir/subj001
    
 ```
-
 More documentation can be found here: https://sites.google.com/view/ashs-dox/quick-start?authuser=0
 
 To run container outside of this environment: ml ashs/2.0.0
