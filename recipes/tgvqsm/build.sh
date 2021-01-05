@@ -31,6 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="/miniconda2/bin/python setup.py install" \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
+   --copy README.md /README.md \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
    --user=neuro \
   > ${imageName}.Dockerfile
