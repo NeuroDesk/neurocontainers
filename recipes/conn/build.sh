@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install apt_opts="--quiet" libc6-dev \
    --run="curl -fsSL --retry 5 -o /tmp/conn18b_glnxa64.zip https://www.nitrc.org/frs/download.php/11120/conn18b_glnxa64.zip" \
    --run="unzip -q /tmp/conn18b_glnxa64.zip -d /opt/conn-18b/" \
-   --matlabmcr version=2018a method=binaries \
+   --matlabmcr version=2018b method=binaries \
    --env DEPLOY_BINS=conn \
    --env PATH=/opt/conn-18b/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
