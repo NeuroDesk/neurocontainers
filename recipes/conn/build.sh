@@ -12,8 +12,6 @@ fi
 
 source ../main_setup.sh
 
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update_matlabMCR --upgrade
-
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:18.04 \
    --pkg-manager apt \
