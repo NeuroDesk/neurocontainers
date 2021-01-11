@@ -3,17 +3,15 @@ name: qsmxt
 on:
   push:
     paths:
-      - recipes/*
+      - recipes/globalMountPointList.txt
       - recipes/qsmxt/*
       - .github/workflows/qsmxt.yml
-      - .github/workflows/*.sh
  
   pull_request:
     paths:
-      - recipes/*
+      - recipes/globalMountPointList.txt
       - recipes/qsmxt/*
       - .github/workflows/qsmxt.yml
-      - .github/workflows/*.sh
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}

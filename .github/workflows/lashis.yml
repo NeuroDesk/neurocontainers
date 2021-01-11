@@ -3,17 +3,15 @@ name: lashis
 on:
   push:
     paths:
-      - recipes/*
+      - recipes/globalMountPointList.txt
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/*.sh
  
   pull_request:
     paths:
-      - recipes/*
+      - recipes/globalMountPointList.txt
       - recipes/lashis/*
       - .github/workflows/lashis.yml
-      - .github/workflows/*.sh
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
@@ -68,34 +66,7 @@ jobs:
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Free up disk space on runner (optional)
-        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3'
+        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3' || env.APPLICATION == 'qsmxt' || env.APPLICATION == 'mrtrix3tissue' || env.APPLICATION == 'samri'
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
-
-  build-singularity:
-    runs-on: ubuntu-latest
-    needs: build-docker
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set environment variables
-        run: |
-          APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
-          BUILDDATE=${{needs.build-docker.outputs.BUILDDATE}}
-          echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
-          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
-      - name: Log into Github Package registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
-      - name: Log into Dockerhub (optional)
-        if: env.DOCKERHUB_ORG != ''
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Free up disk space on runner (optional)
-        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3'
-        run: bash .github/workflows/free-up-space.sh
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - name : Run singularity builder + Upload singularity registry
-        run: | 
-          IMAGELIST=${{needs.build-docker.outputs.IMAGELIST}}
-          for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-singularity.sh $IMAGENAME; done
