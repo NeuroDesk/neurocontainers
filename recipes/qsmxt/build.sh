@@ -16,7 +16,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --install apt_opts="--quiet" wget unzip gcc \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh" \
    --env PATH=/miniconda2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
@@ -31,6 +31,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="/miniconda2/bin/python setup.py install" \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
+   --fsl version=6.0.1 \
+   --minc version=1.9.17 \
    --workdir /opt \
    --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev julia zlib1g-dev libzstd1 graphviz \
    --run="git clone https://github.com/QSMxT/QSMxT" \
@@ -40,8 +42,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/bru2 \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
-   --fsl version=6.0.4 \
-   --minc version=1.9.17 \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii  \
    --copy README.md /README.md \
