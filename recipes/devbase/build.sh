@@ -36,8 +36,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --install dbus-x11 \
    --fsl version=6.0.1 \
    --minc version=1.9.17 \
-   --workdir /opt \
-   --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev zlib1g-dev libzstd1 graphviz \
    --dcm2niix method=source version=latest \
   > ${imageName}.Dockerfile
 
