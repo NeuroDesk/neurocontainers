@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --workdir /opt \
-   --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev julia zlib1g-dev libzstd1 \
+   --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev julia zlib1g-dev libzstd1 graphviz \
    --run="git clone https://github.com/QSMxT/QSMxT" \
    --run="pip3 install nipype[all] bidscoin" \
    --dcm2niix method=source version=latest \
