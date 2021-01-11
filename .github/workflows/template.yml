@@ -66,7 +66,7 @@ jobs:
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Free up disk space on runner (optional)
-        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3' || env.APPLICATION == 'qsmxt' || env.APPLICATION == 'mrtrix3tissue' || env.APPLICATION == 'samri'
+        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3' || env.APPLICATION == 'devbase' || env.APPLICATION == 'qsmxt' || env.APPLICATION == 'mrtrix3tissue' || env.APPLICATION == 'samri'
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
