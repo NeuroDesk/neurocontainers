@@ -70,3 +70,5 @@ jobs:
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker-large.sh $IMAGENAME; done
+
+        
