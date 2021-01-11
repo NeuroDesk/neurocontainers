@@ -38,13 +38,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --minc version=1.9.17 \
    --workdir /opt \
    --install git python3-tk python3-numpy python3-setuptools python3-pip python3-dev zlib1g-dev libzstd1 graphviz \
-   --run="pip3 install nipype[all] bidscoin" \
    --dcm2niix method=source version=latest \
-   --install apt_opts="--quiet" wget zip libgtk2.0-0 libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
-   --workdir /opt/bru2 \
-   --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
-   --run="unzip Bru2_Linux.zip" \
-   --env PATH='$PATH':/opt/bru2 \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
