@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone https://github.com/QSMxT/QSMxT" \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii  \
-   --copy README.md /README.md \
+   --run="cp /opt/QSMxT/README.md /README.md" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
