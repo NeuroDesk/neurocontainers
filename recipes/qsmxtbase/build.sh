@@ -37,6 +37,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --fsl version=6.0.1 \
    --minc version=1.9.17 \
    --dcm2niix method=source version=latest \
+   --miniconda use_env=base \
+            conda_install='python=3.6 traits nipype' \
+            pip_install='bidscoin' \
+   --install apt_opts="--quiet" libgtk2.0-0 git graphviz wget zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
+   --workdir /opt/bru2 \
+   --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
+   --run="unzip Bru2_Linux.zip" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
