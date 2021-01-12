@@ -30,7 +30,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii  \
    --copy README.md /README.md \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env PYTHONPATH=/opt/QSMxT/ \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
