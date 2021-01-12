@@ -11,11 +11,10 @@ fi
 
 source ../main_setup.sh
 
-#
 # ubuntu:18.04 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base docker.pkg.github.com/neurodesk/caid/devbase_1.0.0:20210111 \
+   --base docker.pkg.github.com/neurodesk/caid/devbase_1.0.0:20210112 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
@@ -23,7 +22,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii  \
    --copy README.md /README.md \
-   --env PYTHONPATH=/opt/QSMxT/ \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
