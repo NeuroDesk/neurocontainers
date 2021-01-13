@@ -17,7 +17,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --base docker.pkg.github.com/neurodesk/caid/devbase_1.0.0:20210112 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
-   --itksnap version=3.8.0 \
    --workdir /opt \
    --run="git clone https://github.com/QSMxT/QSMxT" \
    --env PATH='$PATH':/opt/bru2 \
