@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='devbase'
+export toolName='qsmxtbase'
 export toolVersion='1.0.0'
 
 if [ "$1" != "" ]; then
