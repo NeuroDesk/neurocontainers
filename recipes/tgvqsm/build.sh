@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh" \
    --env PATH=/miniconda2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --run="bash Miniconda2-4.6.14-Linux-x86_64.sh -b -p /miniconda2/" \
-   --run="/miniconda2/bin/conda install -c anaconda cython==0.25.2" \
+   --run="/miniconda2/bin/conda install -c anaconda cython==0.27.3" \
    --run="/miniconda2/bin/conda install numpy" \
    --run="/miniconda2/bin/conda install pyparsing" \
    --run="/miniconda2/bin/pip install scipy==0.17.1 nibabel==2.1.0" \
