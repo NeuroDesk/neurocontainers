@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run="unzip TGVQSM-plus.zip" \
    --workdir="/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3" \
+   --copy setup.py /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run="/miniconda2/bin/python setup.py install" \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
