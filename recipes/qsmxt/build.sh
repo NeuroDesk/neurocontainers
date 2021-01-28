@@ -18,7 +18,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
-   --run="conda install -c conda-forge dicomifier" \
    --run="git clone https://github.com/QSMxT/QSMxT" \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_PATH=/opt/minc-1.9.17/bin/:/opt/minc-1.9.17/volgenmodel-nipype/extra-scripts:/opt/minc-1.9.17/pipeline:/opt/fsl-6.0.4/bin/:/opt/freesurfer-7.1.1/bin/ \
