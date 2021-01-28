@@ -33,8 +33,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --fsl version=6.0.4 exclude_paths='data' \
-   --freesurfer version=6.0.0-min \
-   --copy fs.txt /opt/freesurfer-6.0.0-min/license.txt \
+   --freesurfer version=7.1.1 \
+   --copy fs.txt /opt/freesurfer-7.1.1/license.txt \
    --env SUBJECTS_DIR=/tmp \
    --minc version=1.9.17 \
    --dcm2niix method=source version=latest \
