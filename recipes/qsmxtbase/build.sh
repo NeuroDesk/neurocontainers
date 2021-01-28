@@ -42,6 +42,7 @@ neurodocker generate ${neurodocker_buildMode} \
             conda_install='python=3.6 traits nipype' \
             pip_install='bidscoin' \
    --workdir /opt/bru2 \
+   --run="conda install -c conda-forge dicomifier" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
   > ${imageName}.Dockerfile
