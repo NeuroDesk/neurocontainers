@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/qsmxtbase/build.sh
+      - recipes/qsmxtbase/*
       - .github/workflows/qsmxtbase.yml
  
   pull_request:
