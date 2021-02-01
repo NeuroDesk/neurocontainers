@@ -11,6 +11,13 @@ fi
 
 source ../main_setup.sh
 
+# this should fix the octave bug caused by fsl installing openblas:
+# apt update
+# apt install liblapack-dev liblas-dev
+# update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3
+# update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3
+
+
 neurodocker generate ${neurodocker_buildMode} \
    --base ubuntu:18.04 \
    --pkg-manager apt \
@@ -29,6 +36,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="unzip TGVQSM-plus.zip" \
    --workdir="/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3" \
    --copy setup.py /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
+   --copy qsm_tgv_cython.py /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
+   --env PYTHONPATH=/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
    --run="/miniconda2/bin/python setup.py install" \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
@@ -45,6 +54,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="conda install -c conda-forge dicomifier" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
+    --install apt_opts="--quiet" liblapack-dev liblas-dev \
+   --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
+   --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
