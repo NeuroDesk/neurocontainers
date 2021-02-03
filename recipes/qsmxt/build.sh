@@ -12,12 +12,12 @@ fi
 source ../main_setup.sh
 
 # ubuntu:18.04 
-# docker.pkg.github.com/neurodesk/caid/qsmxtbase_1.0.0:20210201
-# vnmd/qsmxtbase_1.0.0:20210201
+# docker.pkg.github.com/neurodesk/caid/qsmxtbase_1.0.0:20210203
+# vnmd/qsmxtbase_1.0.0:20210203
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base vnmd/qsmxtbase_1.0.0:20210201 \
+   --base vnmd/qsmxtbase_1.0.0:20210203 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
