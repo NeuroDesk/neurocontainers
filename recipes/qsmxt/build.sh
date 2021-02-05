@@ -21,6 +21,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-1.5.3-linux-x86_64.tar.gz" \
+   --run="tar zxvf julia-1.5.3-linux-x86_64.tar.gz" \
+   --run="rm -rf julia-1.5.3-linux-x86_64.tar.gz" \
+   --env PATH='$PATH':/opt/julia-1.5.3/bin \
    --run="git clone https://github.com/QSMxT/QSMxT" \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_PATH=/opt/minc-1.9.17/bin/:/opt/minc-1.9.17/volgenmodel-nipype/extra-scripts:/opt/minc-1.9.17/pipeline:/opt/fsl-6.0.4/bin/:/opt/freesurfer-7.1.1/bin/ \
