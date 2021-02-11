@@ -1,6 +1,6 @@
 
 
-+++++++++++++++++++++ lashis/1.0 +++++++++++++++++++++++++
++++++++++++++++++++++ lashis/2.0 +++++++++++++++++++++++++
 Longitudinal Automatic Segmentation of Hippocampal Subfields (LASHiS) using multi-contrast MRI.
 
 The publication for this work is available at https://doi.org/10.1016/j.neuroimage.2020.116798
@@ -19,6 +19,6 @@ wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf4a04
 
 More documentation can be found here: https://github.com/thomshaw92/LASHiS
 
-To run container outside of this environment: ml lashis/1.0
-+++++++++++++++++++++ lashis/1.0 +++++++++++++++++++++++++
+To run container outside of this environment: ml lashis/2.0
++++++++++++++++++++++ lashis/2.0 +++++++++++++++++++++++++
 
