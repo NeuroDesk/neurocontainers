@@ -2,7 +2,7 @@
 set -e
 
 export toolName='lashis'
-export toolVersion=1.0
+export toolVersion=2.0
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
