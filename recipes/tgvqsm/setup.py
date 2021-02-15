@@ -49,7 +49,7 @@ def make_ext(modname, pyxfilename):
         # zero error code means everything was fine
         return result == 0
 
-    extra_compile_args = ['-O3', '-march=native']
+    extra_compile_args = ['-O3', '-march=x86-64']
     extra_link_args = []
 
     if check_for_openmp():
