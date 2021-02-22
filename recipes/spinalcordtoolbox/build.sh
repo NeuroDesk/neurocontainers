@@ -2,7 +2,7 @@
 set -e
 
 export toolName='spinalcordtoolbox'
-export toolVersion='4.3'
+export toolVersion='5.1.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
