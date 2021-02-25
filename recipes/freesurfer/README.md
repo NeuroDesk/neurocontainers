@@ -10,7 +10,7 @@ recon-all
 
 More documentation can be found here: https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
 
-Before using Freesurfer you unfortunately need to request a license here (https://surfer.nmr.mgh.harvard.edu/registration.html) and store it in your homedirectory as ~/license.txt
+Before using Freesurfer you need to request a license here (https://surfer.nmr.mgh.harvard.edu/registration.html) and store it in your homedirectory as ~/license.txt
 
 To run container outside of this environment: ml freesurfer/7.1.1
 +++++++++++++++++++++ freesurfer/7.1.1 +++++++++++++++++++++++++
