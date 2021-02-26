@@ -27,6 +27,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH=/opt/${toolName}-${toolVersion}/bin/:$PATH \
    --run="sct_deepseg -install-task seg_mice_gm-wm_dwi" \
+   --run="sct_deepseg -install-task seg_tumor-edema-cavity_t1-t2" \
+   --run="sct_deepseg -install-task seg_tumor_t2" \
+   --run="sct_deepseg -install-task seg_mice_gm" \
+   --run="sct_deepseg -install-task seg_mice_sc" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
