@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="yes | ./install_sct -i" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH=/opt/${toolName}-${toolVersion}/bin/:$PATH \
+   --run="sct_deepseg -install-task seg_mice_gm-wm_dwi" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
