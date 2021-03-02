@@ -23,7 +23,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="tar xf /opt/lcm-64.tar" \
    --run="gunzip  -c  lcm-core.tar.gz  |  tar  xf  -" \
    --install="libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl" \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/ \
+   --run="touch /opt/${toolName}-${toolVersion}/.lcmodel/license" \ 
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/ \
+   --env PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/:$PATH \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
