@@ -18,53 +18,53 @@ import numpy
 here = os.path.abspath(os.path.dirname(__file__))
 
 
-# def make_ext(modname, pyxfilename):
-#     from setuptools.extension import Extension
+def make_ext(modname, pyxfilename):
+    from setuptools.extension import Extension
 
-#     omp_test = \
-#         r"""
-#         #include <omp.h>
-#         #include <stdio.h>
-#         int main() {
-#         #pragma omp parallel
-#         printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(), omp_get_num_threads());
-#         }
-#         """
+    omp_test = \
+        r"""
+        #include <omp.h>
+        #include <stdio.h>
+        int main() {
+        #pragma omp parallel
+        printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(), omp_get_num_threads());
+        }
+        """
 
-#     def check_for_openmp():
-#         tmpdir = tempfile.mkdtemp()
-#         curdir = os.getcwd()
-#         os.chdir(tmpdir)
+    def check_for_openmp():
+        tmpdir = tempfile.mkdtemp()
+        curdir = os.getcwd()
+        os.chdir(tmpdir)
 
-#         filename = r'test.c'
-#         with open(filename, 'w') as file:
-#             file.write(omp_test)
-#         with open(os.devnull, 'w') as fnull:
-#             result = subprocess.call(['cc', '-fopenmp', filename],
-#                                      stdout=fnull, stderr=fnull)
+        filename = r'test.c'
+        with open(filename, 'w') as file:
+            file.write(omp_test)
+        with open(os.devnull, 'w') as fnull:
+            result = subprocess.call(['cc', '-fopenmp', filename],
+                                     stdout=fnull, stderr=fnull)
 
-#         os.chdir(curdir)
-#         # clean up
-#         shutil.rmtree(tmpdir)
-#         # zero error code means everything was fine
-#         return result == 0
+        os.chdir(curdir)
+        # clean up
+        shutil.rmtree(tmpdir)
+        # zero error code means everything was fine
+        return result == 0
 
-#     extra_compile_args = ['-O3', '-march=native']
-#     extra_link_args = []
+    extra_compile_args = ['-O3', '-march=x86-64']
+    extra_link_args = []
 
-#     if check_for_openmp():
-#         print("Building with OpenMP support!")
-#         extra_compile_args.append('-fopenmp')
-#         extra_link_args.append('-fopenmp')
-#     else:
-#         print("NO OpenMP support!")
+    if check_for_openmp():
+        print("Building with OpenMP support!")
+        extra_compile_args.append('-fopenmp')
+        extra_link_args.append('-fopenmp')
+    else:
+        print("NO OpenMP support!")
 
 
-#     return Extension(name=modname, sources=[pyxfilename],
-#                      extra_compile_args=extra_compile_args,
-#                      extra_link_args=extra_link_args,
-#                      include_dirs=[numpy.get_include()],
-#                      )
+    return Extension(name=modname, sources=[pyxfilename],
+                     extra_compile_args=extra_compile_args,
+                     extra_link_args=extra_link_args,
+                     include_dirs=[numpy.get_include()],
+                     )
 
 
 # Get the long description from the relevant file
@@ -72,7 +72,7 @@ with open(os.path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # Extension
-# extensions = [make_ext(modname="qsm_tgv_cython_helper", pyxfilename="TGV_QSM/qsm_tgv_cython_helper.pyx")]
+extensions = [make_ext(modname="qsm_tgv_cython_helper", pyxfilename="TGV_QSM/qsm_tgv_cython_helper.pyx")]
 
 setup(
     name='TGV_QSM',
@@ -103,7 +103,7 @@ setup(
     # We explicitly do not list nipype as a dependency here! Should be installable without nipype
     install_requires=['numpy', 'cython', 'nibabel'],
 
-    # ext_modules = cythonize(extensions),
+    ext_modules = cythonize(extensions),
 
     entry_points={
         'console_scripts': [
