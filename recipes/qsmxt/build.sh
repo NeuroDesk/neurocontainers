@@ -37,4 +37,3 @@ if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-
