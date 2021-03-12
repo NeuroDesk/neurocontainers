@@ -18,7 +18,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --install apt_opts="--quiet" wget unzip cmake make g++ \
    --workdir=/opt \
-   --run="wget --no-check-certificate https://github.com/CAIsr/niftyreg/archive/${commit_sha}.zip && unzip ${commit_sha}.zip && rm ${commit_sha}.zip && mv niftyreg-${commit_sha} src" \
+   --run="wget --no-check-certificate https://github.com/CAIsr/niftyreg/archive/${commit_sha}.zip" \
+   --run="unzip ${commit_sha}.zip && rm ${commit_sha}.zip && mv niftyreg-${commit_sha} src" \
    --run="mkdir -p build ${toolName}-${toolVersion}" \
    --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}" \
    --run="cd build && make && make install" \
@@ -26,7 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}:${PATH} \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
