@@ -20,8 +20,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt \
    --run="wget --no-check-certificate https://github.com/CAIsr/niftyreg/archive/${commit_sha}.zip && unzip ${commit_sha}.zip && rm ${commit_sha}.zip && mv niftyreg-${commit_sha} src" \
    --run="mkdir -p build ${toolName}-${toolVersion}" \
-   --run="cmake -S /opt/src -B /opt/build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg" \
-   --run="cd /opt/build && make && make install" \
+   --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}" \
+   --run="cd build && make && make install" \
+   --run="rm -rf build src" \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}:${PATH} \
