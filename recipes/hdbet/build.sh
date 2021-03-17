@@ -18,13 +18,17 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
+   --run="curl -o /example_data.nii.gz -L https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3e2d697350662be21ab?action=download&direct&version=1" \
    --install git \
    --miniconda use_env=base \
          conda_install='python=3.6' \
    --workdir /opt \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
+   --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
+   --run="echo 'folder_with_parameter_files = \"/opt/HD-BET/hd-bet_params\"' >> /opt/HD-BET/HD_BET/paths.py" \
    --workdir /opt/HD-BET \
    --run="pip install -e ." \
+   --run="hd-bet -i /example_data.nii.gz -device cpu -mode fast -tta 0" \
    --env DEPLOY_BINS=hd-bet \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
