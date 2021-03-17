@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" wget unzip gcc cmake git \
+   --install apt_opts="--quiet" wget unzip gcc cmake git g++ \
    --run="git clone https://github.com/liangfu/bet2.git" \
    --workdir /bet2/build \
    --run="cmake .. && make" \
