@@ -68,8 +68,8 @@ def make_ext(modname, pyxfilename):
 
 
 # Get the long description from the relevant file
-with open(os.path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+# with open(os.path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
+#     long_description = f.read()
 
 # Extension
 extensions = [make_ext(modname="qsm_tgv_cython_helper", pyxfilename="TGV_QSM/qsm_tgv_cython_helper.pyx")]
@@ -79,7 +79,7 @@ setup(
 
     version='0.1',
     description='A sample Python project',
-    long_description=long_description,
+    long_description='TGVQSM',
     # The project's main homepage.
     # url='https://github.com/pypa/sampleproject',
     # Author details
