@@ -17,7 +17,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" wget unzip gcc \
+   --install apt_opts="--quiet" wget unzip gcc cmake git \
+   --run="git clone https://github.com/liangfu/bet2.git" \
+   --workdir /bet2/build \
+   --run="cmake .. && make" \
+   --dcm2niix version=latest method=source \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh" \
    --env PATH=/miniconda2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --run="bash Miniconda2-4.6.14-Linux-x86_64.sh -b -p /miniconda2/" \
@@ -33,7 +37,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --copy README.md /README.md \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/:/bet2/:/opt/dcm2niix-latest/bin \
    --user=neuro \
   > ${imageName}.Dockerfile
 
