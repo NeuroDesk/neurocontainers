@@ -15,6 +15,12 @@ example for a complete directory:
 hd-bet -i INPUT_FOLDER -o OUTPUT_FOLDER -device cpu -mode fast -tta 0
 
 The options -mode fast and -tta 0 will disable test time data augmentation (speedup of 8x) and use only one model instead of an ensemble of five models for the prediction.
+
+with more time:
+hd-bet -i INPUT_FILENAME -device cpu
+
+or with a GPU:
+hd-bet -i INPUT_FILENAME
 ```
 
 More documentation can be found here: https://github.com/MIC-DKFZ/HD-BET
