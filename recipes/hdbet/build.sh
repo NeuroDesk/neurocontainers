@@ -24,6 +24,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
    --workdir /opt/HD-BET \
+   --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
+   --run="echo 'folder_with_parameter_files = \"/opt/HD-BET/hd-bet_params\"' >> /opt/HD-BET/HD_BET/paths.py" \
+   --run="mkdir -p /opt/HD-BET/hd-bet_params" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/0.model https://zenodo.org/record/2540695/files/0.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/1.model https://zenodo.org/record/2540695/files/1.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/2.model https://zenodo.org/record/2540695/files/2.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/3.model https://zenodo.org/record/2540695/files/3.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
    --copy README.md /README.md \
@@ -33,7 +41,4 @@ if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-   # --run="curl -o /opt/example_data.nii.gz -L https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3e2d697350662be21ab" \
-#   --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
-#    --run="echo 'folder_with_parameter_files = \"/opt/HD-BET/hd-bet_params\"' >> /opt/HD-BET/HD_BET/paths.py" \
-   # --run="hd-bet -i /opt/example_data.nii.gz -device cpu -mode fast -tta 0" \
+# curl -o example_data.nii.gz -L https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3e2d697350662be21ab?action=download&direct&version=1
