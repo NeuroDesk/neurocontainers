@@ -67,7 +67,7 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Read free-up-space-list.txt
         run: |
-          FREESPACELIST=$(cat .github/workflows/free-space-list.txt)
+          FREESPACELIST=$(cat .github/workflows/free-up-space-list.txt)
           echo "FREESPACELIST=$FREESPACELIST" >> $GITHUB_ENV
           echo "FREESPACEAPP=|$APPLICATION|" >> $GITHUB_ENV
       - name: Free up disk space on runner if in list (optional)
