@@ -6,12 +6,14 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/template/*
       - .github/workflows/template.yml
+      - .github/workflows/free-up-space-list.txt
  
   pull_request:
     paths:
       - recipes/globalMountPointList.txt
       - recipes/template/*
       - .github/workflows/template.yml
+      - .github/workflows/free-up-space-list.txt
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
