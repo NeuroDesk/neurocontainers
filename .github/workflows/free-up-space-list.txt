@@ -1,1 +1,1 @@
-|fsl|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|
+|template|fsl|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|
