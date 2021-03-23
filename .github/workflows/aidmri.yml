@@ -1,17 +1,17 @@
-name: julia
+name: aidmri
 
 on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/julia/*
-      - .github/workflows/julia.yml
+      - recipes/aidmri/*
+      - .github/workflows/aidmri.yml
  
   pull_request:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/julia/*
-      - .github/workflows/julia.yml
+      - recipes/aidmri/*
+      - .github/workflows/aidmri.yml
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}

@@ -6,12 +6,14 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/samri/*
       - .github/workflows/samri.yml
+      - .github/workflows/free-up-space-list.txt
  
   pull_request:
     paths:
       - recipes/globalMountPointList.txt
       - recipes/samri/*
       - .github/workflows/samri.yml
+      - .github/workflows/free-up-space-list.txt
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
@@ -65,8 +67,13 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Free up disk space on runner (optional)
-        if: env.APPLICATION == 'fsl' || env.APPLICATION == 'mrtrix3' || env.APPLICATION == 'qsmxt' || env.APPLICATION == 'mrtrix3tissue' || env.APPLICATION == 'samri'
+      - name: Read free-up-space-list.txt
+        run: |
+          FREESPACELIST=$(cat .github/workflows/free-up-space-list.txt)
+          echo "FREESPACELIST=$FREESPACELIST" >> $GITHUB_ENV
+          echo "FREESPACEAPP=|$APPLICATION|" >> $GITHUB_ENV
+      - name: Free up disk space on runner if in list (optional)
+        if: contains(env.FREESPACELIST, env.APPLICATION)
         run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done

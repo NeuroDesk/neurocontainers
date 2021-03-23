@@ -1,17 +1,17 @@
-name: julia
+name: niftyreg
 
 on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/julia/*
-      - .github/workflows/julia.yml
+      - recipes/niftyreg/*
+      - .github/workflows/niftyreg.yml
  
   pull_request:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/julia/*
-      - .github/workflows/julia.yml
+      - recipes/niftyreg/*
+      - .github/workflows/niftyreg.yml
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
