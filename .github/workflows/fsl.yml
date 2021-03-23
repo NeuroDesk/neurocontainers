@@ -30,6 +30,12 @@ jobs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
       - uses: actions/checkout@v2
       - name: Set environment variables
         id: ENVVARS
@@ -67,13 +73,13 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: env.DOCKERHUB_ORG != ''
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Read free-up-space-list.txt
-        run: |
-          FREESPACELIST=$(cat .github/workflows/free-up-space-list.txt)
-          echo "FREESPACELIST=$FREESPACELIST" >> $GITHUB_ENV
-          echo "FREESPACEAPP=|$APPLICATION|" >> $GITHUB_ENV
-      - name: Free up disk space on runner if in list (optional)
-        if: contains(env.FREESPACELIST, env.APPLICATION)
-        run: bash .github/workflows/free-up-space.sh
+      # - name: Read free-up-space-list.txt
+      #   run: |
+      #     FREESPACELIST=$(cat .github/workflows/free-up-space-list.txt)
+      #     echo "FREESPACELIST=$FREESPACELIST" >> $GITHUB_ENV
+      #     echo "FREESPACEAPP=|$APPLICATION|" >> $GITHUB_ENV
+      # - name: Free up disk space on runner if in list (optional)
+      #   if: contains(env.FREESPACELIST, env.APPLICATION)
+      #   run: bash .github/workflows/free-up-space.sh
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
