@@ -5,12 +5,24 @@ FreeSurfer contains a set of programs with a common focus of analyzing magnetic 
 
 Example:
 ```
-recon-all
+mkdir /vnm/freesurfer_output
+export SUBJECTS_DIR=/vnm/freesurfer_output
+recon-all -subject subjectname -i invol1 -all
 ```
 
 More documentation can be found here: https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
 
-Before using Freesurfer you need to request a license here (https://surfer.nmr.mgh.harvard.edu/registration.html) and store it in your homedirectory as ~/license.txt
+Before using Freesurfer you need to request a license here (https://surfer.nmr.mgh.harvard.edu/registration.html) and store it in your homedirectory as ~/.license
+
+e.g.:
+```
+echo "Steffen.Bollmann@cai.uq.edu.au
+> 21029
+>  *Cqyn12sqTCxo
+>  FSxgcvGkNR59Y" >> ~/.license
+
+export FS_LICENSE=~/.license 
+```
 
 To run container outside of this environment: ml freesurfer/7.1.1
 +++++++++++++++++++++ freesurfer/7.1.1 +++++++++++++++++++++++++
