@@ -14,5 +14,5 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --ants version=${toolVersion} \
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/ \
-   --user=neuro \
+   --copy README.md /README.md \
   > ${imageName}.Dockerfile

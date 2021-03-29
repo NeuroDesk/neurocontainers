@@ -8,20 +8,6 @@ The containers are hosted on dockerhub (https://hub.docker.com/orgs/vnmd/reposit
 
 ## currently available tools:
 https://github.com/NeuroDesk/caid/packages
-* ![afni](https://github.com/NeuroDesk/caid/workflows/afni/badge.svg)
-* ![ants](https://github.com/NeuroDesk/caid/workflows/ants/badge.svg)
-* ![ashs](https://github.com/NeuroDesk/caid/workflows/ashs/badge.svg)
-* ![convert3d](https://github.com/NeuroDesk/caid/workflows/convert3D/badge.svg)
-* ![freesurfer](https://github.com/NeuroDesk/caid/workflows/freesurfer/badge.svg)
-* ![fsl](https://github.com/NeuroDesk/caid/workflows/fsl/badge.svg)
-* ![itksnap](https://github.com/NeuroDesk/caid/workflows/itksnap/badge.svg)
-* ![julia](https://github.com/NeuroDesk/caid/workflows/julia/badge.svg)
-* ![lashis](https://github.com/NeuroDesk/caid/workflows/lashis/badge.svg)
-* ![minc](https://github.com/NeuroDesk/caid/workflows/minc/badge.svg)
-* ![mrtrix3](https://github.com/NeuroDesk/caid/workflows/mrtrix3/badge.svg)
-* ![spinalcordtoolbox](https://github.com/NeuroDesk/caid/workflows/spinalcordtoolbox/badge.svg)
-* ![tgvqsm](https://github.com/NeuroDesk/caid/workflows/tgvqsm/badge.svg)
-
 
 # pull containers
 docker
@@ -39,7 +25,7 @@ Refer to neurodocker for more information on neurodocker recipes
 https://github.com/NeuroDesk/neurodocker  
 To add an application (e.g. _newapp_), follow these steps.
 1. Clone the repository
-1. Create the directory _newapp_ in `caid/recipes`
-2. Add a `build.sh` to `caid/recipes/newapp`
-3. Run update-builders.sh from caid. This will auto-create the CI workflow for the application
-4. git commit and push
+2. Copy the directory template and rename to _newapp_ in `caid/recipes`
+3. Modify `build.sh` in `caid/recipes/newapp` to build your application
+4. Run update-builders.sh from caid. This will auto-create the CI workflow for the application (or duplicate the template file and rename all occurances of template to _newapp_)
+5. git commit and push

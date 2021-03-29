@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --env DEPLOY_DIR=/opt/dsi-studio/dsi_studio_64 \
+   --env DEPLOY_BINS=dsi_studio \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 

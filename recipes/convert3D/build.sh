@@ -14,5 +14,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --convert3d version=${toolVersion} \
    --env DEPLOY_PATH=/opt/convert3d-${toolVersion}/bin/ \
+   --copy README.md /README.md \
    --user=neuro \
   > ${imageName}.Dockerfile
