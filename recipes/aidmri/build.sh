@@ -1,6 +1,7 @@
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='aidmri'
 export toolVersion='1.1'
+export niftyreg_version='1.4.0'
 export niftyreg_commit_sha='83d8d1182ed4c227ce4764f1fdab3b1797eecd8d'
 
 if [ "$1" != "" ]; then
@@ -10,30 +11,40 @@ fi
 
 source ../main_setup.sh
 
-#TODO Add dsistudio
 neurodocker generate ${neurodocker_buildMode} \
-   --base dsistudio/dsistudio:latest \
+   --base 'ubuntu:20.04' \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --fsl version=6.0.4 exclude_paths='data' \
-   --install apt_opts="--quiet" wget unzip cmake make g++ \
+   --install apt_opts="--quiet" ca-certificates curl cmake make g++ \
    --workdir=/opt \
-   --run="wget --no-check-certificate https://github.com/aswendtlab/AIDAmri/archive/master.zip" \
-   --run="unzip AIDAmri-master.zip && rm AIDAmri-master.zip && mv AIDAmri-master src" \
-   --run="mv src/bin ./ && src/lib ./ && rm -rf src" \
-   --workdir=/opt/${toolName}-${toolVersion}/niftyreg \
-   --run="wget --no-check-certificate https://github.com/CAIsr/niftyreg/archive/${niftyreg_commit_sha}.zip" \
-   --run="unzip ${niftyreg_commit_sha}.zip && rm ${niftyreg_commit_sha}.zip && mv niftyreg-${niftyreg_commit_sha} src" \
-   --run="mkdir -p build ${toolName}-${toolVersion}" \
-   --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/niftyreg" \
+   --run="curl -fsSL --retry 5 https://github.com/aswendtlab/AIDAmri/archive/master.tar.gz | tar -xz -C ./" \
+   --run="mv AIDAmri-master ${toolName}-${toolVersion}" \
+   --workdir=/opt/niftyreg-builder \
+   --run="curl -fsSL --retry 5 https://github.com/KCL-BMEIS/niftyreg/archive/${niftyreg_commit_sha}.tar.gz | tar -xz -C ./" \
+   --run="mv niftyreg-${niftyreg_commit_sha} src && mkdir build" \
+   --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-${niftyreg_version}" \
    --run="cd build && make && make install" \
-   --run="rm -rf build src" \
+   --base dsistudio/dsistudio:latest \
+   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
+   --run="chmod +x /usr/bin/ll" \
+   --run="mkdir ${mountPointList}" \
+   --install apt_opts="--quiet" libgomp1 \
+   --fsl version=5.0.11 exclude_paths='data' \
+   --workdir=/opt/${toolName}-${toolVersion} \
+   --copy-from '0' /opt/${toolName}-${toolVersion}/bin ./bin \
+   --copy-from '0' /opt/${toolName}-${toolVersion}/lib ./lib \
+   --copy-from '0' /opt/niftyreg-${niftyreg_version} ./NiftyReg \
+   --run="echo /opt/dsi-studio/dsi_studio_64/dsi_studio > /opt/aidmri-1.1/bin/3.2_DTIConnectivity/dsi_studioPath.txt" \
+   --run="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh &&\
+ bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/miniconda3 &&\
+ rm -f Miniconda3-latest-Linux-x86_64.sh" \
+   --run="/opt/miniconda3/bin/conda init" \
+   --run="/opt/miniconda3/bin/pip install nipype==1.1.2 lmfit==0.9.11 progressbar2==3.38.0 nibabel" \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}:${PATH} \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/niftyreg/bin/ \
-   --env DEPLOY_BINS=dsi_studio:fsleyes \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
