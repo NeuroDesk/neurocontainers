@@ -59,10 +59,8 @@ jobs:
       - name: Move docker installation (optional)
         if: env.FREEUPSPACE
         run: |
-          sudo systemctl stop docker
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
-          sudo systemctl start docker
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
