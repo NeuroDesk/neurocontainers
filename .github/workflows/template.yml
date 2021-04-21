@@ -56,7 +56,13 @@ jobs:
           root-reserve-mb: 512
           swap-size-mb: 1024
           remove-dotnet: 'true'
-      - uses: actions/checkout@v2  
+      - name: Move docker installation (optional)
+        if: env.FREEUPSPACE
+        run: |
+          mkdir -p /home/runner/work/docker
+          echo 'DOCKER_OPTS="-dns 8.8.8.8 -dns 8.8.4.4 -g /home/runner/work/docker"' >> /etc/default/docker
+          service docker restart
+      - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
