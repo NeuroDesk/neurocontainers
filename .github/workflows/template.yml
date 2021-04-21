@@ -60,8 +60,7 @@ jobs:
         if: env.FREEUPSPACE
         run: |
           mkdir -p /home/runner/work/docker
-          sudo echo 'DOCKER_OPTS="-dns 8.8.8.8 -dns 8.8.4.4 -g /home/runner/work/docker"' >> /etc/default/docker
-          service docker restart
+          cat /etc/default/docker
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
