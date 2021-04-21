@@ -60,8 +60,8 @@ jobs:
         if: env.FREEUPSPACE
         run: |
           sudo systemctl stop docker
-          mv /var/lib/docker /home/runner/work/docker
-          ln -s /home/runner/work/docker /var/lib/docker
+          sudo mv /var/lib/docker /home/runner/work/docker
+          sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl start docker
           ls -l /home/runner/work/docker
       - uses: actions/checkout@v2
