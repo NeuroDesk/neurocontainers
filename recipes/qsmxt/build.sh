@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:tgv_qsm:julia  \
    --env PYTHONPATH=/opt/QSMxT:/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
    --run="cp /opt/QSMxT/README.md /README.md" \
-   --run="rm /neurodocker/startup.sh" \
+   --run="sed '/freesurfer/d' /neurodocker/startup.sh -i" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
