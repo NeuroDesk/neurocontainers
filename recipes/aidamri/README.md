@@ -1,6 +1,6 @@
 
 
-+++++++++++++++++++++ AIDAmri +++++++++++++++++++++++++
++++++++++++++++++++++ aidamri/1.1 +++++++++++++++++++++++++
 The Atlas-based Processing Pipeline for functional and structural MRI data
 (AIDAmri) was developed for automated processing of mouse brain MRI.
 AIDAmri works with T2-weighted MRI (T2w), diffusion weighted MRI or
@@ -11,4 +11,13 @@ the regions of the ARA are used as seed-points for the connectivity and
 activity matrices. The lib User-defined ROIs and masks can be generated
 separately and used for analysis, e.g. stroke lesion masks and peri-infarct
 regions.
-+++++++++++++++++++++ AIDAmri +++++++++++++++++++++++++
+
+Example:
+```
+```
+
+More documentation can be found here: https://github.com/aswendtlab/AIDAmri
+
+To run container outside of this environment: ml aidamri/1.1
++++++++++++++++++++++ aidamri/1.1 +++++++++++++++++++++++++
+
