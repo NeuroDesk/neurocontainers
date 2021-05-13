@@ -12,7 +12,7 @@ fi
 source ../main_setup.sh
 
 # Version history:
-# - 1.0.0: Release for preprint
+# - 1.0.0: Release for preprint including FS7, Minc, FSL
 # - 1.1.0: Change to Fastsurfer and replace minc with Ants
 
 # this should fix the octave bug caused by fsl installing openblas:
