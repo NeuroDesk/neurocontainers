@@ -6,14 +6,12 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/qsmxt/*
       - .github/workflows/qsmxt.yml
-      - .github/workflows/free-up-space-list.txt
  
   pull_request:
     paths:
       - recipes/globalMountPointList.txt
       - recipes/qsmxt/*
       - .github/workflows/qsmxt.yml
-      - .github/workflows/free-up-space-list.txt
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
