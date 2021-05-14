@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.0.0'
+export toolVersion='1.1.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
