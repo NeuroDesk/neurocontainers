@@ -63,13 +63,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf julia-1.5.3-linux-x86_64.tar.gz" \
    --env PATH='$PATH':/opt/julia-1.5.3/bin \
    --run="julia -e 'using Pkg; Pkg.add(\"MriResearchTools\")'" \
-   --freesurfer version=6.0.1 exclude_paths='trctrain subjects/fsaverage_sym subjects/fsaverage3 subjects/fsaverage4 subjects/fsaverage5 subjects/fsaverage6 subjects/cvs_avg35 subjects/cvs_avg35_inMNI152 subjects/bert subjects/V1_average average/mult-comp-cor lib/cuda lib/qt' \
-   --copy fs.txt /opt/freesurfer-6.0.1/license.txt \
    --install apt_opts="--quiet" liblapack-dev liblas-dev \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
+   --env FASTSURFER_HOME=/opt/FastSurfer \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
+
+#wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
+#mv 5e9bf3ab430166067ea05564\?action\=download test.nii.gz
+#./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only
