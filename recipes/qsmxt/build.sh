@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
-   --run="git clone --depth 1 --branch 210506 https://github.com/QSMxT/QSMxT" \
+   --run="git clone --depth 1 --branch 210528 https://github.com/QSMxT/QSMxT" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
    --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/ \
