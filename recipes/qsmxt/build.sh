@@ -21,9 +21,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
    --run="git clone --depth 1 --branch 210528 https://github.com/QSMxT/QSMxT" \
+   --run="pip install niflow-nipype1-workflows" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
-   --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/ \
+   --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/ \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:tgv_qsm:julia  \
    --env PYTHONPATH=/opt/QSMxT:/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
    --run="cp /opt/QSMxT/README.md /README.md" \
