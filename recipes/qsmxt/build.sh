@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.1'
+export toolVersion='1.1.2'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
-   --run="git clone --depth 1 --branch ${toolVersion} https://github.com/QSMxT/QSMxT" \
+   --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
