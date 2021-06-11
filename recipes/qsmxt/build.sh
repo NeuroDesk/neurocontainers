@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.3'
+export toolVersion='1.1.4'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -27,11 +27,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/ \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:tgv_qsm:julia  \
    --env PYTHONPATH=/opt/QSMxT:/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
-   --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /etc/bash.bashrc" \
-   --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /root/.bashrc" \
    --run="cp /opt/QSMxT/README.md /README.md" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
+
+#seems to cause problems with singularity conversion?
+   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /etc/bash.bashrc" \
+   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /root/.bashrc" \
