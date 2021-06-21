@@ -37,4 +37,4 @@ fi
 #seems to cause problems with singularity conversion?
    # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /etc/bash.bashrc" \
    # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /root/.bashrc" \
-   /opt/FastSurfer/run_fastsurfer.sh
+   # /opt/FastSurfer/run_fastsurfer.sh
