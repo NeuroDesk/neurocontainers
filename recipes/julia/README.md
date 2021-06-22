@@ -1,6 +1,6 @@
 
 
-+++++++++++++++++++++ julia/1.4.1 +++++++++++++++++++++++++
++++++++++++++++++++++ julia/toolVersion +++++++++++++++++++++++++
 Julia was designed from the beginning for high performance. Julia programs compile to efficient native code for multiple platforms via LLVM.
 
 
@@ -11,6 +11,6 @@ julia
 
 More documentation can be found here: https://docs.julialang.org/en/v1/
 
-To run container outside of this environment: ml julia/1.4.1
-+++++++++++++++++++++ julia/1.4.1 +++++++++++++++++++++++++
+To run container outside of this environment: ml julia/toolVersion
++++++++++++++++++++++ julia/toolVersion +++++++++++++++++++++++++
 
