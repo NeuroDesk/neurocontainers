@@ -16,7 +16,7 @@ if [ "$debug" = "true" ]; then
 fi
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base docker.pkg.github.com/neurodesk/caid/fsl_6.0.3:20200905 \
+   --base ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
    --pkg-manager apt \
    --${toolName} version=master method="source" \
    --ants version="2.3.4" \

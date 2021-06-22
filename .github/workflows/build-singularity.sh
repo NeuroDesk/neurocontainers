@@ -4,7 +4,7 @@ if curl --output /dev/null --silent --head --fail "https://swift.rc.nectar.org.a
 else
     echo "[DEBUG] BUILDDATE: $BUILDDATE"
     echo "[DEBUG] DOCKERHUB_ORG: $DOCKERHUB_ORG"
-    REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+    REGISTRY=$(echo ghcr.io/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
     echo "[DEBUG] REGISTRY: $REGISTRY"
     IMAGENAME=$1
     echo "[DEBUG] IMAGENAME: $IMAGENAME"
