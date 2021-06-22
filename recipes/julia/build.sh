@@ -12,7 +12,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --install zlib1g-dev libzstd1 \
+   --install zlib1g-dev libzstd1 wget \
    --workdir /opt \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-${toolVersion}-linux-x86_64.tar.gz" \
    --run="tar zxvf julia-${toolVersion}-linux-x86_64.tar.gz" \
