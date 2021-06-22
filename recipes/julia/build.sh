@@ -2,7 +2,7 @@
 set -e
 
 export toolName='julia'
-export toolVersion='1.5.3'
+export toolVersion='1.6.1'
 
 source ../main_setup.sh
 
@@ -14,7 +14,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --install zlib1g-dev libzstd1 wget \
    --workdir /opt \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-${toolVersion}-linux-x86_64.tar.gz" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${toolVersion:0:3}/julia-${toolVersion}-linux-x86_64.tar.gz" \
    --run="tar zxvf julia-${toolVersion}-linux-x86_64.tar.gz" \
    --run="rm -rf julia-${toolVersion}-linux-x86_64.tar.gz" \
    --env PATH='$PATH':/opt/julia-${toolVersion}/bin \
