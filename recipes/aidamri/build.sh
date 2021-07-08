@@ -31,12 +31,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install apt_opts="--quiet" libgomp1 \
-   --fsl version=5.0.11 exclude_paths='data' \
    --workdir=/opt/${toolName}-${toolVersion} \
    --copy-from '0' /opt/${toolName}-${toolVersion}/bin ./bin \
    --copy-from '0' /opt/${toolName}-${toolVersion}/lib ./lib \
    --copy-from '0' /opt/niftyreg-${niftyreg_version} ./NiftyReg \
-   --run="echo /opt/dsi-studio/dsi_studio_64/dsi_studio > /opt/aidmri-1.1/bin/3.2_DTIConnectivity/dsi_studioPath.txt" \
+   --run="echo /opt/dsi-studio/dsi_studio_64/dsi_studio > /opt/aidamri-1.1/bin/3.2_DTIConnectivity/dsi_studioPath.txt" \
    --miniconda use_env=base \
               pip_install='nipype==1.1.2 lmfit==0.9.11 progressbar2==3.38.0 nibabel' \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
@@ -48,3 +47,5 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
+
+   # --fsl version=5.0.11 exclude_paths='data' \
