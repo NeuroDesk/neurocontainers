@@ -12,12 +12,12 @@ https://github.com/NeuroDesk/caid/packages
 # pull containers
 docker
 ```
-docker pull vnmd/julia_1.4.1
+docker pull vnmd/julia_1.6.1
 ```
 
-singularity from dockerhub
+build singularity image from dockerhub
 ```
-singularity pull docker://vnmd/julia_1.4.1
+singularity build julia_1.6.1.simg docker://vnmd/julia_1.6.1
 ```
 
 # Adding new recipes
