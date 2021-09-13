@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ tgvqsm/1.0.0 +++++++++++++++++++++++++
+----------------------------------
+## tgvqsm/1.0.0 ##
 Quantitative susceptibility mapping allows the determination magnetic susceptibility from MRI phase data. TGV QSM is a python implementation to compute this.
 
 This container also includes bet2 for brain extraction and dcm2niix to convert dicom data to NiFTI files.
@@ -24,5 +24,5 @@ tgv_qsm \
 More documentation can be found here: http://www.neuroimaging.at/pages/qsm.php
 
 To run container outside of this environment: ml tgvqsm/1.0.0
-+++++++++++++++++++++ tgvqsm/1.0.0 +++++++++++++++++++++++++
 
+----------------------------------

@@ -1,6 +1,6 @@
 
-
-### Name_of_Container/version ###
+----------------------------------
+## Name_of_Container/version ##
 Short_description_of_container
 
 Example:

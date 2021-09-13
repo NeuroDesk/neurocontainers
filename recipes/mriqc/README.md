@@ -1,3 +1,6 @@
+
+----------------------------------
+## mriqc/0.15.2 ##
 MRIQC extracts no-reference IQMs (image quality metrics) from structural (T1w and T2w) and functional MRI (magnetic resonance imaging) data.
 
 example for running:
@@ -25,4 +28,8 @@ usage: mriqc [-h] [--version]
 ```
 
 More documentation can be found here: https://mriqc.readthedocs.io/en/stable/running.html
+
+To run applications outside of this container: ml mriqc/0.15.2
+
+----------------------------------
 

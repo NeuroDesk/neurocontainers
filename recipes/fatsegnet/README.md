@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ fatsegnet +++++++++++++++++++++++++
+----------------------------------
+## fatsegnet/1.0.gpu ##
 This contains the tool designed for the Rhineland Study for segmenting visceral and subcuteneous adipose tissue on fat images from a two-point Dixon sequence.
 
 If you use this tool please cite:
@@ -15,4 +15,5 @@ fatsegnet
 More documentation can be found here: https://github.com/Deep-MI/FatSegNet
 
 To run container outside of this environment: ml fatsegnet/1.0.gpu
-+++++++++++++++++++++ fatsegnet +++++++++++++++++++++++++
+
+----------------------------------

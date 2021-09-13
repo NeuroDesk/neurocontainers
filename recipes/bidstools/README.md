@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ bidstools +++++++++++++++++++++++++
+----------------------------------
+## bidstools/1.0.0 ##
 Contains a collection of tools needed for DICOM to BIDS conversion
 
 Example:
@@ -31,5 +31,5 @@ https://github.com/rordenlab/dcm2niix
 
 
 To run container outside of this environment: ml bidstools/1.0.0
-+++++++++++++++++++++ bidstools +++++++++++++++++++++++++
 
+----------------------------------

@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ hdbet/1.0.0 +++++++++++++++++++++++++
+----------------------------------
+## hdbet/1.0.0 ##
 HD-BET was developed with MRI-data from a large multicentric clinical trial in adult brain tumor patients acquired across 37 institutions in Europe and included a broad range of MR hardware and acquisition parameters, pathologies or treatment-induced tissue alterations. We used 2/3 of data for training and validation and 1/3 for testing. Moreover independent testing of HD-BET was performed in three public benchmark datasets (NFBS, LPBA40 and CC-359).
 HD-BET was trained with precontrast T1-w, postcontrast T1-w, T2-w and FLAIR sequences. It can perform independent brain extraction on various different MRI sequences and is not restricted to precontrast T1-weighted (T1-w) sequences. Other MRI sequences may work as well (just give it a try!)
 HD-BET was designed to be robust with respect to brain tumors, lesions and resection cavities as well as different MRI scanner hardware and acquisition parameters.
@@ -26,5 +26,5 @@ hd-bet -i INPUT_FILENAME
 More documentation can be found here: https://github.com/MIC-DKFZ/HD-BET
 
 To run container outside of this environment: ml hdbet/1.0.0
-+++++++++++++++++++++ hdbet/1.0.0 +++++++++++++++++++++++++
 
+----------------------------------

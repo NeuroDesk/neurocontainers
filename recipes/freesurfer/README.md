@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ freesurfer/7.1.1 +++++++++++++++++++++++++
+----------------------------------
+## freesurfer/7.1.1 ##
 FreeSurfer contains a set of programs with a common focus of analyzing magnetic resonance imaging scans of brain tissue. It is an important tool in functional brain mapping and contains tools to conduct both volume based and surface based analysis.
 
 Example:
@@ -27,5 +27,5 @@ export FS_LICENSE=~/.license
 note: FreeSurfer 6.0.0 does not yet support the FS_LICENSE variable, so the license file needs to be included in the container at /opt/freesurfer-6.0.0/license.txt
 
 To run container outside of this environment: ml freesurfer/7.1.1
-+++++++++++++++++++++ freesurfer/7.1.1 +++++++++++++++++++++++++
 
+----------------------------------
