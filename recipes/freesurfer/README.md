@@ -24,6 +24,8 @@ echo "Steffen.Bollmann@cai.uq.edu.au
 export FS_LICENSE=~/.license 
 ```
 
+note: FreeSurfer 6.0.0 does not yet support the FS_LICENSE variable, so the license file needs to be included in the container at /opt/freesurfer-6.0.0/license.txt
+
 To run container outside of this environment: ml freesurfer/7.1.1
 +++++++++++++++++++++ freesurfer/7.1.1 +++++++++++++++++++++++++
 
