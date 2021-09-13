@@ -1,6 +1,6 @@
 
-
-+++++++++++++++++++++ samri +++++++++++++++++++++++++
+----------------------------------
+## samri/0.5 ##
 samri standalone with Matlab Compiler Runtime
 
 Example:
@@ -17,4 +17,5 @@ SAMRI generic-prep -m '/usr/share/mouse-brain-atlases/dsurqec_200micron_mask.nii
 More documentation can be found here: https://github.com/IBT-FMI/SAMRI
 
 To run container outside of this environment: ml samri/0.5
-+++++++++++++++++++++ samri +++++++++++++++++++++++++
+
+----------------------------------

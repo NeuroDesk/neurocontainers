@@ -2,7 +2,7 @@
 set -e
 
 export toolName='spinalcordtoolbox'
-export toolVersion='5.2.0'
+export toolVersion='5.3.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -26,11 +26,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="yes | ./install_sct -i" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH=/opt/${toolName}-${toolVersion}/bin/:$PATH \
-   --run="sct_deepseg -install-task seg_mice_gm-wm_dwi" \
+   --run="sct_deepseg -install-task seg_exvivo_gm-wm_t2" \
    --run="sct_deepseg -install-task seg_tumor-edema-cavity_t1-t2" \
    --run="sct_deepseg -install-task seg_tumor_t2" \
    --run="sct_deepseg -install-task seg_mice_gm" \
    --run="sct_deepseg -install-task seg_mice_sc" \
+   --run="sct_deepseg -install-task seg_sc_t2star" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 

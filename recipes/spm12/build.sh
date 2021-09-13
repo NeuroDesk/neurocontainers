@@ -3,7 +3,7 @@ set -e
 
 # this template file builds spm12
 export toolName='spm12'
-export toolVersion='r7219'
+export toolVersion='r7771'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

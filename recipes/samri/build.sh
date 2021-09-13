@@ -12,7 +12,7 @@ fi
 
 source ../main_setup.sh
 
-   # --base docker.pkg.github.com/neurodesk/caid/fsl_6.0.3:20200905 \
+   # --base ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
 neurodocker generate ${neurodocker_buildMode} \
    --base vnmd/fsl_6.0.3:20200905 \
    --pkg-manager apt \

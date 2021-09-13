@@ -1,10 +1,11 @@
 #!/bin/bash
+set -e
 
 echo "[DEBUG] recipes/$APPLICATION"
 cd recipes/$APPLICATION
 
 IMAGENAME=$1
-REGISTRY=$(echo docker.pkg.github.com/$GITHUB_REPOSITORY | tr '[A-Z]' '[a-z]')
+REGISTRY=$(echo ghcr.io/neurodesk | tr '[A-Z]' '[a-z]')
 IMAGEID="$REGISTRY/$IMAGENAME"
 echo "[DEBUG] IMAGENAME: $IMAGENAME"
 echo "[DEBUG] REGISTRY: $REGISTRY"

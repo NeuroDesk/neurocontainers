@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxtbase'
-export toolVersion='1.0.0'
+export toolVersion='1.1.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -10,6 +10,10 @@ if [ "$1" != "" ]; then
 fi
 
 source ../main_setup.sh
+
+# Version history:
+# - 1.0.0: Release for preprint including FS7, Minc, FSL
+# - 1.1.0: Change to Fastsurfer and replace minc with Ants
 
 # this should fix the octave bug caused by fsl installing openblas:
 # apt update
@@ -41,23 +45,34 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/tgvqsm-1.0.0" \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --fsl version=6.0.4 exclude_paths='data' \
-   --freesurfer version=7.1.1 \
-   --copy fs.txt /opt/freesurfer-7.1.1/license.txt \
    --env SUBJECTS_DIR=/tmp \
-   --minc version=1.9.17 \
+   --ants version=2.3.4 \
    --dcm2niix method=source version=latest \
    --miniconda use_env=base \
-            conda_install='python=3.6 traits nipype' \
+            conda_install='python=3.6 seaborn traits nipype numpy scipy matplotlib h5py scikit-image' \
             pip_install='bidscoin' \
+   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --workdir /opt/bru2 \
-   --run="conda install -c conda-forge dicomifier" \
+   --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
+   --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
-    --install apt_opts="--quiet" liblapack-dev liblas-dev \
+   --workdir /opt \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-1.5.3-linux-x86_64.tar.gz" \
+   --run="tar zxvf julia-1.5.3-linux-x86_64.tar.gz" \
+   --run="rm -rf julia-1.5.3-linux-x86_64.tar.gz" \
+   --env PATH='$PATH':/opt/julia-1.5.3/bin \
+   --run="julia -e 'using Pkg; Pkg.add(\"MriResearchTools\")'" \
+   --install apt_opts="--quiet" liblapack-dev liblas-dev \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
+   --env FASTSURFER_HOME=/opt/FastSurfer \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
+
+#wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
+#mv 5e9bf3ab430166067ea05564\?action\=download test.nii.gz
+#./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only
