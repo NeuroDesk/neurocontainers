@@ -12,10 +12,6 @@ activity matrices. The lib User-defined ROIs and masks can be generated
 separately and used for analysis, e.g. stroke lesion masks and peri-infarct
 regions.
 
-Example:
-```
-```
-
 More documentation can be found here: https://github.com/aswendtlab/AIDAmri
 
 To run container outside of this environment: ml aidamri/1.1
