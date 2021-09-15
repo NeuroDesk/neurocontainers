@@ -1,8 +1,8 @@
 # Automatic Container building and testing
 
+The documentation can be found here: https://neurodesk.github.io/docs/neurocontainers/
+
 The containers can for be used in combination with our transparent singularity or neurocommand tool, that wrap the executables inside a container to make them easily available for pipelines:
-https://github.com/NeuroDesk/transparent-singularity/
-https://github.com/NeuroDesk/neurocommand/
 
 The containers are hosted on dockerhub (https://hub.docker.com/orgs/vnmd/repositories) or on https://github.com/NeuroDesk/neurocontainers/packages
 
