@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} \
    --install dbus-x11 \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
-   --copy license.txt /opt/freesurfer-6.0.0/license.txt \ #because license variable doesn't work!
+   --copy license.txt /opt/freesurfer-6.0.0/license.txt \
    --copy README.md /README.md \
    --user=neuro \
   > ${imageName}.${neurodocker_buildExt}
