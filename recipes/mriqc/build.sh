@@ -2,7 +2,8 @@
 set -e
 
 export toolName='mriqc'
-export toolVersion='0.15.2'
+export toolVersion='0.16.1'
+# https://github.com/poldracklab/mriqc/releases
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
