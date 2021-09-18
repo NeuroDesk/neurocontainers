@@ -6,6 +6,7 @@ FreeSurfer contains a set of programs with a common focus of analyzing magnetic 
 Example:
 ```
 mkdir /vnm/freesurfer_output
+source /opt/freesurfer-*/SetUpFreeSurfer.sh
 export SUBJECTS_DIR=/vnm/freesurfer_output
 recon-all -subject subjectname -i invol1 -all
 ```
