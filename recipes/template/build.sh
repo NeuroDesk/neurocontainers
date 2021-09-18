@@ -4,6 +4,7 @@ set -e
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='itksnap'
 export toolVersion='3.8.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

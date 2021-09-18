@@ -3,6 +3,7 @@ set -e
 
 export toolName='spinalcordtoolbox'
 export toolVersion='5.3.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

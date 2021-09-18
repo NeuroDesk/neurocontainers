@@ -4,6 +4,7 @@ set -e
 # https://github.com/Deep-MI/FatSegNet
 export toolName='fatsegnet'
 export toolVersion='1.0.gpu'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

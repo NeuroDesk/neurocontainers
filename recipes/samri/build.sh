@@ -4,6 +4,7 @@ set -e
 # https://github.com/IBT-FMI/SAMRI
 export toolName='samri'
 export toolVersion='0.5'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

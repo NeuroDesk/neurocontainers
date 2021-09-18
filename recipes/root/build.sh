@@ -3,6 +3,7 @@ set -e
 
 export toolName='root'
 export toolVersion='6.22.02'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

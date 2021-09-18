@@ -5,6 +5,7 @@ set -e
 export downloadLink='https://data.kitware.com/api/v1/item/5f18b8fa9014a6d84e32ab6e/download'
 export toolName='slicersalt'
 export toolVersion='3.0.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

@@ -4,6 +4,7 @@ set -e
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='datalad'
 export toolVersion='0.13.3'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

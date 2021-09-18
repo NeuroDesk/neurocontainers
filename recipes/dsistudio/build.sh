@@ -5,6 +5,7 @@ set -e
 # https://github.com/frankyeh/DSI-Studio/releases
 export toolName='dsistudio'
 export toolVersion='2020.10'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

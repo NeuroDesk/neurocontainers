@@ -3,6 +3,7 @@ set -e
 
 export toolName='qsmxtbase'
 export toolVersion='1.1.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

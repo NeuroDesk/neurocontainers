@@ -4,6 +4,7 @@ set -e
 # this template file builds spm12
 export toolName='spm12'
 export toolVersion='r7771'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

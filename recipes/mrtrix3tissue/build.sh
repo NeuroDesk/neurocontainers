@@ -3,6 +3,7 @@ set -e
 
 export toolName='mrtrix3tissue'
 export toolVersion='5.2.8'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

@@ -3,6 +3,7 @@ set -e
 
 export toolName='julia'
 export toolVersion='1.6.1'
+# Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
 

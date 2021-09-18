@@ -4,6 +4,8 @@ set -e
 export toolName='aslprep'
 export toolVersion='0.2.7'
 # check if version is here: https://hub.docker.com/r/pennlinc/aslprep/tags
+# Don't forget to update version change in README.md!!!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

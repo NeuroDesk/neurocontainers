@@ -4,6 +4,7 @@ set -e
 # this template file builds conn
 export toolName='conn'
 export toolVersion='20b'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

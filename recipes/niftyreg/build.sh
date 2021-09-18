@@ -1,7 +1,10 @@
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='niftyreg'
 export toolVersion='1.4.0'
+# Don't forget to update version change in README.md!!!!!
+
 export commit_sha='83d8d1182ed4c227ce4764f1fdab3b1797eecd8d'
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

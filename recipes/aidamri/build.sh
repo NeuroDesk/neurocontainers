@@ -3,6 +3,7 @@ export toolName='aidamri'
 export toolVersion='1.1'
 export niftyreg_version='1.4.0'
 export niftyreg_commit_sha='83d8d1182ed4c227ce4764f1fdab3b1797eecd8d'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

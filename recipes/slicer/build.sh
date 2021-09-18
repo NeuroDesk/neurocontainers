@@ -6,6 +6,7 @@ set -e
 export downloadLink='https://slicer.kitware.com/midas3/download?bitstream=1341035'
 export toolName='slicer'
 export toolVersion='4.11.20200930'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

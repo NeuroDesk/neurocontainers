@@ -4,6 +4,7 @@ set -e
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidstools'
 export toolVersion='1.0.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"

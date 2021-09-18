@@ -3,6 +3,7 @@ set -e
 
 export toolName='convert3d'
 export toolVersion=1.0.0
+# Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
 

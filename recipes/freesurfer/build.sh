@@ -8,6 +8,7 @@ fi
 
 export toolName='freesurfer'
 export toolVersion=6.0.0
+# Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
 

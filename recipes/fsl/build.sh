@@ -3,6 +3,7 @@ set -e
 
 export toolName='fsl'
 export toolVersion='6.0.4'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
