@@ -16,7 +16,7 @@ pip install --no-cache-dir git+https://github.com/NeuroDesk/neurodocker.git@steb
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

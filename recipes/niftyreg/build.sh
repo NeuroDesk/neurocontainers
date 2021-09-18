@@ -11,7 +11,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base 'ubuntu:20.04' \
+   --base-image 'ubuntu:20.04' \
    --pkg-manager apt \
    --install apt_opts="--quiet" ca-certificates curl cmake make g++ \
    --workdir=/opt/builder/ \
@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mv ${toolName}-${commit_sha} src && mkdir build" \
    --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}" \
    --run="cd build && make && make install" \
-   --base 'ubuntu:20.04' \
+   --base-image 'ubuntu:20.04' \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \

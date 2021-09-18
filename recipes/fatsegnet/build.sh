@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base tensorflow/tensorflow:1.6.0-gpu-py3 \
+   --base-image tensorflow/tensorflow:1.6.0-gpu-py3 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

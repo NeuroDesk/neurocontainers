@@ -12,9 +12,9 @@ fi
 
 source ../main_setup.sh
 
-   # --base ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
+   # --base-image ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
 neurodocker generate ${neurodocker_buildMode} \
-   --base vnmd/fsl_6.0.3:20200905 \
+   --base-image vnmd/fsl_6.0.3:20200905 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

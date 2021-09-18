@@ -7,7 +7,7 @@ export toolVersion='1.6.1'
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:20.04 \
+   --base-image ubuntu:20.04 \
    --pkg-manager apt \
    --run="mkdir ${mountPointList}" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \

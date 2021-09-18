@@ -21,7 +21,7 @@ fi
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base centos:7 \
+   --base-image centos:7 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

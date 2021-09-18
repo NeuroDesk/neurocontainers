@@ -23,7 +23,7 @@ source ../main_setup.sh
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:18.04 \
+   --base-image ubuntu:18.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

@@ -7,7 +7,7 @@ export toolVersion=1.9.17
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:18.04 \
+   --base-image ubuntu:18.04 \
    --pkg-manager apt \
    --run="mkdir ${mountPointList}" \
    --copy README.md /README.md \

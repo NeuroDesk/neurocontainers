@@ -12,7 +12,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base 'ubuntu:20.04' \
+   --base-image 'ubuntu:20.04' \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mv niftyreg-${niftyreg_commit_sha} src && mkdir build" \
    --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-${niftyreg_version}" \
    --run="cd build && make && make install" \
-   --base dsistudio/dsistudio:latest \
+   --base-image dsistudio/dsistudio:latest \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \

@@ -12,7 +12,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --install="gcc libmpich-dev python3-pyqt5 git curl bzip2 libglib2.0-0" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \

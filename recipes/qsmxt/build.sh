@@ -16,7 +16,7 @@ source ../main_setup.sh
 # vnmd/qsmxtbase_1.0.0:20210203
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base docker.pkg.github.com/neurodesk/caid/qsmxtbase_1.1.0:20210518 \
+   --base-image docker.pkg.github.com/neurodesk/caid/qsmxtbase_1.1.0:20210518 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
