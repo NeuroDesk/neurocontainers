@@ -3,6 +3,9 @@ set -e
 
 echo "buildMode: $buildMode"
 
+echo "check if Readme was updated. Otherwise don't build."
+grep -E "($toolVersion)" README.md || exit 2
+
 if [ "$buildMode" = "docker_singularity" ]; then
        echo "starting local docker build:"
        echo "---------------------------"
