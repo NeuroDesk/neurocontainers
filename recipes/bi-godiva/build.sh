@@ -11,7 +11,7 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
-source ../main_setup.sh
+source alt_main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
