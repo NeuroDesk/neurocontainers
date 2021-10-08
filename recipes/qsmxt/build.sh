@@ -12,6 +12,10 @@ fi
 
 source ../main_setup.sh
 
+#overwrite neurodocker fork with hacked fork:
+pip install --no-cache-dir https://github.com/stebo85/neurodocker-old-fork/tarball/master --upgrade
+
+
 # ubuntu:18.04 
 # ghcr.io/neurodesk/caid/qsmxtbase_1.1.0:20210512
 # vnmd/qsmxtbase_1.0.0:20210203
