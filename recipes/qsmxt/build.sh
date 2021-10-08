@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.6'
+export toolVersion='1.1.7'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -35,8 +35,3 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
-
-#seems to cause problems with singularity conversion?
-   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /etc/bash.bashrc" \
-   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /root/.bashrc" \
-   # /opt/FastSurfer/run_fastsurfer.sh
