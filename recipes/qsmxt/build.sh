@@ -12,10 +12,6 @@ fi
 
 source ../main_setup.sh
 
-#overwrite neurodocker fork with hacked fork:
-pip install --no-cache-dir https://github.com/stebo85/neurodocker-old-fork/tarball/master --upgrade
-
-
 # ubuntu:18.04 
 # ghcr.io/neurodesk/caid/qsmxtbase_1.1.0:20210512
 # vnmd/qsmxtbase_1.0.0:20210203
@@ -27,7 +23,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt \
    --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
-   --run="julia -e 'using Pkg; Pkg.add(\"ArgParse\")'" \
+   --copy install_packages.jl /opt \
+   --run="julia install_packages.jl" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
    --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/:/opt/FastSurfer \
@@ -39,3 +36,5 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
+
+# 
