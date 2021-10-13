@@ -1,12 +1,14 @@
 
 ----------------------------------
 ## rstudio/1.4.1106 ##
-itksnap is an image viewer for DICOM and NII files and supports manual segmentation of data.
-
+RStudio is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
 
 Example:
 ```
 rstudio
+Rscript
 ```
 
-More documentation can be found here: http://www.itksnap.org/pmwiki/pmwiki.php
+More documentation can be found here: https://www.rstudio.com/
+
+----------------------------------

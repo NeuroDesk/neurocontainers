@@ -15,7 +15,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:20.04 \
+   --base-image ubuntu:21.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -42,11 +42,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="gdebi -q -n /opt/rstudio-1.4.1106-amd64.deb" \
    --run="rm -rf rstudio-1.4.1106-amd64.deb" \
    --copy dependencies.R /opt \
+   --install libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4 libfftw3-dev \
+   --install libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
    --run="Rscript /opt/dependencies.R" \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_BINS=Rscript:rstudio \
    --env PATH=${PATH}:/usr/local/cuda/bin \
    --env LD_LIBRARY_PATH=/usr/local/cuda/lib64/stubs:/usr/local/cuda/lib64/:/usr/local/cuda/lib:${LD_LIBRARY_PATH} \
-   --user=neuro \
+   --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
   
 
