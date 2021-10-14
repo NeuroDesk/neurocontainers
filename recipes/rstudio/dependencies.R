@@ -2,6 +2,7 @@
 if("Rcpp" %in% rownames(installed.packages()) == FALSE) {install.packages("Rcpp")}
 if("reticulate" %in% rownames(installed.packages()) == FALSE) {install.packages("reticulate")}
 if("fastICA" %in% rownames(installed.packages()) == FALSE) {install.packages("fastICA")}
+if("forge" %in% rownames(installed.packages()) == FALSE) {install.packages("forge")}
 if("devtools" %in% rownames(installed.packages()) == FALSE) {install.packages("devtools")}
 if("rmarkdown" %in% rownames(installed.packages()) == FALSE) {install.packages("rmarkdown")}
 if("plotly" %in% rownames(installed.packages()) == FALSE) {install.packages("plotly")}
@@ -14,6 +15,6 @@ if("ggthemes" %in% rownames(installed.packages()) == FALSE) {install.packages("g
 if("rbokeh" %in% rownames(installed.packages()) == FALSE) {install.packages("rbokeh")}
 if("RcppCNPy" %in% rownames(installed.packages()) == FALSE) {install.packages("RcppCNPy")}
 if("R.matlab" %in% rownames(installed.packages()) == FALSE) {install.packages("R.matlab")}
-if("caret" %in% rownames(installed.packages()) == FALSE) {install.packages("caret", dependencies = c("Depends", "Suggests"))}
+if("caret" %in% rownames(installed.packages()) == FALSE) {install.packages("caret", dependencies = TRUE)}
 if("car" %in% rownames(installed.packages()) == FALSE) {install.packages("car")}
 if("BayesFactor" %in% rownames(installed.packages()) == FALSE) {install.packages("BayesFactor", dependencies = TRUE)}
