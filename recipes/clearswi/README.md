@@ -25,3 +25,5 @@ savenii(mip, "<outputpath>/mip.nii"; header=mag.header)
 ```
 
 More documentation can be found here: https://github.com/korbinian90/CLEARSWI.jl
+
+----------------------------------

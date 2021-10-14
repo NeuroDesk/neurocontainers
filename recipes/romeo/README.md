@@ -19,3 +19,5 @@ Note that echo times are required for unwrapping multi-echo data.
 ```
 
 More documentation can be found here: https://github.com/korbinian90/ROMEO
+
+----------------------------------

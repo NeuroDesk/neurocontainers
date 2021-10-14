@@ -3,6 +3,7 @@ set -e
 
 export toolName='clearswi'
 export toolVersion='1.0.0'
+export juliaVersion='1.6.3'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -18,10 +19,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install julia git \
-   --install ca-certificates curl \
+   --install git wget ca-certificates \
    --workdir /opt \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
    --copy install_packages.jl /opt \
+   --user neuro \
    --run="julia install_packages.jl" \
   > ${imageName}.${neurodocker_buildExt}
 
