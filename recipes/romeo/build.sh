@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://github.com/korbinian90/ROMEO/releases/download/v${toolVersion}/romeo_linux_${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin \
-   --user=neuro \
+   --env PATH=/opt/${toolName}-${toolVersion}/bin:${PATH} \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then
