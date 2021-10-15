@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy install_packages.jl /opt \
    --user neuro \
    --run="julia install_packages.jl" \
+   --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then

@@ -24,6 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin \
    --env PATH=/opt/${toolName}-${toolVersion}/bin:${PATH} \
+   --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then
