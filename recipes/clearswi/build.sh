@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy install_packages.jl /opt \
    --env JULIA_DEPOT_PATH=/opt/julia_depot \
    --run="julia install_packages.jl" \
+   --run="chmod a+rwx /opt/julia_depot/packages/CLEARSWI -R" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
@@ -37,3 +38,15 @@ fi
 
 
    
+# testing:
+
+   # --install python3-pip zip \
+   # --run="pip install osfclient" \
+   # --workdir /neurodesktop-storage \
+   # --run="chmod a+rwx /neurodesktop-storage" \
+   # --install unzip \
+   # --user neuro \
+   # --run="osf -p ru43c fetch 01_bids.zip /neurodesktop-storage/swi-demo/01_bids.zip" \
+   # --run="unzip /neurodesktop-storage/swi-demo/01_bids.zip -d /neurodesktop-storage/swi-demo/" \
+   # --copy test.jl /neurodesktop-storage \
+   # --run="julia test.jl" \
