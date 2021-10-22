@@ -12,4 +12,6 @@ More documentation can be found here: TO BE ADDED
 
 To run container outside of this environment: ml bi-godiva/0.1
 
+# :-)
+
 ----------------------------------
