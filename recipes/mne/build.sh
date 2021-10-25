@@ -27,6 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf ./vscode.deb" \
    --install libxshmfence1 libasound2 \
    --copy README.md /README.md \
+   --user neuro \
  > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
