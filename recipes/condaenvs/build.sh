@@ -2,7 +2,7 @@
 set -e
 
 export toolName='condaenvs'
-export toolVersion='1.0.0'
+export toolVersion='1.0.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
