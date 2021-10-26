@@ -11,7 +11,10 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
-source main_setup_eeglab.sh
+source ../main_setup.sh
+
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update_mcr --upgrade
+
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
