@@ -11,8 +11,10 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
+
 source ../main_setup.sh
 
+yes | pip uninstall neurodocker
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update_mcr --upgrade
 
 
