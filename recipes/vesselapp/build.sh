@@ -15,10 +15,6 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image davidsliu/vessel-app:20211109 \
    --pkg-manager apt \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-   --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --copy README.md /README.md \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
