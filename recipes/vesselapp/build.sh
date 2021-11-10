@@ -12,10 +12,12 @@ fi
 
 source ../main_setup.sh
 
-neurodocker generate ${neurodocker_buildMode} \
-   --base-image davidsliu/vessel-app:20211109 \
-   --pkg-manager apt \
-  > ${imageName}.Dockerfile
+echo "FROM davidsliu/vessel-app:20211109" > ${imageName}.Dockerfile
+
+# neurodocker generate ${neurodocker_buildMode} \
+#    --base-image davidsliu/vessel-app:20211109 \
+#    --pkg-manager apt \
+#   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
