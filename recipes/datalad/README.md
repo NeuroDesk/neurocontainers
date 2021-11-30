@@ -5,6 +5,8 @@ DataLad is a data management and distribution platform providing access to a wid
 
 Examples:
 ```
+git config --global user.email "user@neurodesk.github.io"
+git config --global user.name "Neurodesk User"
 datalad install https://github.com/psychoinformatics-de/studyforrest-data-phase2.git
 datalad create -h
 datalad --help
