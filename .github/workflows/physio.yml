@@ -1,11 +1,11 @@
-name: bidstools
+name: physio
 
 on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/bidstools/*
-      - .github/workflows/bidstools.yml
+      - recipes/physio/*
+      - .github/workflows/physio.yml
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
