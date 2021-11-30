@@ -1,15 +1,19 @@
 
 ----------------------------------
-## datalad/0.13.3 ##
-DataLad is a data management and distribution platform providing access to a wide range of data resources. Git for data using git-annex as backend. 
+## datalad/0.15.3 ##
+DataLad is a data management and distribution platform providing access to a wide range of data resources. Git for data using git-annex as backend.
 
-Example:
+Examples:
 ```
-datalad
+datalad install https://github.com/psychoinformatics-de/studyforrest-data-phase2.git
+datalad create -h
+datalad --help
 ```
 
-More documentation can be found here: http://handbook.datalad.org/en/latest/
+More documentation can be found here: http://docs.datalad.org/en/latest/
 
-To run container outside of this environment: ml datalad/0.13.3
+You may also want to read the guide: http://handbook.datalad.org/en/latest/
+
+To run container outside of this environment: ml datalad/0.15.3
 
 ----------------------------------
