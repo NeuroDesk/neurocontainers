@@ -6,12 +6,6 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/template/*
       - .github/workflows/template.yml
- 
-  pull_request:
-    paths:
-      - recipes/globalMountPointList.txt
-      - recipes/template/*
-      - .github/workflows/template.yml
 
 env:
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
