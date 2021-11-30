@@ -2,7 +2,7 @@
 set -e
 
 export toolName='vesselapp'
-export toolVersion='1.0.0'
+export toolVersion='0.3.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -12,12 +12,7 @@ fi
 
 source ../main_setup.sh
 
-echo "FROM davidsliu/vessel-app:20211109" > ${imageName}.Dockerfile
-
-# neurodocker generate ${neurodocker_buildMode} \
-#    --base-image davidsliu/vessel-app:20211109 \
-#    --pkg-manager apt \
-#   > ${imageName}.Dockerfile
+echo "FROM davidsliu/vessel-app:20211130" > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
