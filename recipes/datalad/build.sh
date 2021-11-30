@@ -23,7 +23,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --install datalad datalad-container \
    --env DEPLOY_BINS=datalad \
    --copy README.md /README.md \
-   --run
   > ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$debug" = "true" ]; then
