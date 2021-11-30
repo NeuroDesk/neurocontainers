@@ -10,6 +10,11 @@ If you intend to use OSHy-X, please cite this abstract: TBA
 
 For more information, please visit https://github.com/Cadaei-Yuvxvs/OSHy-X
 
+### Quickstart with an example image
+```
+python -u /OSHy/OSHy.py -t /OSHy/sub-test.nii.gz -o /neurodesktop-storage/
+```
+
 ### Usage
 
 ```
