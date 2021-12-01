@@ -5,10 +5,10 @@ FreeSurfer contains a set of programs with a common focus of analyzing magnetic 
 
 Example:
 ```
-mkdir /vnm/freesurfer_output
+mkdir /neurodesktop-storage/freesurfer_output
 source /opt/freesurfer-*/SetUpFreeSurfer.sh
-export SUBJECTS_DIR=/vnm/freesurfer_output
-recon-all -subject subjectname -i invol1 -all
+export SUBJECTS_DIR=/neurodesktop-storage/freesurfer_output
+recon-all -subject subjectname -i invol1.nii.gz -all
 ```
 
 More documentation can be found here: https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
