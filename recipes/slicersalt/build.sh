@@ -5,6 +5,7 @@ set -e
 export downloadLink='https://data.kitware.com/api/v1/item/5f18b8fa9014a6d84e32ab6e/download'
 export toolName='slicersalt'
 export toolVersion='3.0.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -14,7 +15,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:20.04 \
+   --base-image ubuntu:20.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

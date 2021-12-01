@@ -3,6 +3,7 @@ set -e
 
 export toolName='tgvqsm'
 export toolVersion='1.0.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

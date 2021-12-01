@@ -3,6 +3,7 @@ export toolName='aidamri'
 export toolVersion='1.1'
 export niftyreg_version='1.4.0'
 export niftyreg_commit_sha='83d8d1182ed4c227ce4764f1fdab3b1797eecd8d'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base 'ubuntu:20.04' \
+   --base-image 'ubuntu:20.04' \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -26,7 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mv niftyreg-${niftyreg_commit_sha} src && mkdir build" \
    --run="cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-${niftyreg_version}" \
    --run="cd build && make && make install" \
-   --base dsistudio/dsistudio:latest \
+   --base-image dsistudio/dsistudio:latest \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \

@@ -3,6 +3,7 @@ set -e
 
 export toolName='lashis'
 export toolVersion=2.0
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -14,7 +15,7 @@ source ../main_setup.sh
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/stebo85/issue8 --upgrade
 
 neurodocker generate ${neurodocker_buildMode} \
-    --base neurodebian:stretch-non-free \
+    --base-image neurodebian:stretch-non-free \
 	--pkg-manager apt \
 	--run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
 	--run="chmod +x /usr/bin/ll" \

@@ -3,6 +3,7 @@ set -e
 
 export toolName='root'
 export toolVersion='6.22.02'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base rootproject/${toolName}:$toolVersion-centos7 \
+   --base-image rootproject/${toolName}:$toolVersion-centos7 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

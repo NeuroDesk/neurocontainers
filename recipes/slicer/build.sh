@@ -6,6 +6,7 @@ set -e
 export downloadLink='https://slicer.kitware.com/midas3/download?bitstream=1341035'
 export toolName='slicer'
 export toolVersion='4.11.20200930'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -15,7 +16,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:20.04 \
+   --base-image ubuntu:20.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

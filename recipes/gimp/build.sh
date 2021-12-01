@@ -3,6 +3,7 @@ set -e
 
 export toolName='gimp'
 export toolVersion='2.10.18'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:20.10 \
+   --base-image ubuntu:20.10 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

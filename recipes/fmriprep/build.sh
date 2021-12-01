@@ -2,8 +2,9 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='20.1.3'
-# check if version is here: https://hub.docker.com/r/poldracklab/fmriprep/tags
+export toolVersion='20.2.3'
+# check if version is here: https://hub.docker.com/r/nipreps/fmriprep/tags?page=1&ordering=last_updated
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -13,7 +14,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base poldracklab/${toolName}:$toolVersion \
+   --base-image nipreps/${toolName}:$toolVersion \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

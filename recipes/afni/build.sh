@@ -7,6 +7,8 @@ set -e
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
 # Afni version 21.2.00
+# Don't forget to update version change in README.md!!!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -21,7 +23,7 @@ fi
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base centos:7 \
+   --base-image centos:7 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

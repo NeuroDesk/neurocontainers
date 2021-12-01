@@ -2,7 +2,8 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.6'
+export toolVersion='1.1.7'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -16,13 +17,14 @@ source ../main_setup.sh
 # vnmd/qsmxtbase_1.0.0:20210203
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base docker.pkg.github.com/neurodesk/caid/qsmxtbase_1.1.0:20210518 \
+   --base-image vnmd/qsmxtbase_1.1.0:20210518 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
    --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
-   --run="julia -e 'using Pkg; Pkg.add(\"ArgParse\")'" \
+   --copy install_packages.jl /opt \
+   --run="julia install_packages.jl" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
    --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/:/opt/FastSurfer \
@@ -35,7 +37,4 @@ if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-#seems to cause problems with singularity conversion?
-   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /etc/bash.bashrc" \
-   # --run="sed -i '/PS1=/c\PS1=\"${toolName}_${toolVersion}:\\\w # \"' /root/.bashrc" \
-   # /opt/FastSurfer/run_fastsurfer.sh
+# 

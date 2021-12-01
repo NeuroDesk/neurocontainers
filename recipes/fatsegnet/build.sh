@@ -4,6 +4,7 @@ set -e
 # https://github.com/Deep-MI/FatSegNet
 export toolName='fatsegnet'
 export toolVersion='1.0.gpu'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -13,7 +14,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base tensorflow/tensorflow:1.6.0-gpu-py3 \
+   --base-image tensorflow/tensorflow:1.6.0-gpu-py3 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

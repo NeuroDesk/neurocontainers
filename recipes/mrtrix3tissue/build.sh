@@ -3,6 +3,7 @@ set -e
 
 export toolName='mrtrix3tissue'
 export toolVersion='5.2.8'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -16,7 +17,7 @@ if [ "$debug" = "true" ]; then
 fi
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
+   --base-image ghcr.io/neurodesk/caid/fsl_6.0.3:20200905 \
    --pkg-manager apt \
    --${toolName} version=master method="source" \
    --ants version="2.3.4" \

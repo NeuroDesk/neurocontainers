@@ -3,11 +3,12 @@ set -e
 
 export toolName='ants'
 export toolVersion='2.3.4'
+# Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

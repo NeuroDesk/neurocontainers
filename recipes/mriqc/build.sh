@@ -2,7 +2,10 @@
 set -e
 
 export toolName='mriqc'
-export toolVersion='0.15.2'
+export toolVersion='0.16.1'
+# https://github.com/poldracklab/mriqc/releases
+# Don't forget to update version change in README.md!!!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,7 +15,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base poldracklab/${toolName}:$toolVersion \
+   --base-image poldracklab/${toolName}:$toolVersion \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

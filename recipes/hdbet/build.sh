@@ -4,6 +4,7 @@ set -e
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='hdbet'
 export toolVersion='1.0.0'
+# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -13,7 +14,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base ubuntu:16.04 \
+   --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
