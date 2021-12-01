@@ -8,6 +8,7 @@ Example:
 mkdir /neurodesktop-storage/freesurfer_output
 source /opt/freesurfer-*/SetUpFreeSurfer.sh
 export SUBJECTS_DIR=/neurodesktop-storage/freesurfer_output
+export FS_LICENSE=~/.license #make sure to request a license!!!!
 recon-all -subject subjectname -i invol1.nii.gz -all
 ```
 
