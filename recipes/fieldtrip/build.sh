@@ -29,8 +29,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/fieldtrip20211114_mcr2020b.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
-#   --env XAPPLRESDIR=/opt/MCR/v99/x11/app-defaults \
-#   --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --env DEPLOY_BINS=run_fieldtrip.sh \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
