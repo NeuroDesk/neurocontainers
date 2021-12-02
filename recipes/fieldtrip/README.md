@@ -1,6 +1,6 @@
 
 ----------------------------------
-## fieldtrip/20211114##
+## fieldtrip/20211114 ##
 Standalone (compiled) version of FieldTrip with MATLAB runtime
 
 Example:
