@@ -7,6 +7,7 @@ on:
     paths:
       - recipes/globalMountPointList.txt
       - recipes/datalad/*
+      - .github/workflows/datalad.yml
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
