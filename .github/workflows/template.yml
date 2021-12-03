@@ -1,6 +1,8 @@
 name: template
 
 on:
+  workflow_dispatch:
+  repository_dispatch:
   push:
     paths:
       - recipes/globalMountPointList.txt
