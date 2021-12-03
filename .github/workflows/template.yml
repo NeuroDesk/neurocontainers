@@ -7,6 +7,7 @@ on:
     paths:
       - recipes/globalMountPointList.txt
       - recipes/template/*
+      - .github/workflows/template.yml
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
