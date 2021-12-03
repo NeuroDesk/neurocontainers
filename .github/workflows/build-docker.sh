@@ -34,6 +34,7 @@ if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
     echo "[DEBUG] Skipping push to registry. No changes found"
 else
     echo "[DEBUG] Changes found"
+fi
 
 if [ "$GITHUB_REF" == "refs/heads/master" ]; then
     if [ -n "$GH_REGISTRY" ]; then
@@ -56,7 +57,6 @@ if [ "$GITHUB_REF" == "refs/heads/master" ]; then
     else
       echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
     fi
-  fi
 else
     echo "[DEBUG] Skipping push to registry. Not on master branch"
 fi
