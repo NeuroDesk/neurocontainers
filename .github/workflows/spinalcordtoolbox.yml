@@ -1,6 +1,8 @@
 name: spinalcordtoolbox
 
 on:
+  workflow_dispatch:
+  repository_dispatch:
   push:
     paths:
       - recipes/globalMountPointList.txt
@@ -8,6 +10,7 @@ on:
       - .github/workflows/spinalcordtoolbox.yml
 
 env:
+  GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
   DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
   OS_PASSWORD: ${{ secrets.SWIFT_OS_PASSWORD }}
   OS_PROJECT_ID: ${{ secrets.SWIFT_OS_PROJECT_ID }}
@@ -80,6 +83,7 @@ jobs:
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
           echo "::set-output name=IMAGELIST::$IMAGELIST"
       - name: Log into Github Package registry
+        if: env.GH_REGISTRY != ''
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
         if: env.DOCKERHUB_ORG != ''

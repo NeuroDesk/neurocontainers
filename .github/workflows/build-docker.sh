@@ -33,22 +33,31 @@ ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
     echo "[DEBUG] Skipping push to registry. No changes found"
 else
-    echo "[DEBUG] Pushing to registry. Changes found"
+    echo "[DEBUG] Changes found"
+fi
 
 if [ "$GITHUB_REF" == "refs/heads/master" ]; then
     if [ -n "$GH_REGISTRY" ]; then
+      echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
     # Push to GH Packages
       docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
       docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
       docker push $IMAGEID:$BUILDDATE
       docker push $IMAGEID:latest
+    else
+      echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
     fi
     # Push to Dockerhub
     if [ -n "$DOCKERHUB_ORG" ]; then
+      echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
       docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
       docker push $DOCKERHUB_ORG/$IMAGENAME:latest
+    else
+      echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
     fi
-  fi
+else
+    echo "[DEBUG] Skipping push to registry. Not on master branch"
 fi
+
