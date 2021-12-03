@@ -5,7 +5,13 @@ echo "[DEBUG] recipes/$APPLICATION"
 cd recipes/$APPLICATION
 
 IMAGENAME=$1
-REGISTRY=$(echo ghcr.io/neurodesk | tr '[A-Z]' '[a-z]')
+
+if [ -n "$GH_REGISTRY" ]; then
+  DOCKER_REGISTRY=$GH_REGISTRY
+else
+  DOCKER_REGISTRY=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')
+fi
+REGISTRY=$(echo ghcr.io/$DOCKER_REGISTRY | tr '[A-Z]' '[a-z]')
 IMAGEID="$REGISTRY/$IMAGENAME"
 echo "[DEBUG] IMAGENAME: $IMAGENAME"
 echo "[DEBUG] REGISTRY: $REGISTRY"
@@ -30,12 +36,13 @@ else
     echo "[DEBUG] Pushing to registry. Changes found"
 
 if [ "$GITHUB_REF" == "refs/heads/master" ]; then
+    if [ -n "$GH_REGISTRY" ]; then
     # Push to GH Packages
-    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
-    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-    docker push $IMAGEID:$BUILDDATE
-    docker push $IMAGEID:latest
-
+      docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
+      docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
+      docker push $IMAGEID:$BUILDDATE
+      docker push $IMAGEID:latest
+    fi
     # Push to Dockerhub
     if [ -n "$DOCKERHUB_ORG" ]; then
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
