@@ -9,6 +9,7 @@ pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mast
 
 export buildMode='docker'  #docker_local or docker_hub or singularity or docker_singularity
 
+# debug mode is for testing docker + singularity
 if [ "$debug" = "true" ]; then
     export buildMode='docker_singularity' 
     export testImageDocker='true'
@@ -19,6 +20,19 @@ if [ "$debug" = "true" ]; then
     export uploadToSwift='false'
     export uploadToSylabs='false'
     export cleanupSif='false'
+fi
+
+# dev mode is for just running singularity (e.g when building on neurodesk itself)
+if [ "$dev" = "true" ]; then
+       export buildMode='singularity' 
+       export testImageDocker='false'
+       export localSingularityBuild='true'
+       export localSingularityBuildWritable='false'
+       export remoteSingularityBuild='false'
+       export testImageSingularity='true'
+       export uploadToSwift='false'
+       export uploadToSylabs='false'
+       export cleanupSif='false'
 fi
 
 if [ "$buildMode" = "singularity" ]; then

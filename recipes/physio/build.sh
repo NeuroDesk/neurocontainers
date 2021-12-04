@@ -11,6 +11,11 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
+if [ "$1" == "dev" ]; then
+    echo "Entering development mode"
+    export dev="true"
+fi
+
 source ../main_setup.sh
 
 
