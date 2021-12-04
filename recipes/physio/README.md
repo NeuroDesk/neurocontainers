@@ -5,7 +5,7 @@ Standalone (compiled) version of SPM and the physio toolbox with MATLAB runtime
 
 Example:
 ```
-run_spm12.sh
+run_spm12.sh /opt/MCR/v99/
 ```
 
 More documentation can be found here: https://www.nitrc.org/projects/physio/

@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install curl unzip ca-certificates openjdk-8-jre dbus-x11 \
-   --matlabmcr version=2020a install_path=/opt/MCR  \
+   --matlabmcr version=2020b install_path=/opt/MCR  \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/spm12_dev_physio_standalone_MCRv99_MatlabR2020b_Linux.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
