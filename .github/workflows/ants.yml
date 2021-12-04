@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/ants/*
       - .github/workflows/ants.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

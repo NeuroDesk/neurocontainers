@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/lashis/*
       - .github/workflows/lashis.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

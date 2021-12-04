@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/condaenvs/*
       - .github/workflows/condaenvs.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

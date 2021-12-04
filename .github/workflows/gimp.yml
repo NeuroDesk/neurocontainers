@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/gimp/*
       - .github/workflows/gimp.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

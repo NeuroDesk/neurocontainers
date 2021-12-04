@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/niftyreg/*
       - .github/workflows/niftyreg.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

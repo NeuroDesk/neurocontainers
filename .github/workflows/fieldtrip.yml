@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/fieldtrip/*
       - .github/workflows/fieldtrip.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

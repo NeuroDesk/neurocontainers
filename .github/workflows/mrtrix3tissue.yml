@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/mrtrix3tissue/*
       - .github/workflows/mrtrix3tissue.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/fatsegnet/*
       - .github/workflows/fatsegnet.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

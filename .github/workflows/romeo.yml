@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/romeo/*
       - .github/workflows/romeo.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

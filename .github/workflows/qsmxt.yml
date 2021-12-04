@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/qsmxt/*
       - .github/workflows/qsmxt.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

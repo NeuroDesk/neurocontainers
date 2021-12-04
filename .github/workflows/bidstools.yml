@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/bidstools/*
       - .github/workflows/bidstools.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

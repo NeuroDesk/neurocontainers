@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/datalad/*
       - .github/workflows/datalad.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

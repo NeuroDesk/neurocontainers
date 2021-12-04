@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/mrtrix3/*
       - .github/workflows/mrtrix3.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

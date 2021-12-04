@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/afni/*
       - .github/workflows/afni.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}

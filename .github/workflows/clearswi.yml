@@ -8,6 +8,8 @@ on:
       - recipes/globalMountPointList.txt
       - recipes/clearswi/*
       - .github/workflows/clearswi.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
