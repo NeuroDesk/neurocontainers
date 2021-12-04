@@ -11,6 +11,11 @@ if [ "$1" != "" ]; then
     export debug="true"
 fi
 
+if [ "$1" == "dev" ]; then
+    echo "Entering development mode"
+    export dev="true"
+fi
+
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -23,7 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install datalad datalad-container \
    --env DEPLOY_BINS=datalad \
    --copy README.md /README.md \
-  > ${toolName}_${toolVersion}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh

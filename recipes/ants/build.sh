@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.4'
+export toolVersion='2.3.1'
 # Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
@@ -16,4 +16,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=${toolVersion} \
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/ \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
+
+if [ "$debug" = "true" ]; then
+   ./../main_build.sh
+fi
