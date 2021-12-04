@@ -1,4 +1,4 @@
-name: hdbet
+name: brainstorm
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/hdbet/*
-      - .github/workflows/hdbet.yml
+      - recipes/brainstorm/*
+      - .github/workflows/brainstorm.yml
     branches:
       - master
 

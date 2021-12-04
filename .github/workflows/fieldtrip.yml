@@ -1,4 +1,4 @@
-name: hdbet
+name: fieldtrip
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/hdbet/*
-      - .github/workflows/hdbet.yml
+      - recipes/fieldtrip/*
+      - .github/workflows/fieldtrip.yml
     branches:
       - master
 
