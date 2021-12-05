@@ -18,6 +18,8 @@ source ../main_setup.sh
 # yes | pip uninstall neurodocker
 # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update-spm12 --upgrade
 
+# try slimdown version next: https://github.com/spm/spm-docker/pull/2
+
 export MATLAB_VERSION=R2019b
 export MCR_VERSION=v97
 export MCR_UPDATE=9
@@ -45,7 +47,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --run="/opt/spm${SPM_VERSION}/spm${SPM_VERSION} function exit \
       && chmod +x /opt/spm${SPM_VERSION}/spm${SPM_VERSION}" \
-   --miniconda use_env=base \
+   --miniconda \
+         version=latest \
          conda_install='python=3.6 traits nipype numpy scipy h5py scikit-image' \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
