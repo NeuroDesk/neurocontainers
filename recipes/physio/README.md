@@ -1,15 +1,15 @@
 
 ----------------------------------
-## physio/20211203 ##
-Standalone (compiled) version of SPM and the physio toolbox with MATLAB runtime
+## physio/r7771 ##
+SPM12+physIO toolbox standalone with Matlab Compiler Runtime
 
 Example:
 ```
-run_spm12.sh /opt/MCR/v99/
+run_spm12.sh /opt/mcr/v99/
 ```
 
-More documentation can be found here: https://www.nitrc.org/projects/physio/
+More documentation can be found here: https://www.fil.ion.ucl.ac.uk/spm/doc/
 
-To run applications outside of this container: ml physio/20211203
+To run container outside of this environment: ml physio/r7771
 
 ----------------------------------
