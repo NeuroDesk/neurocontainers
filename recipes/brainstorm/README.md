@@ -5,7 +5,7 @@ Standalone (compiled) version of Brainstorm3 GUI with MATLAB runtime
 
 Example:
 ```
-./brainstorm3.command /opt/MCR/v98
+./opt/brainstorm-3.211130/brainstorm3.command /opt/MCR/v98
 ```
 
 More documentation can be found here: https://neuroimage.usc.edu/brainstorm/Introduction

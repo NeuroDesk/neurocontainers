@@ -25,6 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --entrypoint "/opt/${toolName}-${toolVersion}/brainstorm3.command /opt/MCR/v98 " \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env PATH=/opt/${toolName}-${toolVersion}/:$PATH \
    --env DEPLOY_BINS=brainstorm3 \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
