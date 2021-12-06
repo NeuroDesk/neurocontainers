@@ -28,7 +28,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2020b install_path=/opt/MCR  \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/fieldtrip20211114_mcr2020b.tar.gz \
-      | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
+      | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1 \
+      && chmod +x /opt/${toolName}-${toolVersion}/*" \
+   --env PATH=/opt/${toolName}-${toolVersion}/:$PATH \
    --env DEPLOY_BINS=run_fieldtrip.sh \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
