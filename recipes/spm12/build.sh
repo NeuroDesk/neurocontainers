@@ -46,7 +46,7 @@ neurodocker generate ${neurodocker_buildMode} \
       && rm -f /opt/spm${SPM_VERSION}_${SPM_REVISION}_Linux_${MATLAB_VERSION}.zip" \
    --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --run="/opt/spm${SPM_VERSION}/spm${SPM_VERSION} function exit \
-      && chmod +x /opt/spm${SPM_VERSION}/spm${SPM_VERSION}" \
+      && chmod +x /opt/spm${SPM_VERSION}/spm*" \
    --miniconda \
          version=latest \
          conda_install='python=3.6 traits nipype numpy scipy h5py scikit-image' \
