@@ -34,6 +34,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --env FREESURFER=/opt/${toolName}-${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --run="fs_install_mcr R2014b" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
