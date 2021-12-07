@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=${toolName} \
    --run="yes | ./install_sct -i" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env SCT_DIR=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}/bin/:$PATH \
    --run="sct_deepseg -install-task seg_exvivo_gm-wm_t2" \
    --run="sct_deepseg -install-task seg_tumor-edema-cavity_t1-t2" \
