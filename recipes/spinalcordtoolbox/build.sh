@@ -2,14 +2,13 @@
 set -e
 
 export toolName='spinalcordtoolbox'
-export toolVersion='5.3.0'
+export toolVersion='5.4'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug="true"
 fi
-
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -19,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --run="curl -fsSL --retry 5 https://github.com/neuropoly/spinalcordtoolbox/archive/${toolVersion}.tar.gz | tar -xz -C /opt/ " \
+   --run="curl -fsSL --retry 5 https://github.com/spinalcordtoolbox/spinalcordtoolbox/archive/refs/tags/${toolVersion}.tar.gz | tar -xz -C /opt/ " \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="chmod a+rwx /opt/${toolName}-${toolVersion}/spinalcordtoolbox" \
    --run="chmod a+rwx /opt/${toolName}-${toolVersion}/" \
