@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.7'
+export toolVersion='1.1.8'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -24,6 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
    --copy install_packages.jl /opt \
+   --env JULIA_DEPOT_PATH=/opt/julia_depot \
    --run="julia install_packages.jl" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
