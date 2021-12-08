@@ -14,7 +14,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:16.04 \
    --pkg-manager apt \
-   --install="gcc libmpich-dev python3-pyqt5 git curl bzip2 libglib2.0-0" \
+   --install="gcc ca-certificates libmpich-dev python3-pyqt5 git curl bzip2 libglib2.0-0" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="yes | ./install_sct -i" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env SCT_DIR=/opt/${toolName}-${toolVersion}/ \
-   --env PATH=/opt/${toolName}-${toolVersion}/bin/:$PATH \
+   --env PATH=/opt/${toolName}-${toolVersion}/bin/:/bin/:$PATH \
    --run="sct_deepseg -install-task seg_exvivo_gm-wm_t2" \
    --run="sct_deepseg -install-task seg_tumor-edema-cavity_t1-t2" \
    --run="sct_deepseg -install-task seg_tumor_t2" \
