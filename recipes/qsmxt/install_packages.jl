@@ -1,4 +1,4 @@
 using Pkg
-packages = ["ArgParse"]
+packages = ["ArgParse", "MriResearchTools"]
 Pkg.add(packages)
 using ArgParse
