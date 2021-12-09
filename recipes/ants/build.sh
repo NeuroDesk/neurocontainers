@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.4'
+export toolVersion='2.3.5'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -26,9 +26,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --${toolName} method=source version=${toolVersion} make_opts='-j2'\
+   --${toolName} method=source version=${toolVersion} make_opts='-j8'\
    --run="chmod a+rx /opt/${toolName}-${toolVersion} -R" \
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/bin \
+   --env DEPLOY_PATH=/opt/ants-${toolVersion}/Scripts \
+   --env PATH=/opt/ants-${toolVersion}/Scripts:/opt/ants-${toolVersion}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
