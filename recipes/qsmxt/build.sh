@@ -24,8 +24,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
    --copy install_packages.jl /opt \
-   --env JULIA_DEPOT_PATH=/opt/julia_depot \
+   --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia install_packages.jl" \
+   --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
    --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/:/opt/FastSurfer \
@@ -38,4 +39,15 @@ if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-# 
+# Explanation for Julia hack:
+   # --env JULIA_DEPOT_PATH="/opt/julia_depot" \
+   # --run="julia install_packages.jl" \
+   # --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
+
+   # The problem is that Julia packages install by default in the homedirectory
+   # in singularity this homedirectory does not exist later on
+   # so we have to set the Julia depot path to a path that's available in the image later
+   # but: Julia assumes that this path is writable :( because it stores precompiled outputs there
+   # solution is to to add a writable path before the unwritable path
+   # behaviour: julia writes precompiled stuff to ~/.julia and searches for packages in both, but can't find them in ~/.julia and then searches in /opt/
+   # if anyone has a better way of doing this, please let me know: @sbollmann_MRI (Twitter)
