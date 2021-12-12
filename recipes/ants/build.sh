@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.4'
+export toolVersion='2.3.5'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
