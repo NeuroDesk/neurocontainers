@@ -7,7 +7,7 @@ if [ "$1" != "" ]; then
 fi
 
 export toolName='freesurfer'
-export toolVersion=7.2.0
+export toolVersion=7.1.1
 # Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
@@ -22,10 +22,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
    --install wget \
-   --run="wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.2.0/freesurfer-CentOS8-7.2.0-1.x86_64.rpm" \
-   --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.2.0-1.x86_64.rpm" \
-   --run="ln -s /usr/local/freesurfer/7.2.0-1/ /opt/${toolName}-${toolVersion}" \
-   --run="ln -s /usr/local/freesurfer/7.2.0-1/* /usr/local/freesurfer/" \
+   --run="wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
+   --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
+   --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
+   --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --install mesa-dri-drivers which \
    --env FREESURFER_HOME=/usr/local/freesurfer \
    --env TERM=xterm \
