@@ -64,7 +64,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="tar zxvf julia-1.6.1-linux-x86_64.tar.gz" \
    --run="rm -rf julia-1.6.1-linux-x86_64.tar.gz" \
    --env PATH='$PATH':/opt/julia-1.6.1/bin \
-   --install apt_opts="--quiet" liblapack-dev liblas-dev \
+   --install liblapack-dev liblas-dev \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
