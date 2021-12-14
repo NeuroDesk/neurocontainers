@@ -52,8 +52,8 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=latest \
    --miniconda version=latest \
-            conda_install='python=3.6 seaborn traits nipype numpy scipy matplotlib h5py scikit-image' \
-            pip_install='bidscoin' \
+            conda_install='python=3.6 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
+            pip_install='bidscoin=3.0.8' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --workdir /opt/bru2 \
    --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
