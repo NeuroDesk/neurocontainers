@@ -21,11 +21,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
-   --install wget mesa-dri-drivers which mlocate \
-   --run="wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
+   --install wget mesa-dri-drivers which unzip \
+   --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
-   --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="/opt/${toolName}-${toolVersion}/subjects" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
@@ -48,7 +47,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
    --run="fs_install_mcr R2014b" \
-   --env LD_LIBRARY_PATH="/usr/lib64/:/usr/local/freesurfer/MCRv84/runtime/glnxa64:/usr/local/freesurfer/MCRv84/bin/glnxa64:/usr/local/freesurfer/MCRv84/sys/os/glnxa64:/usr/local/freesurfer/MCRv84/sys/opengl/lib/glnxa64:/usr/local/freesurfer/MCRv84/extern/bin/glnxa64" \
+   --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
+   --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
@@ -57,6 +57,6 @@ if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-# I applied for the freesurfer license for 400 users. But license is not included!
+# license is not included in image!
    # --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
 # 
