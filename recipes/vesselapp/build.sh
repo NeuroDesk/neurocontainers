@@ -2,7 +2,7 @@
 set -e
 
 export toolName='vesselapp'
-export toolVersion='0.3.0'
+export toolVersion='0.3.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -12,7 +12,7 @@ fi
 
 source ../main_setup.sh
 
-echo "FROM davidsliu/vessel-app:20211130" > ${imageName}.Dockerfile
+echo "FROM davidsliu/vessel-app:20211214" > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
