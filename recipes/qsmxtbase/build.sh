@@ -27,6 +27,7 @@ source ../main_setup.sh
 yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
    --pkg-manager apt \
+   --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
