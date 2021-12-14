@@ -59,11 +59,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
    --workdir /opt \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-1.5.3-linux-x86_64.tar.gz" \
-   --run="tar zxvf julia-1.5.3-linux-x86_64.tar.gz" \
-   --run="rm -rf julia-1.5.3-linux-x86_64.tar.gz" \
-   --env PATH='$PATH':/opt/julia-1.5.3/bin \
-   --run="julia -e 'using Pkg; Pkg.add(\"MriResearchTools\")'" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.1-linux-x86_64.tar.gz" \
+   --run="tar zxvf julia-1.6.1-linux-x86_64.tar.gz" \
+   --run="rm -rf julia-1.6.1-linux-x86_64.tar.gz" \
+   --env PATH='$PATH':/opt/julia-1.6.1/bin \
    --install apt_opts="--quiet" liblapack-dev liblas-dev \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
