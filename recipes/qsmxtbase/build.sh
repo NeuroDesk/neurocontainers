@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxtbase'
-export toolVersion='1.1.0'
+export toolVersion='1.1.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -15,6 +15,7 @@ source ../main_setup.sh
 # Version history:
 # - 1.0.0: Release for preprint including FS7, Minc, FSL
 # - 1.1.0: Change to Fastsurfer and replace minc with Ants
+# - 1.1.1: update Julia and move packages to depot_Path
 
 # this should fix the octave bug caused by fsl installing openblas:
 # apt update
@@ -23,7 +24,7 @@ source ../main_setup.sh
 # update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3
 
 
-neurodocker generate ${neurodocker_buildMode} \
+yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -49,7 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SUBJECTS_DIR=/tmp \
    --ants version=2.3.4 \
    --dcm2niix method=source version=latest \
-   --miniconda use_env=base \
+   --miniconda version=latest \
             conda_install='python=3.6 seaborn traits nipype numpy scipy matplotlib h5py scikit-image' \
             pip_install='bidscoin' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
