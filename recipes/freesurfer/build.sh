@@ -12,7 +12,6 @@ export toolVersion=7.1.1
 
 source ../main_setup.sh
 
-# has to be centos:7 and not 8 because hippocampus segmentation needs libncurses.so.5
 neurodocker generate ${neurodocker_buildMode} \
    --base-image centos:8 \
    --pkg-manager yum \
@@ -21,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
-   --install wget mesa-dri-drivers which unzip \
+   --install wget mesa-dri-drivers which unzip ncurses-compat-libs \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
