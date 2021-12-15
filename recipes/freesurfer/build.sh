@@ -22,8 +22,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
    --install wget mesa-dri-drivers which unzip \
-   --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
-   --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
+   --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS7-${toolVersion}-1.x86_64.rpm" \
+   --run="yum --nogpgcheck -y localinstall freesurfer-CentOS7-${toolVersion}-1.x86_64.rpm" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="/opt/${toolName}-${toolVersion}/subjects" \
