@@ -31,7 +31,10 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install ca-certificates wget unzip gcc dbus-x11 libgtk2.0-0 git graphviz wget zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
+   --install bzip2 ca-certificates wget unzip gcc dbus-x11 libgtk2.0-0 git graphviz wget \
+      zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 \
+      libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default \
+      libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh" \
    --env PATH=/miniconda2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --run="bash Miniconda2-4.6.14-Linux-x86_64.sh -b -p /miniconda2/" \
@@ -51,10 +54,6 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env SUBJECTS_DIR=/tmp \
    --ants version=2.3.4 \
    --dcm2niix method=source version=latest \
-   --miniconda version=latest \
-            conda_install='python=3.6 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
-            pip_install='bidscoin=3.0.8' \
-   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --workdir /opt/bru2 \
    --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
@@ -69,6 +68,10 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
+   --miniconda version=latest \
+            conda_install='python=3.7 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
+            pip_install='bidscoin' \
+   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.7_cpu_0" torchvision=0.4.0=py37_cpu" \
   > ${imageName}.Dockerfile
 
 if [ "$debug" = "true" ]; then
