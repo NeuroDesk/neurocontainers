@@ -60,6 +60,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
             pip_install='bidscoin' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.7_cpu_0" torchvision=0.4.0=py37_cpu" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
+   --run="rm -rf /usr/bin/python3.6 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.6" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
    --workdir /opt \
@@ -71,13 +72,14 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="update-alternatives --set libblas.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/blas/libblas.so.3" \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
+   --copy test.sh /test.sh \
   > ${imageName}.Dockerfile
-   # --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
 fi
 
-#wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
-#mv 5e9bf3ab430166067ea05564\?action\=download test.nii.gz
-#./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only
+
+
+# this was necessary in older versions but fails now:
+# --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
