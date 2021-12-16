@@ -51,6 +51,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
+   --install java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
    # --run="fs_install_mcr R2014b" \
