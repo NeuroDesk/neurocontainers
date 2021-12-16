@@ -24,6 +24,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
+   --matlabmcr version=2014b install_path=/opt/MCR  \
+   --run="ln -s /opt/MCR/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="/opt/${toolName}-${toolVersion}/subjects" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
@@ -45,13 +47,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
-   --run="fs_install_mcr R2014b" \
    --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
-   --run="segmentSubjectT1_autoEstimateAlveusML" \
   > ${imageName}.${neurodocker_buildExt}
+   # --run="fs_install_mcr R2014b" \
+   # --run="segmentSubjectT1_autoEstimateAlveusML" \
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
@@ -59,4 +61,8 @@ fi
 
 # license is not included in image!
    # --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
-# 
+
+# debug:
+# dnf install strace -y
+# strace segmentSubjectT1_autoEstimateAlveusML
+
