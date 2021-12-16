@@ -67,4 +67,6 @@ fi
 # debug:
 # dnf install strace -y
 # strace segmentSubjectT1_autoEstimateAlveusML
+# this failed because java-1.8.0-openjdk wasn't installed!
+# solution found here: https://github.com/baxpr/freesurfer720/blob/master/Dockerfile
 
