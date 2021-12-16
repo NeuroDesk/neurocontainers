@@ -1,11 +1,12 @@
 
 ----------------------------------
 ## vesselapp/0.3.1 ##
-This container provides ready-to-go conda environments for neuroimaging
+This containers provides an interactive deep learning vessel segmentation algorithm 
 
 Example:
 ```
-This containers provides an interactive deep learning vessel segmentation algorithm 
+cd /opt/vessel-app/
+bash app.sh
 ```
 
 More documentation can be found here: https://github.com/SiyuLiu0329/vessel-app
