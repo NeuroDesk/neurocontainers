@@ -56,10 +56,9 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --dcm2niix method=source version=latest \
    --workdir /opt/bru2 \
    --miniconda version=latest \
-            conda_install='python=3.7 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
+            conda_install='python=3.7 dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
             pip_install='bidscoin' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.7_cpu_0" torchvision=0.4.0=py37_cpu" \
-   --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
@@ -73,6 +72,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
   > ${imageName}.Dockerfile
+   # --run="conda install -c conda-forge dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1" \
 
 if [ "$debug" = "true" ]; then
    ./../main_build.sh
