@@ -7,7 +7,7 @@ export toolVersion='5.2.8'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -23,8 +23,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version="2.3.4" \
    --env DEPLOY_PATH=/opt/${toolName}-master/bin/ \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi

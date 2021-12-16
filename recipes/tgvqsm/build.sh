@@ -7,7 +7,7 @@ export toolVersion='1.0.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -40,9 +40,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="cp /miniconda2/bin/tgv_qsm ." \
    --copy README.md /README.md \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/:/bet2/:/opt/dcm2niix-latest/bin \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 

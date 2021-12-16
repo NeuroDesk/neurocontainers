@@ -7,7 +7,7 @@ export toolVersion='6.0.4'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -24,8 +24,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_BINS=fsleyes \
    --copy README.md /README.md \
    --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi

@@ -5,6 +5,11 @@ export toolName='julia'
 export toolVersion='1.6.1'
 # Don't forget to update version change in README.md!!!!!
 
+if [ "$1" != "" ]; then
+    echo "Entering Debug mode"
+    export debug=$1
+fi
+
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -23,6 +28,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_BINS=julia \
    --entrypoint /opt/julia-${toolVersion}/bin \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-sed -i 's/toolVersion/${toolVersion}/' README.md
+if [ "$1" != "" ]; then
+   ./../main_build.sh
+fi

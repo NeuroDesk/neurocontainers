@@ -8,7 +8,7 @@ export juliaVersion='1.6.3'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 

@@ -7,7 +7,7 @@ export toolVersion='1.0.1'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -26,8 +26,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy install_all.sh /opt/condaenvs/ \
    --workdir /opt/condaenvs \
    --run="bash /opt/condaenvs/install_all.sh" \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi

@@ -7,7 +7,7 @@ export toolVersion='1.1.1'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -73,9 +73,9 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="update-alternatives --set liblapack.so.3-x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
    --copy test.sh /test.sh \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 

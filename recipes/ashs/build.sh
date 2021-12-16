@@ -7,7 +7,7 @@ export toolVersion='2.0.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 
@@ -28,6 +28,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --user=neuro \
   > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi

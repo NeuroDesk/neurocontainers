@@ -2,8 +2,9 @@
 set -e
 
 if [ "$1" != "" ]; then
-    echo "Entering Debug mode"
-    export debug="true"
+    echo "Entering Debug mode: -s=singularity; -ds=docker+singularity"
+    echo $1
+    export debug=$1
 fi
 
 export toolName='freesurfer'
@@ -55,7 +56,7 @@ neurodocker generate ${neurodocker_buildMode} \
    # --run="fs_install_mcr R2014b" \
    # --run="segmentSubjectT1_autoEstimateAlveusML" \
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 
