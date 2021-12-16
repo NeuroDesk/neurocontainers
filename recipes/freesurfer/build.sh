@@ -50,6 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
+   --run="segmentSubjectT1_autoEstimateAlveusML" \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$debug" = "true" ]; then
