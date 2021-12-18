@@ -6,6 +6,7 @@ MRIcroGL is a cross-platform tool for viewing DICOM and NIfTI format images. It 
 
 Example:
 ```
+MRIcroGL
 ```
 
 More documentation can be found here: https://www.nitrc.org/plugins/mwiki/index.php/mricrogl:MainPage
