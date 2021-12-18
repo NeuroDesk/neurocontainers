@@ -14,26 +14,24 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image centos:7 \
+   --base-image ubuntu:20.04 \
    --env DEBIAN_FRONTEND=noninteractive \
-   --pkg-manager yum \
+   --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install wget unzip ca-certificates gtk2 mesa-dri-drivers \
+   --install wget unzip ca-certificates libgtk2.0-0 libqt5pas1 libglu1-mesa python3 \
    --workdir /opt \
-   --miniconda version=4.7.12.1 \
-            conda_install='python=3.6' \
    --run="wget --quiet -O MRIcroGL_linux.zip 'https://github.com/rordenlab/MRIcroGL/releases/download/v${toolVersion}/MRIcroGL_linux.zip' \
       && unzip MRIcroGL_linux.zip  \
       && rm -rf MRIcroGL_linux.zip" \
-   --run="mkdir -p /usr/lib/python3.6/config-3.6-x86_64-linux-gnu/" \
-   --run="ln -s /opt/miniconda-4.7.12.1/pkgs/python-3.6.15-hb7a2778_0_cpython/lib/libpython3.6m.so /usr/lib/python3.6/config-3.6-x86_64-linux-gnu/libpython3.6m.so" \
    --env PATH=/opt/MRIcroGL:/opt/MRIcroGL/Resources:$PATH \
    --env DEPLOY_BINS=MRIcroGL:dcm2niix \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
+   # --miniconda version=4.7.12.1 \
+   #          conda_install='python=3.6' \
 
 # explanation for miniconda version: this is the last version where python 3.6 doesn't create a conflict when installing
 
