@@ -7,7 +7,7 @@ export toolVersion='3.211130'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -23,13 +23,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/brainstorm3.211130_mcr2020a.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
-   --entrypoint "/opt/${toolName}-${toolVersion}/brainstorm3.command /opt/MCR/v98 " \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
-   --env DEPLOY_BINS=brainstorm3 \
    --copy README.md /README.md \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
+   --env PATH=/opt/${toolName}-${toolVersion}/:$PATH \
+   --env DEPLOY_BINS=brainstorm3:brainstorm3.command \
   > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 

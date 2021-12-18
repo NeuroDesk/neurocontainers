@@ -1,4 +1,4 @@
-name: rstudio
+name: mricrogl
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
   push:
     paths:
       - recipes/globalMountPointList.txt
-      - recipes/rstudio/*
-      - .github/workflows/rstudio.yml
+      - recipes/mricrogl/*
+      - .github/workflows/mricrogl.yml
     branches:
       - master
 

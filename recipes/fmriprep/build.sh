@@ -2,13 +2,13 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='20.2.3'
+export toolVersion='20.2.6'
 # check if version is here: https://hub.docker.com/r/nipreps/fmriprep/tags?page=1&ordering=last_updated
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
-    export debug="true"
+    export debug=$1
 fi
 
 source ../main_setup.sh
@@ -21,8 +21,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --env DEPLOY_BINS=bids-validator:fmriprep \
    --copy README.md /README.md \
-  > ${imageName}.Dockerfile
+  > ${imageName}.${neurodocker_buildExt}
 
-if [ "$debug" = "true" ]; then
+if [ "$1" != "" ]; then
    ./../main_build.sh
 fi

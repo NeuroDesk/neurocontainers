@@ -79,7 +79,7 @@ jobs:
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
             IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
             echo "IMAGENAME: $IMAGENAME"
-            echo "test command for neurodesk: bash /neurocommand/local/fetch_and_run.sh $IMAGENAME $BUILDDATE"
+            echo "test command for neurodesk: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
             IMAGELIST+=$IMAGENAME
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV

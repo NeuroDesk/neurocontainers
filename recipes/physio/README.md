@@ -1,18 +1,15 @@
 
 ----------------------------------
-## eeglab/2020.0 ##
-Standalone (compiled) version of EEGLAB GUI with MATLAB runtime
+## physio/r7771 ##
+SPM12+physIO toolbox standalone with Matlab Compiler Runtime
 
 Example:
 ```
-EEGLAB
+run_spm12.sh /opt/mcr/v99/
 ```
 
-More documentation can be found here: https://eeglab.org/tutorials/
+More documentation can be found here: https://www.fil.ion.ucl.ac.uk/spm/doc/
 
-EEGLAB is released under a BSD license (included alongside the standalone software). 
-Note: Plugins may be released under different licenses.
-
-To run applications outside of this container: ml eeglab/2020.0
+To run container outside of this environment: ml physio/r7771
 
 ----------------------------------
