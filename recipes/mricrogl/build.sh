@@ -25,12 +25,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget --quiet -O MRIcroGL_linux.zip 'https://github.com/rordenlab/MRIcroGL/releases/download/v${toolVersion}/MRIcroGL_linux.zip' \
       && unzip MRIcroGL_linux.zip  \
       && rm -rf MRIcroGL_linux.zip" \
-   --miniconda version=latest \
+   --miniconda version=4.7.12.1 \
             conda_install='python=3.6' \
    --env PATH=/opt/MRIcroGL:/opt/MRIcroGL/Resources:$PATH \
    --env DEPLOY_BINS=MRIcroGL:dcm2niix \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
+
+# explanation for miniconda version: this is the last version where python 3.6 doesn't create a conflict when installing
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
