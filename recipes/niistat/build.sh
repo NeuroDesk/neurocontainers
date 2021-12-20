@@ -22,13 +22,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --workdir /opt/ \
-   --run="wget --quiet -O spm12.zip 'https://www.fil.ion.ucl.ac.uk/spm/download/restricted/eldorado/spm12.zip' \
-      && unzip spm12.zip  \
-      && rm -rf spm12.zip" \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://github.com/neurolabusc/NiiStat/archive/refs/tags/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
+   --workdir /opt/ \
+   --copy buildSPMinOctave.m /opt/buildSPMinOctave.m \
+   --install patch make \
+   --run="octave buildSPMinOctave.m" \
    --env DEPLOY_BINS=octave \
    --env PATH='$PATH':/opt/niistat-${toolVersion} \
    --copy README.md /README.md \
