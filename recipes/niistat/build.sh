@@ -2,9 +2,10 @@
 set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
-export toolName='palm'
-export toolVersion='alpha119'
+export toolName='niistat'
+export toolVersion='1.0.20191216'
 # Don't forget to update version change in README.md!!!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -17,15 +18,19 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
-   --install octave curl ca-certificates \
+   --install octave curl ca-certificates wget unzip \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
+   --workdir /opt/ \
+   --run="wget --quiet -O spm12.zip 'https://www.fil.ion.ucl.ac.uk/spm/download/restricted/eldorado/spm12.zip' \
+      && unzip spm12.zip  \
+      && rm -rf spm12.zip" \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --run="curl -fsSL --retry 5 https://s3-us-west-2.amazonaws.com/andersonwinkler/palm/palm-${toolVersion}.tar.gz \
+   --run="curl -fsSL --retry 5 https://github.com/neurolabusc/NiiStat/archive/refs/tags/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
-   --env DEPLOY_BINS=palm:octave \
-   --env PATH='$PATH':/opt/palm-${toolVersion} \
+   --env DEPLOY_BINS=octave \
+   --env PATH='$PATH':/opt/niistat-${toolVersion} \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
