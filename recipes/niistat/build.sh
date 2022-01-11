@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
-   --install octave curl ca-certificates wget unzip liboctave-dev \
+   --install octave curl ca-certificates wget unzip liboctave-dev patch make fonts-freefont-otf \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
@@ -27,7 +27,6 @@ neurodocker generate ${neurodocker_buildMode} \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --workdir /opt/ \
    --copy SPMinOctave.m /opt/SPMinOctave.m \
-   --install patch make \
    --run="octave SPMinOctave.m" \
    --env DEPLOY_BINS=octave \
    --env PATH='$PATH':/opt/niistat-${toolVersion} \

@@ -6,6 +6,10 @@ NiiStat is a set of Matlab scripts for analyzing neuroimaging data from clinical
 Example:
 ```
 octave 
+
+addpath (fullfile ("/opt/spm12-r7771"));
+addpath (fullfile ("/opt/niistat-1.0.20191216"));
+spm
 ```
 
 More documentation can be found here: 
