@@ -12,5 +12,5 @@ system ("make PLATFORM=octave install");
 %% Add SPM12 to the function search path
 addpath (fullfile (cwd, "spm12-r7771"));
 cd (cwd);
-%% Start SPM12
-spm
+%% Start SPM12 (dont start for now)
+%% spm

@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
-   --install octave curl ca-certificates wget unzip \
+   --install octave curl ca-certificates wget unzip liboctave-dev \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
@@ -26,9 +26,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://github.com/neurolabusc/NiiStat/archive/refs/tags/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --workdir /opt/ \
-   --copy buildSPMinOctave.m /opt/buildSPMinOctave.m \
+   --copy SPMinOctave.m /opt/SPMinOctave.m \
    --install patch make \
-   --run="octave buildSPMinOctave.m" \
+   --run="octave SPMinOctave.m" \
    --env DEPLOY_BINS=octave \
    --env PATH='$PATH':/opt/niistat-${toolVersion} \
    --copy README.md /README.md \
