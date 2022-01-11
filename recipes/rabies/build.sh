@@ -16,11 +16,13 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image gabdesgreg/${toolName}:$toolVersion \
    --pkg-manager apt \
+   --user root \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --env DEPLOY_BINS=rabies \
    --copy README.md /README.md \
+   --user rabies \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
