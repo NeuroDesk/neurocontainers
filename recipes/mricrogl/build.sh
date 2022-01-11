@@ -20,11 +20,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install wget unzip ca-certificates libgtk2.0-0 libqt5pas1 appmenu-gtk2-module libglu1-mesa python3 \
+   --install wget unzip ca-certificates libgtk2.0-0 libqt5pas1 appmenu-gtk2-module libglu1-mesa \
    --workdir /opt \
-   --run="wget --quiet -O MRIcroGL_linux.zip 'https://github.com/rordenlab/MRIcroGL/releases/download/v${toolVersion}/MRIcroGL_linux.zip' \
-      && unzip MRIcroGL_linux.zip  \
-      && rm -rf MRIcroGL_linux.zip" \
+   --run="wget --quiet -O MRIcroGL_linux_includes_Python.zip 'https://github.com/rordenlab/MRIcroGL/releases/download/v${toolVersion}/MRIcroGL_linux_includes_Python.zip' \
+      && unzip MRIcroGL_linux_includes_Python.zip  \
+      && rm -rf MRIcroGL_linux_includes_Python.zip" \
    --run="wget --quiet -O libqt5pas1_2.9-0_amd64.deb 'https://github.com/davidbannon/libqt5pas/releases/download/v1.2.9/libqt5pas1_2.9-0_amd64.deb' \
       && apt install ./libqt5pas1_2.9-0_amd64.deb  \
       && rm -rf libqt5pas1_2.9-0_amd64.deb" \
