@@ -107,7 +107,7 @@ fi
 if [ "$testImageSingularity" = "true" ]; then
        echo "testing singularity image:"
        echo "----------------------"
-       singularity shell --bind $PWD:/data ${imageName}_${buildDate}.sif
+       singularity shell ${imageName}_${buildDate}.sif
 fi
 
 if [ "$uploadToSylabs" = "true" ]; then
