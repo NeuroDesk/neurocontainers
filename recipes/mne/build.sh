@@ -33,7 +33,8 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --copy README.md /README.md \
-   --copy code /bin \
+   --copy code /usr/local/sbin/ \
+   --run="chmod a+x /usr/local/sbin/code" \
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
 
