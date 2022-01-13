@@ -107,14 +107,7 @@ fi
 if [ "$testImageSingularity" = "true" ]; then
        echo "testing singularity image:"
        echo "----------------------"
-       sudo singularity shell --bind $PWD:/data ${imageName}_${buildDate}.simg
-fi
-
-if [[ "$uploadToSwift" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
-       echo "uploading image to swift storage:"
-       echo "----------------------"
-       source ../../setupSwift.sh
-       swift upload singularityImages ${imageName}_${buildDate}.sif --segment-size 1073741824  
+       singularity shell --bind $PWD:/data ${imageName}_${buildDate}.sif
 fi
 
 if [ "$uploadToSylabs" = "true" ]; then
