@@ -25,6 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
       env_name=${toolName}-${toolVersion} \
       env_exists=false \
       yaml_file=/opt/mne-pinned.yml \
+      pip_install="osfclient" \
    --install python-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
