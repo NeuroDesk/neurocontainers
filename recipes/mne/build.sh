@@ -39,6 +39,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \
+   --env DEPLOY_BINS=code \
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
 
