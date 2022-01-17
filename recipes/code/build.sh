@@ -36,6 +36,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
+   --workdir /opt \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
    --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
    --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
@@ -68,6 +69,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \
+   --env DEPLOY_BINS=code \
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
 
