@@ -5,7 +5,6 @@ on:
   repository_dispatch:
   push:
     paths:
-      - recipes/globalMountPointList.txt
       - recipes/condaenvs/*
       - .github/workflows/condaenvs.yml
     branches:

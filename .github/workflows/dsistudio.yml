@@ -5,7 +5,6 @@ on:
   repository_dispatch:
   push:
     paths:
-      - recipes/globalMountPointList.txt
       - recipes/dsistudio/*
       - .github/workflows/dsistudio.yml
     branches:

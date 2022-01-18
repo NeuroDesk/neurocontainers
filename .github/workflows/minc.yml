@@ -5,7 +5,6 @@ on:
   repository_dispatch:
   push:
     paths:
-      - recipes/globalMountPointList.txt
       - recipes/minc/*
       - .github/workflows/minc.yml
     branches:

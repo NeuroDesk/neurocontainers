@@ -5,7 +5,6 @@ on:
   repository_dispatch:
   push:
     paths:
-      - recipes/globalMountPointList.txt
       - recipes/lashis/*
       - .github/workflows/lashis.yml
     branches:
