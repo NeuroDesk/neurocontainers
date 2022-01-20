@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.4'
+export toolVersion='6.0.5.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -12,7 +12,10 @@ fi
 
 source ../main_setup.sh
 
-neurodocker generate ${neurodocker_buildMode} \
+yes | pip uninstall neurodocker
+pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update-fsl-to-6.0.5.1 --upgrade
+
+yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:16.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -21,11 +24,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
-   --env DEPLOY_BINS=fsleyes \
-   --copy README.md /README.md \
+   --env DEPLOY_BINS=fsleyes:fsl \
    --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
+   --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
+   # --install ca-certificates wget python \
+   # --workdir /opt \
+   # --copy fslinstaller.py /opt \
+   # --run="wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py" \
+# 
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
