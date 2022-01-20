@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxtbase'
-export toolVersion='1.1.1'
+export toolVersion='1.1.2'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -15,7 +15,8 @@ source ../main_setup.sh
 # Version history:
 # - 1.0.0: Release for preprint including FS7, Minc, FSL
 # - 1.1.0: Change to Fastsurfer and replace minc with Ants
-# - 1.1.1: update Julia and move packages to depot_Path
+# - 1.1.1: update Julia and move packages to depot_Path + changed python version to 3.7
+# - 1.1.2: changed python version back to 3.6 with older Miniconda version + fixed versions
 
 # this should fix the octave bug caused by fsl installing openblas:
 # apt update
@@ -55,10 +56,10 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=latest \
    --workdir /opt/bru2 \
-   --miniconda version=latest \
-            conda_install='python=3.7 dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
+   --miniconda version=4.7.12.1 \
+            conda_install='python=3.6 dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1 seaborn=0.11.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 matplotlib=3.3.4 h5py=2.10.0 scikit-image=0.17.2' \
             pip_install='bidscoin' \
-   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.7_cpu_0" torchvision=0.4.0=py37_cpu" \
+   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --run="rm -rf /usr/bin/python3.6 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.6" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \

@@ -16,3 +16,5 @@ archived_images/
 ashs-fastashs_beta
 *.Dockerfile
 *.Singularity
+recipes/fsl/manifest.json
+recipes/fsl/fslinstaller.py
