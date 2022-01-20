@@ -25,7 +25,6 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_BINS=fsleyes:fsl \
-   --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
@@ -33,7 +32,8 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    # --workdir /opt \
    # --copy fslinstaller.py /opt \
    # --run="wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py" \
-# 
+   # --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
