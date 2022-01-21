@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=latest \
       conda_install="python=3.8 nipype jupyter nb_conda_kernels h5py seaborn numpy" \
       pip_install="osfclient" \
-   --install python-pyqt5 unzip git apt-transport-https ca-certificates coreutils \
+   --install midori xdg-utils  python-pyqt5 unzip git apt-transport-https ca-certificates coreutils \
       curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
        cryptsetup squashfs-tools lua-bit32 lua-filesystem lua-json lua-lpeg lua-posix lua-term lua5.2 lmod imagemagick less nano tree \
        gcc graphviz libzstd1 zlib1g-dev zip build-essential uuid-dev libgpgme-dev libseccomp-dev pkg-config \
@@ -70,6 +70,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \
    --env DEPLOY_BINS=code \
+   --copy module.sh /usr/share/ \
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
 
