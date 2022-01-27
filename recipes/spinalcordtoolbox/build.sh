@@ -2,7 +2,7 @@
 set -e
 
 export toolName='spinalcordtoolbox'
-export toolVersion='5.4'
+export toolVersion='5.5'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then

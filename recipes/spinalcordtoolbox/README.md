@@ -1,6 +1,6 @@
 
 ----------------------------------
-## spinalcordtoolbox/5.4 ##
+## spinalcordtoolbox/5.5 ##
 CT tools process MRI data (NIfTI files) and can do fully automatic tasks such as:
 - Segmentation of the spinal cord and gray matter
 - Segmentation of pathologies (eg. multiple sclerosis lesions)
@@ -20,7 +20,7 @@ SCT also has low-level tools:
 
 More documentation can be found here: https://spinalcordtoolbox.com/en/latest/user_section/getting-started.html
 
-To run container outside of this environment: ml spinalcordtoolbox/5.4
+To run container outside of this environment: ml spinalcordtoolbox/5.5
 
 ----------------------------------
 
