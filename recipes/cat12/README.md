@@ -1,6 +1,6 @@
 
 ----------------------------------
-## cat12/r1904 ##
+## cat12/r1933 ##
 SPM12 standalone with CAT12 toolbox in Matlab Compiler Runtime
 
 Example:
@@ -39,6 +39,6 @@ cat.run()
 
 More documentation can be found here: http://141.35.69.218/cat12/CAT12-Manual.pdf
 
-To run container outside of this environment: ml cat12/r1904
+To run container outside of this environment: ml cat12/r1933
 
 ----------------------------------

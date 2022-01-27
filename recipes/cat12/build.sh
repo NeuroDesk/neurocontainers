@@ -3,7 +3,7 @@ set -e
 
 # this template file builds cat12, new versions here: http://141.35.69.218/cat12/?C=M;O=D
 export toolName='cat12'
-export toolVersion='r1904'
+export toolVersion='r1933'
 # Don't forget to update version change in README.md!!!!!
 
 # inspired by: https://github.com/m-wierzba/cat-container/blob/master/Singularity
@@ -44,7 +44,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SPMROOT=/opt/spm${CAT_VERSION}/ \
    --env MCRROOT=/opt/mcr/${MCR_VERSION} \
    --env MCR_INHIBIT_CTF_LOCK=1v \
-   --run="wget --no-check-certificate --progress=bar:force -P /opt http://141.35.69.218/cat12/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux.zip \
+   --run="wget --no-check-certificate --progress=bar:force -P /opt http://www.neuro.uni-jena.de/cat12/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux.zip \
       && unzip -q /opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux.zip -d /opt \
       && ln -s  /opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux /opt/cat12 \
       && rm -f /opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux.zip" \
