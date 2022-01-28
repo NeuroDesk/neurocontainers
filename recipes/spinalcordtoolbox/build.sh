@@ -20,8 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --run="curl -fsSL --retry 5 https://github.com/spinalcordtoolbox/spinalcordtoolbox/archive/refs/tags/${toolVersion}.tar.gz | tar -xz -C /opt/ " \
    --workdir="/opt/${toolName}-${toolVersion}" \
-   --run="chmod a+rwx /opt/${toolName}-${toolVersion}/spinalcordtoolbox" \
-   --run="chmod a+rwx /opt/${toolName}-${toolVersion}/" \
+   --run="chmod a+rwx /opt/${toolName}-${toolVersion}/ -R" \
    --user=${toolName} \
    --run="yes | ./install_sct -i" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
@@ -33,6 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="sct_deepseg -install-task seg_mice_gm" \
    --run="sct_deepseg -install-task seg_mice_sc" \
    --run="sct_deepseg -install-task seg_sc_t2star" \
+   --run="bash /opt/spinalcordtoolbox-${toolVersion}/batch_processing.sh" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
