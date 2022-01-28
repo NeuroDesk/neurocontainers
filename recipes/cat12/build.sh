@@ -51,12 +51,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda \
          version=latest \
          conda_install='python=3.8 traits nipype numpy scipy h5py scikit-image' \
+         pip_install='osfclient' \
    --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --run="/opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux/spm12 function exit \
       && chmod +x /opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux/*" \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
-   --env PATH=/opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+   --env PATH=/opt/CAT${CAT_VERSION}_${CAT_REVISION}_${MATLAB_VERSION}_MCR_Linux:/opt/miniconda-latest/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.${neurodocker_buildExt}
 
