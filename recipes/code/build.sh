@@ -69,6 +69,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \
+   --run="chmod a+rwx /opt/vscode-extensions/ -R" \
+   --run="chmod a+rwx /opt/vscode-data -R" \
    --env DEPLOY_BINS=code \
    --copy module.sh /usr/share/ \
    --user neuro \
