@@ -12,8 +12,8 @@ fi
 
 source ../main_setup.sh
 
-yes | pip uninstall neurodocker
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/ants-add-scripts --upgrade
+# yes | pip uninstall neurodocker
+# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/ants-add-scripts --upgrade
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
