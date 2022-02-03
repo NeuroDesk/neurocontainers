@@ -34,14 +34,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --matlabmcr version=2017b install_path=/opt/mcr  \
    --cat12 version=r1933_R2017b install_path=/opt/cat12 \
+   --miniconda \
+         version=latest \
+         conda_install='python=3.8 traits nipype numpy scipy h5py scikit-image' \
+         pip_install='osfclient' \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.${neurodocker_buildExt}
 
-   # --miniconda \
-   #       version=latest \
-   #       conda_install='python=3.8 traits nipype numpy scipy h5py scikit-image' \
-   #       pip_install='osfclient' \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
