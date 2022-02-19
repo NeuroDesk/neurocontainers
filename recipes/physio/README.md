@@ -1,7 +1,7 @@
 
 ----------------------------------
-## physio/R2021a ##
-SPM12+PhysIO toolbox standalone with Matlab (R2021a) Compiler Runtime (v9.11)
+## physio/r2021a ##
+SPM12+PhysIO toolbox standalone with Matlab (r2021a) Compiler Runtime (v9.11)
 
 Example:
 - To run PhysIO batch file (`.m` or `.mat`) directly
@@ -31,6 +31,6 @@ NeuroDesk offers the possibility of running PhysIO without installing Matlab or 
 More general info about PhysIO is found in its [NeuroDesk Tutorial](https://neurodesk.github.io/tutorials/functional_imaging/physio/) and the [README](https://github.com/translationalneuromodeling/tapas/tree/master/PhysIO#readme) on GitHub.
 
 
-To run container outside of this environment: ml physio/R2021a
+To run container outside of this environment: ml physio/r2021a
 
 ----------------------------------

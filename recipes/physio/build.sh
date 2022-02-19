@@ -3,7 +3,7 @@ set -e
 
 # this template file builds spm12
 export toolName='physio'
-export toolVersion='R2021a'
+export toolVersion='r2021a'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
