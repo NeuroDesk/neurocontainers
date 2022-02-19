@@ -1,12 +1,17 @@
 
 ----------------------------------
-## physio/r7771 ##
-SPM12+physIO toolbox standalone with Matlab Compiler Runtime
+## physio/R2021a ##
+SPM12+PhysIO toolbox standalone with Matlab (R2021a) Compiler Runtime (v9.11)
 
 Example:
-```
-run_spm12.sh /opt/mcr/v99/
-```
+- To run PhysIO batch file (`.m` or `.mat`) directly
+  ```
+  run_spm12.sh /opt/mcr/v911/ batch batch_spm_job.mat
+  ```
+- To call SPM for fMRI GUI
+  ```
+  run_spm12.sh /opt/mcr/v911/ fmri
+  ```
 
 The PhysIO Toolbox implements ideas for robust physiological noise modeling in fMRI, outlined in this paper:
 
@@ -23,9 +28,9 @@ Please cite these works if you use PhysIO and see the [FAQ](https://gitlab.ethz.
 
 NeuroDesk offers the possibility of running PhysIO without installing Matlab or requiring a Matlab license. The functionality should be equivalent, though debugging and extending the toolbox, as well as unreleased development features, will only be available in the Matlab version of PhysIO, which is exlusively hosted on the [TAPAS GitHub](https://github.com/translationalneuromodeling/tapas).
 
-More general info about PhysIO besides NeuroDesk usage is found in the [README](https://github.com/translationalneuromodeling/tapas/tree/master/PhysIO#readme) on GitHub.
+More general info about PhysIO is found in its [NeuroDesk Tutorial](https://neurodesk.github.io/tutorials/functional_imaging/physio/) and the [README](https://github.com/translationalneuromodeling/tapas/tree/master/PhysIO#readme) on GitHub.
 
 
-To run container outside of this environment: ml physio/r7771
+To run container outside of this environment: ml physio/R2021a
 
 ----------------------------------
