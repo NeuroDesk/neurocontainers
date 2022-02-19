@@ -3,7 +3,7 @@ set -e
 
 # this template file builds spm12
 export toolName='physio'
-export toolVersion='r7771'
+export toolVersion='R2021a'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -20,10 +20,10 @@ source ../main_setup.sh
 
 # try slimdown version next: https://github.com/spm/spm-docker/pull/2
 
-export MATLAB_VERSION=2020b
-export MCR_VERSION=v99
+export MATLAB_VERSION=2021b
+export MCR_VERSION=v911
 export SPM_VERSION=12
-export SPM_REVISION=$toolVersion
+export SPM_REVISION=r8224
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:16.04 \
@@ -40,7 +40,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env MCR_INHIBIT_CTF_LOCK=1 \
    --env SPM_HTML_BROWSER=0 \
    --workdir /opt/spm${SPM_VERSION}/ \
-   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/spm12_dev_physio_standalone_MCRv99_MatlabR2020b_Linux.tar.gz \
+   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/spm12r8224_physioR2021a_standalone_MCRv911_MatlabR2021b_Linux.tar.gz \
       | tar -xz -C /opt/spm${SPM_VERSION}/ --strip-components 1" \
    --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --run="/opt/spm${SPM_VERSION}/spm${SPM_VERSION} function exit \
