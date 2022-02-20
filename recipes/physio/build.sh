@@ -20,7 +20,7 @@ source ../main_setup.sh
 
 # try slimdown version next: https://github.com/spm/spm-docker/pull/2
 
-export MATLAB_VERSION=2020b
+export MATLAB_VERSION=2020b #warning: 2021a currently does not work in the container as it tries to write things to disk on startup
 export MCR_VERSION=v99
 export SPM_VERSION=12
 export SPM_REVISION=r8224
