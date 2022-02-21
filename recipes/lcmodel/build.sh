@@ -25,7 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
           tar xf /opt/lcm-64.tar && \
           rm -rf /opt/lcm-64.tar" \
    --run="gunzip  -c  lcm-core.tar.gz  |  tar  xf  -" \
-   --run="rm -rf lm-core.tar.gz" \
+   --run="rm -rf lcm-core.tar.gz" \
    --workdir=/opt/${toolName}-${toolVersion}/.lcmodel/basis-sets \
    --run="curl -o /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/3t.zip http://www.s-provencher.com/pub/LCModel/3t.zip && \
          unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/3t.zip && \
