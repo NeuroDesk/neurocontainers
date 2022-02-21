@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-/opt/lcmodel-6.3/install-lcmodel
+cd /opt/lcmodel-6.3/
 
-cp /opt/lcmodel-6.3/.lcmodel/license /home/user/.lcmodel/
+./install-lcmodel
+# enter "gv -orientation=seascape 2>/dev/null" in the field Enter display (or print) 
 
-cp /opt/lcmodel-6.3/.lcmodel/basis-sets/* /home/user/.lcmodel/basis-sets/ -R
+cp /opt/lcmodel-6.3/.lcmodel/license ~/.lcmodel/
 
-cp /opt/${toolName}-${toolVersion}/.lcmodel/profiles/ /home/user/.lcmodel/ -R
+cp /opt/lcmodel-6.3/.lcmodel/basis-sets/* ~/.lcmodel/basis-sets/ -R
+
+cp /opt/lcmodel-6.3/.lcmodel/profiles/ ~/.lcmodel/ -R

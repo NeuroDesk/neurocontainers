@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install="curl libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv" \
+   --install="curl ca-certificates libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv" \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
@@ -39,7 +39,20 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/9.4t.zip http://www.s-provencher.com/pub/LCModel/9.4t.zip && \
          unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/9.4t.zip && \
          rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/9.4t.zip" \
+   --run="curl -o /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/basisset_LCModel.zip https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/basisset_LCModel.zip && \
+         unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/basisset_LCModel.zip && \
+         rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/basisset_LCModel.zip" \
+   --run="curl -o /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip http://juchem.bme.columbia.edu/sites/default/files/2021-01/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip && \
+         unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip && \
+         rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip" \
+   --run="curl -o /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip http://juchem.bme.columbia.edu/sites/default/files/2021-01/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip && \
+         unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip && \
+         rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip" \
    --copy license  /opt/${toolName}-${toolVersion}/.lcmodel/license \
+   --workdir=/opt/${toolName}-${toolVersion}/datasets \
+   --run="curl https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/datasets_LCModel.zip && \
+          unzip /opt/datasets/datasets_LCModel.zip && \
+          rm -rf /opt/datasets/datasets_LCModel.zip" \
    --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
    --workdir /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults \
    --copy controlfiledefault  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults/ \
@@ -52,4 +65,3 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
-   # --run="./install-lcmodel" \
