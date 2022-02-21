@@ -49,8 +49,8 @@ neurodocker generate ${neurodocker_buildMode} \
          unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip && \
          rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip" \
    --copy license  /opt/${toolName}-${toolVersion}/.lcmodel/license \
-   --workdir=/opt/${toolName}-${toolVersion}/datasets \
-   --run="curl https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/datasets_LCModel.zip && \
+   --workdir=/opt/datasets \
+   --run="curl -o /opt/datasets/datasets_LCModel.zip https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/datasets_LCModel.zip && \
           unzip /opt/datasets/datasets_LCModel.zip && \
           rm -rf /opt/datasets/datasets_LCModel.zip" \
    --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
