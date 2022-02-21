@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install="curl libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip evince" \
+   --install="curl libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv" \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
@@ -40,6 +40,9 @@ neurodocker generate ${neurodocker_buildMode} \
          unzip /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/9.4t.zip && \
          rm -rf /opt/${toolName}-${toolVersion}/.lcmodel/basis-sets/9.4t.zip" \
    --copy license  /opt/${toolName}-${toolVersion}/.lcmodel/license \
+   --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
+   --workdir /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults \
+   --copy controlfiledefault  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults/ \
    --run="chmod a+rwx /opt/${toolName}-${toolVersion} -R" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/ \
    --env PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/:'$PATH' \
