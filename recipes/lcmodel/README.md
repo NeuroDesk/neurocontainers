@@ -12,10 +12,6 @@ When using this for the first time, run:
 setup_lcmodel.sh
 ```
 
-enter "gv -orientation=seascape 2>/dev/null" in the field Enter display (or print) command, hit continue, close the window with the spectrum and hit Exit Lcmodel.
-
-Then it should be all setup :)
-
 Example:
 ```
 lcmgui
