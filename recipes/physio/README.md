@@ -1,16 +1,16 @@
 
 ----------------------------------
 ## physio/r2021a ##
-SPM12+PhysIO toolbox standalone with Matlab (r2021a) Compiler Runtime (v9.11)
+SPM12+PhysIO toolbox standalone with Matlab (r2021a) Compiler Runtime (v99)
 
 Example:
 - To run PhysIO batch file (`.m` or `.mat`) directly
   ```
-  run_spm12.sh /opt/mcr/v911/ batch batch_spm_job.mat
+  run_spm12.sh /opt/mcr/v99/ batch batch_spm_job.mat
   ```
 - To call SPM for fMRI GUI
   ```
-  run_spm12.sh /opt/mcr/v911/ fmri
+  run_spm12.sh /opt/mcr/v99/ fmri
   ```
 
 The PhysIO Toolbox implements ideas for robust physiological noise modeling in fMRI, outlined in this paper:
