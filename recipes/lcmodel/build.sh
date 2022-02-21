@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install="curl ca-certificates libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv" \
+   --install="curl ca-certificates libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
@@ -51,7 +51,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy license  /opt/${toolName}-${toolVersion}/.lcmodel/license \
    --workdir=/opt/datasets \
    --run="curl -o /opt/datasets/testdata.rar https://zenodo.org/record/3904443/files/Spectra_hippocampus%28rat%29_TE02.rar?download=1 && \
-          tar xfv /opt/datasets/testdata.rar  && \
+          unrar /opt/datasets/testdata.rar  && \
           rm -rf /opt/datasets/testdata.rar" \
    --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
    --workdir /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults \
