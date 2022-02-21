@@ -4,7 +4,7 @@
 Automatic quantification of in vivo proton MR spectra. LCmodel is now open source - to activte the license:
 
 
-and for each analysis the following in Figure 7.7 of the User's Manual:
+for each analysis enter in View/Edit Control Paramters the following (more info in Figure 7.7 of the User's Manual http://www.s-provencher.com/pub/LCModel/manual/manual.pdf):
   key = 210387309
 
 Example:
