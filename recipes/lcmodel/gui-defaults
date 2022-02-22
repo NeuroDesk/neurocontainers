@@ -1,42 +1,43 @@
-i_agreementAccepted 0
-i_balloonWait 3000
-i_basisDirectory ~/.lcmodel/basis-sets
-i_basisPath  
-i_colorActiveFollowMe green
-i_colorDanger red
-i_colorEntry green
-i_colorFollowMe yellow
-i_deleteAfterSeconds 86400.0
-i_displayCommand lpr
-i_displayPlot 0
-i_executionScriptPath ~/.lcmodel/execution-scripts/standard
-i_fileTypeBruker fid*  FID*
-i_fileTypeGe5 P?????  G*
-i_fileTypeGeLx p*.7  P*.7  P*.7.??
-i_fileTypeMarconi *
-i_fileTypeOther *
-i_fileTypePhilips *
-i_fileTypeSiemens *
-i_fileTypeToshiba *
-i_fileTypeVarian fid
-i_fontPoints 10
-i_installing 0
-i_niceIncrement 5
-i_nSaveDirectorySegments 0
-i_plotAbsoluteValue 1
-i_plotFrequencyDomain 0
-i_plotTimeDomain 0
-i_preserveConfiguration 0
-i_printCommand gv -orientation=seascape 2>/dev/null
-i_printCommandPlot gv -orientation=seascape 2>/dev/null
-i_printPlot 1
-i_saveControl 0
-i_saveCoord 0
-i_saveCoraw 0
-i_saveCsv 0
-i_saveh2o 0
-i_savemet 0
-i_savePrint 0
-i_savePs 1
-i_saveTable 1
-i_testRunDone 1
+ i_agreementAccepted 1
+ i_balloonWait 3000
+ i_colorActiveFollowMe green
+ i_colorDanger red
+ i_colorEntry green
+ i_colorFollowMe yellow
+ i_controlDefaultsPath ~/.lcmodel/profiles/1/control-defaults/controlfiledefault
+ i_deleteAfterSeconds 86400.0
+ i_displayCommand lpr
+ i_displayPlot 0
+ i_executionScriptPath ~/.lcmodel/execution-scripts/standard
+ i_fidType Varian
+ i_fileTypeBruker fid*  FID*
+ i_fileTypeGe5 P?????  G*
+ i_fileTypeGeLx p*.7  P*.7  P*.7.??
+ i_fileTypeMarconi *
+ i_fileTypeOther *
+ i_fileTypePhilips *
+ i_fileTypeSiemens *
+ i_fileTypeToshiba *
+ i_fileTypeVarian fid
+ i_fontPoints 10
+ i_installing 0
+ i_niceIncrement 5
+ i_nSaveDirectorySegments 1
+ i_plotAbsoluteValue 1
+ i_plotFrequencyDomain 0
+ i_plotTimeDomain 0
+ i_preserveConfiguration 0
+ i_printCommand gv -orientation=seascape 2>/dev/null
+ i_printCommandPlot gv -orientation=seascape 2>/dev/null
+ i_printPlot 1
+ i_saveControl 0
+ i_saveCoord 0
+ i_saveCoraw 0
+ i_saveCsv 0
+ i_saveDirectorySegment1 **defaultDir**
+ i_saveh2o 0
+ i_savemet 0
+ i_savePrint 0
+ i_savePs 1
+ i_saveTable 1
+ i_testRunDone 1

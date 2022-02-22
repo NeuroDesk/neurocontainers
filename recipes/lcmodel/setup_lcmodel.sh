@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-# cd /opt/lcmodel-6.3/
-
-# ./install-lcmodel
-# enter "gv -orientation=seascape 2>/dev/null" in the field Enter display (or print) 
-
-cp /opt/lcmodel-6.3/.lcmodel/ ~/ -R
+if [[ -d ~/.lcmodel/ ]]
+then
+    echo ".lcmodel exists on your filesystem."
+    echo "Would you like to delete the local install and replace it with the new version? (y)"
+    read varname
+    if [[ "$varname" = "y" ]]
+    then
+        echo "deleting local lcmodel ..."
+        rm -rf ~/.lcmodel
+        echo "Setting up lcmodel..."
+        cp /opt/lcmodel-6.3/.lcmodel/ ~/ -R
+        echo "done."
+    fi
+else
+    echo "Setting up lcmodel..."
+    cp /opt/lcmodel-6.3/.lcmodel/ ~/ -R
+    echo "done."
+fi
