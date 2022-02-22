@@ -9,7 +9,6 @@
  i_displayCommand lpr
  i_displayPlot 0
  i_executionScriptPath ~/.lcmodel/execution-scripts/standard
- i_fidType Varian
  i_fileTypeBruker fid*  FID*
  i_fileTypeGe5 P?????  G*
  i_fileTypeGeLx p*.7  P*.7  P*.7.??
