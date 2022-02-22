@@ -55,7 +55,8 @@ neurodocker generate ${neurodocker_buildMode} \
           rm -rf /opt/datasets/testdata.rar" \
    --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
    --workdir /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults \
-   --copy controlfiledefault  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults/ \
+   --copy controlfiledefault  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults/controlfiledefault \
+   --copy gui-defaults  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/gui-defaults \
    --run="chmod a+rwx /opt/${toolName}-${toolVersion} -R" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/ \
    --env PATH=/opt/${toolName}-${toolVersion}/.lcmodel/bin/:/opt/${toolName}-${toolVersion}/.lcmodel/:'$PATH' \
