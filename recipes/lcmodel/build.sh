@@ -53,6 +53,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/datasets/testdata.rar https://zenodo.org/record/3904443/files/Spectra_hippocampus%28rat%29_TE02.rar?download=1 && \
           unrar x /opt/datasets/testdata.rar  && \
           rm -rf /opt/datasets/testdata.rar" \
+   --run="curl -o /opt/${toolName}-${toolVersion}/manual.pdf http://www.lcmodel.com/pub/LCModel/manual/manual.pdf" \
    --copy setup_lcmodel.sh  /opt/${toolName}-${toolVersion}/.lcmodel/bin \
    --workdir /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults \
    --copy controlfiledefault  /opt/${toolName}-${toolVersion}/.lcmodel/profiles/1/control-defaults/controlfiledefault \
