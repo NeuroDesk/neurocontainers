@@ -2,7 +2,7 @@
 set -e
 
 export toolName='romeo'
-export toolVersion='3.2.8' # https://github.com/korbinian90/ROMEO/releases/
+export toolVersion='3.2.7' # https://github.com/korbinian90/ROMEO/releases/
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
