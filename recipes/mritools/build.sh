@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='romeo'
+export toolName='mritools'
 export toolVersion='3.3.0' # https://github.com/korbinian90/CompileMRI.jl/releases
 # Don't forget to update version change in README.md!!!!!
 
@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install curl ca-certificates \
-   --workdir /opt/${toolName}-${toolVersion}/ \ 
+   --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://github.com/korbinian90/CompileMRI.jl/releases/download/v${toolVersion}/mritools_linux_${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin \
