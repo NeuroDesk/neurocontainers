@@ -1,6 +1,6 @@
 
 ----------------------------------
-## romeo/3.2.7 ##
+## romeo/3.2.8 ##
 Unwrapping of 3D and 4D datasets. Coil combination of 5D datasets.
 
 
@@ -20,7 +20,7 @@ Note that echo times are required for unwrapping multi-echo data.
 
 More documentation can be found here: https://github.com/korbinian90/ROMEO
 
-To run applications outside of this container: ml romeo/3.2.7
+To run applications outside of this container: ml romeo/3.2.8
 
 Citation:
 ```
