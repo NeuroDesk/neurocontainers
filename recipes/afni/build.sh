@@ -6,7 +6,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-# Afni version 21.2.00
+# Afni version 22.0.11
 # Don't forget to update version change in README.md!!!!!
 
 
@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
-   --miniconda create_env=neuro conda_install='python=3.6' \
+   --miniconda version=latest conda_install='python=3.6' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
