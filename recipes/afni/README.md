@@ -12,4 +12,13 @@ More documentation can be found here: https://afni.nimh.nih.gov/pub/dist/doc/htm
 
 To run container outside of this environment: ml afni/21.2.00
 
+If you use AFNI in your work, please cite:
+```
+Cox RW (1996). AFNI: software for analysis and visualization of functional magnetic resonance neuroimages. Comput Biomed Res 29(3):162-173. doi:10.1006/cbmr.1996.0014
+https://pubmed.ncbi.nlm.nih.gov/8812068/
+RW Cox, JS Hyde (1997). Software tools for analysis and visualization of FMRI Data. NMR in Biomedicine, 10: 171-178.
+https://pubmed.ncbi.nlm.nih.gov/9430344/
+```
+
+
 ----------------------------------
