@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
       env_name=${toolName}-${toolVersion} \
       env_exists=false \
       conda_install='python=7.28.0 traits=6.2.0' \
-      pip_install='bidscoin' \
+      pip_install="bidscoin" \
    --dcm2niix method=source version=latest \
    --install apt_opts="--quiet" wget zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
    --install libgtk2.0-0 \
