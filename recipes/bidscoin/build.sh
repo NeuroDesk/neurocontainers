@@ -2,7 +2,7 @@
 set -e
 
 # this template file builds tools required for dicom conversion to bids
-export toolName='bidstools'
+export toolName='bidscoin'
 export toolVersion='3.7.0'
 # Don't forget to update version change in README.md!!!!!
 
@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --miniconda use_env=base \
+   --miniconda version=latest \
               conda_install='python=3.6 traits' \
               pip_install='bidscoin' \
    --dcm2niix method=source version=latest \

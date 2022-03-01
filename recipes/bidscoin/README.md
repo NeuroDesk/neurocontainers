@@ -1,6 +1,6 @@
 
 ----------------------------------
-## bidstools/3.7.0 ##
+## bidscoin/3.7.0 ##
 Contains a collection of tools needed for DICOM to BIDS conversion
 
 Example:
@@ -30,6 +30,6 @@ https://bidscoin.readthedocs.io/en/latest/installation.html
 https://github.com/rordenlab/dcm2niix
 
 
-To run container outside of this environment: ml bidstools/3.7.0
+To run container outside of this environment: ml bidscoin/3.7.0
 
 ----------------------------------
