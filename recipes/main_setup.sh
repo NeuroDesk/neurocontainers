@@ -5,7 +5,7 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 # install development version
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
+python -m pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 
 export buildMode='docker'  #docker_local or docker_hub or singularity or docker_singularity
 
