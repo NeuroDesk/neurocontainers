@@ -20,7 +20,7 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image neurodebian:sid-non-free                `# neurodebian makes it easy to install neuroimaging software, recommended as deafult` \
+   --base-image neurodebian:sid-non-free                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# ask author for more details on why this is necessary` \
    --pkg-manager apt                                    `# desired package manager` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
@@ -28,7 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for binds` \
    --install datalad datalad-container                  `# install datalad and datalad-container using the Neurodocker arguments` \
    --env DEPLOY_BINS=datalad                            `# specify what are the binary files that should have transparent singularity generated for them` \
-   --copy README.md /README.md                          `# include readmefile in container` \
+   --copy README.md /README.md                          `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 if [ "$1" != "" ]; then
