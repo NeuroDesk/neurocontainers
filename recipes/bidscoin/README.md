@@ -1,7 +1,7 @@
 
 ----------------------------------
 ## bidscoin/3.7.0 ##
-Contains a collection of tools needed for DICOM to BIDS conversion
+Contains a collection of tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
 
 Example:
 ```
@@ -10,10 +10,9 @@ bidsmapper
 bidscoiner
 bidseditor
 bidsparticipants
-bidstrainer
 deface
+medeface
 dicomsort
-pydeface
 rawmapper
 
 convert dicom to bids:
@@ -21,8 +20,6 @@ dicomsort dicomfolder/sub-folder -r -e .IMA
 bidsmapper dicomfolder bidsoutputfolder
 bidscoiner dicomfolder bidsoutputfolder
 
-also contains Bru2Nii: https://github.com/neurolabusc/Bru2Nii
-Bru2 -o /Users/cr/dir2/out /Users/cr/dir/acqp
 ```
 
 More documentation can be found here:
