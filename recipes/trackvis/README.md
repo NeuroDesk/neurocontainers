@@ -16,7 +16,7 @@ University of Queensland
 9008-F8D8-330B-8274-2EA3-189A-6526-A0D4
 
 
-More documentation can be found here: http://www.trackvis.org/dtk/
+More documentation can be found here: http://trackvis.org/docs/?subsect=instructions#getting_started
 
 To run applications outside of this container: ml trackvis/0.6.1
 
