@@ -15,6 +15,14 @@ Example:
 dtk
 ```
 
+Important: To be able to use this tool, you need to request a free license: http://www.trackvis.org/download/
+
+and then enter the details of the license on startup, e.g.:
+Steffen Bollmann
+University of Queensland
+9008-F8D8-330B-8274-2EA3-189A-6526-A0D4
+
+
 More documentation can be found here: http://www.trackvis.org/dtk/
 
 To run applications outside of this container: ml diffusiontoolkit/0.6.4.1
