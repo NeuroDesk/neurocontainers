@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds itksnap and is then used as a docker base image for layer caching
+# this template file builds datalad and is then used as a docker base image for layer caching
 export toolName='datalad'
 export toolVersion='0.15.3' 
 # Don't forget to update version change in README.md!!!!!
-# toolName or toolVersion CANNOT contain capital letters (Docker registry does not accept this!)
+# toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
