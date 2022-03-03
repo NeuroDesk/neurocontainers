@@ -21,13 +21,14 @@ source ../main_setup.sh
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
    --base-image neurodebian:sid-non-free                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
-   --env DEBIAN_FRONTEND=noninteractive                 `# ask author for more details on why this is necessary` \
-   --pkg-manager apt                                    `# desired package manager` \
+   --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
+   --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for binds` \
-   --install datalad datalad-container                  `# install datalad and datalad-container using the Neurodocker arguments` \
-   --env DEPLOY_BINS=datalad                            `# specify what are the binary files that should have transparent singularity generated for them` \
+   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --install datalad datalad-container                  `# install datalad and datalad-container using the Neurodocker install argument` \
+   --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system` \
+   --env DEPLOY_BINS=datalad:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
