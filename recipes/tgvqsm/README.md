@@ -25,4 +25,11 @@ More documentation can be found here: http://www.neuroimaging.at/pages/qsm.php
 
 To run container outside of this environment: ml tgvqsm/1.0.0
 
+Citation:
+```
+Langkammer, C; Bredies, K; Poser, BA; Barth, M; Reishofer, G; Fan, AP; Bilgic, B; Fazekas, F; Mainero; C; Ropele, S
+Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Variation.
+Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041
+```
+
 ----------------------------------
