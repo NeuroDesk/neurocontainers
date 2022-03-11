@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds jamovi and is then used as a docker base image for layer caching
+# this template file builds sigviewer and is then used as a docker base image for layer caching
 export toolName='sigviewer'
-export toolVersion='0.5.1' 
+export toolVersion='0.6.4-1' 
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
@@ -20,7 +20,7 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate docker \
-   --base-image ubuntu:18.04                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image neurodebian:bullseye                	`# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager apt                                    `# choose package manager` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files` \
