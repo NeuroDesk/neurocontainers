@@ -14,18 +14,18 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:20.04 \
+   --base-image centos:7 \
    --env DEBIAN_FRONTEND=noninteractive \
-   --pkg-manager apt \
+   --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install wget unzip ca-certificates  \
+   --install wget unzip ca-certificates gtk2 \
    --workdir /opt \
    --run="wget --quiet -O MRIcon_linux.zip 'https://github.com/neurolabusc/MRIcron/releases/download/v${toolVersion}/MRIcron_linux.zip' \
       && unzip MRIcon_linux.zip  \
       && rm -rf MRIcon_linux.zip" \
-   --env PATH=/opt/MRIcron:/opt/MRIcron/Resources:$PATH \
+   --env PATH=/opt/mricron:/opt/mricron/Resources:$PATH \
    --env DEPLOY_BINS=MRIcron:dcm2niix \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
