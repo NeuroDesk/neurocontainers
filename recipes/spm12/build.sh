@@ -48,7 +48,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="/opt/spm${SPM_VERSION}/spm${SPM_VERSION} function exit \
       && chmod +x /opt/spm${SPM_VERSION}/*" \
    --miniconda \
-         version=latest \
+         version=4.7.12.1 \
          conda_install='python=3.6 traits nipype numpy scipy h5py scikit-image' \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \

@@ -38,7 +38,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy-from '0' /opt/${toolName}-${toolVersion}/lib ./lib \
    --copy-from '0' /opt/niftyreg-${niftyreg_version} ./NiftyReg \
    --run="echo /opt/dsi-studio/dsi_studio_64/dsi_studio > /opt/aidamri-1.1/bin/3.2_DTIConnectivity/dsi_studioPath.txt" \
-   --miniconda use_env=base \
+   --miniconda version=4.7.12.1 \
             conda_install='python=3.6' \
               pip_install='nipype==1.1.2 lmfit==0.9.11 progressbar2==3.38.0 nibabel' \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \

@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
-   --miniconda version=latest conda_install='python=3.6' \
+   --miniconda version=4.7.12.1 conda_install='python=3.6' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}

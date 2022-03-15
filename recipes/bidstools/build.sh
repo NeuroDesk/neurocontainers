@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --miniconda use_env=base \
+   --miniconda version=4.7.12.1 \
               conda_install='python=3.6 traits' \
               pip_install='bidscoin' \
    --dcm2niix method=source version=latest \
