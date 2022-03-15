@@ -3,7 +3,7 @@ set -e
 
 # this template file builds sigviewer and is then used as a docker base image for layer caching
 export toolName='sigviewer'
-export toolVersion='0.6.4-1' 
+export toolVersion='0.6.4' 
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
