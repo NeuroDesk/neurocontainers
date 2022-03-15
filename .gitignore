@@ -18,3 +18,4 @@ ashs-fastashs_beta
 *.Singularity
 recipes/fsl/manifest.json
 recipes/fsl/fslinstaller.py
+.DS_Store
