@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install git \
-   --miniconda use_env=base \
+   --miniconda version=latest \
          conda_install='python=3.6' \
    --workdir /opt \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
