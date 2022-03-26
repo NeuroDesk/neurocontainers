@@ -25,12 +25,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install ca-certificates curl python3-pyqt5 mesa-dri-drivers   `# install packages mesa is for swrast to work` \
+   --install ca-certificates curl python3-pyqt5 mesa-dri-drivers libglvnd-glx  `# install packages mesa is for swrast to work` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
    --miniconda version=latest \
       conda_install='python=3.8.8' \
-   --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/    `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --copy README.md /README.md                           `# include readme file in container` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
