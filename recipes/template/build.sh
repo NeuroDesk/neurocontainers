@@ -33,6 +33,7 @@ neurodocker generate ${neurodocker_buildMode} \
       && unzip surfice_linux.zip  \
       && rm -rf surfice_linux.zip" \
    --miniconda version=4.7.12.1 conda_install='python=3.6' `# install miniconda and python in a specific version (miniconda can also be installed as "latest"` \ 
+   --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
    --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --env DEPLOY_BINS=datalad:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
