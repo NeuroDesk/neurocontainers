@@ -5,8 +5,7 @@ VesselVio is an open-source application designed to allow researchers to analyze
 
 Example:
 ```
-cd /opt/vesselvio
-python VesselVio.py
+vesselvio
 ```
 
 More documentation can be found here: https://jacobbumgarner.github.io/VesselVio/
