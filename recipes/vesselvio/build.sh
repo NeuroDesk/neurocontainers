@@ -19,7 +19,7 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image debian:stable              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image ubuntu:21.10              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
@@ -39,9 +39,9 @@ neurodocker generate ${neurodocker_buildMode} \
 
    # --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
 
-# mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip
-
-# 	libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers
+# centos7: mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip
+# 	centos8: libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers
+# debian:stable: 
 
 
 # debug QT problems with 
