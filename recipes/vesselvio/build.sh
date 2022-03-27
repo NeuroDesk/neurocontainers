@@ -27,7 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --copy fixCentos8.sh /opt/                           `# make centos8 work again` \
    --run="bash /opt/fixCentos8.sh"                      `# make centos8 work again` \
-   --install ca-certificates curl mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
+   --install ca-certificates curl  `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
    --miniconda version=latest \
@@ -40,6 +40,8 @@ neurodocker generate ${neurodocker_buildMode} \
   > ${imageName}.${neurodocker_buildExt}
 
    # --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
+
+# mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip
 
 # debug QT problems with 
 # export QT_DEBUG_PLUGINS=1
