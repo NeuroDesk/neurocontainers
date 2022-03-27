@@ -19,9 +19,9 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:21.10              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image fedora:35              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
-   --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
+   --pkg-manager yum                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
@@ -39,10 +39,11 @@ neurodocker generate ${neurodocker_buildMode} \
 
    # --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
 
-# centos7: mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip
-# 	centos8: libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers
-# debian:stable: 
-
+# centos7: mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip -> no errors, but doesn't start up
+# 	centos8: libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers -> no errors, but doesn't start up
+# debian:stable: libgthread-2.0.so.0 does not exist
+# ubuntu:21.10: libgthread-2.0.so.0 does not exist
+# fedora35: 
 
 # debug QT problems with 
 # export QT_DEBUG_PLUGINS=1
