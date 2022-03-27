@@ -19,13 +19,15 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image centos:7                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image centos:8               `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager yum                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install ca-certificates curl mesa-dri-drivers libglvnd-glx  `# install packages mesa is for swrast to work` \
+   --run="sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*" `# this and the next line fixes: failed to download metadata for repo 'appstream': Cannot prepare internal mirrorlist: No URLs in mirrorlist`\
+   --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \
+   --install ca-certificates curl mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip`# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
    --miniconda version=latest \
@@ -36,6 +38,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy vesselvio /opt/${toolName}-${toolVersion}/     `# include startup file in container` \
    --run="chmod a+x /opt/${toolName}-${toolVersion}/vesselvio" \
   > ${imageName}.${neurodocker_buildExt}
+   # --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
+
+# debug QT problems with 
+# export QT_DEBUG_PLUGINS=1
+# then run application and look for library not found errors
 
 
 if [ "$1" != "" ]; then
