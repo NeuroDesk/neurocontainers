@@ -25,9 +25,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --run="sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*" `# this and the next line fixes: failed to download metadata for repo 'appstream': Cannot prepare internal mirrorlist: No URLs in mirrorlist`\
-   --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \
-   --install ca-certificates curl mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip`# install packages mesa is for swrast to work; the rest for QT5 xcb` \
+   --copy fixCentos8.sh /opt/                           `# make centos8 work again` \
+   --run="bash /opt/fixCentos8.sh"                      `# make centos8 work again` \   
+   --install ca-certificates curl mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
    --miniconda version=latest \
@@ -38,11 +38,18 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy vesselvio /opt/${toolName}-${toolVersion}/     `# include startup file in container` \
    --run="chmod a+x /opt/${toolName}-${toolVersion}/vesselvio" \
   > ${imageName}.${neurodocker_buildExt}
+
    # --run="pip install -r /opt/${toolName}-${toolVersion}/requirements.txt" \
 
 # debug QT problems with 
 # export QT_DEBUG_PLUGINS=1
 # then run application and look for library not found errors
+
+# https://stackoverflow.com/questions/57362015/how-to-fix-could-not-load-the-qt-platform-plugin-xcb-in-even-though-it-was
+#There seems to be a conflict between cv2 (opencv-python) and QT5 that causes this error. I had to uninstall opencv-python and install opencv-python-headless to resolve the issue:
+
+# pip uninstall opencv-python
+# pip install opencv-python-headless
 
 
 if [ "$1" != "" ]; then
