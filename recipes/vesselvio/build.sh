@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --copy fixCentos8.sh /opt/                           `# make centos8 work again` \
-   --run="bash /opt/fixCentos8.sh"                      `# make centos8 work again` \   
+   --run="bash /opt/fixCentos8.sh"                      `# make centos8 work again` \
    --install ca-certificates curl mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
