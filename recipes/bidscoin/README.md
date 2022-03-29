@@ -16,7 +16,7 @@ dicomsort
 rawmapper
 
 convert dicom to bids:
-dicomsort dicomfolder/sub-folder -r -e .IMA
+dicomsort dicomfolder
 bidsmapper dicomfolder bidsoutputfolder
 bidscoiner dicomfolder bidsoutputfolder
 
