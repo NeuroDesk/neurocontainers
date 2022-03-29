@@ -1,6 +1,6 @@
 
 ----------------------------------
-## fmriprep/20.2.6 ##
+## fmriprep/21.0.1 ##
 fMRIPrep is a functional magnetic resonance imaging (fMRI) data preprocessing pipeline that is designed to provide an easily accessible, state-of-the-art interface that is robust to variations in scan acquisition protocols and that requires minimal user input, while providing easily interpretable and comprehensive error and output reporting. It performs basic processing steps (coregistration, normalization, unwarping, noise component extraction, segmentation, skullstripping etc.) providing outputs that can be easily submitted to a variety of group level analyses, including task-based or resting-state fMRI, graph theory measures, surface or volume-based statistics, etc.
 
 usage: 
@@ -42,6 +42,6 @@ fmriprep replace_with_bidsdirectory replace_with_outputdirecotry participant --f
 
 More documentation can be found here: https://fmriprep.org/en/stable/
 
-To run applications outside of this container: ml fmriprep/20.2.6
+To run applications outside of this container: ml fmriprep/21.0.1
 
 ----------------------------------
