@@ -43,7 +43,7 @@ neurodocker generate ${neurodocker_buildMode} \
 # 	centos8: libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers -> no errors, but doesn't start up
 # debian:stable: libgthread-2.0.so.0 does not exist
 # ubuntu:21.10: libgthread-2.0.so.0 does not exist
-# fedora35: 
+# fedora35: libglvnd-glx, qt5-qtbase-gui (), libXrender
 
 # debug QT problems with 
 # export QT_DEBUG_PLUGINS=1
