@@ -41,9 +41,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" \
    --run="bash install_rustup.sh -y" \
    --workdir /opt/encryption/rust \
+   --install libssl-dev \
+   --env PATH='$PATH':/root/.cargo/bin/ \
+   --run="rustup install stable" `# check HOME LATER: cargo is installed in ROOT home! `\
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
-   # --run="source $HOME/.cargo/env && rustup install nightly" `# check HOME LATER `\ 
-   # --run="source $HOME/.cargo/env && cargo +nightly build --release" \
+   # --run="cargo +stable build --release" \
    
    # --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    # --env DEPLOY_BINS=delphi:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
