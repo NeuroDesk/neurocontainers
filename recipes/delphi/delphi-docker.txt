@@ -1,0 +1,229 @@
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND="noninteractive"
+RUN printf '#!/bin/bash\nls -la' > /usr/bin/ll
+RUN chmod +x /usr/bin/ll
+RUN mkdir /afm01 /afm02 /cvmfs /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working /winmounts /state /autofs /cluster /local_mount /scratch /clusterdata /nvmescratch /vnm
+ENV CONDA_DIR="/opt/miniconda-latest" \
+    PATH="/opt/miniconda-latest/bin:$PATH"
+RUN apt-get update -qq \
+    && apt-get install -y -q --no-install-recommends \
+           bzip2 \
+           ca-certificates \
+           curl \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install dependencies.
+    && export PATH="/opt/miniconda-latest/bin:$PATH" \
+    && echo "Downloading Miniconda installer ..." \
+    && conda_installer="/tmp/miniconda.sh" \
+    && curl -fsSL -o "$conda_installer" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && bash "$conda_installer" -b -p /opt/miniconda-latest \
+    && rm -f "$conda_installer" \
+    && conda update -yq -nbase conda \
+    # Prefer packages in conda-forge
+    && conda config --system --prepend channels conda-forge \
+    # Packages in lower-priority channels not considered if a package with the same
+    # name exists in a higher priority channel. Can dramatically speed up installations.
+    # Conda recommends this as a default
+    # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html
+    && conda config --set channel_priority strict \
+    && conda config --system --set auto_update_conda false \
+    && conda config --system --set show_channel_urls true \
+    # Enable `conda activate`
+    && conda init bash \
+    && conda install -y  --name base \
+           "python=3.7" \
+           "tensorflow-gpu=1.15" \
+           "tensorboard=1.15.0" \
+    && bash -c "source activate base \
+    &&   python -m pip install --no-cache-dir  \
+             "pandas==1.2.5" \
+             "argparse" \
+             "numpy"" \
+    # Clean up
+    && sync && conda clean --all --yes && sync \
+    && rm -rf ~/.cache/pip/*
+RUN pip uninstall -y pyarrow
+RUN pip install -U ray[debug]==0.8.0
+RUN pip install ray[tune]==0.8.0 requests scipy tensorflow==1.15.0
+RUN pip install h5py==2.10
+RUN wget -q https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz
+RUN tar xfz cmake-3.22.2-linux-x86_64.tar.gz --strip-components=1 -C /usr/local/
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh
+RUN bash install_rustup.sh -y
+RUN source /home/xincheng/.cargo/env && rustup install nightly
+RUN git clone https://github.com/mc2-project/delphi.git /opt/encryption
+RUN apt-get update -qq \
+           && apt-get install -y -q --no-install-recommends \
+                  delphi \
+                  delphi-container \
+           && rm -rf /var/lib/apt/lists/*
+ENV DEPLOY_PATH="/opt/delphi-latest/"
+ENV DEPLOY_BINS="delphi:bidscoiner"
+COPY ["README.md", \
+      "/README.md"]
+COPY ["delphi", \
+      "/opt/encryption/delphi/", \
+      " "]
+
+# Save specification to JSON.
+RUN printf '{ \
+  "pkg_manager": "apt", \
+  "existing_users": [ \
+    "root" \
+  ], \
+  "instructions": [ \
+    { \
+      "name": "from_", \
+      "kwds": { \
+        "base_image": "ubuntu:20.04" \
+      } \
+    }, \
+    { \
+      "name": "env", \
+      "kwds": { \
+        "DEBIAN_FRONTEND": "noninteractive" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "printf '#!/bin/bash\\\\nls -la' > /usr/bin/ll" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "chmod +x /usr/bin/ll" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "mkdir /afm01 /afm02 /cvmfs /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working /winmounts /state /autofs /cluster /local_mount /scratch /clusterdata /nvmescratch /vnm\\r" \
+      } \
+    }, \
+    { \
+      "name": "env", \
+      "kwds": { \
+        "CONDA_DIR": "/opt/miniconda-latest", \
+        "PATH": "/opt/miniconda-latest/bin:$PATH" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "apt-get update -qq\\napt-get install -y -q --no-install-recommends \\\\\\n    bzip2 \\\\\\n    ca-certificates \\\\\\n    curl\\nrm -rf /var/lib/apt/lists/*\\n# Install dependencies.\\nexport PATH=\\"/opt/miniconda-latest/bin:$PATH\\"\\necho \\"Downloading Miniconda installer ...\\"\\nconda_installer=\\"/tmp/miniconda.sh\\"\\ncurl -fsSL -o \\"$conda_installer\\" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh\\nbash \\"$conda_installer\\" -b -p /opt/miniconda-latest\\nrm -f \\"$conda_installer\\"\\nconda update -yq -nbase conda\\n# Prefer packages in conda-forge\\nconda config --system --prepend channels conda-forge\\n# Packages in lower-priority channels not considered if a package with the same\\n# name exists in a higher priority channel. Can dramatically speed up installations.\\n# Conda recommends this as a default\\n# https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html\\nconda config --set channel_priority strict\\nconda config --system --set auto_update_conda false\\nconda config --system --set show_channel_urls true\\n# Enable `conda activate`\\nconda init bash\\nconda install -y  --name base \\\\\\n    \\"python=3.7\\" \\\\\\n    \\"tensorflow-gpu=1.15\\" \\\\\\n    \\"tensorboard=1.15.0\\"\\nbash -c \\"source activate base\\n  python -m pip install --no-cache-dir  \\\\\\n      \\"pandas==1.2.5\\" \\\\\\n      \\"argparse\\" \\\\\\n      \\"numpy\\"\\"\\n# Clean up\\nsync && conda clean --all --yes && sync\\nrm -rf ~/.cache/pip/*" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "pip uninstall -y pyarrow" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "pip install -U ray[debug]==0.8.0" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "pip install ray[tune]==0.8.0 requests scipy tensorflow==1.15.0 " \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "pip install h5py==2.10 " \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "wget -q https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "tar xfz cmake-3.22.2-linux-x86_64.tar.gz --strip-components=1 -C /usr/local/" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "bash install_rustup.sh -y" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "source /home/xincheng/.cargo/env && rustup install nightly" \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "git clone https://github.com/mc2-project/delphi.git /opt/encryption" \
+      } \
+    }, \
+    { \
+      "name": "install", \
+      "kwds": { \
+        "pkgs": [ \
+          "delphi", \
+          "delphi-container" \
+        ], \
+        "opts": null \
+      } \
+    }, \
+    { \
+      "name": "run", \
+      "kwds": { \
+        "command": "apt-get update -qq \\\\\\n    && apt-get install -y -q --no-install-recommends \\\\\\n           delphi \\\\\\n           delphi-container \\\\\\n    && rm -rf /var/lib/apt/lists/*" \
+      } \
+    }, \
+    { \
+      "name": "env", \
+      "kwds": { \
+        "DEPLOY_PATH": "/opt/delphi-latest/" \
+      } \
+    }, \
+    { \
+      "name": "env", \
+      "kwds": { \
+        "DEPLOY_BINS": "delphi:bidscoiner" \
+      } \
+    }, \
+    { \
+      "name": "copy", \
+      "kwds": { \
+        "source": [ \
+          "README.md", \
+          "/README.md" \
+        ], \
+        "destination": "/README.md" \
+      } \
+    }, \
+    { \
+      "name": "copy", \
+      "kwds": { \
+        "source": [ \
+          "delphi", \
+          "/opt/encryption/delphi/", \
+          " " \
+        ], \
+        "destination": " " \
+      } \
+    } \
+  ] \
+}' > /.reproenv.json
+# End saving to specification to JSON.

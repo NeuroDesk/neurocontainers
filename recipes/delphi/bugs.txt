@@ -1,0 +1,857 @@
+Examining conflict for python ncurses wheel cffi urllib3 conda-package-handling readline certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1crypto six sqlite libedit pycparser pyopenssl chardet idna pycosat charset-normalizer python_abi setuptools:   0%|          | 0/49 [00:00<?, ?Examining conflict for ncurses cffi zlib libstdcxx-ng yaml conda-package-handling __glibc readline cryptography tk brotlipy ruamel_yaml openssl libgcc-ng sqlite libedit libzlib pycosat xz libffi:   2%|▏         | 1/49 [00:07<05:53,  7.36s/it]                                                                            Examining conflict for ncurses cffi zlib libstdcxx-ng yaml conda-package-handling __glibc readline cryptography tk brotlipy ruamel_yaml openssl libgcc-ng sqlitExamining conflict for python ncurses libnsl cffi zlib yaml conda-package-handling readline cryptography tk brotlipy libgomp ruamel_yaml openssl libgcc-ng _libExamining conflict for python ncurses libnsl cffi zlib yaml conda-package-handling readline cryptography tk brotlipy libgomp ruamel_yaml openssl libgcc-ng _libExamining conflict for python ncurses wheel cffi libstdcxx-ng yaml urllib3 conda-package-handling readline certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1crypto _openmp_mutex six sqlite libedit pycparser pyopenssl chardet idna pycosat charset-normalizer libffi python_abi setuptExamining conflict for python ncurses wheel cffi libstdcxx-ng yaml urllib3 conda-package-handling readline certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1crypto _openmp_mutex six sqlite libedit pycparser pyopenssl chardet idna pycosat charset-normalizer libffi python_abi setuptExamining conflict for python ncurses wheel cffi zlib libnsl yaml urllib3 conda-package-handling readline certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks openssl libgcc-ng tqdm asn1crypto _openmp_mutex six sqlite libedit pycparser pyopenssl chardet libzlib pycosat idna xz charset-normExamining conflict for python ncurses wheel cffi zlib libnsl yaml urllib3 conda-package-handling readline certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks openssl libgcc-ng tqdm asn1crypto _openmp_mutex six sqlite libedit pycparser pyopenssl chardet libzlib pycosat idna xz charset-normExamining conflict for python ncurses libnsl cffi zlib yaml conda-package-handling readline cryptography tk brotlipy ruamel_yaml openssl libgcc-ng _openmp_mutex sqlite libedit libzlib pycosat xz libffi:  10%|█         | 5/49 [00:26<03:12,  4.37s/it]                                                                     Examining conflict for python ncurses libnsl cffi zlib yaml conda-package-handling readline cryptography tk brotlipy ruamel_yaml openssl libgcc-ng _openmp_muteExamining conflict for python tensorflow-gpu wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pyExamining conflict for python tensorflow-gpu wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pyExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tqdm aExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tqdm aExamining conflict for python chardet cffi cryptography asn1crypto conda-package-handling brotlipy ruamel_yaml conda pycosat certifi python_abi setuptools pysoExamining conflict for python chardet cffi cryptography asn1crypto conda-package-handling brotlipy ruamel_yaml conda pycosat certifi python_abi setuptools pysoExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks openssl tExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks openssl tExamining conflict for python wheel cffi zlib urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tqdm asn1crypto _openmp_mutex six sqlite pycparser pyopenssl chardet libzlib pycosat idna charset-normalizer python_abi setuptools:  20%|██        | 10/49 [00:5Examining conflict for python wheel cffi zlib urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tqdm asn1crypto _openmp_mutex six sqlite pycparser pyopenssl chardet libzlib pycosat idna charset-normalizer python_abi setuptools:  22%|██▏       | 11/49 [00:5Examining conflict for python wheel cffi urllib3 conda-package-handling readline certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1crypto six sqlite pycparser pyopenssl chardet idna pycosat charset-normalizer python_abi setuptools:  22%|██▏       | 11/49 [01:01<03:44,  5.92s/it]  Examining conflict for python wheel cffi urllib3 conda-package-handling readline certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama ca-certificates cryptography brotlipy ruamel_yaml pysocksExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama ca-certificates cryptography brotlipy ruamel_yaml pysocksExamining conflict for pip python wheel:  27%|██▋       | 13/49 [01:16<03:59,  6.64s/it]                                                                       Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel libnsl cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqExamining conflict for python wheel libnsl cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi zlib urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tExamining conflict for python wheel cffi zlib urllib3 conda-package-handling certifi requests pip colorama cryptography tk brotlipy conda ruamel_yaml pysocks tExamining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1Examining conflict for python wheel pip conda ruamel_yaml setuptools:  43%|████▎     | 21/49 [02:07<03:12,  6.87s/it]                                          Examining conflict for wheel cffi urllib3 conda-package-handling certifi requests pip colorama cryptography brotlipy conda ruamel_yaml pysocks tqdm asn1crypto Examining conflict for wheel pyopenssl cryptography urllib3 conda-package-handling conda six:  47%|████▋     | 23/49 [02:15<03:02,  7.01s/it]                                                                                                                                                               
+Found conflicts! Looking for incompatible packages.
+This can take several minutes.  Press CTRL-C to abort.
+failed
+
+UnsatisfiableError: The following specifications were found
+to be incompatible with the existing python installation in your environment:
+
+Specifications:
+
+  - brotlipy -> python[version='3.10.*|3.4.*|3.6.12|3.6.12|3.7.10|3.7.10|3.7.12|3.8.12|3.9.10|3.7.9|3.6.9|3.6.9|3.6.9|3.6.9|3.9.*|3.8.*|3.7.*',build='0_73_pypy|1_73_pypy|2_73_pypy|5_73_pypy|0_73_pypy|0_73_pypy|1_73_pypy|5_73_pypy|4_73_pypy|3_73_pypy']
+  - cffi -> python[version='2.7.*|3.5.*|3.6.*|3.6.12|3.6.12|3.7.10|3.7.10|3.7.12|3.8.12|3.9.10|>=3.10,<3.11.0a0|>=3.7,<3.8.0a0|>=3.8,<3.9.0a0|>=3.9,<3.10.0a0|>=3.6,<3.7.0a0|3.7.9|3.6.9|3.6.9|3.6.9|>=2.7,<2.8.0a0|3.6.9|>=3.5,<3.6.0a0|3.4.*',build='0_73_pypy|1_73_pypy|2_73_pypy|5_73_pypy|0_73_pypy|0_73_pypy|1_73_pypy|5_73_pypy|4_73_pypy|3_73_pypy']
+  - cryptography -> python[version='3.10.*|3.6.12|3.6.12|3.7.10|3.7.10|3.7.12|3.8.12|3.9.10|3.7.9|3.6.9|3.6.9|3.6.9|3.6.9|3.9.*|3.8.*|3.7.*|3.4.*|>=3.6|>=3.5|<=3.3',build='0_73_pypy|1_73_pypy|2_73_pypy|5_73_pypy|0_73_pypy|0_73_pypy|1_73_pypy|5_73_pypy|4_73_pypy|3_73_pypy']
+  - pyopenssl -> python[version='>=3.10,<3.11.0a0|>=3.9,<3.10.0a0']
+
+Your python: python=3.7.12
+
+If python is on the left-most side of the chain, that's the version you've asked for.
+When python appears to the right, that indicates that the thing on the left is somehow
+not available for the python version you are constrained to. Note that conda will not
+change your python version to a different minor version unless you explicitly specify
+that.
+
+The following specifications were found to be incompatible with each other:
+
+Output in format: Requested package -> Available versions
+
+Package wheel conflicts for:
+python=3.7.12 -> pip -> wheel
+pip -> wheel
+
+Package zlib conflicts for:
+asn1crypto -> python[version='>=3.6'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+requests -> python[version='>=3.6'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+cryptography -> pypy3.7[version='>=7.3.7'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+tk -> zlib[version='>=1.2.11,<1.3.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+python_abi -> python=3.10 -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+urllib3 -> python[version='<4.0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+pyopenssl -> python[version='>=3.6'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+python=3.7.12 -> sqlite[version='>=3.36.0,<4.0a0'] -> zlib[version='>=1.2.11,<1.3.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> zlib[version='>=1.2.11,<1.3.0a0']
+sqlite -> zlib[version='>=1.2.11,<1.3.0a0']
+colorama -> python -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+tqdm -> python[version='>=2.7'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+six -> python -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+pip -> python[version='>=3.7'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+idna -> python[version='>=3.6'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+charset-normalizer -> python[version='>=3.6'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8']
+pycparser -> python[version='2.7.*|>=3.4'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> zlib[version='1.2.*|1.2.11|>=1.2.11,<1.3.0a0|1.2.8|1.2.11.*']
+
+Package readline conflicts for:
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+charset-normalizer -> python[version='>=3.6'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+colorama -> python -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> readline[version='>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0']
+python_abi -> python=3.10 -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+urllib3 -> python[version='<4.0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+requests -> python[version='>=3.6'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+sqlite -> readline[version='6.2.*|7.0|7.0.*|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+python=3.7.12 -> readline[version='>=8.1,<9.0a0']
+pycparser -> python[version='2.7.*|>=3.4'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+idna -> python[version='>=3.6'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+python=3.7.12 -> sqlite[version='>=3.36.0,<4.0a0'] -> readline[version='>=8.0,<9.0a0']
+tqdm -> python[version='>=2.7'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+six -> python -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.0.*|7.*']
+asn1crypto -> python[version='>=3.6'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+pip -> python[version='>=3.7'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+cryptography -> python[version='>=3.7,<3.8.0a0'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+pyopenssl -> python[version='>=3.6'] -> readline[version='6.2.*|7.0|>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0|7.*|7.0.*']
+
+Package libnsl conflicts for:
+colorama -> python -> libnsl[version='>=2.0.0,<2.1.0a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+pip -> python[version='>=3.7'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+six -> python -> libnsl[version='>=2.0.0,<2.1.0a0']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+pyopenssl -> python[version='>=3.6'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+python_abi -> python=3.10 -> libnsl[version='>=2.0.0,<2.1.0a0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+requests -> python[version='>=3.6'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+cryptography -> python[version='>=3.7,<3.8.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+idna -> python[version='>=3.6'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+pycparser -> python[version='2.7.*|>=3.4'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+python=3.7.12 -> libnsl[version='>=2.0.0,<2.1.0a0']
+tqdm -> python[version='>=2.7'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+charset-normalizer -> python[version='>=3.6'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+urllib3 -> python[version='<4.0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+asn1crypto -> python[version='>=3.6'] -> libnsl[version='>=2.0.0,<2.1.0a0']
+
+Package ncurses conflicts for:
+six -> python -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.3,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.3,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+charset-normalizer -> python[version='>=3.6'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+python=3.7.12 -> readline[version='>=8.1,<9.0a0'] -> ncurses[version='>=6.2,<7.0a0|>=6.3,<7.0a0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+urllib3 -> python[version='<4.0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+sqlite -> ncurses[version='5.9|5.9.*|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.3,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+sqlite -> readline[version='>=8.0,<9.0a0'] -> ncurses[version='6.0.*|>=6.0,<7.0a0|>=6.1,<7.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+cryptography -> pypy3.7[version='>=7.3.7'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.3,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+pycparser -> python[version='2.7.*|>=3.4'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+libedit -> ncurses[version='5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|6.0.*']
+pip -> python[version='>=3.7'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+python_abi -> python=3.10 -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+pyopenssl -> python[version='>=3.6'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+requests -> python[version='>=3.6'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+tqdm -> python[version='>=2.7'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+idna -> python[version='>=3.6'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+asn1crypto -> python[version='>=3.6'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.2,<6.3.0a0|>=6.0,<7.0a0|6.0.*']
+python=3.7.12 -> ncurses[version='>=6.2,<7.0.0a0']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> ncurses[version='>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.2,<6.3.0a0']
+readline -> ncurses[version='5.9.*|>=6.1,<7.0.0a0|>=6.2,<7.0.0a0|>=6.3,<7.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+colorama -> python -> ncurses[version='5.9.*|5.9|>=6.1,<7.0.0a0|>=6.2,<6.3.0a0|>=6.3,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.1,<7.0a0|>=6.0,<7.0a0|6.0.*']
+
+Package _libgcc_mutex conflicts for:
+tk -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+xz -> libgcc-ng[version='>=7.5.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+libedit -> libgcc-ng[version='>=7.5.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+libgomp -> _libgcc_mutex==0.1[build='conda_forge|main']
+cryptography -> libgcc-ng[version='>=10.3.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+zlib -> libgcc-ng[version='>=7.5.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+yaml -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+cffi -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+libnsl -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex==0.1=conda_forge
+libgcc-ng -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+brotlipy -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+python=3.7.12 -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex==0.1=conda_forge
+_openmp_mutex -> _libgcc_mutex==0.1[build='conda_forge|main']
+ruamel_yaml -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+sqlite -> libgcc-ng[version='>=10.3.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+libffi -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+pycosat -> libgcc-ng[version='>=9.4.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+conda-package-handling -> libgcc-ng[version='>=10.3.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+readline -> libgcc-ng[version='>=9.3.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+libzlib -> libgcc-ng[version='>=7.5.0'] -> _libgcc_mutex[version='*|0.1|0.1',build='conda_forge|main|main']
+openssl -> libgcc-ng[version='>=10.3.0'] -> _libgcc_mutex[version='*|0.1',build='conda_forge|main|main']
+
+Package xz conflicts for:
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+charset-normalizer -> python[version='>=3.6'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+python_abi -> python=3.10 -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+urllib3 -> python[version='<4.0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+idna -> python[version='>=3.6'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+pip -> python[version='>=3.7'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+colorama -> python -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+asn1crypto -> python[version='>=3.6'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+tqdm -> python[version='>=2.7'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+six -> python -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+python=3.7.12 -> xz[version='>=5.2.5,<5.3.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> xz[version='>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+requests -> python[version='>=3.6'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+pycparser -> python[version='2.7.*|>=3.4'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+pyopenssl -> python[version='>=3.6'] -> xz[version='5.0.*|5.2.*|>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0|>=5.2.4,<6.0a0|>=5.2.3,<6.0a0']
+
+Package pip conflicts for:
+asn1crypto -> python[version='>=3.6'] -> pip
+chardet -> python[version='>=3.8,<3.9.0a0'] -> pip
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> pip
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> pip
+pyopenssl -> python[version='>=3.6'] -> pip
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> pip
+urllib3 -> python[version='<4.0'] -> pip
+python_abi -> python=3.10 -> pip
+charset-normalizer -> python[version='>=3.6'] -> pip
+pycparser -> python[version='2.7.*|>=3.4'] -> pip
+certifi -> python[version='>=3.7,<3.8.0a0'] -> pip
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> pip
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> pip
+colorama -> python -> pip
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> pip
+tqdm -> python[version='>=2.7'] -> pip
+cryptography -> python[version='>=3.7,<3.8.0a0'] -> pip
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> pip
+python=3.7.12 -> pip
+requests -> python[version='>=3.6'] -> pip
+six -> python -> pip
+idna -> python[version='>=3.6'] -> pip
+cffi -> python[version='>=3.8,<3.9.0a0'] -> pip
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> pip
+
+Package gdbm conflicts for:
+python_abi -> pypy3.9=7.3 -> gdbm[version='>=1.18,<1.19.0a0']
+chardet -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+python=3.7.12 -> pypy3.7=7.3.7 -> gdbm[version='>=1.18,<1.19.0a0']
+asn1crypto -> pypy3.6[version='>=7.3.1'] -> gdbm[version='>=1.18,<1.19.0a0']
+ruamel_yaml -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+pycosat -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+pysocks -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+cffi -> pypy3.9=7.3.8 -> gdbm[version='>=1.18,<1.19.0a0']
+brotlipy -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+setuptools -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+conda-package-handling -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+certifi -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+conda[version='>=4.12.0'] -> pypy3.7[version='>=7.3.7'] -> gdbm[version='>=1.18,<1.19.0a0']
+
+Package ca-certificates conflicts for:
+colorama -> python -> ca-certificates
+certifi -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+pyopenssl -> python[version='>=2.7'] -> ca-certificates
+pysocks -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+pycosat -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+chardet -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+conda-package-handling -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+python_abi -> python=2.7 -> ca-certificates
+cryptography -> openssl[version='>=1.1.1l,<1.1.2a'] -> ca-certificates
+brotlipy -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+asn1crypto -> python -> ca-certificates
+idna -> python -> ca-certificates
+ruamel_yaml -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> ca-certificates
+python=3.7.12 -> openssl[version='>=1.1.1l,<1.1.2a'] -> ca-certificates
+setuptools -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+requests -> python -> ca-certificates
+pycparser -> python[version='2.7.*|>=3.4'] -> ca-certificates
+cffi -> python[version='>=2.7,<2.8.0a0'] -> ca-certificates
+six -> python -> ca-certificates
+tqdm -> python[version='>=2.7'] -> ca-certificates
+urllib3 -> python[version='<4.0'] -> ca-certificates
+pip -> python -> ca-certificates
+openssl -> ca-certificates
+
+Package idna conflicts for:
+conda[version='>=4.12.0'] -> requests[version='>=2.18.4,<3'] -> idna[version='>=2.5,<2.6|>=2.5,<2.7|>=2.5,<2.8|>=2.5,<2.9|>=2.5,<3|>=2.5,<4']
+requests -> urllib3[version='>=1.21.1,<1.27'] -> idna[version='>=2.0.0']
+urllib3 -> cryptography[version='>=1.3.4'] -> idna[version='>=2.1']
+urllib3 -> idna[version='>=2.0.0']
+cryptography -> idna[version='>=2.1']
+requests -> idna[version='>=2.5,<2.6|>=2.5,<2.7|>=2.5,<2.8|>=2.5,<2.9|>=2.5,<3|>=2.5,<4']
+pyopenssl -> cryptography[version='>=2.8'] -> idna[version='>=2.1']
+
+Package sqlite conflicts for:
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> sqlite[version='>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.2,<4.0a0|>=3.30.0,<4.0a0']
+idna -> python[version='>=3.6'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+asn1crypto -> python[version='>=3.6'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+charset-normalizer -> python[version='>=3.6'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+urllib3 -> python[version='<4.0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+python_abi -> python=3.10 -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.37.2,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.37.2,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+colorama -> python -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+pyopenssl -> python[version='>=3.6'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.35.5,<4.0a0|>=3.30.0,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+pycparser -> python[version='2.7.*|>=3.4'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+six -> python -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.36.0,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.1,<4.0a0|>=3.37.0,<4.0a0|>=3.35.5,<4.0a0|>=3.30.0,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.36.0,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.1,<4.0a0|>=3.37.0,<4.0a0|>=3.35.5,<4.0a0|>=3.30.0,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+python=3.7.12 -> sqlite[version='>=3.36.0,<4.0a0']
+pip -> python[version='>=3.7'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.36.0,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.1,<4.0a0|>=3.37.0,<4.0a0|>=3.37.2,<4.0a0|>=3.35.5,<4.0a0|>=3.30.0,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+requests -> python[version='>=3.6'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+tqdm -> python[version='>=2.7'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.5,<4.0a0|>=3.36.0,<4.0a0|>=3.37.0,<4.0a0|>=3.37.1,<4.0a0|3.9.*|>=3.37.2,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.30.0,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> sqlite[version='3.13.*|3.20.*|>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.28.0,<4.0a0|>=3.30.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.36.0,<4.0a0|>=3.35.4,<4.0a0|>=3.31.1,<4.0a0|>=3.29.0,<4.0a0|>=3.27.2,<4.0a0|>=3.37.1,<4.0a0|>=3.37.0,<4.0a0|>=3.35.5,<4.0a0|>=3.30.0,<4.0a0|>=3.37.2,<4.0a0|>=3.23.1,<4.0a0|>=3.22.0,<4.0a0|>=3.20.1,<4.0a0|3.9.*']
+
+Package pysocks conflicts for:
+requests -> urllib3[version='>=1.21.1,<1.27'] -> pysocks[version='>=1.5.6,<2.0,!=1.5.7']
+urllib3 -> pysocks[version='>=1.5.6,<2.0,!=1.5.7']
+
+Package cryptography conflicts for:
+urllib3 -> pyopenssl[version='>=0.14'] -> cryptography[version='>=1.3|>=1.9|>=2.1.4|>=2.2.1|>=2.8|>=3.2|>=3.3|>=35.0']
+requests -> urllib3[version='>=1.21.1,<1.27'] -> cryptography[version='>=1.3.4']
+pyopenssl -> cryptography[version='>=1.3|>=1.3.4|>=1.9|>=2.1.4|>=2.2.1|>=2.8|>=3.2|>=3.3|>=35.0']
+urllib3 -> cryptography[version='>=1.3.4']
+conda[version='>=4.12.0'] -> pyopenssl[version='>=16.2.0'] -> cryptography[version='>=1.3.4|>=1.9|>=2.1.4|>=2.2.1|>=2.8|>=3.2|>=3.3|>=35.0']
+
+Package ld_impl_linux-64 conflicts for:
+pyopenssl -> python[version='>=3.6'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+tqdm -> python[version='>=2.7'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+requests -> python[version='>=3.6'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+python=3.7.12 -> ld_impl_linux-64[version='>=2.34']
+pycparser -> python[version='2.7.*|>=3.4'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+colorama -> python -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+charset-normalizer -> python[version='>=3.6'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+asn1crypto -> python[version='>=3.6'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+python_abi -> python=3.10 -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+cryptography -> python[version='>=3.7,<3.8.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+pip -> python[version='>=3.7'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+urllib3 -> python[version='<4.0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+idna -> python[version='>=3.6'] -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+six -> python -> ld_impl_linux-64[version='>=2.34|>=2.36.1']
+
+Package tk conflicts for:
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+pyopenssl -> python[version='>=3.6'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+tqdm -> python[version='>=2.7'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+pycparser -> python[version='2.7.*|>=3.4'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0|>=8.6.12,<8.7.0a0']
+colorama -> python -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+pip -> python[version='>=3.7'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+six -> python -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0|>=8.6.12,<8.7.0a0']
+idna -> python[version='>=3.6'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+python=3.7.12 -> tk[version='>=8.6.11,<8.7.0a0']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+python_abi -> python=3.10 -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+charset-normalizer -> python[version='>=3.6'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0|>=8.6.12,<8.7.0a0']
+urllib3 -> python[version='<4.0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> tk[version='>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+asn1crypto -> python[version='>=3.6'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0|>=8.6.12,<8.7.0a0']
+requests -> python[version='>=3.6'] -> tk[version='8.5.*|8.6.*|>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.12,<8.7.0a0|>=8.6.9,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.7,<8.7.0a0']
+
+Package libzlib conflicts for:
+sqlite -> zlib[version='>=1.2.11,<1.3.0a0'] -> libzlib==1.2.11[build='h36c2ea0_1012|h36c2ea0_1013']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+pycparser -> python[version='2.7.*|>=3.4'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+asn1crypto -> python[version='>=3.6'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+tk -> libzlib[version='>=1.2.11,<1.3.0a0']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+colorama -> python -> libzlib[version='>=1.2.11,<1.3.0a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+pyopenssl -> python[version='>=3.6'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+tqdm -> python[version='>=2.7'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+urllib3 -> python[version='<4.0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+tk -> zlib[version='>=1.2.11,<1.3.0a0'] -> libzlib==1.2.11[build='h36c2ea0_1012|h36c2ea0_1013']
+zlib -> libzlib==1.2.11[build='h36c2ea0_1012|h36c2ea0_1013']
+six -> python -> libzlib[version='>=1.2.11,<1.3.0a0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+idna -> python[version='>=3.6'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+sqlite -> libzlib[version='>=1.2.11,<1.3.0a0']
+_openmp_mutex -> llvm-openmp[version='>=9.0.1'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+python_abi -> python=3.10 -> libzlib[version='>=1.2.11,<1.3.0a0']
+charset-normalizer -> python[version='>=3.6'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+requests -> python[version='>=3.6'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+python=3.7.12 -> libzlib[version='>=1.2.11,<1.3.0a0']
+pip -> python[version='>=3.7'] -> libzlib[version='>=1.2.11,<1.3.0a0']
+
+Package libstdcxx-ng conflicts for:
+sqlite -> ncurses[version='>=6.2,<7.0.0a0'] -> libstdcxx-ng[version='>=7.2.0|>=7.5.0']
+sqlite -> libstdcxx-ng[version='>=4.9|>=7.3.0']
+brotlipy -> python[version='>=3.7,<3.8.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+asn1crypto -> python[version='>=3.6'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+colorama -> python -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+cryptography -> python[version='>=3.7,<3.8.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+tqdm -> python[version='>=2.7'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+libffi -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.4.0|>=7.2.0']
+_openmp_mutex -> llvm-openmp[version='>=9.0.1'] -> libstdcxx-ng[version='>=7.3.0']
+pyopenssl -> python[version='>=3.6'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+readline -> ncurses[version='>=6.2,<7.0.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=7.2.0']
+yaml -> libstdcxx-ng[version='>=7.3.0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+urllib3 -> python[version='<4.0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+charset-normalizer -> python[version='>=3.6'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+python=3.7.12 -> libstdcxx-ng[version='>=9.4.0']
+pycparser -> python[version='2.7.*|>=3.4'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+python_abi -> python=3.9 -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+idna -> python[version='>=3.6'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+libedit -> ncurses[version='>=6.2,<7.0.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=7.2.0']
+pip -> python[version='>=3.7'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+python=3.7.12 -> libffi[version='>=3.4.2,<3.5.0a0'] -> libstdcxx-ng[version='>=7.3.0|>=7.5.0']
+cffi -> libffi[version='>=3.4.2,<3.5.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.4.0|>=9.3.0|>=7.2.0']
+requests -> python[version='>=3.6'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+six -> python -> libstdcxx-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+
+Package certifi conflicts for:
+pip -> setuptools -> certifi[version='>=2016.09|>=2016.9.26']
+conda[version='>=4.12.0'] -> requests[version='>=2.18.4,<3'] -> certifi[version='>=2016.09|>=2016.9.26|>=2017.4.17']
+ruamel_yaml -> setuptools -> certifi[version='>=2016.09|>=2016.9.26']
+setuptools -> certifi[version='>=2016.09|>=2016.9.26']
+requests -> certifi[version='>=2017.4.17']
+wheel -> setuptools -> certifi[version='>=2016.09|>=2016.9.26']
+requests -> urllib3[version='>=1.21.1,<1.27'] -> certifi
+urllib3 -> certifi
+
+Package libgcc-ng conflicts for:
+brotlipy -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0']
+sqlite -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+tqdm -> python[version='>=2.7'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+libedit -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=7.2.0']
+charset-normalizer -> python[version='>=3.6'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+cffi -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+ruamel_yaml -> python[version='>=3.10,<3.11.0a0'] -> libgcc-ng[version='>=10.3.0']
+readline -> ncurses[version='>=6.2,<7.0.0a0'] -> libgcc-ng[version='>=9.4.0']
+python=3.7.12 -> libffi[version='>=3.4.2,<3.5.0a0'] -> libgcc-ng[version='>=10.3.0|>=7.3.0|>=7.5.0|>=9.3.0']
+openssl -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+libedit -> ncurses[version='>=6.2,<7.0.0a0'] -> libgcc-ng[version='>=9.4.0']
+colorama -> python -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+python=3.7.12 -> libgcc-ng[version='>=9.4.0']
+brotlipy -> cffi[version='>=1.0.0'] -> libgcc-ng[version='>=10.3.0|>=7.2.0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+_openmp_mutex -> llvm-openmp[version='>=9.0.1'] -> libgcc-ng[version='>=7.3.0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> libgcc-ng[version='>=10.3.0|>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+conda-package-handling -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0']
+conda-package-handling -> python[version='>=3.7,<3.8.0a0'] -> libgcc-ng[version='>=4.9|>=7.2.0']
+tk -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.4.0|>=7.2.0']
+cryptography -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+six -> python -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+pycparser -> python[version='2.7.*|>=3.4'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+idna -> python[version='>=3.6'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+xz -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=7.2.0']
+pip -> python[version='>=3.7'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+ruamel_yaml -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+libffi -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.4.0|>=7.2.0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> libgcc-ng[version='>=10.3.0|>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+urllib3 -> brotlipy[version='>=0.6.0'] -> libgcc-ng[version='>=10.3.0|>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+zlib -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=7.2.0']
+pyopenssl -> cryptography[version='>=35.0'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+libnsl -> libgcc-ng[version='>=9.4.0']
+readline -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=7.2.0']
+yaml -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.4.0|>=7.2.0']
+requests -> python[version='>=3.6'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> libgcc-ng[version='>=10.3.0']
+pycosat -> libgcc-ng[version='>=4.9|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0|>=7.2.0']
+conda[version='>=4.12.0'] -> conda-package-handling[version='>=1.3.0'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+libzlib -> libgcc-ng[version='>=7.5.0']
+python_abi -> python=3.10 -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=7.5.0|>=9.3.0|>=7.3.0|>=4.9|>=7.2.0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> libgcc-ng[version='>=10.3.0']
+asn1crypto -> python[version='>=3.6'] -> libgcc-ng[version='>=10.3.0|>=9.4.0|>=9.3.0|>=7.5.0|>=7.3.0|>=4.9|>=7.2.0']
+
+Package pypy3.6 conflicts for:
+conda-package-handling -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+pycosat -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+idna -> python[version='>=3.6'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+charset-normalizer -> python[version='>=3.6'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+colorama -> python -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+python_abi -> pypy3.6=7.3
+pysocks -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+python_abi -> python=3.6 -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+ruamel_yaml -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+pysocks -> pypy3.6[version='>=7.3.2|>=7.3.3']
+conda[version='>=4.12.0'] -> conda-package-handling[version='>=1.3.0'] -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+asn1crypto -> python[version='>=3.6'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+chardet -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+six -> python -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+cffi -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+pip -> setuptools -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*|>=7.3.1|>=7.3.2|>=7.3.3']
+conda-package-handling -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+chardet -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+pyopenssl -> python[version='>=3.6'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*|>=7.3.3|>=7.3.2|>=7.3.1']
+certifi -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+certifi -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+brotlipy -> cffi[version='>=1.0.0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+pycosat -> pypy3.6[version='>=7.3.2|>=7.3.3']
+setuptools -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+tqdm -> python[version='>=2.7'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+asn1crypto -> pypy3.6[version='>=7.3.1']
+urllib3 -> brotlipy[version='>=0.6.0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*|>=7.3.1|>=7.3.2|>=7.3.3']
+cryptography -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+ruamel_yaml -> python[version='>=3.6,<3.7.0a0'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+requests -> certifi[version='>=2017.4.17'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*|>=7.3.1|>=7.3.2|>=7.3.3']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*|>=7.3.3|>=7.3.2|>=7.3.1']
+brotlipy -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+setuptools -> pypy3.6[version='>=7.3.1|>=7.3.2|>=7.3.3']
+cffi -> python_abi==3.6[build=*_pypy36_pp73] -> pypy3.6=7.3
+pycparser -> python[version='2.7.*|>=3.4'] -> pypy3.6[version='7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+cryptography -> cffi[version='>=1.12'] -> pypy3.6[version='7.3.*|7.3.0.*|7.3.1.*|7.3.2.*|7.3.3.*']
+
+Package libffi conflicts for:
+pycparser -> python[version='2.7.*|>=3.4'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+python_abi -> python=3.10 -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+cryptography -> pypy3.7[version='>=7.3.7'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0|>=3.3|<3.3.0.a0']
+pyopenssl -> python[version='>=3.6'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+requests -> python[version='>=3.6'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> libffi[version='>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+colorama -> python -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+pip -> python[version='>=3.7'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+cffi -> python[version='>=3.6,<3.7.0a0'] -> libffi=3.2
+six -> python -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+asn1crypto -> python[version='>=3.6'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+charset-normalizer -> python[version='>=3.6'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+urllib3 -> python[version='<4.0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+tqdm -> python[version='>=2.7'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+idna -> python[version='>=3.6'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+cffi -> libffi[version='<3.3.0.a0|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.3|>=3.2.1,<3.3a0']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+python=3.7.12 -> libffi[version='>=3.4.2,<3.5.0a0']
+brotlipy -> cffi[version='>=1.0.0'] -> libffi[version='3.2.*|<3.3.0.a0|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.3|>=3.2.1,<3.3a0']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> libffi[version='3.2.*|>=3.2.1,<3.3.0a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0|>=3.2.1,<3.3a0']
+
+Package _openmp_mutex conflicts for:
+openssl -> libgcc-ng[version='>=10.3.0'] -> _openmp_mutex[version='>=4.5']
+zlib -> libgcc-ng[version='>=7.5.0'] -> _openmp_mutex[version='>=4.5']
+python=3.7.12 -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+libgcc-ng -> _openmp_mutex[version='>=4.5']
+cffi -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+xz -> libgcc-ng[version='>=7.5.0'] -> _openmp_mutex[version='>=4.5']
+cryptography -> libgcc-ng[version='>=10.3.0'] -> _openmp_mutex[version='>=4.5']
+libzlib -> libgcc-ng[version='>=7.5.0'] -> _openmp_mutex[version='>=4.5']
+brotlipy -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+pycosat -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+sqlite -> libgcc-ng[version='>=10.3.0'] -> _openmp_mutex[version='>=4.5']
+libedit -> libgcc-ng[version='>=7.5.0'] -> _openmp_mutex[version='>=4.5']
+tk -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+readline -> libgcc-ng[version='>=9.3.0'] -> _openmp_mutex[version='>=4.5']
+yaml -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+libffi -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+libnsl -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+ruamel_yaml -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5']
+conda-package-handling -> libgcc-ng[version='>=10.3.0'] -> _openmp_mutex[version='>=4.5']
+
+Package libgomp conflicts for:
+_openmp_mutex -> libgomp[version='>=7.3.0|>=7.5.0']
+libgcc-ng -> _openmp_mutex[version='>=4.5'] -> libgomp[version='>=7.3.0|>=7.5.0']
+
+Package openssl conflicts for:
+cryptography -> pypy3.7[version='>=7.3.7'] -> openssl[version='>=1.0.2l,<1.0.3a|>=1.1.1e,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=1.1.1f,<1.1.2a|>=1.1.1m,<1.1.2a']
+ruamel_yaml -> python[version='>=3.7,<3.8.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1l,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1k,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=3.0.2,<4.0a0|>=1.1.1n,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+charset-normalizer -> python[version='>=3.6'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+asn1crypto -> python[version='>=3.6'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+pysocks -> python[version='>=3.7,<3.8.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1l,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1k,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=3.0.2,<4.0a0|>=1.1.1n,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+python=3.7.12 -> openssl[version='>=1.1.1l,<1.1.2a|>=3.0.0,<4.0a0']
+setuptools -> python[version='>=3.9,<3.10.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+tqdm -> python[version='>=2.7'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+pip -> python[version='>=3.7'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+chardet -> python[version='>=3.8,<3.9.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+conda[version='>=4.12.0'] -> python[version='>=3.9,<3.10.0a0'] -> openssl[version='>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1d,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.1.1f,<1.1.2a']
+certifi -> python[version='>=3.7,<3.8.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1l,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1k,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=3.0.2,<4.0a0|>=1.1.1n,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+conda-package-handling -> python[version='>=3.8,<3.9.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+colorama -> python -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+idna -> python[version='>=3.6'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+six -> python -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+cryptography -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a']
+requests -> python[version='>=3.6'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+brotlipy -> python[version='>=3.10,<3.11.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+urllib3 -> cryptography[version='>=1.3.4'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=3.0.2,<4.0a0|>=1.1.1n,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1f,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2l,<1.0.3a']
+pyopenssl -> cryptography[version='>=35.0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=3.0.2,<4.0a0|>=1.1.1n,<1.1.2a|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+pycparser -> python[version='2.7.*|>=3.4'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+pycosat -> python[version='>=3.8,<3.9.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+python_abi -> python=3.10 -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+cffi -> python[version='>=3.8,<3.9.0a0'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1m,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+wheel -> python[version='!=3.0,!=3.1,!=3.2,!=3.3,!=3.4'] -> openssl[version='1.0.*|>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1f,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.2,<4.0a0|>=3.0.0,<4.0a0|>=1.1.1m,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.0.2n,<1.0.3a|>=1.0.2m,<1.0.3a|>=1.0.2l,<1.0.3a']
+
+Package setuptools conflicts for:
+pip -> setuptools
+wheel -> setuptools
+conda[version='>=4.12.0'] -> setuptools[version='>=31.0.1']
+python=3.7.12 -> pip -> setuptools
+ruamel_yaml -> setuptools
+
+Package yaml conflicts for:
+ruamel_yaml -> yaml[version='>=0.1.7,<0.2.0a0|>=0.2.2,<0.3.0a0|>=0.2.5,<0.3.0a0']
+conda[version='>=4.12.0'] -> ruamel_yaml[version='>=0.11.14,<0.16'] -> yaml[version='>=0.1.7,<0.2.0a0|>=0.2.2,<0.3.0a0|>=0.2.5,<0.3.0a0']
+
+Package ipaddress conflicts for:
+cryptography -> ipaddress
+urllib3 -> ipaddress
+pyopenssl -> cryptography[version='>=2.8'] -> ipaddress
+requests -> urllib3[version='>=1.21.1,<1.27'] -> ipaddress
+
+Package pyopenssl conflicts for:
+requests -> urllib3[version='>=1.21.1,<1.27'] -> pyopenssl[version='>=0.14']
+conda[version='>=4.12.0'] -> pyopenssl[version='>=16.2.0']
+urllib3 -> pyopenssl[version='>=0.14']
+
+Package colorama conflicts for:
+conda-package-handling -> tqdm -> colorama
+tqdm -> colorama
+
+Package charset-normalizer conflicts for:
+requests -> charset-normalizer[version='>=2.0.0,<2.0.1|>=2.0.0,<2.1|>=2.0.0,<2.1.0']
+conda[version='>=4.12.0'] -> requests[version='>=2.18.4,<3'] -> charset-normalizer[version='>=2.0.0,<2.0.1|>=2.0.0,<2.1|>=2.0.0,<2.1.0']
+
+Package six conflicts for:
+conda-package-handling -> six
+urllib3 -> cryptography[version='>=1.3.4'] -> six[version='>=1.4.1|>=1.5.2']
+conda[version='>=4.12.0'] -> conda-package-handling[version='>=1.3.0'] -> six[version='>=1.5.2']
+pyopenssl -> cryptography[version='>=3.3'] -> six[version='>=1.4.1']
+wheel -> packaging[version='>=20.2'] -> six
+cryptography -> six[version='>=1.4.1']
+pyopenssl -> six[version='>=1.5.2']
+
+Package pycparser conflicts for:
+cffi -> pycparser
+cryptography -> cffi[version='>=1.12'] -> pycparser
+brotlipy -> cffi[version='>=1.0.0'] -> pycparser
+
+Package llvm-openmp conflicts for:
+libgcc-ng -> _openmp_mutex[version='>=4.5'] -> llvm-openmp[version='>=9.0.1']
+_openmp_mutex -> llvm-openmp[version='>=9.0.1']
+
+Package cryptography-vectors conflicts for:
+pyopenssl -> cryptography[version='>=2.2.1'] -> cryptography-vectors[version='2.3.*|2.3.1.*']
+urllib3 -> cryptography[version='>=1.3.4'] -> cryptography-vectors[version='2.3.*|2.3.1.*']
+cryptography -> cryptography-vectors[version='2.3.*|2.3.1.*']
+
+Package cffi conflicts for:
+brotlipy -> cffi[version='>=1.0.0']
+cryptography -> cffi[version='!=1.11.3,>=1.8|>=1.12|>=1.8,!=1.11.3|>=1.7|>=1.8']
+urllib3 -> brotlipy[version='>=0.6.0'] -> cffi[version='!=1.11.3,>=1.8|>=1.0.0|>=1.12|>=1.8,!=1.11.3|>=1.7|>=1.8']
+pyopenssl -> cryptography[version='>=35.0'] -> cffi[version='!=1.11.3,>=1.8|>=1.12|>=1.8,!=1.11.3|>=1.8|>=1.7']
+
+Package asn1crypto conflicts for:
+urllib3 -> cryptography[version='>=1.3.4'] -> asn1crypto[version='>=0.21.0']
+pyopenssl -> cryptography[version='>=2.8'] -> asn1crypto[version='>=0.21.0']
+cryptography -> asn1crypto[version='>=0.21.0']
+
+Package enum34 conflicts for:
+brotlipy -> enum34
+urllib3 -> brotlipy[version='>=0.6.0'] -> enum34
+pyopenssl -> cryptography[version='>=2.8'] -> enum34
+cryptography -> enum34
+
+Package urllib3 conflicts for:
+conda[version='>=4.12.0'] -> requests[version='>=2.18.4,<3'] -> urllib3[version='>=1.21.1,<1.22|>=1.21.1,<1.23|>=1.21.1,<1.24|>=1.21.1,<1.25|>=1.21.1,<1.26,!=1.25.0,!=1.25.1|>=1.21.1,<1.27']
+requests -> urllib3[version='>=1.21.1,<1.22|>=1.21.1,<1.23|>=1.21.1,<1.24|>=1.21.1,<1.25|>=1.21.1,<1.26,!=1.25.0,!=1.25.1|>=1.21.1,<1.27']
+
+Package chardet conflicts for:
+requests -> chardet[version='>=3.0.2,<3.1.0|>=3.0.2,<4|>=3.0.2,<5']
+conda[version='>=4.12.0'] -> requests[version='>=2.18.4,<3'] -> chardet[version='>=3.0.2,<3.1.0|>=3.0.2,<4|>=3.0.2,<5']
+
+Package packaging conflicts for:
+pip -> wheel -> packaging[version='>=20.2']
+wheel -> packaging[version='>=20.2']
+
+Package brotlipy conflicts for:
+urllib3 -> brotlipy[version='>=0.6.0']
+requests -> urllib3[version='>=1.21.1,<1.27'] -> brotlipy[version='>=0.6.0']
+
+Package tqdm conflicts for:
+conda-package-handling -> tqdm
+conda[version='>=4.12.0'] -> conda-package-handling[version='>=1.3.0'] -> tqdmThe following specifications were found to be incompatible with your system:
+
+  - feature:/linux-64::__glibc==2.31=0
+  - feature:|@/linux-64::__glibc==2.31=0
+  - brotlipy -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - cffi -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - conda-package-handling -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - cryptography -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - libedit -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - libffi -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - libgcc-ng -> __glibc[version='>=2.17']
+  - libstdcxx-ng -> __glibc[version='>=2.17']
+  - libzlib -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - openssl -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - pycosat -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - readline -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - ruamel_yaml -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - sqlite -> libgcc-ng[version='>=9.3.0'] -> __glibc[version='>=2.17']
+  - tk -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - xz -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - yaml -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - zlib -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+
+Your installed version is: 2.31
+
+Note that strict channel priority may have removed packages required for satisfiability.
+
+
+ubuntu 4.7.10 - python 3.7.13
+
+UnsatisfiableError: The following specifications were found to be incompatible with each other:
+
+
+
+Package bzip2 conflicts for:
+python=3.7 -> bzip2[version='>=1.0.6,<2.0a0|>=1.0.8,<2.0a0']
+Package ld_impl_linux-64 conflicts for:
+python=3.7 -> ld_impl_linux-64[version='>=2.34']
+Package sqlite conflicts for:
+python=3.7 -> sqlite[version='>=3.24.0,<4.0a0|>=3.25.1,<4.0a0|>=3.25.2,<4.0a0|>=3.25.3,<4.0a0|>=3.26.0,<4.0a0|>=3.27.2,<4.0a0|>=3.28.0,<4.0a0|>=3.29.0,<4.0a0|>=3.30.1,<4.0a0|>=3.31.1,<4.0a0|>=3.32.3,<4.0a0|>=3.33.0,<4.0a0|>=3.34.0,<4.0a0|>=3.35.4,<4.0a0|>=3.36.0,<4.0a0|>=3.38.0,<4.0a0']
+Package libgcc-ng conflicts for:
+python=3.7 -> libgcc-ng[version='>=4.9|>=7.2.0|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0']
+Package xz conflicts for:
+python=3.7 -> xz[version='>=5.2.3,<5.3.0a0|>=5.2.4,<5.3.0a0|>=5.2.4,<6.0a0|>=5.2.5,<5.3.0a0|>=5.2.5,<6.0a0']
+Package pip conflicts for:
+python=3.7 -> pip
+Package readline conflicts for:
+python=3.7 -> readline[version='>=7.0,<8.0a0|>=8.0,<9.0a0|>=8.1,<9.0a0']
+Package libstdcxx-ng conflicts for:
+python=3.7 -> libstdcxx-ng[version='>=4.9|>=7.2.0|>=7.3.0|>=7.5.0|>=9.3.0|>=9.4.0']
+Package pypy3.7 conflicts for:
+python=3.7 -> pypy3.7[version='7.3.3.*|7.3.4.*|7.3.5.*|7.3.7.*']
+Package openssl conflicts for:
+python=3.7 -> openssl[version='>=1.0.2o,<1.0.3a|>=1.0.2p,<1.0.3a|>=1.1.1a,<1.1.2a|>=1.1.1b,<1.1.2a|>=1.1.1c,<1.1.2a|>=1.1.1d,<1.1.2a|>=1.1.1e,<1.1.2a|>=1.1.1g,<1.1.2a|>=1.1.1h,<1.1.2a|>=1.1.1i,<1.1.2a|>=1.1.1j,<1.1.2a|>=1.1.1k,<1.1.2a|>=1.1.1l,<1.1.2a|>=1.1.1n,<1.1.2a|>=3.0.0,<4.0a0']
+Package zlib conflicts for:
+python=3.7 -> zlib[version='>=1.2.11,<1.3.0a0']
+Package libffi conflicts for:
+python=3.7 -> libffi[version='>=3.2.1,<3.3.0a0|>=3.2.1,<3.3a0|>=3.3,<3.4.0a0|>=3.4.2,<3.5.0a0']
+Package ncurses conflicts for:
+python=3.7 -> ncurses[version='>=6.1,<7.0.0a0|>=6.1,<7.0a0|>=6.2,<7.0.0a0|>=6.2,<7.0a0|>=6.3,<7.0a0']
+Package python_abi conflicts for:
+python=3.7 -> python_abi[version='*,3.7.*|*|3.7.*',build=*_cp37m]
+Package libzlib conflicts for:
+python=3.7 -> libzlib[version='>=1.2.11,<1.3.0a0']
+Package libnsl conflicts for:
+python=3.7 -> libnsl[version='>=2.0.0,<2.1.0a0']
+Package tk conflicts for:
+python=3.7 -> tk[version='>=8.6.10,<8.7.0a0|>=8.6.11,<8.7.0a0|>=8.6.7,<8.7.0a0|>=8.6.8,<8.7.0a0|>=8.6.9,<8.7.0a0']
+Note that strict channel priority may have removed packages required for satisfiability.
+
+ubuntu 4.5.4 - python 3.6.5
+
+
+    Traceback (most recent call last):
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/_vendor/auxlib/type_coercion.py", line 164, in boolify
+        return bool(complex(val))
+    ValueError: complex() arg is a malformed string
+    
+    During handling of the above exception, another exception occurred:
+    
+    Traceback (most recent call last):
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/_vendor/auxlib/type_coercion.py", line 243, in typify
+        return boolify(value) if type_hint == bool else type_hint(value)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/_vendor/auxlib/type_coercion.py", line 168, in boolify
+        raise TypeCoercionError(value, "The value %r cannot be boolified." % value)
+    conda._vendor.auxlib.type_coercion.TypeCoercionError: The value 'strict' cannot be boolified.
+    
+    During handling of the above exception, another exception occurred:
+    
+    Traceback (most recent call last):
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/exceptions.py", line 819, in __call__
+        return func(*args, **kwargs)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/cli/main.py", line 78, in _main
+        exit_code = do_call(args, p)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/cli/conda_argparse.py", line 77, in do_call
+        exit_code = getattr(module, func_name)(args, parser)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/cli/main_config.py", line 30, in execute
+        execute_config(args, parser)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/cli/main_config.py", line 280, in execute_config
+        value = context.typify_parameter(key, item)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/common/configuration.py", line 884, in typify_parameter
+        return typify_data_structure(value, parameter._element_type)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/_vendor/auxlib/type_coercion.py", line 259, in typify_data_structure
+        return typify(value, type_hint)
+      File "/opt/miniconda-4.5.4/lib/python3.6/site-packages/conda/_vendor/auxlib/type_coercion.py", line 246, in typify
+        raise TypeCoercionError(value, text_type(e))
+    conda._vendor.auxlib.type_coercion.TypeCoercionError: The value 'strict' cannot be boolified.
+
+`$ /opt/miniconda-4.5.4/bin/conda config --set channel_priority strict`
+
+  environment variables:
+                 CIO_TEST=<not set>
+                CONDA_DIR=/opt/miniconda-4.5.4
+               CONDA_ROOT=/opt/miniconda-4.5.4
+                     PATH=/opt/miniconda-4.5.4/bin:/opt/miniconda-4.5.4/bin:/usr/local/sbin:/usr
+                          /local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+       REQUESTS_CA_BUNDLE=<not set>
+            SSL_CERT_FILE=<not set>
+
+     active environment : None
+       user config file : /root/.condarc
+ populated config files : /opt/miniconda-4.5.4/.condarc
+          conda version : 4.5.4
+    conda-build version : not installed
+         python version : 3.6.5.final.0
+       base environment : /opt/miniconda-4.5.4  (writable)
+           channel URLs : https://conda.anaconda.org/conda-forge/linux-64
+                          https://conda.anaconda.org/conda-forge/noarch
+                          https://repo.anaconda.com/pkgs/main/linux-64
+                          https://repo.anaconda.com/pkgs/main/noarch
+                          https://repo.anaconda.com/pkgs/free/linux-64
+                          https://repo.anaconda.com/pkgs/free/noarch
+                          https://repo.anaconda.com/pkgs/r/linux-64
+                          https://repo.anaconda.com/pkgs/r/noarch
+                          https://repo.anaconda.com/pkgs/pro/linux-64
+                          https://repo.anaconda.com/pkgs/pro/noarch
+          package cache : /opt/miniconda-4.5.4/pkgs
+                          /root/.conda/pkgs
+       envs directories : /opt/miniconda-4.5.4/envs
+                          /root/.conda/envs
+               platform : linux-64
+             user-agent : conda/4.5.4 requests/2.18.4 CPython/3.6.5 Linux/4.19.104-microsoft-standard ubuntu/20.04 glibc/2.31
+                UID:GID : 0:0
+             netrc file : None
+           offline mode : False
+
+
+An unexpected error has occurred. Conda has prepared the above report.
+
+tensorflow-base=1.15.0=gpu_py37h9dcbed7_0.conda
+
+UnsatisfiableError: The following specifications were found to be in conflict:
+  - tensorflow-base==1.15.0=gpu_py37h9dcbed7_0 -> cudatoolkit[version='>=10.0.130,<10.1.0a0'] -> __cuda[version='>=10.0']
+  - tensorflow-base==1.15.0=gpu_py37h9dcbed7_0 -> cudatoolkit[version='>=10.0.130,<10.1.0a0'] -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5'] -> llvm-openmp[version='>=9.0.1'] -> openmp[version='13.0.1|13.0.1.*']
+  - tensorflow-base==1.15.0=gpu_py37h9dcbed7_0 -> cudatoolkit[version='>=10.0.130,<10.1.0a0'] -> libgcc-ng[version='>=9.4.0'] -> _openmp_mutex[version='>=4.5'] -> openmp_impl==9999
+  - tensorflow-base==1.15.0=gpu_py37h9dcbed7_0 -> cudnn[version='>=7.6,<8.0a0,>=7.6.4,<8.0a0'] -> __glibc[version='>=2.4']
+Use "conda search <package> --info" to see the dependencies for each package.
+

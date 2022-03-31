@@ -1,0 +1,79 @@
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-py37_4.11.0-Linux-x86_64.sh  Miniconda3-py37_4.10.3-Linux-x86_64.sh
+rm -rf Miniconda3-latest-Linux-x86_64.sh
+cd recipes/delphi
+bash build.sh -ds
+
+docker run -t -d --name delphi python:3.7.13
+	-d (--detach): keep the container in the background, otherwise container will exit immediately 
+			if do not have any task running on the container
+	-v (--volume): attach the local directory to your docker container
+	-w (--workdir): working directory inside the container
+docker run -t -d --name delphi-container -v /mnt/c/Stella/RA/neurocontainers/recipes/delphi -w /encryption python:3.7.13
+docker run -t -d --name delphi-inference -v /mnt/c/Stella/RA/neurocontainers/recipes/delphi:/mnt/delphi -w /encryption python:3.7.13
+docker start delphi-container
+docker exec -it delphi-inference /bin/bash
+docker container rm container [ID]
+docker system prune --filter "until=24h"
+
+cd /mnt/delphi/python
+nvcc --version
+pip list
+pip install tensorflow==1.15.0
+pip install h5py==2.10
+pip install pandas==1.2.5
+pip install ray[tune]==0.8.0 requests scipy tensorflow==1.15.0
+pip install tensorboard==1.15.0
+pip install argparse
+wget -q https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz                     
+tar xfz cmake-3.22.2-linux-x86_64.tar.gz --strip-components=1 -C /usr/local/             
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh  
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh           
+bash install_rustup.sh -y             
+source $HOME/.cargo/env && rustup install nightly
+cd /mnt/delphi/rust
+source $HOME/.cargo/env && cargo +nightly build --release
+cd /mnt/delphi/python
+python ./minionn/minionn_cifar10.py -n 7_layers -d /tmp -a 7 -r minionn/pretrained/relu/model 
+
+neurodocker generate docker --help
+
+Singularity uses the Singularity Image Format (SIF) and images are provided 
+as single SIF files (with a .sif filename extension)
+
+- run a container, default command
+$ singularity run hello-world.sif
+
+
+When you run a container from a Singularity image without 
+using any additional command line arguments, 
+the container runs the default run script that is embedded within the image. 
+This is a shell script that can be used to run commands, 
+tools or applications stored within the image on container startup.
+- inspect shell script
+$ singularity inspect -r hello-world.sif	
+
+- how many container files are stored in the cache and how much disk sapce used
+$ singularity cache list
+
+- what are they: -v verbose flag
+$ singularity cache list -v
+
+-clean cache
+$ singularity cache clean
+
+default cache path: HOME/.singularity/cache. change path by setting SINGULARITY_CACHEDIR=/path/
+
+- run specific commands within a container, passing the input Hello World!
+$ singularity exec hello-world.sif /bin/echo Hello World!
+
+- interactive shell within a container
+$ singularity shell hello-world.sif
+
+- bind files or libraries to the container: -B
+$ singularity shell -B /work/z19/shared hello-world.sif
+	pecify multiple binds to -B by separating them by commas (,).
+
+
+
+
