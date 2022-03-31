@@ -31,18 +31,20 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git tar \
+   --install wget git tar curl ca-certificates \
    --run="git clone https://github.com/mc2-project/delphi.git /opt/encryption" \
    --run="pip install -U ray[debug]==0.8.0"             `# ray 0.8.0 requires the python version 3.6/3.7` \
+   --run="pip install ray[tune]==0.8.0 requests scipy"                      `# ` \
+   --run="pip install pandas"                      `# ` \
+   --run="pip install argparse"                      `# ` \
+   --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" \
+   --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" \
+   --run="bash install_rustup.sh -y" \
+   --workdir /opt/encryption/rust \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
-   # --miniconda version=py37_4.11.0 `#py37_4.11.0` \
-   #          conda_install='tensorflow-base=1.15.0=gpu_py37h9dcbed7_0' `# tensorflow-gpu requires cuda/cudnn. tensorflow does not. pip doesn't install cuda for you (pip does), so conda install tensorflow-gpu won't work out of the box on most systems without a nvidia gpu.`\
+   # --run="source $HOME/.cargo/env && rustup install nightly" `# check HOME LATER `\ 
+   # --run="source $HOME/.cargo/env && cargo +nightly build --release" \
    
-   # --run="pip install ray[tune]==0.8.0 requests scipy tensorflow==1.15.0"                      `# ` \
-   # --run="pip install h5py==2.10"                      `# ` \
-   # --run="pip install pandas==1.2.5"                      `# ` \
-   # --run="pip install argparse"                      `# ` \
-   # --run="pip install numpy"                      `# ` \
    # --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    # --env DEPLOY_BINS=delphi:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    # --copy README.md /README.md                          `# include readme file in container` \
