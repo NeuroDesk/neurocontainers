@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git tar \
-   --miniconda version=4.6.14 `#py37_4.11.0` \
+   --miniconda version=py37_4.11.0 `#py37_4.11.0` \
             conda_install='tensorflow-base=1.15.0=gpu_py37h9dcbed7_0' `# tensorflow-gpu requires cuda/cudnn. tensorflow does not. pip doesn't install cuda for you (pip does), so conda install tensorflow-gpu won't work out of the box on most systems without a nvidia gpu.`\
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
    
