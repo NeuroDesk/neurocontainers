@@ -25,24 +25,24 @@ source ../main_setup.sh
 
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image tensorflow:1.15.0-gpu-py3 `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image docker.io/tensorflow/tensorflow:1.15.0-gpu-py3 `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git tar \
+   --run="git clone https://github.com/mc2-project/delphi.git /opt/encryption" \
+   --run="pip install -U ray[debug]==0.8.0"             `# ray 0.8.0 requires the python version 3.6/3.7` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
    # --miniconda version=py37_4.11.0 `#py37_4.11.0` \
    #          conda_install='tensorflow-base=1.15.0=gpu_py37h9dcbed7_0' `# tensorflow-gpu requires cuda/cudnn. tensorflow does not. pip doesn't install cuda for you (pip does), so conda install tensorflow-gpu won't work out of the box on most systems without a nvidia gpu.`\
    
-   # --run="pip install -U ray[debug]==0.8.0"             `# ray 0.8.0 requires the python version 3.6/3.7` \
    # --run="pip install ray[tune]==0.8.0 requests scipy tensorflow==1.15.0"                      `# ` \
    # --run="pip install h5py==2.10"                      `# ` \
    # --run="pip install pandas==1.2.5"                      `# ` \
    # --run="pip install argparse"                      `# ` \
    # --run="pip install numpy"                      `# ` \
-   # --run="git clone https://github.com/mc2-project/delphi.git /opt/encryption" \
    # --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    # --env DEPLOY_BINS=delphi:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    # --copy README.md /README.md                          `# include readme file in container` \
