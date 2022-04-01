@@ -4,7 +4,7 @@ set -e
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='hdbet'
 export toolVersion='1.0.0'
-export GPU_FLAG='true'
+export GPU_FLAG=true
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -37,7 +37,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
    --copy README.md /README.md \
-  > ${toolName}_${toolVersion}_${GPU_FLAG}.Dockerfile
+  > ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
