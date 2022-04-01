@@ -16,7 +16,11 @@ if [ "$buildMode" = "docker_singularity" ]; then
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
               echo "---------------------------"
-              sudo docker run -it --rm --gpus all ${imageName}:$buildDate
+              if ["$gpuRequirement" = "true"]; then
+                     sudo docker run -it --rm --gpus all ${imageName}:$buildDate
+              else
+                     sudo docker run -it ${imageName}:$buildDate
+              fi
        fi
 
        echo "uploading docker image now:"
@@ -41,7 +45,11 @@ if [ "$buildMode" = "docker_local" ]; then
        if [ "$testImageDocker" = "true" ]; then
               echo "tesing image in docker now:"
               echo "---------------------------"
-              sudo docker run -it --rm --gpus all ${imageName}:$buildDate
+              if ["$gpuRequirement" = "true"]; then
+                     sudo docker run -it --rm --gpus all ${imageName}:$buildDate
+              else
+                     sudo docker run -it ${imageName}:$buildDate
+              fi
        fi
 
        echo "uploading docker image now:"
