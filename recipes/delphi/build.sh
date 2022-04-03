@@ -31,7 +31,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git tar curl ca-certificates libssl-dev \
+   --run="add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get install git -y && && rm -rf /var/lib/apt/lists/*" \
+   --install wget tar curl ca-certificates libssl-dev \
    --run="pip install -U ray[debug]==0.8.0"             `# ray 0.8.0 requires the python version 3.6/3.7` \
    --run="pip install ray[tune]==0.8.0 requests scipy"                      `# ` \
    --run="pip install pandas"                      `# ` \
