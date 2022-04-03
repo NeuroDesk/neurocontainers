@@ -31,8 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --run="add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get install git -y && && rm -rf /var/lib/apt/lists/*" \
-   --install wget tar curl ca-certificates libssl-dev \
+   --install wget git tar curl ca-certificates libssl-dev \
    --run="pip install -U ray[debug]==0.8.0"             `# ray 0.8.0 requires the python version 3.6/3.7` \
    --run="pip install ray[tune]==0.8.0 requests scipy"                      `# ` \
    --run="pip install pandas"                      `# ` \
@@ -40,7 +39,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" \
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" \
    --run="bash install_rustup.sh -y" \
-   --run="git clone https://github.com/yexincheng/delphi.git /opt/encryption" \
+   --run="git -c http.sslVerify=false clone https://github.com/yexincheng/delphi.git /opt/encryption" \
    --workdir /opt/encryption/rust \
    --env PATH='$PATH':/root/.cargo/bin/ \
    --run="rustup install nightly" `# check HOME LATER: cargo is installed in ROOT home! `\
