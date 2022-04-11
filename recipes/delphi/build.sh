@@ -39,10 +39,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" \
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" \
    --run="bash install_rustup.sh -y" \
-   --run="git -c http.sslVerify=false clone https://github.com/yexincheng/delphi.git /opt/encryption" \
+   --run="git clone https://github.com/yexincheng/delphi.git /opt/encryption" \
    --workdir /opt/encryption/rust \
    --env PATH='$PATH':/root/.cargo/bin/ \
+   --run="rustup update" `# check HOME LATER: cargo is installed in ROOT home! `\
    --run="rustup install nightly" `# check HOME LATER: cargo is installed in ROOT home! `\
+   --run="rustup default nightly" `# check HOME LATER: cargo is installed in ROOT home! `\
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
    # --run="cargo +nightly build --release" \
    
