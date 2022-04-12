@@ -45,13 +45,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rustup install nightly"                        `# must use nightly version to compile `\
    --run="rustup default nightly"                        `# make sure to use nightly, in case that stable version is intsalled as well`\
    --run="cargo +nightly build --release"                `# use nightly to build release version`\
-   --workdir /opt/encryption/                            `# back to encryption fold`\
+   --workdir /opt/encryption/                            `# back to encryption folder`\
+   --env DEPLOY_PATH=/opt/${toolName}-latest/            `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
+   --env DEPLOY_BINS=delphi:bidscoiner                   `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --copy README.md /README.md                           `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                 `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
    
-   # --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
-   # --env DEPLOY_BINS=delphi:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
-   # --copy README.md /README.md                          `# include readme file in container` \
-   # --copy delphi/* /opt/encryption                          `# include readme file in container` \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
