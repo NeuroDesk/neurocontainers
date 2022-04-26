@@ -39,6 +39,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" `# retrieve rustup`\
    --run="bash install_rustup.sh -y"                     `# install rustup`\
    --run="git clone https://github.com/yexincheng/delphi.git /opt/encryption"             `# clone delphi homomorphic encryption inference github repo`\
+   --workdir /opt/encryption/                            `# switch to delphi folder`\
+   --run="git pull"                                      `# sync changes`\
    --workdir /opt/encryption/rust                        `# rust compiling should be within rust fold`\
    --env PATH='$PATH':/root/.cargo/bin/                  `# check HOME LATER: cargo is installed in ROOT home! `\
    --run="rustup update"                                 `# update rustup to update rustc`\
