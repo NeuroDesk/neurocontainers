@@ -35,7 +35,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="pip install ray[tune]==0.8.0 requests scipy"   \
    --run="pip install pandas"                            \
    --run="pip install argparse"                          \
-   --run="pip install nibabel"                          \
+   --run="pip install nibabel"                           \
+   --run="pip install matplotlib"                        \
    --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" `# rust compilling needs higher version of cmake`\
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o install_rustup.sh" `# retrieve rustup`\
    --run="bash install_rustup.sh -y"                     `# install rustup`\
