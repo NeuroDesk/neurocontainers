@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='mne'
-export toolVersion='0.23.4'
+export toolVersion='1.0.0'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -36,6 +36,9 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-keymap \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
    --env DONT_PROMPT_WSL_INSTALL=1 \
+   --workdir=/opt/ \
+   --run="curl -fsSL https://github.com/mne-tools/mne-bids-pipeline/archive/refs/heads/main.tar.gz | tar xz" \
+   --run="chmod a+rwx /opt/mne-bids-pipeline-main -R" \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \

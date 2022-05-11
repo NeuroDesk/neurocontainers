@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd /opt/vesselvio-*
+python VesselVio.py

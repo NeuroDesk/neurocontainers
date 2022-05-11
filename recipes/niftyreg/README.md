@@ -102,9 +102,24 @@ For any comment, please, feel free to contact Marc Modat (m.modat@ucl.ac.uk).
 
 ##############################################################################
 
+
+Example:
+```
+groupwise_niftyreg_params.sh  
+groupwise_niftyreg_run.sh
+reg_aladin
+reg_average
+reg_f3d
+reg_jacobian
+reg_measure
+reg_resample
+reg_tools
+reg_transform
+```
+
 ------------
-4 REFERENCES
-------------
+Citation:
+```
 [1] Ourselin, et al. (2001). Reconstructing a 3D structure from serial
 histological sections. Image and Vision Computing, 19(1-2), 25–31.
 [2] Modat, et al. (2014). Global image registration using a symmetric block-
@@ -116,5 +131,7 @@ Imaging, 18(8), 712–721. doi:10.1109/42.796284
 [4] Modat, et al. (2010). Fast free-form deformation using graphics processing
 units. Computer Methods And Programs In Biomedicine,98(3), 278–284.
 doi:10.1016/j.cmpb.2009.09.002
+```
+
 
 ----------------------------------
