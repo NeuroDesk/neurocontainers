@@ -1,6 +1,6 @@
 
 ----------------------------------
-## qsmxt/1.1.10 ##
+## qsmxt/1.1.11 ##
 A full QSM processing pipeline from DICOM to segmentation to evaluation of results. 
 
 Usage:
@@ -57,6 +57,6 @@ This means there is not enough memory available. Troulbeshoot advice when runnin
 
 More documentation can be found here: https://github.com/QSMxT/QSMxT
 
-To run applications outside of this container: ml qsmxt/1.1.10
+To run applications outside of this container: ml qsmxt/1.1.11
 
 ----------------------------------
