@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points`  			\
    --install perl imagemagick gnuplot-nox locales gsfonts libtext-format-perl		\
    --install opts="--quiet" build-essential automake libtool bison libz-dev libjpeg-dev libxmu-dev libxi-dev libqt4-dev  \
-      libpng-dev libtiff-dev liblcms2-dev flex libx11-dev freeglut3-dev git-lfs ca-certificates		\
+      libpng-dev libtiff-dev liblcms2-dev flex libx11-dev freeglut3-dev git-lfs ca-certificates	\
    --run="rm /bin/sh && ln -s /bin/bash /bin/sh"        \
    --run="git config --global url.https://github.com/.insteadOf git@github.com:"		\
    --run="git clone git@github.com:aces/CIVET_Full_Project.git" 	\
@@ -36,8 +36,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p Linux-x86_64/SRC"              \
    --run="tar -zxf TGZ/netpbm-10.35.94.tgz -C /CIVET_Full_Project/Linux-x86_64/SRC"                 \
    --run="cp provision/netpbm/Makefile.config /CIVET_Full_Project/Linux-x86_64/SRC/netpbm-10.35.94"		\
-   --run="bash install.sh"		\
-   --run="bash job_test"		\
+   --run="sed -i 's/make /make -j 4 /g' install.sh && bash install.sh"		\
    --workdir /CIVET_Full_Project/Linux-x86_64                  \
    --run="rm -r SRC building man info"                                     \
    --run="chmod --recursive u+rX,g+rX,o+rX /CIVET_Full_Project"      \
