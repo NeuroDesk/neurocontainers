@@ -1,6 +1,6 @@
 
 ----------------------------------
-## mne/1.0.0 ##
+## mne/1.0.3 ##
 Python MNE environment with VScode
 
 Example:
@@ -17,6 +17,6 @@ To use the MNE BIDS Pipeline (https://mne.tools/mne-bids-pipeline/)
 python /opt/mne-bids-pipeline-main/run.py --config=/path/to/your/custom_config.py 
 ```
 
-To run applications outside of this container: ml mne/1.0.0
+To run applications outside of this container: ml mne/1.0.3
 
 ----------------------------------
