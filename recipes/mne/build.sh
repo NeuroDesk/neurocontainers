@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='mne'
-export toolVersion='1.0.0'
+export toolVersion='1.0.3'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -20,14 +20,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --copy mne-pinned.yml /opt/mne-pinned.yml \
-   --miniconda version=latest \
-      env_name=${toolName}-${toolVersion} \
-      env_exists=false \
-      yaml_file=/opt/mne-pinned.yml \
-      pip_install="osfclient" \
-   --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113"\
-   --install midori xdg-utils python-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl libglu1-mesa gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
+   --install midori xdg-utils python-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 libglu1-mesa libgl1-mesa-dri mesa-utils libgl1-mesa-glx \
+   --miniconda version=4.7.12 \
+      env_name=base \
+   --run="conda install -c conda-forge -n base mamba=0.24.0 "\
+   --run="mamba create --override-channels --channel=conda-forge --name=${toolName}-${toolVersion} mne"\
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
@@ -50,6 +47,7 @@ neurodocker generate ${neurodocker_buildMode} \
 
       # conda_install="python=3.8 jupyter mne=${toolVersion} mne-bids mnelab nb_conda_kernels pytables h5py seaborn statsmodels pybv scikit-learn pyxdf pyEDFlib neurokit2" \
       # pip_install="osfclient" \
+      #    --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113"\
 
 
 if [ "$1" != "" ]; then
