@@ -42,12 +42,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
+   --env XDG_RUNTIME_DIR=/opt/user/1000 \
+   --env RUNLEVEL=3\
+   --user neuro \
+   --user root \
+   --run="mkdir -p /opt/user/1000 && chown -R neuro /opt/user/1000 -R"\
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
-
-      # conda_install="python=3.8 jupyter mne=${toolVersion} mne-bids mnelab nb_conda_kernels pytables h5py seaborn statsmodels pybv scikit-learn pyxdf pyEDFlib neurokit2" \
-      # pip_install="osfclient" \
-      #    --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113"\
 
 
 if [ "$1" != "" ]; then
