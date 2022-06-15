@@ -7,6 +7,11 @@ export toolVersion='0.15.3' #the version number cannot contain a "-" - try to us
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
+# !!!!
+# You can test the container build locally by running `bash build.sh -ds`
+# !!!!
+
+
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
