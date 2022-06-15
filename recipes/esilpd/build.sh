@@ -5,7 +5,7 @@ set -e
 export toolName='esilpd'
 export toolVersion=0.0.1 #the version number cannot contain a "-" - try to use x.x.x notation always
 # export freesurferVersion=7.2.0
-export cudaversion=11.3
+export cudaversion=11.5
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
@@ -36,9 +36,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="add-apt-repository 'deb https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/ /'"\
    --run="add-apt-repository contrib"\
    --install opts='--quiet' cuda-11-5 nsight-compute-2022.2.0 \
-   --run="add-apt-repository contrib && apt-get upgrade libstdc++6"\
-   --run="wget -q https://developer.download.nvidia.com/compute/redist/cudnn/v8.2.1/cudnn-11.3-linux-x64-v8.2.1.32.tgz" \
-   --run="tar -xvf cudnn-11.3-linux-x64-v8.2.1.32.tgz && rm cudnn-11.3-linux-x64-v8.2.1.32.tgz"\
+   --run="wget -q https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.0/cudnn-11.5-linux-x64-v8.3.0.98.tgz" \
+   --run="tar -xvf cudnn-11.5-linux-x64-v8.3.0.98.tgz && rm cudnn-11.5-linux-x64-v8.3.0.98.tgz"\
    --run="cp cuda/include/cudnn*.h /usr/local/cuda/include && cp -P cuda/lib64/libcudnn* /usr/local/cuda/lib64"\
    --run="chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*"\
    --miniconda \
@@ -47,7 +46,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="conda install -c conda-forge mamba=0.24.0 "\
    --run="mamba create --override-channels --channel=conda-forge --name=${toolName}-${toolVersion} python=3.9 mne"\
    --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113"\
-   --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir osfclient nb_conda ipykernel scikit-image pybids seaborn argh joblib torchaudio odl[testing,show]"\
+   --run-bash=". activate ${toolName}-${toolVersion} && pip3 install --no-cache-dir jax osfclient ipykernel scikit-image pybids seaborn argh joblib torchaudio odl[testing,show]"\
    --run="rm -rf ~/.cache/pip/*"\
    --run="wget -q -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' && apt install ./vscode.deb && rm -rf ./vscode.deb" \
    --run=" code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.python \
@@ -66,6 +65,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
+   --env XDG_RUNTIME_DIR=/neurodesktop-storage \
    --user neuro \
   > ${imageName}.${neurodocker_buildExt}           
 
