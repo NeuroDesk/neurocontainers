@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git curl ca-certificates datalad datalad-container unzip`# install apt-get packages` \
+   --install wget git curl ca-certificates datalad datalad-container `# install apt-get packages` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v1.1.1.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" `# download a github release file and unpack` \
    --run="wget --quiet -O surfice_linux.zip 'https://github.com/neurolabusc/surf-ice/releases/download/v${toolVersion}/surfice_linux.zip' \
