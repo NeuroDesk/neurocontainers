@@ -1,9 +1,11 @@
 
 ----------------------------------
-## Name_of_Container/version ##
-Short_description_of_container
+## esilpd/0.0.1 ##
+MNE 1.0.3+PyTorch1.11_cuda_11.3+jax 0.3.13 with CUDA11.5 with cudnn 8.3.0
 
 Example:
+
+
 ```
 ```
 

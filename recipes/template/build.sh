@@ -3,9 +3,14 @@ set -e
 
 # this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
 export toolName='datalad'
-export toolVersion='0.15.3' #the version number cannot contain a "-" - try to use x.x.x notation always
+export toolVersion='1.0.20211006' #the version number cannot contain a "-" - try to use x.x.x notation always
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
+
+# !!!!
+# You can test the container build locally by running `bash build.sh -ds`
+# !!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
