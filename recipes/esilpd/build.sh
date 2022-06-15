@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
 export toolName='esilpd'
 export toolVersion=0.0.1 #the version number cannot contain a "-" - try to use x.x.x notation always
-# export freesurferVersion=7.2.0
-export cudaversion=11.3
-# Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
+# Don't forget to update version change in README.md!!!!!
+export cudaversion=11.3
 
+# You can test the container build locally by running `bash build.sh -ds`
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -68,6 +67,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
+   --env XDG_RUNTIME_DIR=/neurodesktop-storage \
    --user neuro \
   > ${imageName}.${neurodocker_buildExt}           
 

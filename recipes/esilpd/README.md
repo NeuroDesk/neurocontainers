@@ -1,9 +1,10 @@
 
 ----------------------------------
-## Name_of_Container/version ##
-Short_description_of_container
+## esilpd/0.0.1 ##
+MNE+PyTorch+Tensorflow with CUDA
 
 Example:
+
 ```
 ```
 
