@@ -52,8 +52,8 @@ neurodocker generate ${neurodocker_buildMode} \
         env_name=base \
    --run="conda install -c conda-forge mamba=0.24.0 "\
    --run="mamba create --override-channels --channel=conda-forge --name=${toolName}-${toolVersion} python=3.9 mne"\
-   --run-bash=". activate ${toolName}-${toolVersion} 
-        && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113 
+   --run-bash=". activate ${toolName}-${toolVersion} \
+        && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113 \
         && rm -rf ~/.cache/pip/*"\
    --run-bash=". activate ${toolName}-${toolVersion} \
         && pip3 install --no-cache-dir jax osfclient ipykernel scikit-image pybids seaborn argh joblib torchaudio odl[testing,show] \
