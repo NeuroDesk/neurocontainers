@@ -45,7 +45,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget -q https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.0/cudnn-11.5-linux-x64-v8.3.0.98.tgz \
           && tar -xvf cudnn-11.5-linux-x64-v8.3.0.98.tgz \
           && rm cudnn-11.5-linux-x64-v8.3.0.98.tgz"\
-   --run="ln -s cuda/include/cudnn*.h /usr/local/cuda/include && ln -s cuda/lib64/libcudnn* /usr/local/cuda/lib64"\
+   --run="cp cuda/include/cudnn*.h /usr/local/cuda/include && cp -P cuda/lib64/libcudnn* /usr/local/cuda/lib64"\
    --run="chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*"\
    --miniconda \
         version=4.7.12 \
