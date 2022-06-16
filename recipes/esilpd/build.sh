@@ -35,16 +35,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --install opts='--quiet' midori xdg-utils software-properties-common libstdc++6 gcc-10-base python3-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0  libgcc1  libc6 libxss1 libgbm1 libxshmfence1 libasound2 libglu1-mesa libgl1-mesa-dri mesa-utils libgl1-mesa-glx binutils \
    --run="strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX "\
-   --run="wget -q https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/cuda-keyring_1.0-1_all.deb 
-            && dpkg -i cuda-keyring_1.0-1_all.deb 
-            && rm cuda-keyring_1.0-1_all.deb"\
+   --run="wget -q https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/cuda-keyring_1.0-1_all.deb \
+          && dpkg -i cuda-keyring_1.0-1_all.deb \
+          && rm cuda-keyring_1.0-1_all.deb"\
    --run="apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/7fa2af80.pub"\
    --run="add-apt-repository 'deb https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/ /'"\
    --run="add-apt-repository contrib"\
    --install opts='--quiet' cuda-11-5 nsight-compute-2022.2.0 \
-   --run="wget -q https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.0/cudnn-11.5-linux-x64-v8.3.0.98.tgz 
-            && tar -xvf cudnn-11.5-linux-x64-v8.3.0.98.tgz 
-            && rm cudnn-11.5-linux-x64-v8.3.0.98.tgz"\
+   --run="wget -q https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.0/cudnn-11.5-linux-x64-v8.3.0.98.tgz \
+          && tar -xvf cudnn-11.5-linux-x64-v8.3.0.98.tgz \
+          && rm cudnn-11.5-linux-x64-v8.3.0.98.tgz"\
    --run="ln -s cuda/include/cudnn*.h /usr/local/cuda/include && ln -s cuda/lib64/libcudnn* /usr/local/cuda/lib64"\
    --run="chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*"\
    --miniconda \
@@ -55,11 +55,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run-bash=". activate ${toolName}-${toolVersion} 
         && pip3 install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113 
         && rm -rf ~/.cache/pip/*"\
-   --run-bash=". activate ${toolName}-${toolVersion} 
-        && pip3 install --no-cache-dir jax osfclient ipykernel scikit-image pybids seaborn argh joblib torchaudio odl[testing,show] 
+   --run-bash=". activate ${toolName}-${toolVersion} \
+        && pip3 install --no-cache-dir jax osfclient ipykernel scikit-image pybids seaborn argh joblib torchaudio odl[testing,show] \
         && rm -rf ~/.cache/pip/*"\
-   --run="wget -q -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' 
-        && apt install ./vscode.deb 
+   --run="wget -q -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
+        && apt install ./vscode.deb \
         && rm -rf ./vscode.deb" \
    --run=" code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.python \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.vscode-pylance \
