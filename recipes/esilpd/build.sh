@@ -68,7 +68,7 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --workdir=/opt/ \
-   --run="curl -fsSL https://github.com/mne-tools/mne-bids-pipeline/archive/refs/heads/main.tar.gz | tar xz
+   --run="curl -fsSL https://github.com/mne-tools/mne-bids-pipeline/archive/refs/heads/main.tar.gz | tar xz \
             && chmod a+rwx /opt/mne-bids-pipeline-main -R" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':'$CONDA_PREFIX'/lib/ \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda/lib64   \
