@@ -24,6 +24,7 @@ echo "Steffen.Bollmann@cai.uq.edu.au
 >  FSxgcvGkNR59Y" >> ~/.license
 
 export FS_LICENSE=~/.license 
+echo "export FS_LICENSE=~/.license" >> ~/.bashrc
 ```
 
 note: FreeSurfer 6.0.0 does not yet support the FS_LICENSE variable, so the license file needs to be included in the container at /opt/freesurfer-6.0.0/license.txt
