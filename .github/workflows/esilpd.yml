@@ -50,7 +50,7 @@ jobs:
           fi
           echo "RUNNERTYPE=$RUNNERTYPE" >> $GITHUB_ENV
   build-docker:
-    runs-on: ${{fromJSON(needs.decide-where-to-run.outputs.RUNNERTYPE)}}
+    runs-on: self-hosted
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
