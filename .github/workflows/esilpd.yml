@@ -20,37 +20,8 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
-  decide-where-to-run:
-    runs-on: ubuntu-latest
-    outputs:
-      BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
-      RUNNERTYPE: ${{ steps.RUNVARS.outputs.RUNNERTYPE }}
-    steps: 
-      - uses: actions/checkout@v2
-      - name: Set environment variables
-        id: ENVVARS
-        run: |
-          echo `git --version`
-          APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
-          SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
-          BUILDDATE=`date +%Y%m%d`
-          echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
-          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
-          echo "::set-output name=BUILDDATE::$BUILDDATE"
-      - name: Check self-hosted list
-        id: RUNVARS
-        run: |
-          SELFHOSTEDLIST=$(cat .github/workflows/free-up-space-list.txt)
-          if [[ $SELFHOSTEDLIST == *"|$APPLICATION|"* ]]; then
-            rm -rf $GITHUB_WORKSPACE/*
-            RUNNERTYPE=self-hosted
-          else
-            RUNNERTYPE=ubuntu-latest
-          fi
-          echo "RUNNERTYPE=$RUNNERTYPE" >> $GITHUB_ENV
   build-docker:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
@@ -59,7 +30,6 @@ jobs:
       - name: Set environment variables
         id: ENVVARS
         run: |
-          echo `git --version`
           APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
           BUILDDATE=`date +%Y%m%d`
@@ -92,6 +62,9 @@ jobs:
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name : Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
@@ -105,7 +78,7 @@ jobs:
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
             IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
             echo "IMAGENAME: $IMAGENAME"
-            echo "test command for neurodesk: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
+            echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
             IMAGELIST+=$IMAGENAME
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
@@ -118,3 +91,8 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
+      - name: Generate job output
+        run: |
+          echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          for IMAGENAME in "${IMAGELIST[@]}"; do echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY; done
