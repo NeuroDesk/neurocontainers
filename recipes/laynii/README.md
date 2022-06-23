@@ -7,7 +7,8 @@ The purpose of this package is to provide layer-analysis software that are not (
 
 Example:
 ```
-cd /opt/laynii-2.2.1/test_data/
+cp -r /opt/laynii-2.2.1/test_data/ ~
+cd ~/test_data
 LN2_LAYERS -rim sc_rim.nii -nr_layers 10 -equivol
 LN2_LAYER_SMOOTH -input sc_VASO_act.nii -layer_file sc_layers.nii -FWHM 1
 LN_BOCO -Nulled lo_Nulled_intemp.nii -BOLD lo_BOLD_intemp.nii
@@ -15,7 +16,8 @@ LN_BOCO -Nulled lo_Nulled_intemp.nii -BOLD lo_BOLD_intemp.nii
 
 Tests:
 ```
-cd /opt/laynii-2.2.1/test_data/
+cp -r /opt/laynii-2.2.1/test_data/ ~
+cd ~/test_data
 ./tests.sh
 ```
 
