@@ -78,7 +78,7 @@ jobs:
           for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
             IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
             echo "IMAGENAME: $IMAGENAME"
-            echo "test command for neurodesk: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
+            echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
             IMAGELIST+=$IMAGENAME
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
@@ -91,10 +91,8 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
-      - name: Generate list using Markdown
+      - name: Generate job output
         run: |
-          echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
+          echo "The container has been successfully build. To test the container, run this in a neurodesktop environment:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
+          echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
