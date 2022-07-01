@@ -16,8 +16,8 @@ LN_BOCO -Nulled lo_Nulled_intemp.nii -BOLD lo_BOLD_intemp.nii
 
 Tests:
 ```
-cp -r /opt/laynii-2.2.1/test_data/ ~
-cd ~/test_data
+cp -r /opt/laynii-2.2.1/ ~
+cd ~/laynii-2.2.1/test_data
 ./tests.sh
 ```
 
