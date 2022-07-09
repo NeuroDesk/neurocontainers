@@ -6,7 +6,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-# Afni version 22.0.11
+# Afni version 22.1.14
 # Don't forget to update version change in README.md!!!!!
 
 
@@ -17,9 +17,11 @@ fi
 
 source ../main_setup.sh
 
-if [ "$debug" = "true" ]; then
-   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix_afni_R_missingPackages_based_on_upstream_master --upgrade
-fi
+# if [ "$debug" != "" ]; then
+   echo "installing development repository of neurodocker:"
+   yes | pip uninstall neurodocker
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe --upgrade
+# fi
 
 
 neurodocker generate ${neurodocker_buildMode} \
