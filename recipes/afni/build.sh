@@ -25,7 +25,7 @@ source ../main_setup.sh
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image centos:7 \
+   --base-image fedora:36 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
