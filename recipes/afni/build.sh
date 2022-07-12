@@ -31,6 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
+   --install python-is-python3 \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
