@@ -20,7 +20,7 @@ source ../main_setup.sh
 # if [ "$debug" != "" ]; then
    echo "installing development repository of neurodocker:"
    yes | pip uninstall neurodocker
-   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe --upgrade
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe-spaces-python-R-packages  --upgrade
 # fi
 
 
