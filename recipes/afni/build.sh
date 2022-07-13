@@ -33,6 +33,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --copy README.md /README.md \
+   --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
