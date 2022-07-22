@@ -3,8 +3,8 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='oshyx'
-export toolVersion='0.3'
-export toolTag='20211223'
+export toolVersion='0.4'
+export toolTag='20220614'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
