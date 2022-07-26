@@ -21,6 +21,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
+   --install ltrace strace \
    --${toolName} version=${toolVersion} \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
