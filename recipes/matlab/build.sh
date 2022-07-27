@@ -25,7 +25,7 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image mathworks/matlab:r2022a                 `# use Matlab 2022a docker container provided by Mathworks` \
+   --base-image mathworks/matlab-deep-learning:r2022a                 `# use Matlab deep learning 2022a docker container provided by Mathworks` \
    --user root                                          `# change user to root, as the Matlab container runs with Matlab user` \
    --env DEBIAN_FRONTEND=noninteractive                 `# The matlab image uses Ubuntu, so it's Debian` \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
