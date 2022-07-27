@@ -57,13 +57,14 @@ yes | neurodocker generate ${neurodocker_buildMode} \
             conda_install='python=3.6 dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 h5py=2.10.0 scikit-image=0.17.2' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
+   --env FASTSURFER_HOME=/opt/FastSurfer \
+   --env PATH='$PATH':/opt/FastSurfer \
    --run="rm -rf /usr/bin/python3.6 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.6" \
    --workdir="/opt" \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.1-linux-x86_64.tar.gz" \
    --run="tar zxvf julia-1.6.1-linux-x86_64.tar.gz" \
    --run="rm -rf julia-1.6.1-linux-x86_64.tar.gz" \
    --env PATH='$PATH':/opt/julia-1.6.1/bin \
-   --env FASTSURFER_HOME=/opt/FastSurfer \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
