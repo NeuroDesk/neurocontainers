@@ -17,7 +17,7 @@ source ../main_setup.sh
 # - 1.1.0: Change to Fastsurfer and replace minc with Ants
 # - 1.1.1: update Julia and move packages to depot_Path + changed python version to 3.7
 # - 1.1.2: changed python version back to 3.6 with older Miniconda version + fixed versions
-# - 1.1.3: Removed FSL, bidscoin, matplotlib, seaborn, bru2; added bet2
+# - 1.1.3: Removed FSL, bidscoin, matplotlib, seaborn; added bet2
 
 yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -60,6 +60,10 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env FASTSURFER_HOME=/opt/FastSurfer \
    --env PATH='$PATH':/opt/FastSurfer \
    --run="rm -rf /usr/bin/python3.6 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.6" \
+   --workdir="/opt/bru2" \
+   --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
+   --run="unzip Bru2_Linux.zip" \
+   --env PATH='$PATH':/opt/bru2 \
    --workdir="/opt" \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.1-linux-x86_64.tar.gz" \
    --run="tar zxvf julia-1.6.1-linux-x86_64.tar.gz" \
