@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.11'
+export toolVersion='1.1.12'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -17,10 +17,10 @@ source ../main_setup.sh
 # vnmd/qsmxtbase_1.0.0:20210203
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image vnmd/qsmxtbase_1.1.2:20211219 \
+   --base-image vnmd/qsmxtbase_1.1.3:20220728 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
-   --workdir /opt \
+   --workdir="/opt" \
    --run="git clone --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
    --copy install_packages.jl /opt \
@@ -29,9 +29,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --env PATH='$PATH':/opt/bru2 \
    --env PATH='$PATH':/opt/FastSurfer \
-   --env DEPLOY_PATH=/opt/fsl-6.0.4/bin/:/opt/ants-2.3.4/:/opt/FastSurfer \
-   --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:tgv_qsm:julia  \
-   --env PYTHONPATH=/opt/QSMxT:/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
+   --env DEPLOY_PATH=/opt/ants-2.3.4/:/opt/FastSurfer \
+   --env DEPLOY_BINS=dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3  \
+   --env PYTHONPATH=/opt/QSMxT:/opt/TGVQSM/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
