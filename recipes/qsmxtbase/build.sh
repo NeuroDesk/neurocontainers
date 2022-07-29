@@ -18,6 +18,7 @@ source ../main_setup.sh
 # - 1.1.1: update Julia and move packages to depot_Path + changed python version to 3.7
 # - 1.1.2: changed python version back to 3.6 with older Miniconda version + fixed versions
 # - 1.1.3: Removed FSL, bidscoin, matplotlib, seaborn; added bet2
+# - 1.1.3 (fix): Fixed dependency problems occuring with Nipype (see github.com/QSMxT/QSMxT/runs/7553737387)
 
 yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -54,7 +55,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
    --miniconda version=4.7.12.1 \
-            conda_install='python=3.6 dicomifier scikit-sparse nibabel=2.5.1 pillow=7.1.1 traits=6.2.0 nipype=1.6.0 numpy=1.19.4 scipy=1.5.3 h5py=2.10.0 scikit-image=0.17.2' \
+            conda_install='python=3.6 dicomifier scikit-sparse nibabel=2.5.1 pillow=6.2.0 traits=6.2.0 nipype=1.6.0 networkx=2.5 numpy=1.19.4 scipy=1.5.3 h5py=2.10.0 scikit-image=0.17.2' \
    --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
