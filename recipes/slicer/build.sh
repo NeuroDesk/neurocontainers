@@ -5,7 +5,7 @@ set -e
 # export downloadLink='https://slicer.kitware.com/midas3/download/item/549121/Slicer-4.11.20200930-linux-amd64.tar.gz'
 export downloadLink='https://download.slicer.org/bitstream/62cc52d2aa08d161a31c1af0'
 export toolName='slicer'
-export toolVersion='5.0.3.30893'
+export toolVersion='5.0.3'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
