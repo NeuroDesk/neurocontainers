@@ -17,7 +17,7 @@ source ../main_setup.sh
 # vnmd/qsmxtbase_1.0.0:20210203
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image vnmd/qsmxtbase_1.1.3:20220729 \
+   --base-image vnmd/qsmxtbase_1.1.3:20220801 \
    --pkg-manager apt \
    --run="mkdir -p ${mountPointList}" \
    --workdir="/opt" \
@@ -32,6 +32,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/ants-2.3.4/:/opt/FastSurfer \
    --env DEPLOY_BINS=dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3  \
    --env PYTHONPATH=/opt/QSMxT:/opt/TGVQSM/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3/TGV_QSM \
+   --run="chmod +x /opt/QSMxT/*.py" \
+   --run="chmod +x /opt/QSMxT/scripts/*.py" \
+   --env PATH='$PATH':/opt/QSMxT \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
