@@ -50,7 +50,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt/bet2" \
    --run="git clone https://github.com/liangfu/bet2.git ." \
    --run="cmake . && make" \
-   --env PATH='$PATH':/opt/bet2 \
+   --run="ln -s /opt/bet2/bin/bet2 /bin/bet" \
    --env SUBJECTS_DIR=/tmp \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
