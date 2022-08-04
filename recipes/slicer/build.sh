@@ -28,9 +28,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="~/miniconda.sh -b -p /miniconda3/ && rm ~/miniconda.sh" \
    --env PATH=/miniconda3/bin:$PATH \
    --run="which -a pip" \
-   --miniconda3 use_env=base \
-         pip_install='h11==0.11 monailabel' \
-   --run="pip show monailabel" \
+   --run="pip install h11==0.11" \
+   --run="pip install monailabel" \
+   --run="which monailabel" \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
    --env DEPLOY_PATH=/opt/Slicer-${toolVersion}-linux-amd64/bin \
    --env DEPLOY_BINS=Slicer \
