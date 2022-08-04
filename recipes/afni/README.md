@@ -8,7 +8,17 @@ To setup AFNI you need to run these commands on first use
 cp /opt/afni-latest/AFNI.afnirc ~/.afnirc
 suma -update_env
 apsearch -update_all_afni_help
+# but don't add the commands to your .bashrc because this will cause errors outside of the AFNI container
 ```
+
+If you like to setup autocompletion for afni you need to run this any time you use the AFNI container:
+```
+ahdir=`apsearch -afni_help_dir`
+if [ -f "$ahdir/all_progs.COMP.bash" ]
+then
+   . $ahdir/all_progs.COMP.bash
+fi
+``` 
 
 Example:
 ```

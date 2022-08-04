@@ -19,3 +19,4 @@ ashs-fastashs_beta
 recipes/fsl/manifest.json
 recipes/fsl/fslinstaller.py
 .DS_Store
+.vscode/settings.json
