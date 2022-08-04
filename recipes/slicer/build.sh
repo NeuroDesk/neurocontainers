@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/miniconda3/bin:$PATH \
    --run="which -a pip" \
    --run="pip install numpy" \
-   --run="pip show numpy"
+   --run="pip show numpy" \
    --run="pip install h11==0.11" \
    --run="pip install monailabel" \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
