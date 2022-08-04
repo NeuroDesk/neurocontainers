@@ -26,8 +26,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env CONDA_DIR=$HOME/miniconda3 \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh" \
    --run="chmod +x ~/miniconda.sh" \
-   --run="~/miniconda.sh -b -p $CONDA_DIR && rm ~/miniconda.sh" \
    --env PATH=$CONDA_DIR/bin:$PATH \
+   --run="~/miniconda.sh -b -p $CONDA_DIR && rm ~/miniconda.sh" \
    --run="echo $PATH"
    --run="conda install pip" \
    --run="pip install monai" \
