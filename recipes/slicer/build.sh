@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x ~/miniconda.sh" \
    --run="~/miniconda.sh -b -p $CONDA_DIR && rm ~/miniconda.sh" \
    --env PATH=$CONDA_DIR/bin:$PATH \
+   --run="echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.profile" \
    --run="conda install pip" \
    --run="pip install monai" \
    --run="pip install h11==0.11" \
