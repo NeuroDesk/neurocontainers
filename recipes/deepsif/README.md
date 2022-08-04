@@ -1,13 +1,20 @@
 
 ----------------------------------
-## Name_of_Container/version ##
-Short_description_of_container
+## deepsif/0.0.1 ##
+Container enviroment for Deep Learning based Source Imaging Framework (DeepSIF)
+Including pytorch, numpy mne h5py tvb and cuda11.5 cudnn 8.3.0.98
 
 Example:
 ```
+singularity exec --nv deepsif.simg /opt/miniconda-4.7.12/envs/deepsif-0.0.1/bin/python3 DeepSIF/forward/generate_tvb_data.py --a_start 0 --a_end 994
+
+Documentation can be found here: https://github.com/bfinl/DeepSIF
+The python environment: /opt/miniconda-4.7.12/envs/deepsif-0.0.1/bin/python3
+
+This container do not contain MATLAB. 
 ```
 
-More documentation can be found here: link_to_documentation
+
 
 To run applications outside of this container: ml deepsif/0.0.1
 
