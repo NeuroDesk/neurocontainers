@@ -76,7 +76,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/julia-1.6.1/bin \
    --run="mkdir -p ${mountPointList}" \
    --workdir="/opt" \
-   --run="git clone  --depth 1 --branch v${toolVersion} https://github.com/QSMxT/QSMxT" \
+   --run="git clone --depth 1 --branch v${toolVersion}  https://github.com/QSMxT/QSMxT" \
    --run="pip install niflow-nipype1-workflows" \
    --copy install_packages.jl /opt \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
