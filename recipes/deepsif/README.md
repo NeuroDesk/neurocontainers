@@ -11,7 +11,7 @@ singularity exec --nv deepsif.simg /opt/miniconda-4.7.12/envs/deepsif-0.0.1/bin/
 More documentation can be found here: https://github.com/bfinl/DeepSIF
 The python environment: /opt/miniconda-4.7.12/envs/deepsif-0.0.1/bin/python3
 
-This container do not contain MATLAB. 
+This container does not contain MATLAB. 
 ```
 
 
