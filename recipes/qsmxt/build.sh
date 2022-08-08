@@ -87,7 +87,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/QSMxT:/opt/QSMxT/scripts \
    --env PYTHONPATH='$PYTHONPATH':/opt/QSMxT \
    --env DEPLOY_PATH=/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts \
-   --env DEPLOY_BINS=bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_1_fixGEphaseFFTshift.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py  \
+   --env DEPLOY_BINS=nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_1_fixGEphaseFFTshift.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py  \
+   --env LC_ALL="C.UTF-8" \
+   --env LANG="C.UTF-8" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
