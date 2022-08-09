@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install bzip2 ca-certificates wget unzip gcc cmake g++ dbus-x11 libgtk2.0-0 git graphviz wget \
       zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 \
       libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default \
-      libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
+      libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev \
    --env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --workdir="/opt/TGVQSM" \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh" \
@@ -57,14 +57,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SUBJECTS_DIR=/tmp \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
-   --miniconda version=4.7.12.1 \
-            conda_install='python=3.6 numpy=1.19.5 h5py=3.1.0 nibabel=3.2.2 dicomifier=2.2.0 scikit-sparse=0.4.6 traits=6.2.0 networkx=2.5 nipype=1.6.1 scipy=1.5.3 scikit-image=0.17.2' \
-   --run="conda install -c pytorch cpuonly "pytorch=1.2.0=py3.6_cpu_0" torchvision=0.4.0=py36_cpu" \
+   --miniconda version=4.7.12.1 conda_install='python=3.8' \
+   --run="pip install psutil datetime numpy h5py nibabel scikit-sparse traits nipype scipy scikit-image" \
+   --run="pip install niflow-nipype1-workflows" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
+   --run="sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt" \
+   --run="pip install -r /opt/FastSurfer/requirements.txt" \
    --env FASTSURFER_HOME=/opt/FastSurfer \
    --env PATH='$PATH':/opt/FastSurfer \
    --copy test.sh /test.sh \
-   --run="rm -rf /usr/bin/python3.6 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.6" \
+   --run="rm -rf /usr/bin/python3.8 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
    --workdir="/opt/bru2" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
@@ -77,7 +79,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --workdir="/opt" \
    --run="git clone --depth 1 --branch v${toolVersion}  https://github.com/QSMxT/QSMxT" \
-   --run="pip install niflow-nipype1-workflows" \
    --copy install_packages.jl /opt \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia install_packages.jl" \
