@@ -30,7 +30,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
    --env DEPLOY_PATH=/opt/Slicer-${toolVersion}-linux-amd64/bin \
    --env DEPLOY_BINS=Slicer \
-   --env PATH=/usr/bin:/opt/Slicer-${toolVersion}-linux-amd64/bin:/opt/Slicer-${toolVersion}-linux-amd64 \
+   --env PATH=/miniconda3/bin:/usr/bin:/opt/Slicer-${toolVersion}-linux-amd64/bin:/opt/Slicer-${toolVersion}-linux-amd64 \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
