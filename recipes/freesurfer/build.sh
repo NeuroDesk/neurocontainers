@@ -8,7 +8,7 @@ if [ "$1" != "" ]; then
 fi
 
 export toolName='freesurfer'
-export toolVersion=7.1.1
+export toolVersion=7.3.2
 # Don't forget to update version change in README.md!!!!!
 
 source ../main_setup.sh
@@ -19,6 +19,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
+   --run="cd /etc/yum.repos.d/" \
+   --run="sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*" \
+   --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
    --install wget mesa-dri-drivers which unzip ncurses-compat-libs \
@@ -53,20 +56,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --install java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
    --copy test.sh /test.sh \
+   --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
-   # --run="fs_install_mcr R2014b" \
-   # --run="segmentSubjectT1_autoEstimateAlveusML" \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
-
-# license is not included in image!
-   # --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
 
 # debug:
 # dnf install strace -y
 # strace segmentSubjectT1_autoEstimateAlveusML
 # this failed because java-1.8.0-openjdk wasn't installed!
 # solution found here: https://github.com/baxpr/freesurfer720/blob/master/Dockerfile
-
+# for this we needed centos 8 and that's why we can't use the neurodocker version right now
