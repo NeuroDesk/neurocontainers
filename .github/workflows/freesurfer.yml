@@ -21,7 +21,7 @@ env:
 
 jobs:
   build-docker:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
