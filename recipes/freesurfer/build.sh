@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
-   --install wget mesa-dri-drivers which unzip ncurses-compat-libs \
+   --install wget mesa-dri-drivers which unzip ncurses-compat-libs libgomp\
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/${toolVersion}/freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion}" \
