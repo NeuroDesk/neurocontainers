@@ -3,11 +3,12 @@
 ## mneextended/1.1.0 ##
 Python MNE environment with VScode 
 
-This environment contains MNE Python and additional dependencies (eg. for use with MNE BIDS Pipeline) and tools (eg. Neurokit2)   
+This environment contains MNE Python and some additional tools with dependencies (MNE BIDS Pipeline, MNE-connectivity, MNE-icalabel, Neurokit2)   
 
 Example:
 ```
-code 
+source /opt/miniconda-4.7.12/etc/profile.d/conda.sh
+conda activate mne-extended 
 ```
 
 More documentation can be found here: https://mne.tools/stable/index.html
