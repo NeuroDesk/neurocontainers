@@ -21,7 +21,9 @@ env:
 
 jobs:
   build-docker:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    permissions:
+      packages: write
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}

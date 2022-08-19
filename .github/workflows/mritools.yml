@@ -22,6 +22,8 @@ env:
 jobs:
   build-docker:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
