@@ -43,7 +43,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
-   --env XDG_RUNTIME_DIR=/neurodesk-storage \
+   --env XDG_RUNTIME_DIR=/neurodesktop-storage \
    --env RUNLEVEL=3\
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
