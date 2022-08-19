@@ -7,5 +7,8 @@ for RECIPES in recipes/*/; do
         if ! grep -m 1 -q "$APPLICATION" .github/workflows/free-up-space-list.txt; then
             sed -i '/      - .github\/workflows\/free-up-space-list.txt/d' .github/workflows/$APPLICATION.yml
         fi
+        if grep -m 1 -q "$APPLICATION" .github/workflows/self-hosted-list.txt; then
+            sed -i '/runs-on: ubuntu-latest/runs-on: self-hosted/d' .github/workflows/$APPLICATION.yml
+        fi
     fi
 done
