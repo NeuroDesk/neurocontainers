@@ -26,6 +26,9 @@ source ../main_setup.sh
 echo "installing development repository of neurodocker:"
 yes | pip uninstall neurodocker
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mcr-bug --upgrade
+# --matlabmcr version=2019b install_path=/opt/mcr  \
+# doesn't work in Ubuntu 22.04 because of missing package multiarch-support -> bug in Neurodocker
+
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
@@ -99,5 +102,3 @@ fi
 
 # vscode needs /run bind mounted to work!!!!
 
-# --matlabmcr version=2019b install_path=/opt/mcr  \
-# doesn't work in Ubuntu 22.04 because of missing package multiarch-support -> bug in Neurodocker
