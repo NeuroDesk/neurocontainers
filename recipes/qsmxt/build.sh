@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.12'
+export toolVersion='1.1.13'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -22,6 +22,7 @@ source ../main_setup.sh
 # - 1.1.3 (fix): Fixed dependency problems occuring with Nipype (see github.com/QSMxT/QSMxT/runs/7553737387)
 # --qsmxt----------------------------------------------------------------------------------------------------
 # - 1.1.12: Combined qsmxt and qsmxtbase containers
+# - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
