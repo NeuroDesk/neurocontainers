@@ -29,17 +29,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --user root                                          `# change user to root, as the Matlab container runs with Matlab user` \
    --env DEBIAN_FRONTEND=noninteractive                 `# The matlab image uses Ubuntu, so it's Debian` \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
-   `#--run="sudo chmod u+x /usr/bin /"                         # make folders writeable`  \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git curl ca-certificates datalad datalad-container unzip`# install apt-get packages` \
-         						`# REMOVED as not necessary:    "--workdir /opt/${toolName}-${toolVersion}/"  create install directory` \
-							`# REMOVED as not necessary:   --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v1.1.1.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" # download a github release file and unpack` \
    --miniconda version=latest \
       conda_install='python=3.8.8' \
    --env PATH='${PATH}:/opt/matlab/R${toolVersion}b/bin/'   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   `# REMOVED so to not conflict with matlab in /usr/local/bin: --env DEPLOY_PATH='/opt/matlab/R${toolVersion}b/bin/'  # specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		 `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
    --copy README.md /README.md                          `# include readme file in container` \
