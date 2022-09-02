@@ -44,6 +44,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy matlab /usr/local/bin/matlab `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
    --run="chmod a+x /usr/local/bin/matlab"     		`# make matlab executables` \
    --run="mkdir /opt/matlab/R2022a/licenses"     		`# create license directory - this will later be bind-mounted to the homedirectory download folder` \
+   --run="chmod a+rwx /opt/matlab/R2022a/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 
