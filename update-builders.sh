@@ -9,6 +9,7 @@ for RECIPES in recipes/*/; do
         fi
         if grep -m 1 -q "$APPLICATION" .github/workflows/self-hosted-list.txt; then
             sed -i 's/runs-on: ubuntu-latest/runs-on: self-hosted/g' .github/workflows/$APPLICATION.yml
+            sed -i '67,69d' .github/workflows/$APPLICATION.yml
         fi
     fi
 done
