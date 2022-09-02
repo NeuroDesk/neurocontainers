@@ -34,7 +34,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git curl ca-certificates datalad datalad-container unzip libfftw3-3 `# install apt-get packages` \
    --miniconda version=latest \
-      conda_install='python=3.8.8' \
+      conda_install='python=3.10' \
    --env PATH='${PATH}:/opt/matlab/R${toolVersion}b/bin/'   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		 `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
