@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='mne'
-export toolVersion='1.0.3'
+export toolVersion='1.1.1'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12 \
       env_name=base \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
-   --run="mamba create --override-channels --channel=conda-forge --name=${toolName}-${toolVersion} mne"\
+   --run="mamba create --override-channels --channel=conda-forge --name=${toolName}-${toolVersion} mne=${toolVersion}"\
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
@@ -42,7 +42,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
-   --env XDG_RUNTIME_DIR=/neurodesk-storage \
+   --env XDG_RUNTIME_DIR=/neurodesktop-storage \
    --env RUNLEVEL=3\
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
