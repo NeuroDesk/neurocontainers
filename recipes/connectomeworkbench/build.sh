@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='connectomeworkbench'
-export toolVersion='1.4.2'
+export toolVersion='1.5.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install connectome-workbench \
-   --env DEPLOY_BINS=wb_view:wb_command \
+   --env DEPLOY_BINS=wb_view:wb_command:wb_shortcuts \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
