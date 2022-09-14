@@ -50,7 +50,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --env TERM=xterm \
    --env SHLVL=1 \
    --env FS_OVERRIDE=0 \
-   --env PATH="/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
+   --workdir /opt/workbench/ \
+   --run="wget --quiet -O workbench.zip 'https://humanconnectome.org/storage/app/media/workbench/workbench-rh_linux64-v1.5.0.zip' \
+      && unzip workbench.zip  \
+      && rm -rf workbench.zip" \
+   --env PATH="/opt/workbench/:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
    --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \

@@ -63,6 +63,8 @@ neurodocker generate ${neurodocker_buildMode}
     --add-to-entrypoint "source /opt/freesurfer-6.0.0/SetUpFreeSurfer.sh" \
     --add-to-entrypoint "export FIXPATH=/opt/fix && export PATH="${FIXPATH}:${PATH}"" \
     --entrypoint "/neurodocker/startup.sh /opt/micapipe/mica-pipe" \
+    --copy README.md /README.md                          `# include readme file in container` \
+    --copy test.sh /test.sh                              `# include test file in container` \
     > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
