@@ -20,6 +20,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install connectome-workbench \
+   --freesurfer version=7.1.1 \
+   --copy license.txt /opt/freesurfer-7.1.1/license.txt \
    --env DEPLOY_BINS=wb_view:wb_command:wb_shortcuts \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
