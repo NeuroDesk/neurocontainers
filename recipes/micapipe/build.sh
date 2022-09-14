@@ -20,7 +20,7 @@ source ../main_setup.sh
 # Generate Dockerfile.
 neurodocker generate ${neurodocker_buildMode}
     --base=ubuntu:bionic-20201119 \
-    --pkg-manager=apt \
+    --pkg-manager apt \
     --install "gcc g++ lsb-core bsdtar jq libopenblas-dev tree openjdk-8-jdk libstdc++6" \
     --dcm2niix version=v1.0.20190902 method=source\
     --fsl version=6.0.0 \
