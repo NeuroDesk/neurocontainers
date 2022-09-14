@@ -17,8 +17,6 @@ fi
 
 source ../main_setup.sh
 
-pip install --no-cache-dir git+https://github.com/NeuroDesk/neurodocker.git@stebo85/issue8 --upgrade
-
 # Generate Dockerfile.
 neurodocker generate ${neurodocker_buildMode}
     --base=ubuntu:bionic-20201119 \
