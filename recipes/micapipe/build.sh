@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --copy README.md /README.md \
+   --copy README.md /README.md
   > ${imageName}.${neurodocker_buildExt}
   
   
