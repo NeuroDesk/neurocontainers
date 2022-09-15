@@ -1,1 +1,1 @@
-|template|freesurfer|fsl|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|qsmxtbase|eeglab|micapipe|
+|template|fsl|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|qsmxtbase|eeglab|micapipe|
