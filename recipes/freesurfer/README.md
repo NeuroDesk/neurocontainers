@@ -5,10 +5,10 @@ FreeSurfer contains a set of programs with a common focus of analyzing magnetic 
 
 Example:
 ```
+# start freesurfer from application menu or load freesurfer via module load command
 mkdir /neurodesktop-storage/freesurfer_output
-source /opt/freesurfer-*/SetUpFreeSurfer.sh
 export SUBJECTS_DIR=/neurodesktop-storage/freesurfer_output
-export FS_LICENSE=~/.license #make sure to request a license!!!!
+export SINGULARITYENV_SUBJECTS_DIR=$SUBJECTS_DIR
 recon-all -subject subjectname -i invol1.nii.gz -all
 ```
 
