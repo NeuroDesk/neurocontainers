@@ -20,7 +20,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}" \
    --install ca-certificates ltrace strace wget libxml2 gcc \
    --run="wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run && \
-            sh cuda_10.2.89_440.33.01_linux.run --silent && \
+            sh cuda_10.2.89_440.33.01_linux.run --toolkit --silent --no-drm --no-opengl-libs && \
             rm cuda_10.2.89_440.33.01_linux.run && \
             wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/patches/1/cuda_10.2.1_linux.run && \
             sh cuda_10.2.1_linux.run --silent && \
