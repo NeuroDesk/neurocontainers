@@ -1,1 +1,1 @@
-|esilpd|freesurfer|matlab
+|esilpd|freesurfer|fsl|matlab
