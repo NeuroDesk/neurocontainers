@@ -29,6 +29,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
             sh cuda_10.2.2_linux.run --silent && \
             rm cuda_10.2.2_linux.run" \
    --${toolName} version=${toolVersion} \
+   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda10.2 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_BINS=fsleyes:fsl \
