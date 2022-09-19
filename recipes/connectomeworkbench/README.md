@@ -7,6 +7,7 @@ Example:
 ```
 wb_command
 wb_view
+wb_shortcuts
 ```
 
 More documentation can be found here: https://humanconnectome.org/storage/app/media/documentation/tutorials/Connectome_WB_Tutorial_v1.0.pdf
