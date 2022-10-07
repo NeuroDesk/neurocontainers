@@ -31,6 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/MONAILabel30893.tar.gz \
       | tar -xz -C /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ --strip-components 1" \
+   --install nvidia-cuda-toolkit \
    --env DEPLOY_PATH=/opt/Slicer-${toolVersion}-linux-amd64/bin \
    --env DEPLOY_BINS=Slicer \
    --env PATH=/miniconda3/bin:/usr/bin:/opt/Slicer-${toolVersion}-linux-amd64/bin:/opt/Slicer-${toolVersion}-linux-amd64 \
