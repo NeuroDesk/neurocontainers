@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git curl ca-certificates datalad datalad-container unzip libfftw3-3 `# install apt-get packages` \
+   --install wget git curl ca-certificates datalad unzip libfftw3-3 `# install apt-get packages` \
    --miniconda version=latest \
    --env PATH='${PATH}:/opt/matlab/R${toolVersion}b/bin/'   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
