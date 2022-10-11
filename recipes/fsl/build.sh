@@ -30,25 +30,6 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
-   # --run="wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run && \
-   #          sh cuda_10.2.89_440.33.01_linux.run --toolkit --silent --no-drm --no-opengl-libs && \
-   #          rm cuda_10.2.89_440.33.01_linux.run && \
-   #          wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/patches/1/cuda_10.2.1_linux.run && \
-   #          sh cuda_10.2.1_linux.run --silent && \
-   #          rm cuda_10.2.1_linux.run && \
-   #          wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/patches/2/cuda_10.2.2_linux.run && \
-   #          sh cuda_10.2.2_linux.run --silent && \
-   #          rm cuda_10.2.2_linux.run" \
-# 
-# 
-
-
-   # --install ca-certificates wget python \
-   # --workdir /opt \
-   # --copy fslinstaller.py /opt \
-   # --run="wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py" \
-   # --run="opt/${toolName}-${toolVersion}/etc/fslconf/fslpython_install.sh" \
-
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
