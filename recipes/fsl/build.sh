@@ -13,21 +13,20 @@ fi
 source ../main_setup.sh
 
 yes | neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:22.04 \
+   --base-image ubuntu:18.04 \
    --pkg-manager apt \
-   --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install ca-certificates ltrace strace wget libxml2 gcc build-essential \
    --install nvidia-cuda-toolkit \
    --${toolName} version=${toolVersion} \
-   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda10.2 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
+   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_BINS=fsleyes:fsl \
-   --env PATH='$PATH':/usr/local/cuda-11.5/bin \
-   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-11.5/lib64 \
+   --env PATH='$PATH':/usr/local/cuda-9.1/bin \
+   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-9.1/lib64 \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
