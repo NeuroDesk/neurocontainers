@@ -18,7 +18,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install ca-certificates ltrace strace wget libxml2 gcc build-essential \
+   --install git ca-certificates ltrace strace wget libxml2 gcc build-essential \
    --install nvidia-cuda-toolkit \
    --${toolName} version=${toolVersion} \
    --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
