@@ -84,7 +84,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy install_packages.jl /opt \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia install_packages.jl" \
-   --run="julia -e 'using Pkg; Pkg.add(url=\"https://github.com/korbinian90/RomeoApp.jl\")'"
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --run="chmod +x /opt/QSMxT/*.py" \
    --run="chmod +x /opt/QSMxT/scripts/qsmxt_version.py" \
