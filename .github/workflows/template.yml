@@ -31,6 +31,10 @@ env:
 
 jobs:
   build-docker:
+    strategy:
+      matrix:
+        include:
+          - application: ${{ github.event.inputs.application }}
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -42,12 +46,13 @@ jobs:
       - name: Set environment variables
         id: ENVVARS
         run: |
-          APPLICATION=${{ github.event.inputs.application }}
+          APPLICATION=${{ matrix.application }}
           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
           BUILDDATE=`date +%Y%m%d`
           echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
+
       # - name: Check free-up-space list
       #   run: |
       #     FREEUPSPACELIST=$(cat .github/workflows/free-up-space-list.txt)
