@@ -12,13 +12,13 @@ on:
         required: true
         type: boolean
 
-  repository_dispatch:
-  push:
-    paths:
-      - recipes/template/*
-      - .github/workflows/template.yml
-    branches:
-      - master
+  # repository_dispatch:
+  # push:
+  #   paths:
+  #     - recipes/template/*
+  #     - .github/workflows/template.yml
+  #   branches:
+  #     - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
