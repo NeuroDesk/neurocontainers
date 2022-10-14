@@ -28,7 +28,7 @@ jobs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set environment variables
         id: ENVVARS
         run: |
@@ -62,8 +62,8 @@ jobs:
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.8
       - name : Build recipes
