@@ -2,6 +2,16 @@ name: template
 
 on:
   workflow_dispatch:
+    inputs:
+      application:
+        description: 'Application'
+        required: true 
+        type: string        
+      freeupspace:
+        description: 'Free up space?'
+        required: true 
+        type: boolean       
+
   repository_dispatch:
   push:
     paths:
