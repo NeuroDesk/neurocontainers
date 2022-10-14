@@ -1,1 +1,1 @@
-|template|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|qsmxtbase|eeglab|micapipe|
+|mrtrix3|devbase|qsmxt|mrtrix3tissue|samri|aslprep|qsmxtbase|eeglab|micapipe|
