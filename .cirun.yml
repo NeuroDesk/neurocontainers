@@ -3,6 +3,6 @@ runners:
     cloud: oracle
     instance_type: VM.Standard2.4
     machine_image: ocid1.image.oc1.eu-frankfurt-1.aaaaaaaakgs4qfqqd7jnkucyyokr6lfguch5gvhqk7ht4ny5ijtwtncjedsa
-    region: uk-london-1
+    region: eu-frankfurt-1
     labels:
       - oracle
