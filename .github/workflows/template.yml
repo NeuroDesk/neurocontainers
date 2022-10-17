@@ -30,41 +30,61 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
-  prep-matrix:
+  changes:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - id: set-matrix
-      run: |
-        branchName=$(echo '${{ github.ref }}' | sed 's,refs/heads/,,g')  
-        matrix=$(jq --arg branchName "$branchName" 'map(. | select((.runOn==$branchName) or (.runOn=="always")) )' matrix_includes.json)                
-        echo "{\"include\":$(echo $matrix)} >> $GITHUB_OUTPUT
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        list-files: shell
+        filters: |
+          recipes:
+            - 'recipes/**'
+    - name: List recipes with changes
+      if: ${{ steps.filter.outputs.recipes == 'true' }}
+      run: echo ${{ steps.filter.outputs.recipes_files }}
+
+  # prep-matrix:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+  #   - id: set-matrix
+  #     run: |
+  #       branchName=$(echo '${{ github.ref }}' | sed 's,refs/heads/,,g')  
+  #       matrix=$(jq --arg branchName "$branchName" 'map(. | select((.runOn==$branchName) or (.runOn=="always")) )' matrix_includes.json)                
+  #       echo "{\"include\":$(echo $matrix)} >> $GITHUB_OUTPUT
   # build-docker:
   #   strategy:
   #     matrix:
   #       include:
   #         - application: ${{ github.event.inputs.application }}
-  build-docker:
-    strategy:
-      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-    outputs:
-      BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
-      IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set environment variables
-        id: ENVVARS
-        run: |
-          APPLICATION=${{ matrix.application }}
-          SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
-          BUILDDATE=`date +%Y%m%d`
-          echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
-          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
+
+  # build-docker:
+  #   strategy:
+  #     matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     packages: write
+  #   outputs:
+  #     BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
+  #     IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Set environment variables
+  #       id: ENVVARS
+  #       run: |
+  #         APPLICATION=${{ matrix.application }}
+  #         SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+  #         BUILDDATE=`date +%Y%m%d`
+  #         echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
+  #         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+  #         echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
+
+
+
+
 
       # - name: Check free-up-space list
       #   run: |
