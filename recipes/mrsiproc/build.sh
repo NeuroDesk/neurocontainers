@@ -5,7 +5,7 @@ set -e
 export toolName='mrsiproc'
 export toolVersion='0.0.1' #the version number cannot contain a "-" - try to use x.x.x notation always
 export matlabVersion='2022a'
-export mincVersion='2.0.18'
+export mincVersion='1.9.15'
 export fslVersion='6.0.5.1'
 export lcmodelVersion='6.3'
 export hdbetVersion='1.0'
@@ -40,7 +40,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git curl ca-certificates datalad unzip libfftw3-3 `# install apt-get packages` \
    --miniconda version=latest \
-   --env PATH='${PATH}:/opt/matlab/R${matlabVersion}b/bin/'   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
+   --env PATH="${PATH}:/opt/matlab/R${matlabVersion}b/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		            `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
    --copy README.md /README.md                          `# include readme file in container` \
@@ -53,13 +53,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --run "export MatlabFunctionsFolder=/opt/mrsiproc/matlab/MatlabFunctions"  `#export dir for matlab scripts` \
    --run "mkdir -p /opt/mrsiproc/matlab/MatlabFunctions" \
    --run "chmod a+rwx /opt/mrsiproc/matlab/ -R"  `#setup script dir for matlab functions and assorted scripts` \
-   --copy "./run_scripts/*mat /opt/mrsiproc/matlab/MatlabFunctions/" \
-   --copy "./run_scripts/*m /opt/mrsiproc/matlab/MatlabFunctions/" \
-   --copy "./run_scripts/*sh /opt/mrsiproc/" \
+   --copy ./run_scripts/*mat /opt/mrsiproc/matlab/MatlabFunctions/ \
+   --copy ./run_scripts/*m /opt/mrsiproc/matlab/MatlabFunctions/ \
+   --copy ./run_scripts/*sh /opt/mrsiproc/ \
    --run "chmod a+rwx /opt/mrsiproc/ -R" \
-   --run "MatlabStartupCommand="Paths = regexp(path,':','split');rmpathss = ~cellfun('isempty',strfind(Paths,'Matlab_Functions')); if(sum(rmpathss) > 0);"" `#startup matlab script` \
-   --run "export MatlabStartupCommand="${MatlabStartupCommand} x = strcat(Paths(rmpathss), {':'});x = [x{:}]; rmpath(x); end; clear Paths rmpathss x; addpath(genpath('${MatlabFunctionsFolder}'))"" `#startup matlab script` \
-   --minc version=2.0.18                                 `#install minc and things to make it work ` \
+   --run "source /opt/mrsiproc/startup_matlab.sh" \
+   --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
    --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar gunzip    `#install dependencies` \
    --install nvidia-cuda-toolkit \
    --fsl version=${fslVersion}                           `#install fsl and things to make it work ` \
@@ -131,8 +130,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
-   
-
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 
