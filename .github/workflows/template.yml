@@ -33,17 +33,17 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    # - uses: actions/checkout@v3
     - uses: dorny/paths-filter@v2
       id: filter
       with:
-        list-files: shell
+        # list-files: shell
         filters: |
           recipes:
             - 'recipes/template/*'
-    - name: List recipes with changes
-      if: ${{ steps.filter.outputs.recipes == 'true' }}
-      run: echo ${{ steps.filter.outputs.recipes_files }}
+    # - name: List recipes with changes
+    #   if: ${{ steps.filter.outputs.recipes == 'true' }}
+    #   run: echo ${{ steps.filter.outputs.recipes_files }}
 
   # prep-matrix:
   #   runs-on: ubuntu-latest
