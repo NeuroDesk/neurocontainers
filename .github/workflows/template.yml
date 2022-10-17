@@ -30,11 +30,24 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
+  prep-matrix:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - id: set-matrix
+      run: |
+        branchName=$(echo '${{ github.ref }}' | sed 's,refs/heads/,,g')  
+        matrix=$(jq --arg branchName "$branchName" 'map(. | select((.runOn==$branchName) or (.runOn=="always")) )' matrix_includes.json)                
+        echo "{\"include\":$(echo $matrix)} >> $GITHUB_OUTPUT
+  # build-docker:
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         - application: ${{ github.event.inputs.application }}
   build-docker:
     strategy:
-      matrix:
-        include:
-          - application: ${{ github.event.inputs.application }}
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ubuntu-latest
     permissions:
       packages: write
