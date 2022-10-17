@@ -11,14 +11,12 @@ on:
         description: 'Free up space?'
         required: true
         type: boolean
-
-  # repository_dispatch:
-  # push:
-  #   paths:
-  #     - recipes/template/*
-  #     - .github/workflows/template.yml
-  #   branches:
-  #     - master
+  push:
+    paths:
+      - recipes/template/*
+      - .github/workflows/template.yml
+    branches:
+      - master
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
@@ -33,10 +31,13 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     - uses: dorny/paths-filter@v2
       id: filter
       with:
+        base: 'master'
+        ref: ${{ github.ref }}
+        initial-fetch-depth: 2
         # list-files: shell
         filters: |
           recipes:
