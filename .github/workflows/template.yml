@@ -40,7 +40,7 @@ jobs:
         list-files: shell
         filters: |
           recipes:
-            - 'recipes/**'
+            - 'recipes/template/*'
     - name: List recipes with changes
       if: ${{ steps.filter.outputs.recipes == 'true' }}
       run: echo ${{ steps.filter.outputs.recipes_files }}
