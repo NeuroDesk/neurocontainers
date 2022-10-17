@@ -37,7 +37,7 @@ jobs:
       with:
         base: 'master'
         ref: ${{ github.ref }}
-        initial-fetch-depth: 2
+        # initial-fetch-depth: 2
         # list-files: shell
         filters: |
           recipes:
