@@ -50,30 +50,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/bin/matlab"     		   `# make matlab executables` \
    --run="mkdir /opt/matlab/R2022a/licenses"     		   `# create license directory - this will later be bind-mounted to the homedirectory download folder` \
    --run="chmod a+rwx /opt/matlab/R2022a/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
-   --run "export MatlabFunctionsFolder=/opt/mrsiproc/matlab/MatlabFunctions"  `#export dir for matlab scripts` \
-   --run "mkdir -p /opt/mrsiproc/matlab/MatlabFunctions" \
-   --run "chmod a+rwx /opt/mrsiproc/matlab/ -R"  `#setup script dir for matlab functions and assorted scripts` \
-   --copy ./run_scripts/*mat /opt/mrsiproc/matlab/MatlabFunctions/ \
-   --copy ./run_scripts/*m /opt/mrsiproc/matlab/MatlabFunctions/ \
-   --copy ./run_scripts/*sh /opt/mrsiproc/ \
-   --run "chmod a+rwx /opt/mrsiproc/ -R" \
-   --run "source /opt/mrsiproc/startup_matlab.sh" \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
-   --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar gunzip    `#install dependencies` \
+   --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar     `#install dependencies` \
    --install nvidia-cuda-toolkit \
-   --fsl version=${fslVersion}                           `#install fsl and things to make it work ` \
-   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
-   --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --install locales \
-   --run="sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen" \
-   --env LANG=en_US.UTF-8 \
-   --env LANGUAGE=en_US:en \
-   --env LC_ALL=en_US.UTF-8 \
-   --env DEPLOY_PATH=/opt/fsl-${fslVersion}/bin/ \
-   --env DEPLOY_BINS=fsleyes:fsl \
-   --env PATH='$PATH':/usr/local/cuda-9.1/bin \
-   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-9.1/lib64 \
-   --workdir=/opt/${lcmodel}-${lcmodelVersion}/ `#install LCModel and things to make it work ` \
+   --workdir=/opt/lcmodel-${lcmodelVersion}/ `#install LCModel and things to make it work ` \
+   --run="sudo add-apt-repository 'deb [arch=amd64] http://it-mirrors.evowise.com/ubuntu/ bionic universe'" `#install dependencies for dependencies of lcmodel` \
+   --run="sudo apt update && sudo apt install libtk8.5" \
+   --install="curl ca-certificates libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
           rm -rf /opt/lcm-64.tar" \
@@ -130,8 +113,30 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
+   --fsl version=${fslVersion}                           `#install fsl and things to make it work ` \
+   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
+   --env FSLOUTPUTTYPE=NIFTI_GZ \
+   --install locales \
+   --run="sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen" \
+   --env LANG=en_US.UTF-8 \
+   --env LANGUAGE=en_US:en \
+   --env LC_ALL=en_US.UTF-8 \
+   --env DEPLOY_PATH=/opt/fsl-${fslVersion}/bin/ \
+   --env DEPLOY_BINS=fsleyes:fsl \
+   --env PATH='$PATH':/usr/local/cuda-9.1/bin \
+   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-9.1/lib64 \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
+## To add in future version
+   #--run "export MatlabFunctionsFolder=/opt/mrsiproc/matlab/MatlabFunctions"  `#export dir for matlab scripts` \
+   #--run "mkdir -p /opt/mrsiproc/matlab/MatlabFunctions" \
+   #--run "chmod a+rwx /opt/mrsiproc/matlab/ -R"  `#setup script dir for matlab functions and assorted scripts` \
+   #--run "git clone insert/https/here"
+   #--copy ./run_scripts/*mat /opt/mrsiproc/matlab/MatlabFunctions/ \
+   #--copy ./run_scripts/*m /opt/mrsiproc/matlab/MatlabFunctions/ \
+   #--copy ./run_scripts/*sh /opt/mrsiproc/ \
+   #--run "chmod a+rwx /opt/mrsiproc/ -R" \
+   #--run "/opt/mrsiproc/startup_matlab.sh" \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
