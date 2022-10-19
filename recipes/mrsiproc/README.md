@@ -13,7 +13,10 @@ includes the following:
 ##### -- gunzip						(Any version should work) #
 ##### -- LCModel 					(Version 6.3.1)
 
-also scripts from Wolfgang
+also does not scripts from Wolfgang - need to have them locally in order to work.
+Bind scripts to /opt/mrsiproc/matlab/MatlabFunctions
+
+
 Matlab IDE
 
 Important note about licensing
@@ -57,11 +60,11 @@ More documentation can be found here
 To run applications outside of this container
 ---------------------------------------------
 
-  ml matlab/2022a
+  ml mrsiproc/0.0.1
 
 Citation
 --------
   
-  (MATLAB, Mathworks Inc.)
+  see individual neurodesk containers for abovementioned software.
 
 ----------------------------------
