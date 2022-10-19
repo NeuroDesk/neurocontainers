@@ -24,6 +24,7 @@ source ../main_setup.sh
 # - 1.1.12: Combined qsmxt and qsmxtbase containers
 # - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13
 # - 1.1.13 (dev update): Added RomeoApp to Julia for nextQSM testing; removed run_1_fixGEphaseFFTshift.py from DEPLOY_BINS
+# - 1.1.13 (dev update): Added NeXtQSM
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -69,6 +70,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/FastSurfer \
    --copy test.sh /test.sh \
    --run="rm -rf /usr/bin/python3.8 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
+   --workdir="/opt" \
+   --run="pip install cloudstor tensorflow packaging" \
+   --run="git clone --depth 1 --branch v1.0.0 https://github.com/QSMxT/NeXtQSM /opt/nextqsm" \
+   --run="python -c \"import cloudstor; cloudstor.cloudstor(url='https://cloudstor.aarnet.edu.au/plus/s/5OehmoRrTr9XlS5', password='').download('', 'nextqsm-weights.tar')\"" \
+   --run="tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints" \
+   --run="rm nextqsm-weights.tar" \
+   --env PATH='$PATH':/opt/nextqsm/src_tensorflow \
    --workdir="/opt/bru2" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
