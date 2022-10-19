@@ -4,7 +4,7 @@
 
 Built off Matlab IDE
 includes the following:
-##### -- OS: Ubuntu 12.04			(12.04.3 LTS, current used Kernel: GNU/Linux 3.2.0-48-generic x86_64)
+##### -- OS: Built off Matlab 2022a Deep learning Docker
 ##### -- Minc 						(program: 2.0.18, libminc: 2.0.18, netcdf: 3.6.3, HDF5: 1.6.6,)
 ##### -- MATLAB 					(matlab78R2009a)
 ##### -- BET 						(of FSL package 4.1, 2008)
