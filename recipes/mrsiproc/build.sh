@@ -54,9 +54,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar     `#install dependencies` \
    --install nvidia-cuda-toolkit \
    --workdir=/opt/lcmodel-${lcmodelVersion}/ `#install LCModel and things to make it work ` \
-   --run="sudo add-apt-repository 'deb [arch=amd64] http://it-mirrors.evowise.com/ubuntu/ bionic universe'" `#install dependencies for dependencies of lcmodel` \
-   --run="sudo apt update && sudo apt install libtk8.5" \
-   --install="curl ca-certificates libxft2 libxss1 libtk8.5 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
+   --install software-properties-common \
+   --install="curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
           rm -rf /opt/lcm-64.tar" \
