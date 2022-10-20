@@ -72,7 +72,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf /usr/bin/python3.8 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
    --workdir="/opt" \
    --run="pip install cloudstor tensorflow packaging" \
-   --run="git clone --depth 1 --branch v1.0.0 https://github.com/QSMxT/NeXtQSM /opt/nextqsm" \
+   --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm" \
    --run="python -c \"import cloudstor; cloudstor.cloudstor(url='https://cloudstor.aarnet.edu.au/plus/s/5OehmoRrTr9XlS5', password='').download('', 'nextqsm-weights.tar')\"" \
    --run="tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints" \
    --run="rm nextqsm-weights.tar" \
