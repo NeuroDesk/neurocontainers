@@ -112,18 +112,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
-   --fsl version=${fslVersion}                           `#install fsl and things to make it work ` \
-   --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --install locales \
-   --run="sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen" \
-   --env LANG=en_US.UTF-8 \
-   --env LANGUAGE=en_US:en \
-   --env LC_ALL=en_US.UTF-8 \
-   --env DEPLOY_PATH=/opt/fsl-${fslVersion}/bin/ \
-   --env DEPLOY_BINS=fsleyes:fsl \
-   --env PATH='$PATH':/usr/local/cuda-9.1/bin \
-   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-9.1/lib64 \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
