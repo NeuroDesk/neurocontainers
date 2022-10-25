@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh" \
    --run="chmod +x ~/miniconda.sh && ~/miniconda.sh -b -p /miniconda3/ && rm ~/miniconda.sh" \
    --env PATH=/miniconda3/bin:$PATH \
+   --run="conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch" \
    --run="pip install h11==0.11 monailabel" \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
    --workdir /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ \
