@@ -23,14 +23,15 @@ Setup
   ```bash
   docker run --shm-size=1gb -it --privileged --name neurodesktop --mac-address 02:42:ac:11:00:02 -v C:/neurodesktop-storage:/neurodesktop-storage -p 8080:8080 -h neurodesktop-20220813 vnmd/neurodesktop:20220813
   ```
-  (The mac address can be different, but must match the one used for activating the matlab license)
+  (The mac address can be different from the one used here, but it must match the one used as host name for activating the matlab license)
 
   ### MRSI Scripts
-  This container not contain scripts for mrsi processing yet.  
+  This container does not contain scripts for mrsi processing yet.  
   They need to be stored under `neurodesktop-storage` and the path set in `InstallProgramPaths.sh`
 
   ### MATLAB license
   The MATLAB license can be obtained from https://au.mathworks.com/licensecenter
+  - Log in with your account  
   - Click on the license number
   - Select the tab "Install and Activate"
   - In "Related Tasks" click on "Activate to Retrieve License File"
