@@ -2,69 +2,69 @@
 ----------------------------------
 ## mrsiproc/0.0.1 ##
 
-Built off Matlab IDE
-includes the following:
-##### -- OS: Built off Matlab 2022a Deep learning Docker
-##### -- Minc 						(program: 2.0.18, libminc: 2.0.18, netcdf: 3.6.3, HDF5: 1.6.6,)
-##### -- MATLAB 					(matlab78R2009a)
-##### -- BET 						(of FSL package 4.1, 2008)
-##### -- tar 						(Any version should work)
-##### -- gzip						(Any version should work)
-##### -- gunzip						(Any version should work) #
+Includes the following:  
+##### -- OS: Ubuntu 20.04 (Built off Matlab 2022a Deep learning Docker)
+##### -- Minc 						(Version 1.9.15)
+##### -- MATLAB 					(Version R2022a)
+##### -- HD-BET           (Version 1.0)
+##### -- tar
+##### -- gzip
+##### -- gunzip
 ##### -- LCModel 					(Version 6.3.1)
-
-also does not scripts from Wolfgang - need to have them locally in order to work.
-Bind scripts to /opt/mrsiproc/matlab/MatlabFunctions
+##### -- dcm2nii
 
 
-Matlab IDE
+Setup
+---------------------------------------------
+  ### Start neuredesktop with a fixed mac-address
+  Add the option `--mac-address 02:42:ac:11:00:02` to the docker command used for starting Neurodesk (see https://www.neurodesk.org/docs/neurodesk/getting-started/).  
+  This ensures that the license can still be used after rebooting Neurodesk.   
+  Example for the Linux command to start Neurodesk:
+  ```bash
+  sudo docker run \
+  --shm-size=1gb -it --privileged --name neurodesktop \
+  --mac-address 02:42:ac:11:00:02 \
+  -v ~/neurodesktop-storage:/neurodesktop-storage \
+  -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)"\
+  -p 8080:8080 \
+  -h neurodesktop-20220813 vnmd/neurodesktop:20220813
+  ```
+  (The mac address can be different from the one used here, but it must match the one used as host name for activating the matlab license)
 
-Important note about licensing
-------------------------------
+  ### MRSI Scripts
+  This container does not contain scripts for mrsi processing yet.  
+  They need to be stored under `neurodesktop-storage` and the path set in `InstallProgramPaths.sh`
+
+  ### MATLAB license
+  The MATLAB license can be obtained from https://au.mathworks.com/licensecenter
+  - Log in with your account  
+  - Click on the license number
+  - Select the tab "Install and Activate"
+  - In "Related Tasks" click on "Activate to Retrieve License File"
+  - Click "Activate a Computer"
+  - Enter the Information:  
+    Release: R2022a  
+    Operating System: Linux  
+    Host ID: 02:42:ac:11:00:02  
+    Computer Login Name: matlab
+  - When it says 'is the software installed', select yes
+  - Then select 'download license'
+  - Store the license under /neurodesktop-storage/license_matlab.lic  
   
-The Matlab application includes a commercial product, and requires a MATLAB license to run. On first run, a license dialog will appear. Users should follow these steps to activate license:
-1. Choose "Activate automatically using the internet" (and press Next)
-2. Enter their institutional email address and password (and press Next)
-3. Select license to use (and press Next)
-4. A username will be displayed (just press Next)
-
-If the user is eligible for a MATLAB license through the institution, the license will be downloaded to the user home directory (inside the ~/.matlab folder). After the license dialog closes, it is required to re-run the Matlab application. The license will be now available for future executions of Matlab, and the dialog will not show again.
-
-To use the application without internet connectivity, it should also be possible to generate a license on the mathworks website, and place it in ~/Downloads (exact file name does not matter, but it should have a .lic extension). The license should be detected automatically when the Matlab application starts (no license dialog will be presented). Generating a license on the Mathworks website requires specifying username and host id. Username can be displayed in Linux by typing 'id' in the terminal. For instructions on how to find your host id, read here: https://au.mathworks.com/matlabcentral/answers/101892-what-is-a-host-id-how-do-i-find-my-host-id-in-order-to-activate-my-license?s_tid=srchtitle
-
-
-
-Examples
---------
-
-  LAUNCH INTERACTIVE IDE -
-  
-  matlab
-
-  RUNNING SCRIPT IN BATCH -
-  
-  matlab -batch command
-
-  COMPILYING C CODE TO WORK WITH MATLAB -
-  
-  mex
-
-More documentation can be found here
-------------------------------------
-
-  https://hub.docker.com/r/mathworks/matlab-deep-learning
-  
-  mathworks.com
-
 
 To run applications outside of this container
 ---------------------------------------------
 
   ml mrsiproc/0.0.1
+  
+  In case this doesn't work (container not published yet) you can build the container with:
+  ```bash
+  bash /neurocommand/local/fetch_and_run.sh mrsiproc 0.0.1 20221024
+  ```
 
 Citation
 --------
   
-  see individual neurodesk containers for abovementioned software.
+  see individual Neurodesk containers for abovementioned software.
 
 ----------------------------------
