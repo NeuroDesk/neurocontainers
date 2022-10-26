@@ -52,7 +52,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+rwx /opt/matlab/R${matlabVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
    --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar     `#install dependencies` \
-   --install nvidia-cuda-toolkit \
    --workdir=/opt/lcmodel-${lcmodelVersion}/ `#install LCModel and things to make it work ` \
    --install software-properties-common \
    --install="curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
@@ -112,7 +111,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
-   --env FSLOUTPUTTYPE=NIFTI_GZ \
+   --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
