@@ -6,7 +6,6 @@ export toolName='mrsiproc'
 export toolVersion='0.0.1' #the version number cannot contain a "-" - try to use x.x.x notation always
 export matlabVersion='2022a'
 export mincVersion='1.9.15'
-export fslVersion='6.0.5.1'
 export lcmodelVersion='6.3'
 export hdbetVersion='1.0'
 #note the hdbet doesn't really have a version
