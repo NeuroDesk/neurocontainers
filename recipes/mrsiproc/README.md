@@ -17,11 +17,17 @@ Includes the following:
 Setup
 ---------------------------------------------
   ### Start neuredesktop with a fixed mac-address
-  Add the option `--mac-address 02:42:ac:11:00:02` to the docker command used for starting neurodesktop (see https://www.neurodesk.org/docs/neurodesktop/getting-started/).  
-  This ensures that the license can still be used after rebooting neurodesktop.   
-  Example for Windows WSL:
+  Add the option `--mac-address 02:42:ac:11:00:02` to the docker command used for starting Neurodesk (see https://www.neurodesk.org/docs/neurodesk/getting-started/).  
+  This ensures that the license can still be used after rebooting Neurodesk.   
+  Example for the Linux command to start Neurodesk:
   ```bash
-  docker run --shm-size=1gb -it --privileged --name neurodesktop --mac-address 02:42:ac:11:00:02 -v C:/neurodesktop-storage:/neurodesktop-storage -p 8080:8080 -h neurodesktop-20220813 vnmd/neurodesktop:20220813
+  sudo docker run \
+  --shm-size=1gb -it --privileged --name neurodesktop \
+  --mac-address 02:42:ac:11:00:02 \
+  -v ~/neurodesktop-storage:/neurodesktop-storage \
+  -e HOST_UID="$(id -u)" -e HOST_GID="$(id -g)"\
+  -p 8080:8080 \
+  -h neurodesktop-20220813 vnmd/neurodesktop:20220813
   ```
   (The mac address can be different from the one used here, but it must match the one used as host name for activating the matlab license)
 
@@ -44,16 +50,21 @@ Setup
   - When it says 'is the software installed', select yes
   - Then select 'download license'
   - Store the license under /neurodesktop-storage/license_matlab.lic  
-
+  
 
 To run applications outside of this container
 ---------------------------------------------
 
   ml mrsiproc/0.0.1
+  
+  In case this doesn't work (container not published yet) you can build the container with:
+  ```bash
+  bash /neurocommand/local/fetch_and_run.sh mrsiproc 0.0.1 20221024
+  ```
 
 Citation
 --------
   
-  see individual neurodesk containers for abovementioned software.
+  see individual Neurodesk containers for abovementioned software.
 
 ----------------------------------
