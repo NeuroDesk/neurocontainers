@@ -41,7 +41,9 @@ Setup
     Operating System: Linux  
     Host ID: 02:42:ac:11:00:02  
     Computer Login Name: matlab
-  - Download the license and store it under /neurodesktop-storage/license_matlab.lic  
+  - When it says 'is the software installed', select yes
+  - Then select 'download license'
+  - Store the license under /neurodesktop-storage/license_matlab.lic  
 
 
 To run applications outside of this container
