@@ -56,9 +56,9 @@ jobs:
     needs: setup-matrix
     strategy:
       matrix:
-        applications: ${{ fromJSON(needs.setup-matrix.outputs.changed_recipes) }}
+        application: ${{ fromJSON(needs.setup-matrix.outputs.changed_recipes) }}
     steps:
-      - run: echo "${matrix.applications}"
+      - run: echo "${{ matrix.application }}"
 
   # build-docker:
   #   strategy:
