@@ -32,18 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Push trigger
-      if: ${{ github.event_name == 'push' }}
-      uses: dorny/paths-filter@v2
-      id: filter
+    - name: Run changed-files with dir_names
+      id: changed-files-dir-names
+      uses: tj-actions/changed-files@v34
       with:
-        base: 'master'
-        ref: ${{ github.ref }}
-        # initial-fetch-depth: 2
-        # list-files: shell
-        filters: |
-          recipes:
-            - 'recipes/template/*'
+        dir_names: "true"
             
     # - name: List recipes with changes
     #   if: ${{ steps.filter.outputs.recipes == 'true' }}
