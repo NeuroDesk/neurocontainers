@@ -28,7 +28,7 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
-  build:
+  setup-matrix:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -46,27 +46,23 @@ jobs:
       run: |
         CHANGED_RECIPES=$(echo "${{ steps.changed-recipes.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
         echo "List recipes that have changes:
-        ${CHANGED_RECIPES}"
-        
+        echo "CHANGED_RECIPES=${CHANGED_RECIPES}" >> $GITHUB_ENV
+  matrix-job:
+    runs-on: ubuntu-latest
+    needs: setup-matrix
+    strategy:
+      matrix:
+        applications: ${{ fromJson(${CHANGED_RECIPES}) }}
+    steps:
+      - run: |
+          echo "APPLICATION=${{ matrix.applications }}"
 
-        
-        
 
-  # prep-matrix:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v3
-  #   - id: set-matrix
-  #     run: |
-  #       branchName=$(echo '${{ github.ref }}' | sed 's,refs/heads/,,g')  
-  #       matrix=$(jq --arg branchName "$branchName" 'map(. | select((.runOn==$branchName) or (.runOn=="always")) )' matrix_includes.json)                
-  #       echo "{\"include\":$(echo $matrix)} >> $GITHUB_OUTPUT
-  # build-docker:
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - application: ${{ github.event.inputs.application }}
+      # strategy:
+      #   matrix:
+      #     include:
+      #       - application: ${{ github.event.inputs.application }}
+
 
   # build-docker:
   #   strategy:
