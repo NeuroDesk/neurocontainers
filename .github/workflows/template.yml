@@ -33,10 +33,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run changed-files with dir_names
-      id: changed-files-dir-names
+      id: changed-recipes
       uses: tj-actions/changed-files@v34
       with:
-        dir_names: "true"
+        files: "recipes/**"
+    - name: Print changed recipes
+      if: steps.changed-recipes.outputs.any_changed == 'true'
+      run: |
+        echo "One or more files in the docs folder has changed."
+        echo "List all the files that have changed: ${{ steps.changed-recipes.outputs.all_changed_files }}"
+
             
     # - name: List recipes with changes
     #   if: ${{ steps.filter.outputs.recipes == 'true' }}
