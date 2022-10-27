@@ -42,10 +42,8 @@ jobs:
       id: changed-recipes
       uses: tj-actions/changed-files@v34
       with:
-        files: "**"
-        path: "recipes"
-        # diff_relative: "true"
-        # dir_names: "true"
+        files: "recipes/**"
+        dir_names: "true"
         json: "true"
     - name: Print changed recipes
       if: steps.changed-recipes.outputs.any_changed == 'true'
