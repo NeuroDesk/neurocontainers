@@ -30,32 +30,34 @@ env:
 jobs:
   setup-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      changed_recipes: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Run changed-files with dir_names
-      id: changed-recipes
+    - name: Find changed directories
+      id: find_changed_dirs
       uses: tj-actions/changed-files@v34
       with:
         files: "recipes/**"
         dir_names: "true"
         json: "true"
-    - name: Print changed recipes
-      if: steps.changed-recipes.outputs.any_changed == 'true'
+    - name: Find changed recipes
+      id: find_changed_recipes
+      if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
-        CHANGED_RECIPES=$(echo "${{ steps.changed-recipes.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
-        echo "List recipes that have changes:
-        echo "CHANGED_RECIPES=${CHANGED_RECIPES}" >> $GITHUB_ENV
+        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
+        echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
+
   matrix-job:
     runs-on: ubuntu-latest
     needs: setup-matrix
     strategy:
       matrix:
-        applications: ${{ fromJson(${CHANGED_RECIPES}) }}
+        applications: ${{needs.setup-matrix.outputs.changed_recipes}}
     steps:
-      - run: |
-          echo "APPLICATION=${{ matrix.applications }}"
+      - run: echo "matrix.applications"
 
 
       # strategy:
