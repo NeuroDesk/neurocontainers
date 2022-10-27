@@ -34,12 +34,15 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+      run: |
+        ls -la $PWD
+        ls -la $GITHUB_WORKSPACE
     - name: Run changed-files with dir_names
       id: changed-recipes
       uses: tj-actions/changed-files@v34
       with:
-        files: "recipes/**"
-        # path: "recipes/"
+        files: "**"
+        path: "recipes"
         # diff_relative: "true"
         # dir_names: "true"
         json: "true"
@@ -48,6 +51,7 @@ jobs:
       run: |
         echo "List all the files that have changed:
         ${{ steps.changed-recipes.outputs.all_changed_files }}"
+        
 
   # prep-matrix:
   #   runs-on: ubuntu-latest
