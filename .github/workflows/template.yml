@@ -44,8 +44,12 @@ jobs:
     - name: Print changed recipes
       if: steps.changed-recipes.outputs.any_changed == 'true'
       run: |
-        echo "List all the files that have changed:
-        ${{ steps.changed-recipes.outputs.all_changed_files }}"
+        CHANGED_RECIPES=$(echo "${{ steps.changed-recipes.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
+        echo "List recipes that have changes:
+        ${CHANGED_RECIPES}"
+        
+
+        
         
 
   # prep-matrix:
