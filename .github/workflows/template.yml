@@ -47,18 +47,18 @@ jobs:
       id: find_changed_recipes
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
-        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
+        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique' | jq -rc '.[]')
         echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
 
-  matrix-job:
-    runs-on: ubuntu-latest
-    needs: setup-matrix
-    strategy:
-      matrix:
-        applications: ${{needs.setup-matrix.outputs.changed_recipes}}
-    steps:
-      - run: echo "matrix.applications"
+  # matrix-job:
+  #   runs-on: ubuntu-latest
+  #   needs: setup-matrix
+  #   strategy:
+  #     matrix:
+  #       applications: ${{needs.setup-matrix.outputs.changed_recipes}}
+  #   steps:
+  #     - run: echo "matrix.applications"
 
 
       # strategy:
