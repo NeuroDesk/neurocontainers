@@ -48,6 +48,7 @@ jobs:
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
         changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq 'unique')
+        echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
 
   matrix-job:
