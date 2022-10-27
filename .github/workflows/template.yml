@@ -38,7 +38,8 @@ jobs:
       id: changed-recipes
       uses: tj-actions/changed-files@v34
       with:
-        path: "recipes/"
+        files: "recipes/**"
+        # path: "recipes/"
         # diff_relative: "true"
         # dir_names: "true"
         json: "true"
