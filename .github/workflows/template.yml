@@ -75,64 +75,61 @@ jobs:
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
 
 
+      - name: Check free-up-space list
+        run: |
+          FREEUPSPACELIST=$(cat .github/workflows/free-up-space-list.txt)
+          if [[ $FREEUPSPACELIST == *"|$APPLICATION|"* ]]; then
+            rm -rf $GITHUB_WORKSPACE/*
+            FREEUPSPACE=true
+          fi
+          echo "FREEUPSPACE=$FREEUPSPACE" >> $GITHUB_ENV
+      - name: Free up space (optional)
+        if: env.FREEUPSPACE
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 40000
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          overprovision-lvm: 'true'
+      - name: Move docker installation (optional)
+        if: env.FREEUPSPACE
+        run: |
+          sudo mv /var/lib/docker /home/runner/work/docker
+          sudo ln -s /home/runner/work/docker /var/lib/docker
+          sudo systemctl restart docker
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - name : Build recipes
+        run: |
+          echo "APPLICATION: $APPLICATION"
+          cd recipes/$APPLICATION
+          /bin/bash build.sh
 
-
-
-      # - name: Check free-up-space list
-      #   run: |
-      #     FREEUPSPACELIST=$(cat .github/workflows/free-up-space-list.txt)
-      #     if [[ $FREEUPSPACELIST == *"|$APPLICATION|"* ]]; then
-      #       rm -rf $GITHUB_WORKSPACE/*
-      #       FREEUPSPACE=true
-      #     fi
-      #     echo "FREEUPSPACE=$FREEUPSPACE" >> $GITHUB_ENV
-      # - name: Free up space (optional)
-      #   if: env.FREEUPSPACE
-      #   uses: easimon/maximize-build-space@master
-      #   with:
-      #     root-reserve-mb: 40000
-      #     swap-size-mb: 1024
-      #     remove-dotnet: 'true'
-      #     remove-android: 'true'
-      #     remove-haskell: 'true'
-      #     overprovision-lvm: 'true'
-      # - name: Move docker installation (optional)
-      #   if: env.FREEUPSPACE
-      #   run: |
-      #     sudo mv /var/lib/docker /home/runner/work/docker
-      #     sudo ln -s /home/runner/work/docker /var/lib/docker
-      #     sudo systemctl restart docker
-      # - uses: actions/checkout@v3
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: 3.8
-      # - name : Build recipes
-      #   run: |
-      #     echo "APPLICATION: $APPLICATION"
-      #     cd recipes/$APPLICATION
-      #     /bin/bash build.sh
-
-      # - name: Set image variables
-      #   id: IMAGEVARS
-      #   run: |
-      #     IMAGELIST=()
-      #     for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
-      #       IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
-      #       echo "IMAGENAME: $IMAGENAME"
-      #       echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
-      #       IMAGELIST+=$IMAGENAME
-      #     done
-      #     echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
-      # - name: Log into Github Package registry
-      #   if: env.GH_REGISTRY != ''
-      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      # - name: Log into Dockerhub (optional)
-      #   if: env.DOCKERHUB_ORG != ''
-      #   run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      # - name : Run docker builder + Upload to docker and github registry
-      #   run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
-      # - name: Generate job output
-      #   run: |
-      #     echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
-      #     echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-      #     for IMAGENAME in "${IMAGELIST[@]}"; do echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY; done
+      - name: Set image variables
+        id: IMAGEVARS
+        run: |
+          IMAGELIST=()
+          for DOCKERFILE in recipes/$APPLICATION/*.Dockerfile; do
+            IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
+            echo "IMAGENAME: $IMAGENAME"
+            echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
+            IMAGELIST+=$IMAGENAME
+          done
+          echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
+      - name: Log into Github Package registry
+        if: env.GH_REGISTRY != ''
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: env.DOCKERHUB_ORG != ''
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name : Run docker builder + Upload to docker and github registry
+        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
+      - name: Generate job output
+        run: |
+          echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          for IMAGENAME in "${IMAGELIST[@]}"; do echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY; done
