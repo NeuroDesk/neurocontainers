@@ -51,23 +51,14 @@ jobs:
         echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
 
-  matrix-job:
+  job-matrix:
     runs-on: ubuntu-latest
     needs: setup-matrix
-    # steps:
-    #   - run: echo "${{ needs.setup-matrix.outputs.changed_recipes }}"
     strategy:
       matrix:
         applications: ${{ fromJSON(needs.setup-matrix.outputs.changed_recipes) }}
     steps:
       - run: echo "matrix.applications"
-
-
-      # strategy:
-      #   matrix:
-      #     include:
-      #       - application: ${{ github.event.inputs.application }}
-
 
   # build-docker:
   #   strategy:
