@@ -37,7 +37,8 @@ jobs:
               apps_to_build+="\"${APPLICATION}\","
           fi
         done
-        apps_to_build=$(sed '$s/,$/]/' <<< $apps_to_build)
+        apps_to_build=$(sed '$s/,$//' <<< $apps_to_build)
+        apps_to_build+=']'
         echo "apps_to_build=${apps_to_build}" | tee $GITHUB_OUTPUT
 
   builder:
