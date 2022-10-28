@@ -1,4 +1,4 @@
-name: builder
+name: build-apps
 
 on:
   workflow_call:

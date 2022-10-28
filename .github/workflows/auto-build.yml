@@ -8,10 +8,10 @@ on:
       - master
 
 jobs:
-  applist:
+  app-list:
     runs-on: ubuntu-22.04
     outputs:
-      apps_to_build: ${{ steps.find_changed_recipes.outputs.apps_to_build }}
+      app_list: ${{ steps.find_changed_recipes.outputs.app_list }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -30,19 +30,19 @@ jobs:
         # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
         changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
         
-        apps_to_build='['
+        app_list='['
         for APPLICATION in $(echo "${changed_recipes}" | jq -r '.[]'); do
           AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
           if [ "$AUTOBUILD" = "true" ] || [ "$AUTOBUILD" = "null" ]; then
-              apps_to_build+="\"${APPLICATION}\","
+              app_list+="\"${APPLICATION}\","
           fi
         done
-        apps_to_build=$(sed '$s/,$//' <<< $apps_to_build)
-        apps_to_build+=']'
-        echo "apps_to_build=${apps_to_build}" | tee $GITHUB_OUTPUT
+        app_list=$(sed '$s/,$//' <<< $app_list)
+        app_list+=']'
+        echo "app_list=${app_list}" | tee $GITHUB_OUTPUT
 
   builder:
-    needs: applist
-    uses: ./.github/workflows/builder.yml
+    needs: list-apps
+    uses: ./.github/workflows/build-apps.yml
     with:
-      applications: ${{ needs.applist.outputs.apps_to_build }}
+      applications: ${{ needs.app-list.outputs.app_list }}
