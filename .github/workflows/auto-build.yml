@@ -34,6 +34,6 @@ jobs:
 
   build-apps:
     needs: setup-matrix
-    uses: ./.github/workflows/build-apps.yml
+    uses: ./.github/workflows/builder.yml
     with:
       applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
