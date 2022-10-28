@@ -32,8 +32,9 @@ jobs:
         changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
         echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
+
   build-apps:
     needs: setup-matrix
-    uses: ./.github/workflows/build-app.yml
+    uses: ./.github/workflows/build-apps.yml
     with:
       applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
