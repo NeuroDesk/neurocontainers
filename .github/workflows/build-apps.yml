@@ -50,7 +50,7 @@ jobs:
           echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       - name: Free up space (optional)
-        if: env.FREEUPSPACE
+        if: env.FREEUPSPACE == 'true'
         uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 40000
@@ -60,7 +60,7 @@ jobs:
           remove-haskell: 'true'
           overprovision-lvm: 'true'
       - name: Move docker installation (optional)
-        if: env.FREEUPSPACE
+        if: env.FREEUPSPACE == 'true'
         run: |
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
