@@ -21,27 +21,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ inputs.applications }}
-  # build:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       application: ${{ fromJSON(inputs.applications) }}
-  #   permissions:
-  #     packages: write
-  #   outputs:
-  #     BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
-  #     IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Set environment variables
-  #       id: ENVVARS
-  #       run: |
-  #         APPLICATION=${{ matrix.application }}
-  #         SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
-  #         BUILDDATE=`date +%Y%m%d`
-  #         echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
-  #         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
-  #         echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        application: ${{ fromJSON(inputs.applications) }}
+    permissions:
+      packages: write
+    outputs:
+      BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
+      IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set environment variables
+        id: ENVVARS
+        run: |
+          APPLICATION=${{ matrix.application }}
+          SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+          BUILDDATE=`date +%Y%m%d`
+          echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+          echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
 
 
       # - name: Check free-up-space list
