@@ -28,8 +28,17 @@ jobs:
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
         # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
-        apps_to_build=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
-        echo "apps_to_build=${apps_to_build}" >> $GITHUB_OUTPUT
+        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
+        
+        apps_to_build='['
+        for APPLICATION in $(echo "${changed_recipes}" | jq -r '.[]'); do
+          AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
+          if [ "$AUTOBUILD" = "true" ] || [ "$AUTOBUILD" = "null" ]; then
+              apps_to_build+="\"${APPLICATION}\","
+          fi
+        done
+        apps_to_build=$(sed '$s/,$/]/' <<< $apps_to_build)
+        echo "apps_to_build=${apps_to_build}" | tee $GITHUB_OUTPUT
 
   builder:
     needs: applist
