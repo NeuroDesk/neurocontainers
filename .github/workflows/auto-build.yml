@@ -8,10 +8,10 @@ on:
       - master
 
 jobs:
-  setup-matrix:
+  applist:
     runs-on: ubuntu-22.04
     outputs:
-      changed_recipes: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
+      apps_to_build: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -28,12 +28,11 @@ jobs:
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
         # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
-        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
-        echo "${changed_recipes}"
-        echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
+        apps_to_build=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
+        echo "apps_to_build=${apps_to_build}" >> $GITHUB_OUTPUT
 
-  build-apps:
-    needs: setup-matrix
+  builder:
+    needs: applist
     uses: ./.github/workflows/builder.yml
     with:
-      applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
+      applications: ${{ needs.applist.outputs.apps_to_build }}

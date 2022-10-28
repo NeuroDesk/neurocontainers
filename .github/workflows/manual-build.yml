@@ -9,20 +9,19 @@ on:
         type: string
 
 jobs:
-  setup-matrix:
+  applist:
     runs-on: ubuntu-22.04
     outputs:
-      changed_recipes: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
+      apps_to_build: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
     steps:
     - name: Find changed recipes
       id: find_changed_recipes
       run: |
-        changed_recipes=$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')
-        echo "${changed_recipes}"
-        echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
+        apps_to_build=$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')
+        echo "apps_to_build=${apps_to_build}" >> $GITHUB_OUTPUT
 
-  build-apps:
-    needs: setup-matrix
+  builder:
+    needs: applist
     uses: ./.github/workflows/builder.yml
     with:
-      applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
+      applications: ${{ needs.applist.outputs.apps_to_build }}
