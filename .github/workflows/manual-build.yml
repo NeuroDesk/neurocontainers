@@ -12,10 +12,10 @@ jobs:
   applist:
     runs-on: ubuntu-22.04
     outputs:
-      apps_to_build: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
+      apps_to_build: ${{ steps.process_input_applist.outputs.apps_to_build }}
     steps:
-    - name: Find changed recipes
-      id: find_changed_recipes
+    - name: Process input applist
+      id: process_input_applist
       run: |
         apps_to_build=$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')
         echo "apps_to_build=${apps_to_build}" >> $GITHUB_OUTPUT

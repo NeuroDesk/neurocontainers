@@ -11,7 +11,7 @@ jobs:
   applist:
     runs-on: ubuntu-22.04
     outputs:
-      apps_to_build: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
+      apps_to_build: ${{ steps.find_changed_recipes.outputs.apps_to_build }}
     steps:
     - uses: actions/checkout@v3
       with:
