@@ -41,11 +41,11 @@ jobs:
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
       - name: Fetch build config overrides
         run: |
-          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
           echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
 
-          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner")
+          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
           echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
           echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
