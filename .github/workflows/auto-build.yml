@@ -37,7 +37,7 @@ jobs:
           if [ "$AUTOBUILD" = "true" ] || [ "$AUTOBUILD" = "null" ]; then
               app_list+="\"${APPLICATION}\","
           else
-              echo "$APPLICATION autoBuild disabled in build-config.json"
+              echo "$APPLICATION:autoBuild:$AUTOBUILD in build-config.json"
           fi
         done
         app_list=$(sed '$s/,$//' <<< $app_list)
