@@ -21,7 +21,7 @@ jobs:
     - name: Find changed recipes
       id: find_changed_recipes
       run: |
-        changed_recipes=${{ github.event.inputs.applications }}
+        changed_recipes=$(echo "${{ github.event.inputs.applications }}" | jq -rcR 'split(",")')
         echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
 
