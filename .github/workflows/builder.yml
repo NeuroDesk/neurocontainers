@@ -1,4 +1,4 @@
-name: build-apps
+name: builder
 
 on:
   workflow_call:
@@ -17,12 +17,8 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ inputs.applications }}
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
@@ -42,7 +38,12 @@ jobs:
           echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
-
+      - name: Fetch build config overrides
+        run: |
+          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+          echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
+          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner")
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       # - name: Check free-up-space list
       #   run: |

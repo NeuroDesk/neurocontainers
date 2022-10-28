@@ -4,13 +4,12 @@ on:
   push:
     paths:
       - recipes/**
-      - .github/workflows/template.yml
     branches:
       - master
 
 jobs:
   setup-matrix:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       changed_recipes: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
     steps:

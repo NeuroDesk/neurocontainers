@@ -1,7 +1,7 @@
 {
     "template": {
-        "autobuild": "true",
-        "freeupspace": "false",
-        "selfhostedrunner": "false"
+        "autoBuild": "true",
+        "freeUpSpace": "false",
+        "selfHostedRunner": "false"
     }
 }
