@@ -1,6 +1,6 @@
 {
     "template": {
-        "autoBuild": "false",
+        "autoBuild": "true",
         "freeUpSpace": "false",
         "selfHostedRunner": "false"
     }
