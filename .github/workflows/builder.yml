@@ -42,10 +42,14 @@ jobs:
         run: |
           pwd
           cat .github/workflows/build-config.json
-          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
-          echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
-          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner")
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
+          cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+          cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner"
+
+
+      # FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+      # echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
+      # SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner")
+      # echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       # - name: Check free-up-space list
       #   run: |
