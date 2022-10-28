@@ -19,10 +19,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    needs: setup-matrix
     strategy:
       matrix:
-        application: ${{ fromJSON(needs.setup-matrix.outputs.changed_recipes) }}
+        application: ${{ fromJSON(inputs.applications) }}
     permissions:
       packages: write
     outputs:
