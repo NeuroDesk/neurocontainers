@@ -42,10 +42,12 @@ jobs:
       - name: Fetch build config overrides
         run: |
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+          echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
 
           SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner")
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" |>> $GITHUB_ENV
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       # - name: Check free-up-space list
       #   run: |
