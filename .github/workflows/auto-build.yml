@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  list-app:
+  list-apps:
     runs-on: ubuntu-22.04
     outputs:
       app_list: ${{ steps.find_changed_recipes.outputs.app_list }}
