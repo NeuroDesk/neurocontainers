@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Process input list of applications
       run: |
-        app_list=$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')
+        app_list=$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -cR 'split(",")')
         echo "app_list=${app_list}"
         echo "app_list=${app_list}" >> $GITHUB_OUTPUT
 
