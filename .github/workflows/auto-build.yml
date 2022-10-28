@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  app-list:
+  list-app:
     runs-on: ubuntu-22.04
     outputs:
       app_list: ${{ steps.find_changed_recipes.outputs.app_list }}
@@ -41,8 +41,8 @@ jobs:
         app_list+=']'
         echo "app_list=${app_list}" | tee $GITHUB_OUTPUT
 
-  builder:
+  build-apps:
     needs: list-apps
     uses: ./.github/workflows/build-apps.yml
     with:
-      applications: ${{ needs.app-list.outputs.app_list }}
+      applications: ${{ needs.list-apps.outputs.app_list }}
