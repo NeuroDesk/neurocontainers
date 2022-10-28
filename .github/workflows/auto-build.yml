@@ -33,6 +33,7 @@ jobs:
         echo "${changed_recipes}"
         echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
   build-apps:
+    needs: setup-matrix
     uses: ./.github/workflows/build-app.yml
     with:
       applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
