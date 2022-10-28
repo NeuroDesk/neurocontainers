@@ -12,12 +12,12 @@ jobs:
   list-apps:
     runs-on: ubuntu-22.04
     outputs:
-      app_list: ${{ steps.list-apps.outputs.app_list }}
+      app_list: ${{ steps.process_app_list.outputs.app_list }}
     steps:
     - name: Process input list of applications
+      id: process_app_list
       run: |
-        app_list="$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -cR 'split(",")')"
-        app_list='["template"]'
+        app_list="$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')"
         echo "app_list=${app_list}"
         echo "app_list=${app_list}" >> $GITHUB_OUTPUT
 
