@@ -16,30 +16,34 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Find changed directories
+    - name: Find all recipe directories with changes
       id: find_changed_dirs
       uses: tj-actions/changed-files@v34
       with:
         files: "recipes/**"
         dir_names: "true"
         json: "true"
-    - name: Find changed recipes
+    - name: Filter down to changed recipes
       id: find_changed_recipes
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
         # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
         changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
+        echo "changed_recipes=${changed_recipes}"
         
         app_list='['
         for APPLICATION in $(echo "${changed_recipes}" | jq -r '.[]'); do
           AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
           if [ "$AUTOBUILD" = "true" ] || [ "$AUTOBUILD" = "null" ]; then
               app_list+="\"${APPLICATION}\","
+          else
+              echo "$APPLICATION autoBuild disabled in build-config.json"
           fi
         done
         app_list=$(sed '$s/,$//' <<< $app_list)
         app_list+=']'
-        echo "app_list=${app_list}" | tee $GITHUB_OUTPUT
+        echo "app_list=${app_list}"
+        echo "app_list=${app_list}" >> $GITHUB_OUTPUT
 
   build-apps:
     needs: list-apps
