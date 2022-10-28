@@ -1,0 +1,38 @@
+name: auto-build
+
+on:
+  push:
+    paths:
+      - recipes/**
+      - .github/workflows/template.yml
+    branches:
+      - master
+
+jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_recipes: ${{ steps.find_changed_recipes.outputs.changed_recipes }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Find changed directories
+      id: find_changed_dirs
+      uses: tj-actions/changed-files@v34
+      with:
+        files: "recipes/**"
+        dir_names: "true"
+        json: "true"
+    - name: Find changed recipes
+      id: find_changed_recipes
+      if: steps.find_changed_dirs.outputs.any_changed == 'true'
+      run: |
+        # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
+        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
+        echo "${changed_recipes}"
+        echo "changed_recipes=${changed_recipes}" >> $GITHUB_OUTPUT
+  build-apps:
+    uses: ./.github/workflows/build-app.yml
+    with:
+      applications: ${{ needs.setup-matrix.outputs.changed_recipes }}
