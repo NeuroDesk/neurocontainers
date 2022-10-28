@@ -42,7 +42,7 @@ jobs:
         run: |
           pwd
           cat .github/workflows/build-config.json
-          cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace")
+          cat .github/workflows/build-config.json | jq ."${APPLICATION}" .freeUpSpace"
           cat .github/workflows/build-config.json | jq ."${APPLICATION}" .selfHostedRunner"
 
 
