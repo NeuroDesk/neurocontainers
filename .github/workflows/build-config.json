@@ -28,6 +28,12 @@
     "eeglab": {
         "freeUpSpace": true
     },
+    "micapipe": {
+        "freeUpSpace": true
+    },
+    "mrsiproc": {
+        "freeUpSpace": true
+    },
     "esilpd": {
         "selfHostedRunner": true
     },
