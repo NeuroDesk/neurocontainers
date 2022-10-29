@@ -23,6 +23,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} \
    --run="ln -s /opt/fsl-6.0.5.1/bin/eddy_cuda9.1 /opt/fsl-6.0.5.1/bin/eddy_cuda" \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
+   --install locales \
    --run="sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen" \
    --env LANG=en_US.UTF-8 \
    --env LANGUAGE=en_US:en \

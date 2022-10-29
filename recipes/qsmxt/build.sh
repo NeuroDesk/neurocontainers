@@ -24,6 +24,7 @@ source ../main_setup.sh
 # - 1.1.12: Combined qsmxt and qsmxtbase containers
 # - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13
 # - 1.1.13 (dev update): Added RomeoApp to Julia for nextQSM testing; removed run_1_fixGEphaseFFTshift.py from DEPLOY_BINS
+# - 1.1.13 (dev update): Added NeXtQSM
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -60,7 +61,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
-   --run="pip install psutil datetime numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom" \
+   --run="pip install psutil datetime numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest osfclient" \
    --run="pip install niflow-nipype1-workflows" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --run="sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt" \
@@ -69,6 +70,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/FastSurfer \
    --copy test.sh /test.sh \
    --run="rm -rf /usr/bin/python3.8 && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
+   --workdir="/opt" \
+   --run="pip install cloudstor tensorflow packaging" \
+   --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm" \
+   --run="python -c \"import cloudstor; cloudstor.cloudstor(url='https://cloudstor.aarnet.edu.au/plus/s/5OehmoRrTr9XlS5', password='').download('', 'nextqsm-weights.tar')\"" \
+   --run="tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints" \
+   --run="rm nextqsm-weights.tar" \
+   --env PATH='$PATH':/opt/nextqsm/src_tensorflow \
    --workdir="/opt/bru2" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
@@ -84,13 +92,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy install_packages.jl /opt \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia install_packages.jl" \
+   --run="chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --run="chmod +x /opt/QSMxT/*.py" \
    --run="chmod +x /opt/QSMxT/scripts/qsmxt_version.py" \
    --env PATH='$PATH':/opt/QSMxT:/opt/QSMxT/scripts \
    --env PYTHONPATH='$PYTHONPATH':/opt/QSMxT \
    --env DEPLOY_PATH=/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts \
-   --env DEPLOY_BINS=nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py  \
+   --env DEPLOY_BINS=nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py  \
    --env LC_ALL="C.UTF-8" \
    --env LANG="C.UTF-8" \
    --copy README.md /README.md \
