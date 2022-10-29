@@ -1,4 +1,4 @@
 ### Deprecation Notice ###
 - selfHostedRunner is now managed using .github/workflow/build-config.json
-- This file is now a placeholder and Will be removed in a future update
-- See https://www.neurodesk.org/developers/new_tools/add_tool for updated process
+- This file is now a placeholder and will be removed in a future update
+- See https://www.neurodesk.org/developers/new_tools/add_tool wil be up-to-date with the new process

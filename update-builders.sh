@@ -18,6 +18,6 @@ echo "### Deprecation Notice ###
 
 - This is notice is to inform you that update-builders.sh is now deprecated
 - update-builders.sh does not need to be run, and will be removed in a future update
-- The container building is now managed by .github/workflows/template.yml
-- https://www.neurodesk.org/developers/new_tools/add_tool has been updated with this new process
- "
+- The container building is now managed by .github/workflows/auto-build.yml & manual-build.yml
+- https://www.neurodesk.org/developers/new_tools/add_tool wil be up-to-date with the new process
+"
