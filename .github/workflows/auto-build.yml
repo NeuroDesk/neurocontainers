@@ -1,0 +1,52 @@
+name: auto-build
+
+on:
+  push:
+    paths:
+      - recipes/**
+    branches:
+      - master
+
+jobs:
+  list-apps:
+    runs-on: ubuntu-22.04
+    outputs:
+      app_list: ${{ steps.find_changed_recipes.outputs.app_list }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Find all recipe directories with changes
+      id: find_changed_dirs
+      uses: tj-actions/changed-files@v34
+      with:
+        files: "recipes/**"
+        dir_names: "true"
+        json: "true"
+    - name: Filter down to changed recipes
+      id: find_changed_recipes
+      if: steps.find_changed_dirs.outputs.any_changed == 'true'
+      run: |
+        # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
+        changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
+        echo "changed_recipes=${changed_recipes}"
+        
+        app_list='['
+        for APPLICATION in $(echo "${changed_recipes}" | jq -r '.[]'); do
+          AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
+          if [ "$AUTOBUILD" = "true" ] || [ "$AUTOBUILD" = "null" ]; then
+              app_list+="\"${APPLICATION}\","
+          else
+              echo "$APPLICATION:autoBuild:$AUTOBUILD in build-config.json"
+          fi
+        done
+        app_list=$(sed '$s/,$//' <<< $app_list)
+        app_list+=']'
+        echo "app_list=${app_list}"
+        echo "app_list=${app_list}" >> $GITHUB_OUTPUT
+
+  build-apps:
+    needs: list-apps
+    uses: ./.github/workflows/build-apps.yml
+    with:
+      applications: ${{ needs.list-apps.outputs.app_list }}

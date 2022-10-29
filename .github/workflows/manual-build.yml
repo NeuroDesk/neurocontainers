@@ -1,0 +1,28 @@
+name: manual-build
+
+on:
+  workflow_dispatch:
+    inputs:
+      applications:
+        description: 'Applications (comma separated)'
+        required: true
+        type: string
+
+jobs:
+  list-apps:
+    runs-on: ubuntu-22.04
+    outputs:
+      app_list: ${{ steps.process_app_list.outputs.app_list }}
+    steps:
+    - name: Process input list of applications
+      id: process_app_list
+      run: |
+        app_list="$(echo "${{ github.event.inputs.applications }}" | tr -d " " | jq -rcR 'split(",")')"
+        echo "app_list=${app_list}"
+        echo "app_list=${app_list}" >> $GITHUB_OUTPUT
+
+  build-apps:
+    needs: list-apps
+    uses: ./.github/workflows/build-apps.yml
+    with:
+      applications: ${{ needs.list-apps.outputs.app_list }}

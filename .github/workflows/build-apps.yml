@@ -1,14 +1,11 @@
-name: slicersalt
+name: build-apps
 
 on:
-  workflow_dispatch:
-  repository_dispatch:
-  push:
-    paths:
-      - recipes/slicersalt/*
-      - .github/workflows/slicersalt.yml
-    branches:
-      - master
+  workflow_call:
+    inputs:
+      applications:
+        required: true
+        type: string
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
@@ -20,35 +17,40 @@ env:
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
 
 jobs:
-  build-docker:
-    runs-on: ubuntu-latest
+  build:
+    if: ${{ inputs.applications != '[]' }}
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        application: ${{ fromJSON(inputs.applications) }}
     permissions:
       packages: write
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGELIST: ${{ steps.IMAGEVARS.outputs.IMAGELIST }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set environment variables
         id: ENVVARS
         run: |
-          APPLICATION=$(basename $GITHUB_WORKFLOW .yml)
+          APPLICATION=${{ matrix.application }}
           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
           BUILDDATE=`date +%Y%m%d`
           echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
-          echo "::set-output name=BUILDDATE::$BUILDDATE"
-      - name: Check free-up-space list
+      - name: Fetch build config overrides
         run: |
-          FREEUPSPACELIST=$(cat .github/workflows/free-up-space-list.txt)
-          if [[ $FREEUPSPACELIST == *"|$APPLICATION|"* ]]; then
-            rm -rf $GITHUB_WORKSPACE/*
-            FREEUPSPACE=true
-          fi
-          echo "FREEUPSPACE=$FREEUPSPACE" >> $GITHUB_ENV
+          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
+          echo "FREEUPSPACE=${FREEUPSPACE}"
+          echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
+
+          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
+
       - name: Free up space (optional)
-        if: env.FREEUPSPACE
+        if: env.FREEUPSPACE == 'true'
         uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 40000
@@ -58,13 +60,13 @@ jobs:
           remove-haskell: 'true'
           overprovision-lvm: 'true'
       - name: Move docker installation (optional)
-        if: env.FREEUPSPACE
+        if: env.FREEUPSPACE == 'true'
         run: |
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.8
       - name : Build recipes
@@ -84,7 +86,6 @@ jobs:
             IMAGELIST+=$IMAGENAME
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
-          echo "::set-output name=IMAGELIST::$IMAGELIST"
       - name: Log into Github Package registry
         if: env.GH_REGISTRY != ''
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin

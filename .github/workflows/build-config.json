@@ -1,0 +1,49 @@
+{
+    "template": {
+        "autoBuild": true,
+        "freeUpSpace": false,
+        "selfHostedRunner": false
+    },
+    "mrtrix3": {
+        "freeUpSpace": true
+    },
+    "devbase": {
+        "freeUpSpace": true
+    },
+    "qsmxt": {
+        "freeUpSpace": true
+    },
+    "mrtrix3tissue": {
+        "freeUpSpace": true
+    },
+    "samri": {
+        "freeUpSpace": true
+    },
+    "aslprep": {
+        "freeUpSpace": true
+    },
+    "qsmxtbase": {
+        "freeUpSpace": true
+    },
+    "eeglab": {
+        "freeUpSpace": true
+    },
+    "micapipe": {
+        "freeUpSpace": true
+    },
+    "mrsiproc": {
+        "freeUpSpace": true
+    },
+    "esilpd": {
+        "selfHostedRunner": true
+    },
+    "freesurfer": {
+        "selfHostedRunner": true
+    },
+    "fsl": {
+        "selfHostedRunner": true
+    },
+    "matlab": {
+        "selfHostedRunner": true
+    }
+}
