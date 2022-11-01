@@ -23,10 +23,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install python3-dev gcc libopenslide0 curl ca-certificates libxdamage1 libpulse-dev libnss3 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
-   --run="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh" \
-   --run="chmod +x ~/miniconda.sh && ~/miniconda.sh -b -p /miniconda3/ && rm ~/miniconda.sh" \
-   --env PATH=/miniconda3/bin:$PATH \
-   --run="conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch" \
+   --miniconda version=latest \
+         conda_install='pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia' \
    --run="pip install h11==0.11 monailabel" \
    --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
    --workdir /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ \
