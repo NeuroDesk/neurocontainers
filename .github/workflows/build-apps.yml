@@ -89,15 +89,16 @@ jobs:
       - name: Log into Github Package registry
         env: 
           GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
-        if: $GH_REGISTRY != ''
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: "${{ env.GH_REGISTRY != '' }}"
+        run: echo "${{ env.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
         env:
           DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        if: $DOCKERHUB_ORG != ''
-        run: echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USERNAME --password-stdin
+        if: "${{ env.DOCKERHUB_ORG != '' }}"
+        run: echo "${{ env.DOCKERHUB_PASSWORD }}" | docker login -u "${{ env.DOCKERHUB_USERNAME }} --password-stdin
       - name : Run docker builder + Upload to docker and github registry
         run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
       - name: Generate job output
