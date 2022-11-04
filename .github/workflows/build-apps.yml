@@ -86,22 +86,16 @@ jobs:
             IMAGELIST+=$IMAGENAME
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
-      - name: Debug repository secrets
-        run: echo "GH_REGISTRY=${{ env.GH_REGISTRY }}"
-      # - name: Log into Github Package registry
-      #   if: "${{ env.GH_REGISTRY != '' }}"
-      #   run: echo "${{ env.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      # - name: Log into Dockerhub (optional)
-      #   env:
-      #     DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
-      #     DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      #   if: "${{ env.DOCKERHUB_ORG != '' }}"
-      #   run: echo "${{ env.DOCKERHUB_PASSWORD }}" | docker login -u "${{ env.DOCKERHUB_USERNAME }} --password-stdin
-      # - name : Run docker builder + Upload to docker and github registry
-      #   run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
-      # - name: Generate job output
-      #   run: |
-      #     echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
-      #     echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-      #     for IMAGENAME in "${IMAGELIST[@]}"; do echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY; done
+      - name: Log into Github Package registry
+        if: "${{ env.GH_REGISTRY != '' }}"
+        run: echo "${{ env.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+      - name: Log into Dockerhub (optional)
+        if: "${{ env.DOCKERHUB_ORG != '' }}"
+        run: echo "${{ env.DOCKERHUB_PASSWORD }}" | docker login -u "${{ env.DOCKERHUB_USERNAME }} --password-stdin
+      - name : Run docker builder + Upload to docker and github registry
+        run: for IMAGENAME in "${IMAGELIST[@]}"; do /bin/bash .github/workflows/build-docker.sh $IMAGENAME; done
+      - name: Generate job output
+        run: |
+          echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          for IMAGENAME in "${IMAGELIST[@]}"; do echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY; done
