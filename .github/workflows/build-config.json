@@ -34,6 +34,9 @@
     "mrsiproc": {
         "freeUpSpace": true
     },
+    "slicer": {
+        "freeUpSpace": true
+    },
     "esilpd": {
         "selfHostedRunner": true
     },
