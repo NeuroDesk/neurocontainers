@@ -87,16 +87,9 @@ jobs:
           done
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
       - name: Log into Github Package registry
-        env: 
-          GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: "${{ env.GH_REGISTRY != '' }}"
         run: echo "${{ env.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
-        env:
-          DOCKERHUB_ORG: ${{ secrets.DOCKERHUB_ORG }}
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ env.DOCKERHUB_PASSWORD }}" | docker login -u "${{ env.DOCKERHUB_USERNAME }} --password-stdin
       - name : Run docker builder + Upload to docker and github registry

@@ -50,3 +50,4 @@ jobs:
     uses: ./.github/workflows/build-apps.yml
     with:
       applications: ${{ needs.list-apps.outputs.app_list }}
+    secrets: inherit
