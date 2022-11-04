@@ -88,7 +88,7 @@ jobs:
           echo "IMAGELIST=$IMAGELIST" >> $GITHUB_ENV
       - name: Log into Github Package registry
         if: "${{ env.GH_REGISTRY != '' }}"
-        run: echo "${{ env.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       - name: Log into Dockerhub (optional)
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ env.DOCKERHUB_PASSWORD }}" | docker login -u "${{ env.DOCKERHUB_USERNAME }} --password-stdin
