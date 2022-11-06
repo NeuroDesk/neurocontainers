@@ -112,7 +112,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/bin/matlab"     		   `# make matlab executables` \
    --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		   `# create license directory - this will later be bind-mounted to the homedirectory download folder` \
    --run="chmod a+rwx /opt/matlab/R${matlabVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
+   \
+   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm" `# Add missing Matlab Toolboxes` \
+   --run="chmod +x mpm" \
+   --run="./mpm install --release=R${matlabVersion} --destinatio=/opt/matlab/R${matlabVersion}/ --products=Simulink_3D_Animation" \
+   --run="rm mpm" \
+   \
    --copy README.md /README.md                          `# include readme file in container` \
+   \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
