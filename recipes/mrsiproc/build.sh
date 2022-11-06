@@ -110,6 +110,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
+   --run="sudo apt remove -y libjpeg62 \
+      && wget http://ftp.br.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.0.6-4_amd64.deb \
+      && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
+      && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
