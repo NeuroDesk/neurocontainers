@@ -39,14 +39,27 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
-   --miniconda version=latest \
-      conda_install='python=3.6' \
    --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common `# install apt-get packages` \
    \
    --run="sudo apt remove -y libjpeg62 \
       && wget http://ftp.br.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.0.6-4_amd64.deb \
       && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
       && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
+   \
+   --miniconda version=py39_4.12.0 \
+   --workdir /opt \
+   --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
+   --workdir /opt/HD-BET \
+   --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
+   --run="echo 'folder_with_parameter_files = \"/opt/HD-BET/hd-bet_params\"' >> /opt/HD-BET/HD_BET/paths.py" \
+   --run="mkdir -p /opt/HD-BET/hd-bet_params" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/0.model https://zenodo.org/record/2540695/files/0.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/1.model https://zenodo.org/record/2540695/files/1.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/2.model https://zenodo.org/record/2540695/files/2.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/3.model https://zenodo.org/record/2540695/files/3.model?download=1" \
+   --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
+   --run="pip install -e ." \
+   --env DEPLOY_BINS=hd-bet \
    \
    --workdir=/opt/lcmodel-${lcmodelVersion}/ `# install LCModel and things to make it work ` \
    --install curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar `# LCModel dependencies` \
@@ -90,20 +103,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+rwx /opt/lcmodel-${lcmodelVersion} -R" \
    --env DEPLOY_PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/ \
    --env PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/:'$PATH' \
-   \
-   --workdir /opt \
-   --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
-   --workdir /opt/HD-BET \
-   --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
-   --run="echo 'folder_with_parameter_files = \"/opt/HD-BET/hd-bet_params\"' >> /opt/HD-BET/HD_BET/paths.py" \
-   --run="mkdir -p /opt/HD-BET/hd-bet_params" \
-   --run="curl -o /opt/HD-BET/hd-bet_params/0.model https://zenodo.org/record/2540695/files/0.model?download=1" \
-   --run="curl -o /opt/HD-BET/hd-bet_params/1.model https://zenodo.org/record/2540695/files/1.model?download=1" \
-   --run="curl -o /opt/HD-BET/hd-bet_params/2.model https://zenodo.org/record/2540695/files/2.model?download=1" \
-   --run="curl -o /opt/HD-BET/hd-bet_params/3.model https://zenodo.org/record/2540695/files/3.model?download=1" \
-   --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
-   --run="pip install -e ." \
-   --env DEPLOY_BINS=hd-bet \
    \
    --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
