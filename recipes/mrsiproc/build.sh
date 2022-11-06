@@ -37,22 +37,19 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git curl ca-certificates datalad unzip libfftw3-3 `# install apt-get packages` \
-   --miniconda version=latest \
-   --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
-   --env MLM_LICENSE_FILE='~/Downloads'		            `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
-   --copy README.md /README.md                          `# include readme file in container` \
-   --run="rm /usr/local/bin/matlab"			               `# rm original matlab symbolic link` \
-   --copy matlab /usr/local/bin/matlab                   `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
-   --run="chmod a+x /usr/local/bin/matlab"     		   `# make matlab executables` \
-   --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		   `# create license directory - this will later be bind-mounted to the homedirectory download folder` \
-   --run="chmod a+rwx /opt/matlab/R${matlabVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
+   --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
-   --install git ca-certificates ltrace strace wget libxml2 gcc build-essential gzip tar     `#install dependencies` \
-   --workdir=/opt/lcmodel-${lcmodelVersion}/ `#install LCModel and things to make it work ` \
-   --install software-properties-common \
-   --install="curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar" \
+   --miniconda version=latest \
+      conda_install='python=3.6' \
+   --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common `# install apt-get packages` \
+   \
+   --run="sudo apt remove -y libjpeg62 \
+      && wget http://ftp.br.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.0.6-4_amd64.deb \
+      && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
+      && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
+   \
+   --workdir=/opt/lcmodel-${lcmodelVersion}/ `# install LCModel and things to make it work ` \
+   --install curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar `# LCModel dependencies` \
    --run="curl -o /opt/lcm-64.tar http://www.lcmodel.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
           rm -rf /opt/lcm-64.tar" \
@@ -93,9 +90,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+rwx /opt/lcmodel-${lcmodelVersion} -R" \
    --env DEPLOY_PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/ \
    --env PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/:'$PATH' \
-   --install git \
-   --miniconda version=4.7.12.1 \
-         conda_install='python=3.6' \
+   \
    --workdir /opt \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
    --workdir /opt/HD-BET \
@@ -109,11 +104,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/HD-BET/hd-bet_params/4.model https://zenodo.org/record/2540695/files/4.model?download=1" \
    --run="pip install -e ." \
    --env DEPLOY_BINS=hd-bet \
-   --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
-   --run="sudo apt remove -y libjpeg62 \
-      && wget http://ftp.br.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.0.6-4_amd64.deb \
-      && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
-      && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
+   \
+   --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
+   --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --env MLM_LICENSE_FILE='~/Downloads'		            `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
+   --run="rm /usr/local/bin/matlab"			               `# rm original matlab symbolic link` \
+   --copy matlab /usr/local/bin/matlab                   `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
+   --run="chmod a+x /usr/local/bin/matlab"     		   `# make matlab executables` \
+   --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		   `# create license directory - this will later be bind-mounted to the homedirectory download folder` \
+   --run="chmod a+rwx /opt/matlab/R${matlabVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
+   --copy README.md /README.md                          `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
