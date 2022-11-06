@@ -14,6 +14,10 @@ Includes the following:
 ##### -- dcm2nii
 
 
+Overview
+--------------------------------------------
+In its current stage, the container provides the environment, but the scripts need to be obtained separately.
+
 Setup
 ---------------------------------------------
   ### Start neuredesktop with a fixed mac-address
@@ -51,16 +55,21 @@ Setup
   - Then select 'download license'
   - Store the license under /neurodesktop-storage/license_matlab.lic  
   
+Run MRSI scripts
+-----------------------------------------
+Run the scripts from within a singularity shell inside Neurodesk. Example:
+```bash
+singularity shell singularity shell /cvmfs/neurodesk.ardc.edu.au/containers/mrsiproc_0.0.1_20221026/mrsiproc_0.0.1_20221026.simg
+```
+```bash
+Singularity> cd /neurodesktop-storage/mrsi_proc
+Singularity> ./Run_MRSI_test.sh
+```
 
 To run applications outside of this container
 ---------------------------------------------
-
+  (This is not working yet)  
   ml mrsiproc/0.0.1
-  
-  In case this doesn't work (container not published yet) you can build the container with:
-  ```bash
-  bash /neurocommand/local/fetch_and_run.sh mrsiproc 0.0.1 20221024
-  ```
 
 Citation
 --------
