@@ -5,7 +5,7 @@
         "selfHostedRunner": false
     },
     "mrtrix3": {
-        "freeUpSpace": true
+        "selfHostedRunner": true
     },
     "devbase": {
         "freeUpSpace": true
