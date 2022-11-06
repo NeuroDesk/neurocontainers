@@ -8,6 +8,8 @@ export matlabVersion='2022a'
 export mincVersion='1.9.15'
 export lcmodelVersion='6.3'
 export hdbetVersion='1.0'
+export pythonVersion='py39'
+export dcm2niiVersion='003f0d19f1e57b0129c9dcf3e653f51ca3559028' # copied from qsmxt
 #note the hdbet doesn't really have a version
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
@@ -37,7 +39,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 `# copied from qsmxt` \
+   --dcm2niix method=source version=${dcm2niiVersion} \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
    --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common `# install apt-get packages` \
    \
@@ -46,7 +48,7 @@ neurodocker generate ${neurodocker_buildMode} \
       && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
       && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
    \
-   --miniconda version=py39_4.12.0 \
+   --miniconda version=${pythonVersion}_4.12.0 \
    --workdir /opt \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
    --workdir /opt/HD-BET \
