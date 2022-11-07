@@ -39,32 +39,32 @@ jobs:
           echo "APPLICATION=$APPLICATION" >> $GITHUB_ENV
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
-      # - name: Fetch build config overrides
-      #   run: |
-      #     FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
-      #     echo "FREEUPSPACE=${FREEUPSPACE}"
-      #     echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
+      - name: Fetch build config overrides
+        run: |
+          FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
+          echo "FREEUPSPACE=${FREEUPSPACE}"
+          echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
 
-      #     SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
-      #     echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
-      #     echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
+          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
-      # - name: Free up space (optional)
-      #   if: env.FREEUPSPACE == 'true'
-      #   uses: easimon/maximize-build-space@master
-      #   with:
-      #     root-reserve-mb: 40000
-      #     swap-size-mb: 1024
-      #     remove-dotnet: 'true'
-      #     remove-android: 'true'
-      #     remove-haskell: 'true'
-      #     overprovision-lvm: 'true'
-      # - name: Move docker installation (optional)
-      #   if: env.FREEUPSPACE == 'true'
-      #   run: |
-      #     sudo mv /var/lib/docker /home/runner/work/docker
-      #     sudo ln -s /home/runner/work/docker /var/lib/docker
-      #     sudo systemctl restart docker
+      - name: Free up space (optional)
+        if: env.FREEUPSPACE == 'true'
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 40000
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          overprovision-lvm: 'true'
+      - name: Move docker installation (optional)
+        if: env.FREEUPSPACE == 'true'
+        run: |
+          sudo mv /var/lib/docker /home/runner/work/docker
+          sudo ln -s /home/runner/work/docker /var/lib/docker
+          sudo systemctl restart docker
       - uses: actions/checkout@v3
       # - uses: actions/setup-python@v4
       #   with:
