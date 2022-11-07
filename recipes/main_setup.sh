@@ -4,6 +4,9 @@
 #install neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
+echo `which python`
+
+
 # install development version
 python -m pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 

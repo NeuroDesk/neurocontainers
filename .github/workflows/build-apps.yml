@@ -73,6 +73,7 @@ jobs:
         run: |
           echo "APPLICATION: $APPLICATION"
           cd recipes/$APPLICATION
+          echo `which python`
           /bin/bash build.sh
 
       - name: Set image variables
