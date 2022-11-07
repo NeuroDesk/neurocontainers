@@ -2,7 +2,7 @@ runners:
   - name: oracle-runner
     cloud: oracle
     instance_type: VM.Standard2.4
-    machine_image: ocid1.image.oc1.eu-frankfurt-1.aaaaaaaafvtas5s3gyivrcnnowok43mvemtj2la7pdqnbib7ye6zo5susttq
+    machine_image: ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa5hjjmet2topt65zwllpmqmaqepks7ohepgpsb3aygbnavaktvn6q
     region: eu-frankfurt-1
     labels:
       - oracle
