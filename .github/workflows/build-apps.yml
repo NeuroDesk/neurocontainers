@@ -49,26 +49,26 @@ jobs:
           echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
           echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
-      - name: Free up space (optional)
-        if: env.FREEUPSPACE == 'true'
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 40000
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          overprovision-lvm: 'true'
-      - name: Move docker installation (optional)
-        if: env.FREEUPSPACE == 'true'
-        run: |
-          sudo mv /var/lib/docker /home/runner/work/docker
-          sudo ln -s /home/runner/work/docker /var/lib/docker
-          sudo systemctl restart docker
+      # - name: Free up space (optional)
+      #   if: env.FREEUPSPACE == 'true'
+      #   uses: easimon/maximize-build-space@master
+      #   with:
+      #     root-reserve-mb: 40000
+      #     swap-size-mb: 1024
+      #     remove-dotnet: 'true'
+      #     remove-android: 'true'
+      #     remove-haskell: 'true'
+      #     overprovision-lvm: 'true'
+      # - name: Move docker installation (optional)
+      #   if: env.FREEUPSPACE == 'true'
+      #   run: |
+      #     sudo mv /var/lib/docker /home/runner/work/docker
+      #     sudo ln -s /home/runner/work/docker /var/lib/docker
+      #     sudo systemctl restart docker
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.8
+      # - uses: actions/setup-python@v4
+      #   with:
+      #     python-version: 3.8
       - name : Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
