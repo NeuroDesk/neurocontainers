@@ -11,6 +11,8 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
+export NUMBER_OF_PROCESSORS=1
+
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
