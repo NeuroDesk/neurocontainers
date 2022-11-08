@@ -7,6 +7,8 @@
 # install development version
 python -m pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 
+export PATH=$PATH:~/.local/bin
+
 export buildMode='docker'  #docker_local or docker_hub or singularity or docker_singularity
 
 # debug mode is for testing docker + singularity
