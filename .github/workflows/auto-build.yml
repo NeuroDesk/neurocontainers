@@ -28,6 +28,14 @@ jobs:
       if: steps.find_changed_dirs.outputs.any_changed == 'true'
       run: |
         # Get dir changelist -> convert list to json -> extract app name only -> remove duplicate apps
+
+        echo "[DEBUG]"        
+        echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}"
+        echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'
+        echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2
+        echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]'
+        echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique'
+
         changed_recipes=$(echo "${{ steps.find_changed_dirs.outputs.all_changed_files }}" | jq -rc '.[]'  | cut -d/ -f 2-2 | jq -ncR '[inputs]' | jq -rc 'unique')
         echo "changed_recipes=${changed_recipes}"
         
