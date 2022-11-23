@@ -61,7 +61,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
-   --run="pip install psutil datetime numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest osfclient" \
+   --run="pip install psutil datetime numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest osfclient seaborn" \
+   --run="pip install cloudstor" \
    --run="pip install niflow-nipype1-workflows" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
    --run="sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt" \
