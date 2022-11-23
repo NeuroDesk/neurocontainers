@@ -11,7 +11,7 @@
         "freeUpSpace": true
     },
     "qsmxt": {
-        "freeUpSpace": true
+        "freeUpSpace": false
     },
     "mrtrix3tissue": {
         "freeUpSpace": true
@@ -23,7 +23,7 @@
         "freeUpSpace": true
     },
     "qsmxtbase": {
-        "freeUpSpace": true
+        "freeUpSpace": false
     },
     "eeglab": {
         "freeUpSpace": true
