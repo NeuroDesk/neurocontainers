@@ -1,4 +1,7 @@
 # R Script to install the dependencies
+if("bayesplot" %in% rownames(installed.packages()) == FALSE) {install.packages("bayesplot")}
+if("brms" %in% rownames(installed.packages()) == FALSE) {install.packages("brms")}
+if("rstan" %in% rownames(installed.packages()) == FALSE) {install.packages("rstan")}
 if("Rcpp" %in% rownames(installed.packages()) == FALSE) {install.packages("Rcpp")}
 if("reticulate" %in% rownames(installed.packages()) == FALSE) {install.packages("reticulate")}
 if("fastICA" %in% rownames(installed.packages()) == FALSE) {install.packages("fastICA")}
