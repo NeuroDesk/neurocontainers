@@ -2,7 +2,8 @@
 set -e
 
 export toolName='rstudio'
-export toolVersion='2022.07.2-576'
+export toolVersion='2022.07.2'
+export additionalVersion='576'
 # https://posit.co/download/rstudio-desktop/
 # Don't forget to update version change in README.md!!!!!
 
@@ -38,10 +39,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9" \
    --install r-base gdebi-core libssl-dev curl libxml2-dev libcurl4-openssl-dev \
    --workdir /opt \
-   --run="wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-${toolVersion}-amd64.deb" \
+   --run="wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --install libclang-dev libpq5 \
-   --run="gdebi -q -n /opt/rstudio-${toolVersion}-amd64.deb" \
-   --run="rm -rf rstudio-${toolVersion}-amd64.deb" \
+   --run="gdebi -q -n /opt/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
+   --run="rm -rf rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --copy dependencies.R /opt \
    --install libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4 libfftw3-dev \
    --install libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
