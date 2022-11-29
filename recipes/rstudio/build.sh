@@ -23,24 +23,23 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --workdir /opt \
-   --install software-properties-common \
+   --install locales software-properties-common \
    --env LC_ALL=en_AU.UTF-8 \
    --env LANGUAGE=en_AU.UTF-8 \
    --env DEBIAN_FRONTEND=noninteractive \
-   --install locales \
    --run="locale-gen en_AU.UTF-8" \
-   --install wget ubuntu-desktop vim software-properties-common git cmake mesa-utils sudo build-essential gpg-agent \
-   --install python3-pip python3-pyqt5 pyqt5-dev python3-tk python3-pandas python3-fire \
-   --install dirmngr gnupg apt-transport-https ca-certificates software-properties-common \
-   --install r-base gdebi-core libssl-dev curl libxml2-dev libcurl4-openssl-dev \
+   --install wget ubuntu-desktop vim software-properties-common git cmake mesa-utils sudo build-essential  \
+      && python3-pip python3-pyqt5 pyqt5-dev python3-tk python3-pandas python3-fire \
+      && dirmngr gnupg apt-transport-https ca-certificates software-properties-common \
+      && r-base gdebi-core libssl-dev curl libxml2-dev libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev \
+      && libclang-dev libpq5 libfftw3-dev gpg-agent \
+      && libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4  \
+      && libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
    --workdir /opt \
    --run="wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
-   --install libclang-dev libpq5 \
    --run="gdebi -q -n /opt/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --run="rm -rf rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --copy dependencies.R /opt \
-   --install libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4 libfftw3-dev \
-   --install libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
    --run="Rscript /opt/dependencies.R" \
    --env DEPLOY_BINS=Rscript:rstudio \
    --env PATH=${PATH}:/usr/local/cuda/bin \

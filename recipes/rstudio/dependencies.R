@@ -1,6 +1,5 @@
 # R Script to install the dependencies
 if("ProbBayes" %in% rownames(installed.packages()) == FALSE) {install.packages("ProbBayes")}
-if("Lahman" %in% rownames(installed.packages()) == FALSE) {install.packages("Lahmanl")}
 if("bayesplot" %in% rownames(installed.packages()) == FALSE) {install.packages("bayesplot")}
 if("brms" %in% rownames(installed.packages()) == FALSE) {install.packages("brms")}
 if("rstan" %in% rownames(installed.packages()) == FALSE) {install.packages("rstan")}
