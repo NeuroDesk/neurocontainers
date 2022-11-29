@@ -19,7 +19,7 @@ env:
 jobs:
   build:
     if: ${{ inputs.applications != '[]' }}
-    runs-on: self-hosted
+    runs-on: [self-hosted, oracle]
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
