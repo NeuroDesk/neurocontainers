@@ -41,7 +41,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --dcm2niix method=source version=${dcm2niiVersion} \
    --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
-   --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common `# install apt-get packages` \
+   --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common bc `# install apt-get packages` \
    \
    --run="sudo apt remove -y libjpeg62 \
       && wget http://ftp.br.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.0.6-4_amd64.deb \
