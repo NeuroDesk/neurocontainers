@@ -25,8 +25,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12 \
       env_name=sovabids \
       yaml_file="/opt/sovabids.yml"\
-      pip_install="git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha
-                   bids_validator" \
+      pip_install="bids_validator
+                   fastapi-jsonrpc
+                   git+https://github.com/yjmantilla/bidscoin.git@sovabids
+                   git+https://github.com/yjmantilla/sovabids.git@v0.3.1-alpha" \
    --run="conda install -c conda-forge -n sovabids mamba=0.24.0 "\
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
