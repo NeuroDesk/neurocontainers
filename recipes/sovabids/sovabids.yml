@@ -1,0 +1,9 @@
+name: sovabids
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3
+  - bids-validator
+  - mne-bids
+  - pybv==0.7.5
