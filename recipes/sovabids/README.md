@@ -1,6 +1,6 @@
 
 ----------------------------------
-## sovabids/0.3a0 ##
+## sovabids/0.3.1a0 ##
 Python sovabids environment with VScode 
 
 This environment contains sovabids, a package for eeg to bids conversion.
