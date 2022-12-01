@@ -23,12 +23,15 @@ neurodocker generate ${neurodocker_buildMode} \
    --install midori xdg-utils python-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 libglu1-mesa libgl1-mesa-dri mesa-utils libgl1-mesa-glx spyder \
    --copy sovabids.yml /opt/sovabids.yml \
    --miniconda version=4.7.12 \
-      env_name=sovabids \
-      yaml_file="/opt/sovabids.yml" \
-      pip_install="git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha
-                   bids_validator" \
-#   --run="conda install -c conda-forge -n base mamba=0.24.0 "\
-#   --run="mamba env create --file /opt/sovabids.yml" \
+      env_name=base \
+      #yaml_file="/opt/sovabids.yml" \
+      #pip_install="git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha
+      #             bids_validator" \
+   --run="conda install -c conda-forge -n base mamba=0.24.0 "\
+   --run="mamba env create --file /opt/sovabids.yml" \
+   --run="source /opt/miniconda-4.7.12/etc/profile.d/conda.sh"
+   --run="conda activate sovabids"
+   --run="pip install git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha bids_validator"
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
