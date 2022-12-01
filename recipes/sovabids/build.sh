@@ -2,8 +2,8 @@
 set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
-export toolName='mneextended'
-export toolVersion='1.1.0'
+export toolName='sovabids'
+export toolVersion='0.2'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --install midori xdg-utils python-pyqt5 unzip git apt-transport-https ca-certificates coreutils curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 libglu1-mesa libgl1-mesa-dri mesa-utils libgl1-mesa-glx spyder \
-   --copy mne-extended.yml /opt/mne-extended.yml \
+   --copy sovabids.yml /opt/sovabids.yml \
    --miniconda version=4.7.12 \
       env_name=base \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
