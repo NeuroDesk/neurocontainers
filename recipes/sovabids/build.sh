@@ -24,9 +24,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy sovabids.yml /opt/sovabids.yml \
    --miniconda version=4.7.12 \
       env_name=base \
-      #yaml_file="/opt/sovabids.yml" \
-      #pip_install="git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha
-      #             bids_validator" \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
    --run="mamba env create --file /opt/sovabids.yml" \
    --run="source /opt/miniconda-4.7.12/etc/profile.d/conda.sh"
