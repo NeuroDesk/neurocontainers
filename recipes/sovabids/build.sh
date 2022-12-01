@@ -34,6 +34,9 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-keymap \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
+    --miniconda version=4.7.12 \
+                env_name='sovabids' \
+                pip_install='git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha' \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --workdir=/opt/ \
    --run="curl -fsSL https://github.com/mne-tools/mne-bids-pipeline/archive/refs/heads/main.tar.gz | tar xz" \
