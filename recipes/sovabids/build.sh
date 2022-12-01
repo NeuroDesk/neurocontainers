@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='sovabids'
-export toolVersion='0.3a0'
+export toolVersion='0.3.1a0'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
