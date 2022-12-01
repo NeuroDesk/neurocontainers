@@ -5,4 +5,7 @@ channels:
 dependencies:
   - python=3
   - mne-bids
-  - pybv==0.7.5
+  - pybv>=0.7.3
+  - flask
+  - uvicorn
+  - httpx
