@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='sovabids'
-export toolVersion='0.2'
+export toolVersion='0.3a0'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -25,7 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12 \
       env_name=base \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
-   --run="mamba env create --file /opt/mne-extended.yml"\
+   --run="mamba env create --file /opt/sovabids.yml"\
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
