@@ -25,8 +25,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12 \
       env_name=base \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
-   --run="source /opt/miniconda-4.7.12/etc/profile.d/conda.sh"
    --run="mamba env create --file /opt/sovabids.yml" \
+   --run="source /opt/miniconda-4.7.12/etc/profile.d/conda.sh"
    --run="conda activate sovabids"
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
