@@ -4,6 +4,6 @@ channels:
 
 dependencies:
   - python=3
-  - bids-validator
+  - bids_validator
   - mne-bids
   - pybv==0.7.5
