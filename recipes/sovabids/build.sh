@@ -25,7 +25,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12 \
       env_name=base \
    --run="conda install -c conda-forge -n base mamba=0.24.0 "\
-   --run="mamba env create --file /opt/sovabids.yml"\
+   --run="mamba env create --file /opt/sovabids.yml" \
+   --run "conda activate sovabids" \
+   --run "pip install git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha bids_validator" \
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
@@ -34,10 +36,6 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-keymap \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
-    --miniconda version=4.7.12 \
-                env_name='sovabids' \
-                pip_install='git+https://github.com/yjmantilla/sovabids.git@v0.3-alpha
-                             bids_validator' \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --workdir=/opt/ \
    --run="curl -fsSL https://github.com/mne-tools/mne-bids-pipeline/archive/refs/heads/main.tar.gz | tar xz" \
