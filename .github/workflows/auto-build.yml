@@ -49,7 +49,7 @@ jobs:
     - name: Select runner
       id: select_runner
       run: |
-        if [ "${{ github.repository }}"" == "NeuroDesk/neurocontainers" ]; then
+        if [ "${{ github.repository }}" == "NeuroDesk/neurocontainers" ]; then
           runner="[self-hosted,oracle]"
         then
           runner="[ubuntu-22.04]"
