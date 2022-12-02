@@ -52,7 +52,7 @@ jobs:
         if [ "${{ github.repository }}" = "NeuroDesk/neurocontainers" ]; then
           runner="[self-hosted,oracle]"
         else
-          runner="[ubuntu-22.04]"
+          runner="ubuntu-22.04"
         fi
         echo "runner=${runner}"
         echo "runner=${runner}" >> $GITHUB_OUTPUT
