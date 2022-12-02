@@ -34,13 +34,7 @@ jobs:
         runner="$(echo "${{ github.event.inputs.runner }}" | tr -d " " | jq -rcR 'split(",")')"
         echo "runner=${runner}"
         echo "runner=${runner}" >> $GITHUB_OUTPUT
-  debug:
-    runs-on: ubuntu-22.04
-    needs: list-apps
-    steps:
-      - run: |
-          echo ${{ needs.list-apps.outputs.app_list }}
-          echo ${{ needs.list-apps.outputs.runner }}
+
   build-apps:
     needs: list-apps
     uses: ./.github/workflows/build-apps.yml
