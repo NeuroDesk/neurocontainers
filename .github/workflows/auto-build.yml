@@ -50,7 +50,7 @@ jobs:
       id: select_runner
       run: |
         if [ "${{ github.repository }}" = "NeuroDesk/neurocontainers" ]; then
-          echo "runner=[\"self-hosted\"]" >> $GITHUB_OUTPUT
+          echo "runner=[\"self-hosted\",\"oracle\"]" >> $GITHUB_OUTPUT
         else
           echo "runner=[\"ubuntu-22.04\"]" >> $GITHUB_OUTPUT
         fi
@@ -66,5 +66,5 @@ jobs:
     uses: ./.github/workflows/build-apps.yml
     with:
       applications: ${{ needs.list-apps.outputs.app_list }}
-      runner: "[\"ubuntu-20.04\"]"
+      runner: ${{ needs.list-apps.outputs.runner }}
     secrets: inherit
