@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.3.5' # https://github.com/ANTsX/ANTs/releases
+export toolVersion='2.4.2' # https://github.com/ANTsX/ANTs/releases
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -16,7 +16,7 @@ source ../main_setup.sh
 # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/ants-add-scripts --upgrade
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:18.04 \
+   --base-image ubuntu:22.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
