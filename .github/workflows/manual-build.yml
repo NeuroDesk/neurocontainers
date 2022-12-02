@@ -13,7 +13,7 @@ on:
         type: choice
         options: 
         - "ubuntu-22.04"
-        - self-hosted"
+        - "self-hosted, oracle"
 
 jobs:
   list-apps:
@@ -31,7 +31,8 @@ jobs:
     - name: Select runner
       id: select_runner
       run: |
-        echo "runner=\"[\"${{ github.event.inputs.runner }}\"]\""
+        runner="$(echo "${{ github.event.inputs.runner }}" | tr -d " " | jq -rcR 'split(",")')"
+        echo "runner=${runner}"
         echo "runner=${runner}" >> $GITHUB_OUTPUT
   debug:
     runs-on: ubuntu-22.04
