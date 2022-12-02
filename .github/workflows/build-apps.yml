@@ -22,7 +22,7 @@ env:
 jobs:
   build:
     if: ${{ inputs.applications != '[]' }}
-    runs-on: ${{ fromJSON(inputs.runner) }}
+    runs-on: "${{ inputs.runner }}"
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
