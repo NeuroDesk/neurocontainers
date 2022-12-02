@@ -31,7 +31,7 @@ jobs:
     - name: Select runner
       id: select_runner
       run: |
-        echo "runner=[\"${{ github.event.inputs.runner }}\"]"
+        echo "runner=\"[\"${{ github.event.inputs.runner }}\"]\""
         echo "runner=${runner}" >> $GITHUB_OUTPUT
   debug:
     runs-on: ubuntu-22.04
