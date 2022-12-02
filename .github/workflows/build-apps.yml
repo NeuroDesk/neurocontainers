@@ -6,6 +6,9 @@ on:
       applications:
         required: true
         type: string
+      runner:
+        required: true
+        type: string
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
