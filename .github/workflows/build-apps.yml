@@ -42,11 +42,9 @@ jobs:
       - name: Fetch build config overrides
         run: |
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
+          [ "$FREEUPSPACE" == "null" ] && FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".default .freeUpSpace")
           echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
-          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
       - name: Free up space (optional)
         if: env.FREEUPSPACE == 'true'
         uses: easimon/maximize-build-space@master
@@ -64,9 +62,6 @@ jobs:
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
       - uses: actions/checkout@v3
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: 3.8
       - name : Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
