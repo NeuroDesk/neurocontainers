@@ -12,8 +12,8 @@ on:
         required: true
         type: choice
         options: 
-        - "ubuntu-22.04"
-        - "self-hosted"
+        - "[\"ubuntu-22.04\"]"
+        - "[\"self-hosted\"]"
 
 jobs:
   list-apps:
@@ -45,5 +45,5 @@ jobs:
     uses: ./.github/workflows/build-apps.yml
     with:
       applications: ${{ needs.list-apps.outputs.app_list }}
-      runner: "ubuntu-20.04"
+      runner: "[\"ubuntu-20.04\"]"
     secrets: inherit
