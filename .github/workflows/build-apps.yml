@@ -22,7 +22,7 @@ env:
 jobs:
   build:
     if: ${{ inputs.applications != '[]' }}
-    runs-on: ${{ github.event.inputs.runner }}
+    runs-on: ["${{ github.event.inputs.runner }}"]
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
@@ -43,7 +43,7 @@ jobs:
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
       - name: Fetch build config overrides
-        if: "!contains('self-hosted, oracle', 'self-hosted')"
+        if: "contains('self-hosted, oracle', 'ubuntu')"
         run: |
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
           [ "$FREEUPSPACE" == "null" ] && FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".default .freeUpSpace")
