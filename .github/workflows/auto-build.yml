@@ -61,10 +61,10 @@ jobs:
       - run: |
           echo ${{ needs.list-apps.outputs.app_list }}
           echo ${{ needs.list-apps.outputs.runner }}
-  # build-apps:
-  #   needs: list-apps
-  #   uses: ./.github/workflows/build-apps.yml
-  #   with:
-  #     applications: ${{ needs.list-apps.outputs.app_list }}
-  #     runner: ${{ needs.list-apps.outputs.runner }}
-  #   secrets: inherit
+  build-apps:
+    needs: list-apps
+    uses: ./.github/workflows/build-apps.yml
+    with:
+      applications: ${{ needs.list-apps.outputs.app_list }}
+      runner: ${{ needs.list-apps.outputs.runner }}
+    secrets: inherit
