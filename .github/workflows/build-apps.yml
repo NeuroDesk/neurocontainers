@@ -6,6 +6,9 @@ on:
       applications:
         required: true
         type: string
+      runner:
+        required: true
+        type: string
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
@@ -19,7 +22,7 @@ env:
 jobs:
   build:
     if: ${{ inputs.applications != '[]' }}
-    runs-on: [self-hosted, oracle]
+    runs-on: ${{ inputs.runner }}
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
@@ -43,16 +46,12 @@ jobs:
         run: |
           AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
-          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
 
           [ "$AUTOBUILD" == "null" ] && AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".default .autoBuild")
           [ "$FREEUPSPACE" == "null" ] && FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".default .freeUpSpace")
-          [ "$SELFHOSTEDRUNNER" == "null" ] && SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".default .selfHostedRunner")
 
           echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       - name: Free up space (optional)
         if: env.FREEUPSPACE == 'true'

@@ -1,12 +1,10 @@
 {
     "default": {
         "autoBuild": true,
-        "freeUpSpace": false,
-        "selfHostedRunner": true
+        "freeUpSpace": false
     },
     "template": {
         "autoBuild": true,
-        "freeUpSpace": true,
-        "selfHostedRunner": false
+        "freeUpSpace": false
     }
 }
