@@ -48,7 +48,6 @@ jobs:
         echo "app_list=${app_list}" >> $GITHUB_OUTPUT
     - name: Select runner
       id: select_runner
-      if: github.repository == 'NeuroDesk/neurocontainers'
       run: |
         if ${{ github.repository }} == 'NeuroDesk/neurocontainers'; then
           runner="[self-hosted,oracle]"
