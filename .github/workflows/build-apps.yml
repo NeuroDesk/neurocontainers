@@ -65,7 +65,6 @@ jobs:
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
-      - uses: actions/checkout@v3
       - name : Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
