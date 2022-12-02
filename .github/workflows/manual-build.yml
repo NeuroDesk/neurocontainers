@@ -25,7 +25,7 @@ jobs:
       id: select_runner
       run: |
         if [ "${{ github.repository }}" = "NeuroDesk/neurocontainers" ]; then
-          runner="[self-hosted,oracle]"
+          runner="self-hosted,oracle"
         else
           runner="ubuntu-22.04"
         fi
