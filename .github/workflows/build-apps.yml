@@ -6,9 +6,6 @@ on:
       applications:
         required: true
         type: string
-      runner:
-        required: true
-        type: string
 
 env:
   GH_REGISTRY: ${{ secrets.GH_REGISTRY }}
@@ -22,7 +19,7 @@ env:
 jobs:
   build:
     if: ${{ inputs.applications != '[]' }}
-    runs-on: ${{ inputs.runner }}
+    runs-on: [self-hosted, oracle]
     strategy:
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
@@ -44,15 +41,12 @@ jobs:
           echo "BUILDDATE=$BUILDDATE" >> $GITHUB_ENV
       - name: Fetch build config overrides
         run: |
-          AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
-
-          [ "$AUTOBUILD" == "null" ] && AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".default .autoBuild")
-          [ "$FREEUPSPACE" == "null" ] && FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".default .freeUpSpace")
-
           echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
-
+          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
+          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
       - name: Free up space (optional)
         if: env.FREEUPSPACE == 'true'
         uses: easimon/maximize-build-space@master
@@ -79,7 +73,6 @@ jobs:
           cd recipes/$APPLICATION
           echo `which python`
           /bin/bash build.sh
-
       - name: Set image variables
         id: IMAGEVARS
         run: |
