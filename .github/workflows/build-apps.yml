@@ -46,16 +46,12 @@ jobs:
         run: |
           AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .autoBuild")
           FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .freeUpSpace")
-          SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".${APPLICATION} .selfHostedRunner")
 
           [ "$AUTOBUILD" == "null" ] && AUTOBUILD=$(cat .github/workflows/build-config.json | jq ".default .autoBuild")
           [ "$FREEUPSPACE" == "null" ] && FREEUPSPACE=$(cat .github/workflows/build-config.json | jq ".default .freeUpSpace")
-          [ "$SELFHOSTEDRUNNER" == "null" ] && SELFHOSTEDRUNNER=$(cat .github/workflows/build-config.json | jq ".default .selfHostedRunner")
 
           echo "FREEUPSPACE=${FREEUPSPACE}"
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}"
-          echo "SELFHOSTEDRUNNER=${SELFHOSTEDRUNNER}" >> $GITHUB_ENV
 
       - name: Free up space (optional)
         if: env.FREEUPSPACE == 'true'
