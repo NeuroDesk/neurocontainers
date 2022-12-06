@@ -37,6 +37,8 @@ neurodocker generate ${neurodocker_buildMode} \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/7.3.2-1/ /opt/freesurfer-7.3.2 \
             && rm -rf freesurfer-CentOS8-7.3.2-1.x86_64.rpm" \
+   --env PATH='$PATH':/opt/freesurfer-7.3.2/tktools:/opt/freesurfer-7.3.2/bin:/opt/freesurfer-7.3.2/fsfast/bin:/opt/freesurfer-7.3.2/mni/bin \
+   --env FREESURFER_HOME="/opt/freesurfer-7.3.2" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
    --env DEPLOY_PATH=/opt/${toolName}-latest/ \
    --copy README.md /README.md \
