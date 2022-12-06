@@ -6,6 +6,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
+echo $toolVersion
 # Afni version 22.1.14
 # Don't forget to update version change in README.md!!!!!
 
@@ -25,7 +26,7 @@ source ../main_setup.sh
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image fedora:36 \
+   --base-image vnmd/freesurfer_7.3.2:20220812 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
