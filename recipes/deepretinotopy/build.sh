@@ -14,7 +14,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image neurodebian:stretch-non-free \
+   --base-image ubuntu:18.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run='pip install --no-index torch-scatter -f https://pytorch-geometric.com/whl/torch-1.6.0+cu101.html' \
    --run='pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.6.0+cu101.html' \
    --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu101.html' \
-   --install connectome-workbench \
+   --install git wget connectome-workbench \
    --freesurfer version=7.1.1 \
    --copy license.txt /opt/freesurfer-7.1.1/license.txt \
    --env DEPLOY_BINS=wb_view:wb_command:wb_shortcuts \
