@@ -98,7 +98,7 @@ jobs:
       - name: Generate issue for new container to test and merge
         uses: JasonEtco/create-an-issue@v2
         env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
           ADJECTIVE: $GITHUB_STEP_SUMMARY
         with:
           filename: .github/new_container_issue_template.md
