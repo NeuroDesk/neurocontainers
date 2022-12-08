@@ -50,7 +50,7 @@ jobs:
       id: select_runner
       run: |
         if [ "${{ github.repository }}" = "NeuroDesk/neurocontainers" ]; then
-          echo "runner=[\"self-hosted\"]" >> $GITHUB_OUTPUT
+          echo "runner=[\"cirun-oracle--${{ github.run_id }}\"]" >> $GITHUB_OUTPUT
         else
           echo "runner=[\"ubuntu-22.04\"]" >> $GITHUB_OUTPUT
         fi
