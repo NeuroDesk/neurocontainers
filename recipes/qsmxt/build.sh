@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.1.13'
+export toolVersion='1.2.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -25,6 +25,7 @@ source ../main_setup.sh
 # - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13
 # - 1.1.13 (dev update): Added RomeoApp to Julia for nextQSM testing; removed run_1_fixGEphaseFFTshift.py from DEPLOY_BINS
 # - 1.1.13 (dev update): Added NeXtQSM
+# - 1.2.0: Major update; added QSM.jl; ROMEO unwrapping; Laplacian unwrapping; V-SHARP; RTS QSM; major pipeline refactor
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \

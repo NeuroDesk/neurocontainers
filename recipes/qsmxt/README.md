@@ -1,6 +1,6 @@
 
 ----------------------------------
-## qsmxt/1.1.13 ##
+## qsmxt/1.2.0 ##
 A full QSM processing pipeline from DICOM to segmentation to evaluation of results. 
 
 Usage:
