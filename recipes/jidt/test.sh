@@ -1,3 +1,3 @@
 #/bin/bash
-cd infodynamics-dist-1.6
-python3 demos/python/example1TeBinaryData.py
+cd jidt-1.6/infodynamics-dist-1.6/demos/python
+python3 example2TeMultidimBinaryData.py

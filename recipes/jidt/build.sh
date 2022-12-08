@@ -38,8 +38,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --install openjdk-8-jre \
     --run="rm -rf infodynamics-dist-1.6.zip" \
    --miniconda version=latest \
-      conda_install="python=3.9 scipy scikit-learn matplotlib jupyter seaborn numpy pandas jpype1" \
-      pip_install="osfclient" \
+      conda_install="python=3.9 scipy scikit-learn matplotlib jupyter seaborn numpy pandas" \
+      pip_install="osfclient jpype1" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
    --workdir /opt \
@@ -47,7 +47,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LC_ALL=en_AU.UTF-8 \
    --env LANGUAGE=en_AU.UTF-8 \
    --env DEBIAN_FRONTEND=noninteractive \
-   --run="locale-gen en_AU.UTF-8" \
+    --run="locale-gen en_AU.UTF-8" \
    --install wget ubuntu-desktop vim software-properties-common git cmake mesa-utils sudo build-essential \
       python3-pip python3-pyqt5 pyqt5-dev python3-tk python3-pandas python3-fire \
       dirmngr gnupg apt-transport-https ca-certificates software-properties-common \
