@@ -1,6 +1,7 @@
 ---
-title: Someone just pushed a new container
+title: New container
 assignees: stebo85
 labels: enhancement
 ---
-just pushed a new container
+There is a new container, test and release:
+{{ env.CONTAINER }}
