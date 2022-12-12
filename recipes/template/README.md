@@ -14,6 +14,7 @@ To make the executables and scripts inside this container transparently availabl
 The packages included in this container, their version, and the base folder of the installation within the container:
 
 packageA - 1.2.3 - /opt/packageA.1.2.3
+
 packageB - 1111 - /opt/packageB_111
 
 Citation:
