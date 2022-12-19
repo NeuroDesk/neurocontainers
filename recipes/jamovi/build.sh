@@ -20,11 +20,12 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image centos:7.9.2009                         `# CentOS from version 7 onwards has flatpak pre-installed` \
-   --pkg-manager apt                                    `# this chooses the package manager to use ` \
+   --base-image jamovi/jamovi:2.3.17                        `# CentOS from version 7 onwards has flatpak pre-installed` \
+   --pkg-manager yum                                    `# this chooses the package manager to use ` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --install flatpak ca-certificates \
    --run="flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo" \
    --run="flatpak install flathub org.jamovi.jamovi -y" `# install jamovi using the flatpak manager` \
    --env DEPLOY_PATH=/usr/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system` \
@@ -35,3 +36,5 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
+
+# WARNING: THE flatpak install does not work, because it requires usernamespaces. It would be best, to start from the official jamovi container: https://github.com/jamovi/jamovi/blob/current-dev/docker-compose.yaml
