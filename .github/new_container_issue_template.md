@@ -5,5 +5,5 @@ labels: enhancement
 ---
 There is a new container, test and release:
 ```
-bash /neurocommand/local/fetch_and_run.sh {{ env.IMAGENAME }} {{ env.BUILDDATE }}
+bash /neurocommand/local/fetch_and_run.sh {{ env.IMAGENAME_TEST }} {{ env.BUILDDATE }}
 ```
