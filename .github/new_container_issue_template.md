@@ -1,5 +1,5 @@
 ---
-title: New container
+title: New container {{ env.IMAGENAME_TEST }}
 assignees: stebo85
 labels: enhancement
 ---
