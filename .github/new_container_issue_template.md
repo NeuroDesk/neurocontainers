@@ -4,4 +4,6 @@ assignees: stebo85
 labels: enhancement
 ---
 There is a new container, test and release:
-{{ env.CONTAINER }}
+```
+bash /neurocommand/local/fetch_and_run.sh {{ env.IMAGENAME }} {{ env.BUILDDATE }}
+```
