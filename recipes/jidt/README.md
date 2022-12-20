@@ -10,7 +10,12 @@ in Matlab, Octave, Python, R, Julia and Clojure) of information-theoretic
 measures of distributed computation in complex systems: i.e. information 
 storage, transfer and modification.
 
-Examples can be found in `infodynamics-dist-1.6/demos`
+Examples can be found in `/opt/jidt-1.6/infodynamics-dist-1.6/demos`
+
+An example in R:
+```
+Rscript /opt/jidt-1.6/infodynamics-dist-1.6/demos/r/example1TeBinaryData.r
+```
 
 More documentation can be found here: https://github.com/jlizier/jidt
 
