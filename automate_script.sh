@@ -13,4 +13,4 @@ set -o history
 
 history | tee bash_history
 
-python3 test.py
+python3 extract.py
