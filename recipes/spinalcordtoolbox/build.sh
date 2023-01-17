@@ -32,11 +32,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="sct_deepseg -install-task seg_mice_gm" \
    --run="sct_deepseg -install-task seg_mice_sc" \
    --run="sct_deepseg -install-task seg_sc_t2star" \
-   --copy README.md /README.md \
+   --run="curl https://raw.githubusercontent.com/NeuroDesk/neurocontainers/master/recipes/spinalcordtoolbox/README.md -o /README.md"
    --run="bash /opt/spinalcordtoolbox-${toolVersion}/batch_processing.sh" \
   > ${toolName}_${toolVersion}.Dockerfile
   
   
+  
+#    --copy README.md /README.md \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
