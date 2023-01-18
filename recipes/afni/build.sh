@@ -7,7 +7,7 @@ set -e
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
 echo $toolVersion
-# Afni version 22.1.14
+# Afni version 23.0.00
 # Don't forget to update version change in README.md!!!!!
 
 
