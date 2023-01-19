@@ -24,6 +24,12 @@ source ../main_setup.sh
 #    pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe-spaces-python-R-packages  --upgrade
 # # fi
 
+# # if [ "$debug" != "" ]; then
+#    echo "installing broken version of neurodocker:"
+#    yes | pip uninstall neurodocker
+#    pip install neurodocker==0.9.3
+# # fi
+
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image fedora:36 \
