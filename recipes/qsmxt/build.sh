@@ -67,6 +67,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="pip install cloudstor" \
    --run="pip install niflow-nipype1-workflows" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
+   --workdir="/opt/FastSurfer" \
+   --run="git checkout be92e4d568a7d937edeb81a6135164cd276a8885" \
    --run="sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt" \
    --run="pip install -r /opt/FastSurfer/requirements.txt" \
    --env FASTSURFER_HOME="/opt/FastSurfer" \
