@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.2.0'
+export toolVersion='1.3.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -26,6 +26,7 @@ source ../main_setup.sh
 # - 1.1.13 (dev update): Added RomeoApp to Julia for nextQSM testing; removed run_1_fixGEphaseFFTshift.py from DEPLOY_BINS
 # - 1.1.13 (dev update): Added NeXtQSM
 # - 1.2.0: Major update; added QSM.jl; ROMEO unwrapping; Laplacian unwrapping; V-SHARP; RTS QSM; major pipeline refactor
+# - 1.3.0: Major update; added premade pipelines, interactive editor, PDF, TV, and fixed networkx version incompatibility
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -62,7 +63,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --ants version=2.3.4 \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
-   --run="pip install psutil datetime numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest osfclient seaborn" \
+   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest osfclient seaborn" \
    --run="pip install cloudstor" \
    --run="pip install niflow-nipype1-workflows" \
    --run="git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer" \
