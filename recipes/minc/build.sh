@@ -16,6 +16,7 @@ source ../main_setup.sh
    echo "installing development repository of neurodocker:"
    yes | pip uninstall neurodocker
    pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/minc_install_from_deb_and_rpm --upgrade
+   # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
 # fi
 
 neurodocker generate ${neurodocker_buildMode} \
