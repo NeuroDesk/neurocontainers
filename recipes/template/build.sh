@@ -1,44 +1,41 @@
-#!/usr/bin/env bash
-set -e
-
-# https://slicer.kitware.com/midas3/folder/274
-# export downloadLink='https://slicer.kitware.com/midas3/download/item/549121/Slicer-4.11.20200930-linux-amd64.tar.gz'
-export downloadLink='https://download.slicer.org/bitstream/62cc52d2aa08d161a31c1af0'
-export toolName='template'
-export toolVersion='5.0.3' #When updating this version you also need to update the MONAILabel plugin version (line 31)!
+# this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
+export toolName='datalad'
+export toolVersion='1.0.20211006' #the version number cannot contain a "-" - try to use x.x.x notation always
 # Don't forget to update version change in README.md!!!!!
-
+# toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
+# !!!!
+# You can test the container build locally by running `bash build.sh -ds`
+# !!!!
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
 fi
-
 source ../main_setup.sh
-
+###########################################################################################################################################
+# IF POSSIBLE, PLEASE DOCUMENT EACH ARGUMENT PROVIDED TO NEURODOCKER. USE THE `# your comment` NOTATION THAT ALLOWS MID-COMMAND COMMENTS
+# NOTE 1: THE QUOTES THAT ENCLOSE EACH COMMENT MUST BE BACKQUOTES (`). OTHER QUOTES WON'T WORK!
+# NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
+# NOTE 3: COMMENT LINES, I.E. LINES THAT START WITH #, CANNOT BE INCLUDED IN THE MIDDLE OF THE neurodocker generate COMMAND. INSTEAD,
+#         USE AN EMPTY LINE AND PUT YOUR COMMENT AT THE END USING THIS FORMAT: `# your comment goes here` \ 
+##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:22.04 \
-   --pkg-manager apt \
-   --env DEBIAN_FRONTEND=noninteractive \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-   --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --install python3-dev gcc libopenslide0 curl ca-certificates libxdamage1 libpulse-dev libnss3 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
-   --run="wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh" \
-   --run="chmod +x ~/miniconda.sh && ~/miniconda.sh -b -p /miniconda3/ && rm ~/miniconda.sh" \
-   --env PATH=/miniconda3/bin:$PATH \
-   --run="conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch" \
-   --run="pip install h11==0.11 monailabel" \
-   --run="curl -fsSL --retry 5 ${downloadLink} | tar -xz -C /opt/ " \
-   --workdir /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ \
-   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/MONAILabel30893.tar.gz \
-      | tar -xz -C /opt/Slicer-${toolVersion}-linux-amd64/NA-MIC/ --strip-components 1" \
-   --install nvidia-cuda-toolkit \
-   --env DEPLOY_PATH=/opt/Slicer-${toolVersion}-linux-amd64/bin \
-   --env DEPLOY_BINS=Slicer \
-   --env PATH=/miniconda3/bin:/usr/bin:/opt/Slicer-${toolVersion}-linux-amd64/bin:/opt/Slicer-${toolVersion}-linux-amd64 \
-   --copy README.md /README.md \
-  > ${toolName}_${toolVersion}.Dockerfile
-
-if [ "$1" != "" ]; then
-   ./../main_build.sh
-fi
+   --base-image neurodebian:sid-non-free                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
+   --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
+   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
+   --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
+   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --install wget git curl ca-certificates datalad datalad-container unzip`# install apt-get packages` \
+   --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
+   --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v1.1.1.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" `# download a github release file and unpack` \
+   --run="wget --quiet -O surfice_linux.zip 'https://github.com/neurolabusc/surf-ice/releases/download/v${toolVersion}/surfice_linux.zip' \
+      && unzip surfice_linux.zip  \
+      && rm -rf surfice_linux.zip" \
+   --miniconda version=latest \
+      conda_install='python=3.8.8' \
+   --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
+   --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
+   --env DEPLOY_BINS=datalad:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --copy README.md /README.md                          `# include readme file in container` \
+   --copy test.sh /test.sh                              `# include test file in container` \
+  > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
