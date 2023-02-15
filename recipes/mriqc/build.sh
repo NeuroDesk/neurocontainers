@@ -3,7 +3,7 @@ set -e
 
 export toolName='mriqc'
 export toolVersion='22.0.6'
-# https://github.com/poldracklab/mriqc/releases
+# https://hub.docker.com/r/nipreps/mriqc/tags
 # Don't forget to update version change in README.md!!!!!
 
 
@@ -15,7 +15,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image poldracklab/${toolName}:$toolVersion \
+   --base-image nipreps/${toolName}:$toolVersion \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
