@@ -45,7 +45,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/freesurfer-7.3.2/tktools:/opt/freesurfer-7.3.2/bin:/opt/freesurfer-7.3.2/fsfast/bin:/opt/freesurfer-7.3.2/mni/bin \
    --env FREESURFER_HOME="/opt/freesurfer-7.3.2" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
-   --env DEPLOY_PATH=/opt/${toolName}-latest/ \
+   --env DEPLOY_PATH=/opt/afni-latest-fedora-35/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
