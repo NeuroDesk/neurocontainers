@@ -2,7 +2,7 @@
 set -e
 
 export toolName='mriqc'
-export toolVersion='0.16.1'
+export toolVersion='22.0.6'
 # https://github.com/poldracklab/mriqc/releases
 # Don't forget to update version change in README.md!!!!!
 
