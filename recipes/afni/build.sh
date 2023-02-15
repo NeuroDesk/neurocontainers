@@ -38,7 +38,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest-fedora-35 method=binaries install_r_pkgs='true' install_python3='true' \
-   --install  \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.2/freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/7.3.2-1/ /opt/freesurfer-7.3.2 \
