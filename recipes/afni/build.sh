@@ -7,7 +7,7 @@ set -e
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
 echo $toolVersion
-# Afni version 23.0.00
+# Afni version 23.0.04
 # Don't forget to update version change in README.md!!!!!
 
 
@@ -18,11 +18,11 @@ fi
 
 source ../main_setup.sh
 
-# # if [ "$debug" != "" ]; then
-#    echo "installing development repository of neurodocker:"
-#    yes | pip uninstall neurodocker
-#    pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe-spaces-python-R-packages  --upgrade
-# # fi
+# if [ "$debug" != "" ]; then
+   echo "installing development repository of neurodocker:"
+   yes | pip uninstall neurodocker
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/add-fedora-35-binary-build-and-missing-dependencies --upgrade
+# fi
 
 # # if [ "$debug" != "" ]; then
 #    echo "installing broken version of neurodocker:"
@@ -32,13 +32,13 @@ source ../main_setup.sh
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image fedora:36 \
+   --base-image fedora:35 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
-   --install wget mesa-dri-drivers which unzip ncurses-compat-libs libgomp \
+   --afni version=latest-fedora-35 method=binaries install_r_pkgs='true' install_python3='true' \
+   --install  \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.2/freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/7.3.2-1/ /opt/freesurfer-7.3.2 \
