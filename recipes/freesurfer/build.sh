@@ -29,11 +29,10 @@ neurodocker generate ${neurodocker_buildMode} \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion} \
             && rm -rf freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
-   --install mesa-dri-drivers which unzip ncurses-compat-libs libgomp \
+   --install mesa-dri-drivers which unzip ncurses-compat-libs libgomp java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
    --matlabmcr version=2014b install_path=/opt/MCR  \
    --run="ln -s /opt/MCR/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
    --env OS="Linux" \
-   --env SUBJECTS_DIR="/opt/${toolName}-${toolVersion}/subjects" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
    --env FSFAST_HOME="/opt/${toolName}-${toolVersion}/fsfast" \
    --env FMRI_ANALYSIS_DIR="/opt/${toolName}-${toolVersion}/fsfast" \
@@ -60,7 +59,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
-   --install java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
    --copy test.sh /test.sh \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
