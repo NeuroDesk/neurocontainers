@@ -33,6 +33,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2014b install_path=/opt/MCR  \
    --run="ln -s /opt/MCR/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
    --env OS="Linux" \
+   --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
    --env FSFAST_HOME="/opt/${toolName}-${toolVersion}/fsfast" \
    --env FMRI_ANALYSIS_DIR="/opt/${toolName}-${toolVersion}/fsfast" \
