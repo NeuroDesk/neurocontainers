@@ -30,7 +30,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --env DEPLOY_BINS=mfcsc \
    --copy README.md /README.md \
-   --copy *.sh /neurodesk/ \
+   --copy *.sh /neurodesk/ `# copy test scripts to /neurodesk folder - build.sh will be included as well, although not needed` \
   > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
