@@ -37,15 +37,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --afni version=latest-fedora-35 method=binaries install_r_pkgs='true' install_python3='true' \
+   --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.2/freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/7.3.2-1/ /opt/freesurfer-7.3.2 \
             && rm -rf freesurfer-CentOS8-7.3.2-1.x86_64.rpm" \
    --env PATH='$PATH':/opt/freesurfer-7.3.2/tktools:/opt/freesurfer-7.3.2/bin:/opt/freesurfer-7.3.2/fsfast/bin:/opt/freesurfer-7.3.2/mni/bin \
    --env FREESURFER_HOME="/opt/freesurfer-7.3.2" \
+   --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
-   --env DEPLOY_PATH=/opt/afni-latest-fedora-35/ \
+   --env DEPLOY_PATH=/opt/afni-latest/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
