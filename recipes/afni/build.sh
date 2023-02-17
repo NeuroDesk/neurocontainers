@@ -21,7 +21,7 @@ source ../main_setup.sh
 # if [ "$debug" != "" ]; then
    echo "installing development repository of neurodocker:"
    yes | pip uninstall neurodocker
-   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/add-fedora-35-binary-build-and-missing-dependencies --upgrade
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/add-missing-dependencies-for-suma --upgrade
 # fi
 
 # # if [ "$debug" != "" ]; then
