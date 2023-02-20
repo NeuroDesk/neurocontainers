@@ -50,8 +50,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
+pwd
+ls
+echo ${imageName}.${neurodocker_buildExt}:
 cat ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
+
+# undo version entry again when building locally
+sed -i "s/${toolVersion}/toolVersion/g" README.md
