@@ -19,9 +19,9 @@ fi
 source ../main_setup.sh
 
 # if [ "$debug" != "" ]; then
-   echo "installing development repository of neurodocker:"
-   yes | pip uninstall neurodocker
-   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/afni-missing-dependencies-for-suma --upgrade
+   # echo "installing development repository of neurodocker:"
+   # yes | pip uninstall neurodocker
+   # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/afni-missing-dependencies-for-suma --upgrade
 # fi
 
 # # if [ "$debug" != "" ]; then
