@@ -10,10 +10,6 @@ echo $toolVersion
 sed -i "s/toolVersion/${toolVersion}/g" README.md
 cat README.md
 
-# Afni version 23.0.04
-# Don't forget to update version change in README.md!!!!!
-
-
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
@@ -53,6 +49,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
+
+cat ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
