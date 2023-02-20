@@ -39,3 +39,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md                          `# include readme file in container` \
    --copy test.sh /test.sh                              `# include test file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
+  
+if [ "$1" != "" ]; then
+   ./../main_build.sh
+fi
