@@ -1,6 +1,6 @@
 
 ----------------------------------
-## Name_of_Container/version ##
+## REPLACE_WITH_Name_of_Container/toolVersion ##
 Short_description_of_container
 
 Example:
