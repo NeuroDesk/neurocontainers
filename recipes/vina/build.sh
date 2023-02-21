@@ -2,7 +2,7 @@
 export toolName='vina'
 export toolVersion='1.2.3' #the version number cannot contain a "-" - try to use x.x.x notation always
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
-https://github.com/ccsb-scripps/AutoDock-Vina/releases
+# https://github.com/ccsb-scripps/AutoDock-Vina/releases
 
 # !!!!
 # You can test the container build locally by running `bash build.sh -ds`
