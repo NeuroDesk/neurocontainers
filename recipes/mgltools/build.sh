@@ -33,12 +33,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --install curl ca-certificates tk8.5 libglu1-mesa \
    --run="cd /opt; curl -SL https://ccsb.scripps.edu/mgltools/download/491 | tar -zx; cd mgltools_x86_64Linux2_${toolVersion} \
          && ./install.sh -d /opt/mgltools -c 1" \
-   --env PATH='$PATH':/opt/mgltools_x86_64Linux2_${toolVersion}/bin/   `# set PATH` \
-   --env DEPLOY_PATH=/opt/mgltools_x86_64Linux2_${toolVersion}/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
+   --env PATH='$PATH':/opt/mgltools/bin:/   `# set PATH` \
+   --env DEPLOY_PATH=/opt/mgltools/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --copy README.md /README.md                          `# include readme file in container` \
    --copy test.sh /test.sh                              `# include test file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
-  
+  /opt/mgltools/MGLToolsPckgs/Vision
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
