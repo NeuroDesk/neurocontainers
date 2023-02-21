@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install libxml2                                    `# install apt-get packages` \
-   --env DEPLOY_PATH=/opt/AutoDock-Vina/build/linux/release/,/opt/adfr/bin           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
+   --env DEPLOY_PATH=/opt/AutoDock-Vina/build/linux/release/:/opt/adfr/bin           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --copy README.md /README.md                          `# include readme file in container` \
    --copy test.sh /test.sh                              `# include test file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
