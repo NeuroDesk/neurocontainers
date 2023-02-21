@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
+function cleanup {
+#   reset readme
+  sed -i "s/${toolVersion}/toolVersion/g" README.md
+
+}
+
+trap cleanup EXIT
+
 echo "buildMode: $buildMode"
 
 echo "check if Readme was updated. Otherwise don't build."
@@ -146,3 +154,4 @@ fi
 if [[ "$cleanupSif" = "true" && "$localSingularityBuildWritable" = "false" ]]; then
        mv ${imageName}_${buildDate}.sif ../../container_built/
 fi
+

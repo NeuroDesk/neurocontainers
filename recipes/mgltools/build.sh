@@ -31,10 +31,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install curl ca-certificates tk8.5 libglu1-mesa \
-   --run="cd /tmp; curl -SL https://ccsb.scripps.edu/mgltools/download/491 | tar -zx; cd mgltools_x86_64Linux2_1.5.7 \
+   --run="cd /opt; curl -SL https://ccsb.scripps.edu/mgltools/download/491 | tar -zx; cd mgltools_x86_64Linux2_${toolVersion} \
          && ./install.sh -d /opt/mgltools -c 1" \
-   --env PATH='$PATH':/tmp/mgltools_x86_64Linux2_1.5.7/bin/   `# set PATH` \
-   --env DEPLOY_PATH=/tmp/mgltools_x86_64Linux2_1.5.7/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
+   --env PATH='$PATH':/opt/mgltools_x86_64Linux2_${toolVersion}/bin/   `# set PATH` \
+   --env DEPLOY_PATH=/opt/mgltools_x86_64Linux2_${toolVersion}/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --copy README.md /README.md                          `# include readme file in container` \
    --copy test.sh /test.sh                              `# include test file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
