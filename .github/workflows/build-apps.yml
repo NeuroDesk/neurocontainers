@@ -92,7 +92,6 @@ jobs:
         uses: yuichielectric/dive-action@0.0.4
         with:
           image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
-          config-file: ${{ github.workspace }}/.github/.dive-ci.yml
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate job output
         run: |
