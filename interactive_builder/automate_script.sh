@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 # Avoid duplicates
 echo 'HISTCONTROL=ignoredups:erasedups' >> ~/.bashrc 
 
