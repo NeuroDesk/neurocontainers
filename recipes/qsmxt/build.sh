@@ -82,7 +82,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FASTSURFER_HOME="/opt/FastSurfer" \
    --env PATH="\${PATH}:/opt/FastSurfer" \
    --copy test.sh /test.sh \
-   --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm
+   --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm \
        && python -c \"import cloudstor; cloudstor.cloudstor(url='https://cloudstor.aarnet.edu.au/plus/s/5OehmoRrTr9XlS5', password='').download('', 'nextqsm-weights.tar')\" \
        && tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints \
        && rm nextqsm-weights.tar" \
