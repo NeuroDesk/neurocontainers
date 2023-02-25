@@ -54,9 +54,10 @@ neurodocker generate ${neurodocker_buildMode} \
        && unzip TGVQSM-plus.zip \
        && mv TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 TGVQSM-master \
        && rm TGVQSM-plus.zip" \
+   --workdir="/opt/TGVQSM/TGVQSM-master" \
    --copy setup.py "/opt/TGVQSM/TGVQSM-master" \
    --env PYTHONPATH="/opt/TGVQSM/TGVQSM-master/TGV_QSM" \
-   --run="/opt/TGVQSM/miniconda2/bin/python /opt/TGVQSM/TGVQSM-master/setup.py install \
+   --run="/opt/TGVQSM/miniconda2/bin/python setup.py install \
        && mkdir /opt/TGVQSM/tgvqsm-1.0.0/ \
        && cp /opt/TGVQSM/miniconda2/bin/tgv_qsm /opt/TGVQSM/tgvqsm-1.0.0/" \
    --env PATH="\${PATH}:/opt/TGVQSM/tgvqsm-1.0.0" \
