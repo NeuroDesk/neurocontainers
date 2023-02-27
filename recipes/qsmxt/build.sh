@@ -41,7 +41,7 @@ neurodocker generate ${neurodocker_buildMode} \
       libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev \
    --env PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
    --run="mkdir -p ${mountPointList}" \
-   --workdir="/opt/TGVQSM" \
+   --workdir="/opt/TGV_QSM" \
    --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh \
        && bash Miniconda2-4.6.14-Linux-x86_64.sh -b -p miniconda2 \
        && miniconda2/bin/conda install -c anaconda cython==0.29.4 \
@@ -50,17 +50,14 @@ neurodocker generate ${neurodocker_buildMode} \
        && miniconda2/bin/pip install scipy==0.17.1 nibabel==2.1.0 \
        && miniconda2/bin/conda clean --all \
        && rm Miniconda2-4.6.14-Linux-x86_64.sh" \
-   --run="wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip \
-       && unzip TGVQSM-plus.zip \
-       && mv TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 TGVQSM-master \
-       && rm TGVQSM-plus.zip" \
-   --workdir="/opt/TGVQSM/TGVQSM-master" \
-   --copy setup.py "/opt/TGVQSM/TGVQSM-master" \
-   --env PYTHONPATH="/opt/TGVQSM/TGVQSM-master/TGV_QSM" \
-   --run="/opt/TGVQSM/miniconda2/bin/python setup.py install \
-       && mkdir /opt/TGVQSM/tgvqsm-1.0.0/ \
-       && cp /opt/TGVQSM/miniconda2/bin/tgv_qsm /opt/TGVQSM/tgvqsm-1.0.0/" \
-   --env PATH="\${PATH}:/opt/TGVQSM/tgvqsm-1.0.0" \
+   --run="git clone --depth 1 --branch v1.1 https://github.com/QSMxT/TGV_QSM.git" \
+   --workdir="/opt/TGV_QSM/TGV_QSM" \
+   --copy setup.py "/opt/TGV_QSM/TGV_QSM" \
+   --env PYTHONPATH="/opt/TGV_QSM/TGV_QSM/TGV_QSM" \
+   --run="/opt/TGV_QSM/miniconda2/bin/python setup.py install \
+       && mkdir /opt/TGV_QSM/bin/ \
+       && cp /opt/TGV_QSM/miniconda2/bin/tgv_qsm /opt/TGV_QSM/bin/" \
+   --env PATH="\${PATH}:/opt/TGV_QSM/bin" \
    --workdir="/opt/bet2" \
    --run="git clone https://github.com/liangfu/bet2.git . \
        && cmake . && make \
