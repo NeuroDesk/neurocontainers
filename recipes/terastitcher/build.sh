@@ -20,7 +20,7 @@ source ../main_setup.sh
 #         USE AN EMPTY LINE AND PUT YOUR COMMENT AT THE END USING THIS FORMAT: `# your comment goes here` \ 
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image neurodebian:sid-non-free                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image fedora:35                `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
