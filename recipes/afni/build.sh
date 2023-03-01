@@ -7,8 +7,6 @@ set -e
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
 echo $toolVersion
-sed -i "s/toolVersion/${toolVersion}/g" README.md
-cat README.md
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -31,7 +29,7 @@ source ../main_setup.sh
 
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image fedora:35 \
+   --base-image fedora:36 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -46,14 +44,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
    --env DEPLOY_PATH=/opt/afni-latest/ \
+   --copy dependencies.R /opt \
+   --run="Rscript /opt/dependencies.R" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
-# pwd
-# ls
-# echo ${imageName}.${neurodocker_buildExt}:
-# cat ${imageName}.${neurodocker_buildExt}
+# Fedora 35 seemed to have fixed the slider bug, but now R is too old for data.table package: 
 
 if [ "$1" != "" ]; then
    ./../main_build.sh

@@ -9,6 +9,10 @@ function cleanup {
 
 trap cleanup EXIT
 
+# replace toolVersion in README with actual tool version
+sed -i "s/toolVersion/${toolVersion}/g" README.md
+
+
 echo "buildMode: $buildMode"
 
 echo "check if Readme was updated. Otherwise don't build."
