@@ -10,11 +10,11 @@ run_spm12.sh /opt/mcr/v97/
 
 Example with nipype:
 ```
-pip install pip install osfclient
+pip install osfclient
 
 osf -p bt4ez fetch TOMCAT_DIB/sub-01/ses-01_7T/anat/sub-01_ses-01_7T_T1w_defaced.nii.gz /neurodesktop-storage/sub-01_ses-01_7T_T1w_defaced.nii.gz
 
-gunzip sub-01_ses-01_7T_T1w_defaced.nii.gz 
+gunzip /neurodesktop-storage/sub-01_ses-01_7T_T1w_defaced.nii.gz 
 
 python
 ```
