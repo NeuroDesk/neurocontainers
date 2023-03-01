@@ -7,9 +7,6 @@ export toolVersion='1.0.20211006' #the version number cannot contain a "-" - try
 # You can test the container build locally by running `bash build.sh -ds`
 # !!!!
 
-# Add version to README.md
-sed -i "s/toolVersion/${toolVersion}/g" README.md
-
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
@@ -45,7 +42,3 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
-
-
-# undo version entry in README.md again after build:
-sed -i "s/${toolVersion}/toolVersion/g" README.md
