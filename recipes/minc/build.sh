@@ -2,7 +2,7 @@
 set -e
 
 export toolName='minc'
-export toolVersion=1.9.17
+export toolVersion=1.9.18
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -11,6 +11,13 @@ if [ "$1" != "" ]; then
 fi
 
 source ../main_setup.sh
+
+# if [ "$debug" != "" ]; then
+   echo "installing development repository of neurodocker:"
+   yes | pip uninstall neurodocker
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/minc_install_from_deb_and_rpm --upgrade
+   # pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/master --upgrade
+# fi
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \

@@ -10,14 +10,14 @@ f.write("if [ \"$1\" != \"\" ]; then\necho \"Entering Debug mode\"\nexport debug
 f.write("source ../main_setup.sh\n")
 f.write("neurodocker generate ${neurodocker_buildMode} \\\n")
 
-for history in open('./bash_history'):
+for history in open('bash_history'):
     if "apt" in history and "install" in history:
         pkgs = history.split('  ')[-1].split(' ')[2:]
         install.extend(pkg.replace('\n', '') for pkg in pkgs)
     
 f.write("--pkg-manager apt" + ' '.join(set(install)) + " \\\n")
 
-for history in open('./bash_history'):
+for history in open('bash_history'):
     commands.add(history.split('  ')[-1].replace('\n', ''))
 for command in commands:
     f.write(f"--run='{command}' \\\n")

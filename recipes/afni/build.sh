@@ -7,9 +7,6 @@ set -e
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
 echo $toolVersion
-# Afni version 22.1.14
-# Don't forget to update version change in README.md!!!!!
-
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -21,8 +18,14 @@ source ../main_setup.sh
 # if [ "$debug" != "" ]; then
    echo "installing development repository of neurodocker:"
    yes | pip uninstall neurodocker
-   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/fix-afni-recipe-spaces-python-R-packages  --upgrade
+   pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/afni-missing-dependencies-for-suma --upgrade
 # fi
+
+# # if [ "$debug" != "" ]; then
+#    echo "installing broken version of neurodocker:"
+#    yes | pip uninstall neurodocker
+#    pip install neurodocker==0.9.3
+# # fi
 
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -32,19 +35,26 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
    --afni version=latest method=binaries install_r_pkgs='true' install_python3='true' \
-   --install wget mesa-dri-drivers which unzip ncurses-compat-libs libgomp \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.3.2/freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && yum --nogpgcheck -y localinstall freesurfer-CentOS8-7.3.2-1.x86_64.rpm \
             && ln -s /usr/local/freesurfer/7.3.2-1/ /opt/freesurfer-7.3.2 \
             && rm -rf freesurfer-CentOS8-7.3.2-1.x86_64.rpm" \
    --env PATH='$PATH':/opt/freesurfer-7.3.2/tktools:/opt/freesurfer-7.3.2/bin:/opt/freesurfer-7.3.2/fsfast/bin:/opt/freesurfer-7.3.2/mni/bin \
    --env FREESURFER_HOME="/opt/freesurfer-7.3.2" \
+   --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
-   --env DEPLOY_PATH=/opt/${toolName}-latest/ \
+   --env DEPLOY_PATH=/opt/afni-latest/ \
+   --copy dependencies.R /opt \
+   --run="Rscript /opt/dependencies.R" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
+# Fedora 35 seemed to have fixed the slider bug, but now R is too old for data.table package: 
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
+
+# undo version entry again when building locally
+sed -i "s/${toolVersion}/toolVersion/g" README.md
