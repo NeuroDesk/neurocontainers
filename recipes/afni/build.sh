@@ -27,9 +27,9 @@ source ../main_setup.sh
 #    pip install neurodocker==0.9.3
 # # fi
 
-
+# warning: afni currenlty needs fedora 35 or older due to a bug in the suma viewer (slider bug documented in tests!)
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image fedora:36 \
+   --base-image fedora:35 \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -44,13 +44,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --copy license.txt /opt/freesurfer-7.3.2/license.txt \
    --env DEPLOY_PATH=/opt/afni-latest/ \
-   --copy dependencies.R /opt \
-   --run="Rscript /opt/dependencies.R" \
+   --run="@afni_R_package_install -afni -shiny -bayes_view" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
-# Fedora 35 seemed to have fixed the slider bug, but now R is too old for data.table package: 
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
