@@ -37,12 +37,10 @@ else
 fi
 
 # Build singularity container and upload to cache to speed up testing of images:
-wget -O- http://neuro.debian.net/lists/focal.us-nh.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list > /dev/null 2>&1
-echo "[DEBUG] sudo apt-get update --allow-insecure-repositories"
-sudo apt-get update --allow-insecure-repositories > /dev/null 2>&1
-echo "[DEBUG] sudo apt-get update --allow-unauthenticated"
-sudo apt-get install --allow-unauthenticated singularity-container  > /dev/null 2>&1
-sudo apt install singularity-container > /dev/null 2>&1
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:apptainer/ppa
+sudo apt update
+sudo apt install -y apptainer 
 
 export IMAGE_HOME="/home/runner"
 
