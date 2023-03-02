@@ -4,14 +4,14 @@ f_name = 'build.sh'
 install = []
 commands = set()
 
-f = open(os.path.join(os.getcwd(), f_name), 'w', encoding='utf-8')
-f.write("#!/usr/bin/env bash\nset -e\nexport toolName=''\nexport toolVersion=''\n")
+f = open(os.path.join(os.getcwd(), f_name), 'a', encoding='utf-8')
+# f.write("#!/usr/bin/env bash\nset -e\nexport toolName=''\nexport toolVersion=''\n")
 f.write("if [ \"$1\" != \"\" ]; then\necho \"Entering Debug mode\"\nexport debug=$1\nfi\n")
 f.write("source ../main_setup.sh\n")
 f.write("neurodocker generate ${neurodocker_buildMode} \\\n")
 
 for history in open('bash_history'):
-    if "apt" in history and "install" in history:
+    if ("apt" in history or "yum" in history) and "install" in history:
         pkgs = history.split('  ')[-1].split(' ')[2:]
         install.extend(pkg.replace('\n', '') for pkg in pkgs)
     
