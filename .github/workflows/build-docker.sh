@@ -63,7 +63,6 @@ else
 fi
 
 
-
 if [ "$GITHUB_REF" == "refs/heads/master" ]; then
     if [ -n "$GH_REGISTRY" ]; then
       echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
