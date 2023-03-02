@@ -42,7 +42,7 @@ sudo add-apt-repository -y ppa:apptainer/ppa
 sudo apt update
 sudo apt install -y apptainer 
 
-export IMAGE_HOME="/home/runner"
+export IMAGE_HOME="$HOME"
 
 echo "saving docker image locally for singularity to convert:"
 docker save $IMAGEID:$SHORT_SHA -o image.tar
