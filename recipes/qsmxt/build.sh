@@ -2,8 +2,11 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='1.3.5'
+export toolVersion='v1.3.5'
 # Don't forget to update version change in README.md!!!!!
+
+# ====== ENSURE THIS IS COMMENTED IF RELEASING A NEW VERSION ======
+export toolVersion='master'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -100,7 +103,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="julia install_packages.jl \
        && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
-   --run="git clone --depth 1 --branch v${toolVersion}  https://github.com/QSMxT/QSMxT" \
+   --run="git clone --depth 1 --branch ${toolVersion}  https://github.com/QSMxT/QSMxT" \
    --env PATH="\${PATH}:/opt/QSMxT:/opt/QSMxT/scripts" \
    --env PYTHONPATH="\${PYTHONPATH}:/opt/QSMxT" \
    --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts" \
