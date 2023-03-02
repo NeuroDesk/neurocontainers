@@ -53,6 +53,3 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
-
-# undo version entry again when building locally
-sed -i "s/${toolVersion}/toolVersion/g" README.md
