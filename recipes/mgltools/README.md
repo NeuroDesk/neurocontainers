@@ -10,7 +10,7 @@ Thew MGLTools software suite was developed in the Sanner lab at the Center for C
 Example:
 ```
 vision
-
+adt
 ```
 
 More documentation can be found here: https://ccsb.scripps.edu/mgltools/
