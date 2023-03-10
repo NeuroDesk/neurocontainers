@@ -41,7 +41,7 @@ HISTORY_FILE=history_${timestamp}
 touch ${HISTORY_FILE}
 
 # TODO ASK USER WHICH BASE IMAGE TO USE and insert in template + insert in build.sh under base-image 
-read -p 'Enter base image: ' base_image
+read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37): ' base_image
 # TODO ASK IF DIstribution is apt or yum based: set this in build.sh
 read -p 'Enter package manager (apt/yum): ' package_manager
 sudo singularity build --sandbox container.sif template
