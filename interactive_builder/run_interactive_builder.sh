@@ -38,6 +38,7 @@ HISTORY_FILE=history_${timestamp}
 touch ${HISTORY_FILE}
 
 read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37): ' base_image
+export $base_image
 read -p 'Enter package manager (apt/yum): ' package_manager
 sudo singularity build --sandbox container_${timestamp}.sif template
 sudo singularity --silent shell --bind ${HISTORY_FILE}:/root/.bash_history --writable container.sif
