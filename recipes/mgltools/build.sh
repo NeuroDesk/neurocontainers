@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                     `# create folders for singularity bind points` \
-   --install curl ca-certificates tk mesa-libGLU libXmu libXi \
+   --install curl ca-certificates tk mesa-libGLU libXmu libXi mesa-dri-drivers \
    --run="cd /opt; curl -SL https://ccsb.scripps.edu/mgltools/download/491 | tar -zx; cd mgltools_x86_64Linux2_${toolVersion} \
          && ./install.sh -d /opt/mgltools -c 1" \
    --env PATH='$PATH':/opt/mgltools/bin:/   `# set PATH` \
