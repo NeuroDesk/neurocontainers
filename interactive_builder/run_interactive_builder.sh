@@ -6,14 +6,18 @@ function build {
   echo "set -e" >> ./build.sh
   cp $HISTORY_FILE bash_history
 
-  read -p 'Enter container name: ' container_name && echo "export toolName='$container_name'" >> ./build.sh
-  read -p 'Enter container version: ' container_version && echo "export toolVersion='$container_version'" >> ./build.sh
+  read -p 'Enter tool name (all small caps): ' container_name && echo "export toolName='$container_name'" >> ./build.sh
+  read -p 'Enter tool version (no underscores or dashes): ' container_version && echo "export toolVersion='$container_version'" >> ./build.sh
 
   echo -en "if [ \"\$1\" != \"\" ]; then\necho \"Entering Debug mode\"\nexport debug=\$1\nfi\n" >> ./build.sh
   echo "source ../main_setup.sh" >> ./build.sh
   echo "neurodocker generate \${neurodocker_buildMode} \\"   >> ./build.sh
   echo "--base-image $base_image \\" >> build.sh
   echo "--pkg-manager $package_manager \\" >> build.sh
+
+  if [ "$package_manager" = "apt" ]; then
+      echo "--env DEBIAN_FRONTEND=noninteractive \\" >> build.sh
+  fi
 
   read -p 'Software description: ' software_description 
   read -p 'Example of running the tool: ' example 
