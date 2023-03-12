@@ -41,6 +41,6 @@ read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37): ' base_imag
 export base_image=$base_image
 read -p 'Enter package manager (apt/yum): ' package_manager
 sudo singularity build --sandbox container_${timestamp}.sif template
-sudo singularity --silent shell --bind ${HISTORY_FILE}:/root/.bash_history --writable container.sif
+sudo singularity --silent shell --bind ${HISTORY_FILE}:/root/.bash_history --writable container_${timestamp}.sif
 
 # Once user exits container: GOTO BUILD TRAP FUNCTION at the start of file!
