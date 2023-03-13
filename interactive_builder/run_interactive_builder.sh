@@ -46,6 +46,7 @@ sed -i "s/base_image/${base_image}/g" template
 
 read -p 'Enter package manager (apt/yum): ' package_manager
 sudo singularity build --sandbox container_${timestamp}.sif template
+xhost local:root #This enables root to open display to test graphical applications
 sudo singularity --silent shell --bind ${HISTORY_FILE}:/root/.bash_history --writable container_${timestamp}.sif
 
 # Once user exits container: GOTO BUILD TRAP FUNCTION at the start of file!
