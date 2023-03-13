@@ -39,10 +39,10 @@ neurodocker generate ${neurodocker_buildMode} \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
    --workdir /opt \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="ln -s /opt/julia-${juliaVersion} /opt/julia-latest" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && ln -s /opt/julia-${juliaVersion} /opt/julia-latest" \
    --run="code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.python \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension julialang.language-julia \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.vscode-pylance \
