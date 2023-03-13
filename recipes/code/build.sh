@@ -17,6 +17,8 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
+# vscode needs /run bind mounted to work!!!!
+
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
