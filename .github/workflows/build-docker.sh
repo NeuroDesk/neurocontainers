@@ -37,7 +37,15 @@ else
 fi
 
 # Build singularity container and upload to cache to speed up testing of images:
-sudo killall apt apt-get #This prevents the sometimes stuck apt process from stopping the build
+
+#This prevents the sometimes stuck apt process from stopping the build
+if [ -f "/var/lib/apt/lists/lock" ]; then
+  sudo killall apt apt-get
+  sudo rm /var/lib/apt/lists/lock
+  sudo rm /var/cache/apt/archives/lock
+  sudo rm /var/lib/dpkg/lock*
+fi
+
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:apptainer/ppa
 sudo apt-get update
