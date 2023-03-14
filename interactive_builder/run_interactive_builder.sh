@@ -42,11 +42,43 @@ HISTORY_FILE=history_${timestamp}
 touch ${HISTORY_FILE}
 
 read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37): ' base_image
-sed -i "s/base_image/${base_image}/g" template
+# base_image="ubuntu:22.04"
+# base_image="pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime"
+
+echo "BootStrap: docker" > template
+echo "From: $base_image" >> template
+
+echo "%post -c /bin/bash" >> template
+echo "touch /etc/localtime" >> template
+echo "touch /usr/bin/nvidia-smi" >> template
+echo "touch /usr/bin/nvidia-debugdump" >> template
+echo "touch /usr/bin/nvidia-persistenced" >> template
+echo "touch /usr/bin/nvidia-cuda-mps-control" >> template
+echo "touch /usr/bin/nvidia-cuda-mps-server" >> template
+echo "CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh" >> template
+echo 'cat >$CUSTOM_ENV <<EOF' >> template
+echo "#!/bin/bash" >> template
+echo "PS1='\u@neurodesk-builder:\w\$ '" >> template
+echo "EOF" >> template
+echo '    chmod 755 $CUSTOM_ENV' >> template
+
 
 read -p 'Enter package manager (apt/yum): ' package_manager
+# package_manager=apt
+
 sudo singularity build --sandbox container_${timestamp}.sif template
 xhost local:root #This enables root to open display to test graphical applications
-sudo singularity --silent shell --bind ${HISTORY_FILE}:/root/.bash_history --writable container_${timestamp}.sif
+
+if [ "`lspci | grep -i nvidia`" ]
+then
+        gpu_option=" --nv "
+else
+        gpu_option=" "
+fi
+
+
+echo "Now get your tool to work and when done, type exit (or CTRL-D)"
+
+sudo singularity --silent shell ${gpu_option} --bind ${HISTORY_FILE}:/root/.bash_history,/home/jovyan/Desktop:/root/Desktop --writable container_${timestamp}.sif
 
 # Once user exits container: GOTO BUILD TRAP FUNCTION at the start of file!
