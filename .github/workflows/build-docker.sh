@@ -37,6 +37,7 @@ else
 fi
 
 # Build singularity container and upload to cache to speed up testing of images:
+sudo killall apt apt-get #This prevents the sometimes stuck apt process from stopping the build
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:apptainer/ppa
 sudo apt-get update
