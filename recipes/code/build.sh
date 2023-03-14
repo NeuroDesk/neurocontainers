@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='code'
-export toolVersion='220114'
+export toolVersion='230315'
 export juliaVersion='1.6.3'
 export GO_VERSION="1.17.2" 
 export SINGULARITY_VERSION="3.9.3" 
