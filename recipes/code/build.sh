@@ -48,7 +48,8 @@ neurodocker generate ${neurodocker_buildMode} \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.vscode-pylance \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-keymap \
-    && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
+    && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers \
+    && rm -rf /opt/vscode-data/CachedExtensionVSIXs/" \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
    --env GOPATH='$HOME'/go \
