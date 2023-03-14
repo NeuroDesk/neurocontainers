@@ -24,7 +24,7 @@ for command in commands:
 f.write("--copy README.md /README.md \\\n")
 f.write("> ${toolName}_${toolVersion}.Dockerfile \n")
 
-f.write("if [ \"$1\" != "" ]; then \n")
+f.write("if [ \"$1\" != \"\" ]; then \n")
 f.write("./../main_build.sh \n")
 f.write("fi")
 f.close()
