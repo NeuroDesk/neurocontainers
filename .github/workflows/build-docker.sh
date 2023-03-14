@@ -40,7 +40,6 @@ fi
 
 #This prevents the sometimes stuck apt process from stopping the build
 if [ -f "/var/lib/apt/lists/lock" ]; then
-  sudo killall apt apt-get
   sudo rm /var/lib/apt/lists/lock
   sudo rm /var/cache/apt/archives/lock
   sudo rm /var/lib/dpkg/lock*
