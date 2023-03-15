@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='code'
 export toolVersion='230315'
 export juliaVersion='1.6.3'
@@ -9,8 +8,6 @@ export GO_VERSION="1.17.2"
 export SINGULARITY_VERSION="3.9.3" 
 export OS=linux 
 export ARCH=amd64
-
-# Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -20,7 +17,6 @@ fi
 # vscode needs /run bind mounted to work!!!!
 
 source ../main_setup.sh
-
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image debian:9 \
