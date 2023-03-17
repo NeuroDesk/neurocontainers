@@ -49,13 +49,32 @@ timestamp=$(date +%Y%m%d%H%M%S)
 HISTORY_FILE=history_${timestamp}
 touch ${HISTORY_FILE}
 
-read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37): ' base_image
-# base_image="ubuntu:22.04"
-# base_image="pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime"
+read -p 'Enter base image (e.g.: centos:7, ubuntu:22.04, fedora:37, pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime): ' base_image
 
+if [[ "$base_image" == *"ubuntu"* ]]; then
+  package_manager="apt"
+  echo "apt based distro detected"
+fi
 
-read -p 'Enter package manager (apt/yum): ' package_manager
-# package_manager=apt
+if [[ "$base_image" == *"debian"* ]]; then
+  package_manager="apt"
+  echo "apt based distro detected"
+fi
+
+if [[ "$base_image" == *"centos"* ]]; then
+  package_manager="yum"
+  echo "yum based distro detected"
+fi
+
+if [[ "$base_image" == *"fedora"* ]]; then
+  package_manager="yum"
+  echo "yum based distro detected"
+fi
+
+if [[ -z "$package_manager" ]]; then
+    read -p 'Enter package manager (apt/yum): ' package_manager
+fi
+
 
 echo "BootStrap: docker" > template
 echo "From: $base_image" >> template
