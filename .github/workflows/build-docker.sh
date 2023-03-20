@@ -37,10 +37,18 @@ else
 fi
 
 # Build singularity container and upload to cache to speed up testing of images:
-sudo apt install -y software-properties-common
+
+#This prevents the sometimes stuck apt process from stopping the build
+if [ -f "/var/lib/apt/lists/lock" ]; then
+  sudo rm /var/lib/apt/lists/lock
+  sudo rm /var/cache/apt/archives/lock
+  sudo rm /var/lib/dpkg/lock*
+fi
+
+sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:apptainer/ppa
-sudo apt update
-sudo apt install -y apptainer 
+sudo apt-get update
+sudo apt-get install -y apptainer 
 
 export IMAGE_HOME="$HOME"
 

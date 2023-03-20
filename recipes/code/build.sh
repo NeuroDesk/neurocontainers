@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='code'
-export toolVersion='220114'
+export toolVersion='230315'
 export juliaVersion='1.6.3'
 export GO_VERSION="1.17.2" 
 export SINGULARITY_VERSION="3.9.3" 
 export OS=linux 
 export ARCH=amd64
 
-# Don't forget to update version change in condaenv.yml AND README.md!!!!!
-
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
 fi
+
+# vscode needs /run bind mounted to work!!!!
 
 source ../main_setup.sh
 
@@ -37,16 +36,26 @@ neurodocker generate ${neurodocker_buildMode} \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
    --workdir /opt \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="ln -s /opt/julia-${juliaVersion} /opt/julia-latest" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz \
+      && ln -s /opt/julia-${juliaVersion} /opt/julia-latest" \
    --run="code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.python \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension julialang.language-julia \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-python.vscode-pylance \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter \
     && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-keymap \
-    && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers" \
+    && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension ms-toolsai.jupyter-renderers \
+      && rm -rf /opt/vscode-extensions/ms-python.vscode-pylance-2023.1.10/dist/native/onnxruntime/napi-v3/darwin/x64/libonnxruntime.1.13.1.dylib \
+      && rm -rf /opt/vscode-extensions/ms-python.vscode-pylance-2023.1.10/dist/native/onnxruntime/napi-v3/darwin/arm64/libonnxruntime.1.13.1.dylib \
+      && rm -rf /opt/vscode-extensions/ms-python.vscode-pylance-2023.1.10/dist/native/onnxruntime/napi-v3/linux/x64/libonnxruntime.so.1.13.1 \
+      && rm -rf /opt/vscode-extensions/ms-python.python-2022.16.1/out/client/extension.js.map.disabled \
+      && rm -rf /opt/vscode-extensions/ms-python.vscode-pylance-2023.1.10/dist/native/onnxruntime/napi-v3/win32/x64/onnxruntime.dll \
+      && rm -rf /opt/vscode-extensions/ms-toolsai.jupyter-renderers-1.0.9/out/client_renderer/vega.bundle.js \
+      && rm -rf /opt/vscode-extensions/julialang.language-julia-1.38.2/dist/extension.js.map \
+      && rm -rf /opt/vscode-extensions/ms-python.python-2022.16.1/pythonFiles/lib/python/debugpy/_vendored/pydevd/pydevd_attach_to_process/inject_dll_x86.pdb \
+      && rm -rf /opt/vscode-extensions/ms-python.python-2022.16.1/pythonFiles/lib/python/debugpy/_vendored/pydevd/pydevd_attach_to_process/inject_dll_amd64.pdb \
+    && rm -rf /opt/vscode-data/CachedExtensionVSIXs/" \
    --env DONT_PROMPT_WSL_INSTALL=1 \
    --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
    --env GOPATH='$HOME'/go \
