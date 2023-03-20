@@ -21,10 +21,20 @@
 # Notice that the script can also be executed by users directly by running /neurodesk/test.sh within the container. This can be used to double-check that the application works properly in the specific environment used by the user (although Singularity containers are supposed to run identically regardless of the execution environment, there are some excpetions).
 #
 
+############################################################
+# Uncomment the line below when completing your test script
+############################################################
+echo 'N/A' 1>&2; exit 1
+
+
+####################################################################################
+# The commands below provide an example for a test script. Please edit as necessary
+####################################################################################
+
 # The variables below should be set according to the tested app. They are just used as an example
 URL='https://download_url'               # URL of test data
 EXEC='process'                           # executable of app
-ARGUMENTS='-all -inv test_input'         # arguments for executable
+ARGUMENTS='-all -inv input'         	 # arguments for executable
 
 # download test data (in this case, we assume it includes a folder 'input' with the input data, and a folder 'output' with expected output data.
 if curl -L "$URL"  > download.zip && unzip download.zip
@@ -36,31 +46,30 @@ else
 	   exit "$exit_code"
 fi
 
-# delete output folder, to make sure we do not use output of previous tests
+# if exists, delete test output folder, to make sure we do not use output of previous tests
 if [ -d test_output ]
 then
 	    rm -Rf test_output
 fi
 
 # execute app
-if "$EXEC" arguments test_output
+if "$EXEC" ${ARGUMENTS} test_output
 then
-	   echo 'app_test.sh: found '"$EXEC"' and executed it (but might be unsuccessful)'
+	   echo 'app_test.sh: found '"$EXEC"' and executed it'
 else
  	  exit_code=$?
 	   echo 'app_test.sh: executing '"$EXEC"' returned an error. Return non-zero exit code' 1>&2
 	   exit "$exit_code"
 fi
 
-# compare 
+# compare test output folder with expected output folder
 if diff -r test_output output
 then
-	echo 'test.sh: MFCSC test successful'
+	echo 'app_test.sh: test successful'
 else
 	exit_code=$?
-	echo 'test.sh: Generated output does not match expected output. Return non-zero exit code' 1>&2
+	echo 'app_test.sh: Generated output does not match expected output. Return non-zero exit code' 1>&2
 	exit "$exit_code"
 fi
-Footer
 
  
