@@ -3,7 +3,7 @@ set -e
 
 # this template file builds eeglab and is then used as a docker base image for layer caching
 export toolName='mfcsc'
-export toolVersion='1.0'
+export toolVersion='1.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
