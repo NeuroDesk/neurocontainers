@@ -55,7 +55,7 @@ fi
 # execute app
 if "$EXEC" ${ARGUMENTS} test_output
 then
-	   echo 'app_test.sh: found '"$EXEC"' and executed it'
+	   echo 'app_test.sh: found '"$EXEC"' and executed it. It returned 0 exit code'
 else
  	  exit_code=$?
 	   echo 'app_test.sh: executing '"$EXEC"' returned an error. Return non-zero exit code' 1>&2
