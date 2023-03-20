@@ -1,3 +1,6 @@
+#
+# Application testing script
+#
 # This script should contain an automatic functional test of the application that makes it possible to test if everything was correctly installed within the container.
 # The Neurodesktop administrator will run it before every release of Neurodesktop.
 # If the test fails, the administrator will try to fix the problem (possible contacting you about it), or alternatively, mark the container as faulty in the specific Neurodesktop release.
