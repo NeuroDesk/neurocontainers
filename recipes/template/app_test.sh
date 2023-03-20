@@ -1,5 +1,6 @@
 #
-# Application testing script
+# app_test.sh - Application testing script
+# ========================================
 #
 # This script should contain an automatic functional test of the application that makes it possible to test if everything was correctly installed within the container.
 # The Neurodesktop administrator will run it before every release of Neurodesktop.
