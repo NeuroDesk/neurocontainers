@@ -6,7 +6,6 @@ Standalone (compiled) version of mfcsc with MATLAB runtime
 Example:
 ```
 mfcsc FC_SC_LIST FC_INPUT_DIR SC_INPUT_DIR OUTPUT_DIR not_in_mask_value is_contra is_keep_neg_fc is_symmetrical is_figures
-`
 ```
 
 More documentation can be found here: https://github.com/civier/mfcsc
