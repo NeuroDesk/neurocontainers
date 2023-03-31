@@ -39,7 +39,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-latest/           `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --env DEPLOY_BINS=datalad:bidscoiner                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
-   --copy app_test.sh /app_test.sh                              `# include test file in container` \
+   --copy *.sh /neurodesk/                              `# copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
+   --run="chmod +x /neurodesk/*.sh"                     `# allow execution of all shell scripts in /neurodesk inside the cotainer` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
   
 if [ "$1" != "" ]; then
