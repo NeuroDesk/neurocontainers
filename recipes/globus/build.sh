@@ -8,7 +8,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image neurodebian:sid-non-free                `# RECOMMENDED TO KEEP AS IS: neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image ubuntu:22.04                            `# ubuntu latest` \
    --env DEBIAN_FRONTEND=noninteractive                 `# RECOMMENDED TO KEEP AS IS: this disables interactive questions during package installs` \
    --pkg-manager apt                                    `# RECOMMENDED TO KEEP AS IS: desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# RECOMMENDED TO KEEP AS IS: define the ll command to show detailed list including hidden files`  \
@@ -21,8 +21,6 @@ neurodocker generate ${neurodocker_buildMode} \
     && rm -rf globusconnectpersonal-latest.tgz"        `# download and unpack in opt` \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ `# expose binaries` \
    --copy README.md /README.md                          `# MANDATORY: include readme file in container` \
-   --copy *.sh /neurodesk/                              `# MANDATORY: copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
-   --run="chmod +x /neurodesk/*.sh"                     `# MANDATORY: allow execution of all shell scripts in /neurodesk inside the cotainer` \
   > ${imageName}.${neurodocker_buildExt}                `# THIS IS THE LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
   
 if [ "$1" != "" ]; then

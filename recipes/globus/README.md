@@ -1,25 +1,15 @@
 
 ----------------------------------
-## REPLACE_WITH_Name_of_Container/1.0 ##
-Short_description_of_container
+## globus/toolVersion ##
+Globus client
 
 Example:
 ```
+globusconnectpersonal
 ```
 
-More documentation can be found here: link_to_documentation
+More documentation can be found here: ./globusconnectpersonal
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml Name_of_Container/1.0
-
-The packages included in this container, their version, and the base folder of the installation within the container:
-
-packageA - 1.2.3 - /opt/packageA.1.2.3
-
-packageB - 1111 - /opt/packageB_111
-
-Citation:
-```
-
-```
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml globus/toolVersion
 
 ----------------------------------
