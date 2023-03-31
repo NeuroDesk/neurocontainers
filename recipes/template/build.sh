@@ -29,6 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# RECOMMENDED TO KEEP AS IS: define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# RECOMMENDED TO KEEP AS IS: make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                   `# MANDATORY: create folders for singularity bind points` \
+   --install wget git curl ca-certificates unzip        `# RECOMMENDED: install system packages` \
    --copy README.md /README.md                          `# MANDATORY: include readme file in container` \
    --copy *.sh /neurodesk/                              `# MANDATORY: copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
    --run="chmod +x /neurodesk/*.sh"                     `# MANDATORY: allow execution of all shell scripts in /neurodesk inside the cotainer` \
