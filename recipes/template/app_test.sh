@@ -44,13 +44,6 @@ echo 'N/A' 1>&2; exit 1
 # cat stdout
 # echo 'STDERR:'
 # cat stderr
-# 
-# singularity --silent exec --pwd /tmp /neurocommand/local/containers/NAME_VERSION_BUILDDATE/NAME_VERSION_BUILDDATE.simg /bin/bash -e /neurodesk/app_version.sh 1>stdout 2>stderr
-# echo 'EXIT CODE: '$?
-# echo 'STDOUT:'
-# cat stdout
-# echo 'STDERR:'
-# cat stderr
 #
 ####################################################################################
 
