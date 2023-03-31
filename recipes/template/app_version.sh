@@ -21,13 +21,28 @@
 # Notice that the script can also be executed by users directly by running /neurodesk/app_version.sh within the container. This can be used to double-check that the application works properly in the specific environment used by the user (although Singularity containers are supposed to run identically regardless of the execution environment, there are some excpetions).
 #
 
-############################################################
-# Uncomment the line below when completing your version printin script
-############################################################
+####################################################################
+# Uncomment the line below when your version test script is complete
+#####################################################################
 echo 'N/A' 1>&2; exit 1
 
 ####################################################################################
 # The commands below provide an example for a version prining script. Please edit as necessary
+#
+# After the conainer is incorporated into Neurocontainers and being built by the CI, 
+# convert it into a loacl sif file using the /neurocommand/local/fetch_and_run.sh command provided 
+# in the "New container ..." issue confirming the container was built.
+#
+# If you see that the container runs successfuly as a sif file, run the following commands to verify your test scripts return the appropriate output
+# when being called using a singularity exec command (using your package NAME, VERSION, and BUILDDATE):
+# 
+# singularity --silent exec --pwd /tmp /neurocommand/local/containers/NAME_VERSION_BUILDDATE/NAME_VERSION_BUILDDATE.simg /bin/bash -e /neurodesk/app_version.sh 1>stdout 2>stderr
+# echo 'EXIT CODE: '$?
+# echo 'STDOUT:'
+# cat stdout
+# echo 'STDERR:'
+# cat stderr
+#
 ####################################################################################
 
 EXEC='process'                           # executable of app
