@@ -1,4 +1,4 @@
-export toolName='elastics'
+export toolName='elastix'
 export toolVersion='5.1.0'
 # https://github.com/SuperElastix/elastix/releases 
 
