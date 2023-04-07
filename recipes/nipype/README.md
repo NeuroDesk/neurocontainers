@@ -1,6 +1,6 @@
 
 ----------------------------------
-## nipype/1.8.3 ##
+## nipype/1.8.5 ##
 Python environment with VScode and singularity to run Nipype workflows
 
 Setup:
@@ -51,6 +51,6 @@ You can also use VS code and a jupyter notebook session in their to perform your
 
 More documentation can be found here: https://nipype.readthedocs.io/en/latest/
 
-To run applications outside of this container: ml nipype/1.8.3
+To run applications outside of this container: ml nipype/1.8.5
 
 ----------------------------------

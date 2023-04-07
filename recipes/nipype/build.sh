@@ -2,7 +2,7 @@
 set -e
 
 export toolName='nipype'
-export toolVersion='1.8.3' #https://pypi.org/project/nipype/
+export toolVersion='1.8.5' #https://pypi.org/project/nipype/
 export GO_VERSION="1.19" #https://go.dev/dl/
 export SINGULARITY_VERSION="3.10.2" #https://github.com/sylabs/singularity
 export OS=linux 
@@ -13,7 +13,6 @@ export MCR_UPDATE=9
 export SPM_VERSION=12
 export SPM_REVISION=r7771 #https://www.fil.ion.ucl.ac.uk/spm/download/restricted/utopia/dev/
 
-# Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -56,8 +55,8 @@ neurodocker generate ${neurodocker_buildMode} \
     && rm -rf /usr/local/go $GOPATH \
     && ln -s /usr/local/singularity/bin/singularity /bin/" \
    --miniconda version=latest \
-      conda_install="python=3.9 nipype=${toolVersion} traits scipy scikit-image jupyter nb_conda_kernels h5py seaborn numpy" \
-      pip_install="osfclient" \
+      conda_install="python=3.9 nipype=${toolVersion} traits scipy scikit-learn scikit-image jupyter nb_conda_kernels h5py seaborn numpy" \
+      pip_install="osfclient pybids" \
    --install xdg-utils python-pyqt5.qwt-doc unzip git apt-transport-https ca-certificates coreutils \
       curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
        cryptsetup squashfs-tools lua-bit32 lua-filesystem lua-json lua-lpeg lua-posix lua-term lua5.2 lmod imagemagick less nano tree \
