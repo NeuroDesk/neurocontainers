@@ -19,10 +19,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="wget https://github.com/SuperElastix/elastix/releases/download/${toolVersion}/elastix-${toolVersion}-linux.zip \
             && unzip elastix-${toolVersion}-linux.zip \
+            && chmod a+x /opt/${toolName}-${toolVersion}/bin/* \
             && rm elastix-${toolVersion}-linux.zip" \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/${toolName}-${toolVersion}/lib \
-   --run="chmod a+x /opt/${toolName}-${toolVersion}/bin/*" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md                          `# MANDATORY: include readme file in container` \
    --copy * /neurodesk/                              `# MANDATORY: copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
