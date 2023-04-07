@@ -30,8 +30,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll"                         `# RECOMMENDED TO KEEP AS IS: make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                   `# MANDATORY: create folders for singularity bind points` \
    --install wget git curl ca-certificates unzip        `# RECOMMENDED: install system packages` \
+   --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin `# MANDATORY: add your tool executables to PATH` \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ `# MANDATORY: define which directory's binaries should be exposed to module system (alternative: DEPLOY_BINS -> only exposes binaries in the list)` \
    --copy README.md /README.md                          `# MANDATORY: include readme file in container` \
-   --copy *.sh /neurodesk/                              `# MANDATORY: copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
+   --copy * /neurodesk/                              `# MANDATORY: copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
    --run="chmod +x /neurodesk/*.sh"                     `# MANDATORY: allow execution of all shell scripts in /neurodesk inside the cotainer` \
   > ${imageName}.${neurodocker_buildExt}                `# THIS IS THE LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
   
