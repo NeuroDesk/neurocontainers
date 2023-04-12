@@ -52,7 +52,7 @@ neurodocker generate ${neurodocker_buildMode} \
          conda_install='python=3.6 traits nipype numpy scipy h5py scikit-image' \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
-   --env PATH=/opt/spm12:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+   --env PATH='$PATH':/opt/spm12:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.${neurodocker_buildExt}
 
