@@ -23,6 +23,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md                          `# MANDATORY: include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# THIS IS THE LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
   
+
+  
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
