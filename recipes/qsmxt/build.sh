@@ -6,7 +6,7 @@ export toolVersion='v2.0.0'
 # Don't forget to update version change in README.md!!!!!
 
 # ====== ENSURE THIS IS COMMENTED IF RELEASING A NEW VERSION ======
-export toolVersion='master'
+#export toolVersion='master'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
