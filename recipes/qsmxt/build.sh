@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='v1.3.5'
+export toolVersion='v2.0.0'
 # Don't forget to update version change in README.md!!!!!
 
 # ====== ENSURE THIS IS COMMENTED IF RELEASING A NEW VERSION ======
