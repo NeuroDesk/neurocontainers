@@ -5,7 +5,11 @@ Globus client
 
 Example:
 ```
-globusconnectpersonal
+# First run the setup:
+globusconnectpersonal -setup -nogui
+
+# Then start the GUI:
+globusconnectpersonal -gui
 ```
 
 More documentation can be found here: ./globusconnectpersonal

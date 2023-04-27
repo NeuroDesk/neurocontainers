@@ -13,7 +13,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# RECOMMENDED TO KEEP AS IS: define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# RECOMMENDED TO KEEP AS IS: make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                   `# MANDATORY: create folders for singularity bind points` \
-   --install wget ca-certificates tk tcllib midori  libXScrnSaver         `# RECOMMENDED: install system packages` \
+   --install wget ca-certificates tk tcllib glibc libXScrnSaver         `# RECOMMENDED: install system packages` \
    --workdir /opt                                       `# install in opt` \
    --run="wget https://downloads.globus.org/globus-connect-personal/linux/stable/globusconnectpersonal-latest.tgz \
     && tar xzf globusconnectpersonal-latest.tgz \
