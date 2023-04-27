@@ -2,9 +2,8 @@
 set -e
 
 export toolName='vesselvio'
-export toolVersion='1.1.1' #the version number cannot contain a "-" - try to use x.x.x notation always
-# Don't forget to update version change in README.md!!!!!
-# toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
+export toolVersion='1.1.2' #the version number cannot contain a "-" - try to use x.x.x notation always
+# https://github.com/JacobBumgarner/VesselVio/releases
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -19,17 +18,21 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image fedora:35              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --base-image centos:8              `# neurodebian makes it easy to install neuroimaging software, recommended as default` \
+   --copy fixCentos8.sh /fixCentos8.sh \
+   --run="bash /fixCentos8.sh" \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --pkg-manager yum                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install ca-certificates curl  `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
+   --install ca-certificates curl libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
    --run="curl -fsSL --retry 5 https://github.com/JacobBumgarner/VesselVio/archive/refs/tags/v${toolVersion}.tar.gz | tar -xz -C /opt/${toolName}-${toolVersion} --strip-components 1" \
    --miniconda version=latest \
       conda_install='python=3.8.8' \
+   --run="pip install -r requirements.txt" \
+   --env QT_DEBUG_PLUGINS=1 \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/    `# specify a path where ALL binary files will be exposed outside the container for the module system. Never expose a directory with system commands (like /bin/ /usr/bin ...)` \
    --copy README.md /README.md                           `# include readme file in container` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
@@ -42,6 +45,7 @@ neurodocker generate ${neurodocker_buildMode} \
 # centos7: mesa-dri-drivers libglvnd-glx libXrender fontconfig libxkbcommon-x11 gtk3 qt5-qtbase-gui python3-pyqt5-sip -> no errors, but doesn't start up
 # 	centos8: libglvnd-glx qt5-qtbase-gui libXrender mesa-dri-drivers -> no errors, but doesn't start up
 # debian:stable: libgthread-2.0.so.0 does not exist
+# ubuntu 22.04: "The plugin '/opt/miniconda-latest/lib/python3.8/site-packages/cv2/qt/plugins/platforms/libqxcb.so' uses incompatible Qt library. (5.15.0) [release]"  not a plugin
 # ubuntu:21.10: libgthread-2.0.so.0 does not exist
 # fedora35: libglvnd-glx, qt5-qtbase-gui (), libXrender
 
