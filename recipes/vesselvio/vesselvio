@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
-cd /opt/vesselvio-*
-python VesselVio.py
+cd ~
+mkdir -p ~/library/cache/
+cp /opt/vesselvio-1.1.2/library/cache/preferences.json ~/library/cache/preferences.json
+cp -r /opt/vesselvio-1.1.2/library/annotation/ ~/library/
+cp -r /opt/vesselvio-1.1.2/library/volumes/ ~/library/
+python /opt/vesselvio-1.1.2/VesselVio.py
