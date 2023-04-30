@@ -3,14 +3,17 @@ set -e
 
 # this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
 export toolName='mrsiproc'
-export toolVersion='0.0.1' #the version number cannot contain a "-" - try to use x.x.x notation always
-export matlabVersion='2022a'
+export toolVersion='0.0.1' # the version number cannot contain a "-" - try to use x.x.x notation always
+export matlabVersion='2021b' # compatible with MATLAB.jl (julia)
 export mincVersion='1.9.15'
 export lcmodelVersion='6.3'
-export hdbetVersion='1.0'
-export pythonVersion='py39'
+export hdbetVersion='1.0' # note the hdbet doesn't really have a version
+export fslVersion='6.0.5.1'
+export pythonVersion='py310'
+export minicondaVersion='23.3.1-0'
 export dcm2niiVersion='003f0d19f1e57b0129c9dcf3e653f51ca3559028' # copied from qsmxt
-#note the hdbet doesn't really have a version
+export juliaVersion='1.9.0-rc2'
+
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
@@ -32,15 +35,13 @@ source ../main_setup.sh
 # NOTE 2: THE BACKSLASH (\) AT THE END OF EACH LINE MUST FOLLOW THE COMMENT. A BACKSLASH BEFORE THE COMMENT WON'T WORK!
 ##########################################################################################################################################
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image mathworks/matlab-deep-learning:r${matlabVersion}                 `# use Matlab deep learning docker container provided by Mathworks` \
-   --user root                                          `# change user to root, as the Matlab container runs with Matlab user` \
-   --env DEBIAN_FRONTEND=noninteractive                 `# The matlab image uses Ubuntu, so it's Debian` \
-   --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
-   --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --base-image vnmd/fsl_${fslVersion}:20221016 \
+   --pkg-manager apt \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --user=root `# otherwise some permission denied error occurs during docker build` \
    --dcm2niix method=source version=${dcm2niiVersion} \
-   --minc version=${mincVersion}                                 `#install minc and things to make it work ` \
+   --minc version=${mincVersion} \
+   \
    --install wget curl git ca-certificates ltrace strace libxml2 gcc build-essential gzip tar unzip datalad libfftw3-3 software-properties-common bc `# install apt-get packages` \
    \
    --run="sudo apt remove -y libjpeg62 \
@@ -48,8 +49,9 @@ neurodocker generate ${neurodocker_buildMode} \
       && dpkg -i libjpeg62-turbo_2.0.6-4_amd64.deb \
       && rm libjpeg62-turbo_2.0.6-4_amd64.deb" `# LIBJPEGTURBO_6.2 is required by dcm2mnc` \
    \
-   --miniconda version=${pythonVersion}_4.12.0 \
-   --workdir /opt \
+   --miniconda version=${pythonVersion}_${minicondaVersion} \
+   \
+   --workdir /opt `# HD-BET` \
    --run="git clone https://github.com/MIC-DKFZ/HD-BET" \
    --workdir /opt/HD-BET \
    --run="echo 'import os' > /opt/HD-BET/HD_BET/paths.py" \
@@ -64,7 +66,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_BINS=hd-bet \
    \
    --workdir=/opt/lcmodel-${lcmodelVersion}/ `# install LCModel and things to make it work ` \
-   --install curl ca-certificates libxft2 libxss1 libtk8.6 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar `# LCModel dependencies` \
+   --install curl ca-certificates libxft2 libxss1 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar `# LCModel dependencies (libtk8.6 removed asks interactive question)` \
    --run="curl -o /opt/lcm-64.tar http://www.s-provencher.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
           rm -rf /opt/lcm-64.tar" \
@@ -86,12 +88,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/basisset_LCModel.zip && \
          unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip && \
          rm -rf /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip" \
-   --run="curl -o /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip http://juchem.bme.columbia.edu/sites/default/files/2021-01/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip && \
-         unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip && \
-         rm -rf /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_4000_NPts_2048.zip" \
-   --run="curl -o /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip http://juchem.bme.columbia.edu/sites/default/files/2021-01/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip && \
-         unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip && \
-         rm -rf /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/RawBasis_for_sLASERSiemens_TE_20_BW_2500_NPts_1024.zip" \
    --copy license  /opt/lcmodel-${lcmodelVersion}/.lcmodel/license \
    --workdir=/opt/datasets \
    --run="curl -o /opt/datasets/testdata.rar https://zenodo.org/record/3904443/files/Spectra_hippocampus%28rat%29_TE02.rar?download=1 && \
@@ -106,21 +102,22 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/ \
    --env PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/:'$PATH' \
    \
-   --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
-   --env MLM_LICENSE_FILE='~/Downloads'		            `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
-   --run="rm /usr/local/bin/matlab"			               `# rm original matlab symbolic link` \
-   --copy matlab /usr/local/bin/matlab                   `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
-   --run="chmod a+x /usr/local/bin/matlab"     		   `# make matlab executables` \
-   --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		   `# create license directory - this will later be bind-mounted to the homedirectory download folder` \
-   --run="chmod a+rwx /opt/matlab/R${matlabVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
+   --workdir /opt `# Add Julia` \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
+   --env JULIA_DEPOT_PATH=/opt/julia_depot \
    \
-   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm" `# Add missing Matlab Toolboxes` \
+   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm"      `# Add MATLAB and Matlab Toolboxes` \
    --run="chmod +x mpm" \
-   --run="./mpm install --release=R${matlabVersion} --destinatio=/opt/matlab/R${matlabVersion}/ --products=Simulink_3D_Animation" \
+   --run="./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Coder" \
    --run="rm mpm" \
+   --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"      `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
+   --run="echo 'alias matlab='\''/opt/matlab/R${matlabVersion}/bin/matlab -c /neurodesktop-storage/license_matlab.lic'\''' >> ~/.bashrc" `# Set matlab license path` \
+   --env DEPLOY_BINS=datalad:matlab:mex                           `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    \
-   --copy README.md /README.md                          `# include readme file in container` \
+   --copy README.md /README.md                          `# include README file in container` \
    \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
