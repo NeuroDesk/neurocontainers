@@ -5,13 +5,15 @@
 Includes the following:  
 ##### -- OS: Ubuntu 20.04 (Built off Matlab 2022a Deep learning Docker)
 ##### -- Minc 						(Version 1.9.15)
-##### -- MATLAB 					(Version R2022a)
+##### -- MATLAB 					(Version R2021b)
 ##### -- HD-BET           (Version 1.0)
 ##### -- tar
 ##### -- gzip
 ##### -- gunzip
 ##### -- LCModel 					(Version 6.3.1)
 ##### -- dcm2nii
+##### -- Python           (Version 3.10)
+##### -- Julia            (Version 1.9.0-rc2)
 
 
 Overview
@@ -47,10 +49,10 @@ Setup
   - In "Related Tasks" click on "Activate to Retrieve License File"
   - Click "Activate a Computer"
   - Enter the Information:  
-    Release: R2022a  
+    Release: R2021b  
     Operating System: Linux  
     Host ID: 02:42:ac:11:00:02  
-    Computer Login Name: matlab
+    Computer Login Name: root
   - When it says 'is the software installed', select yes
   - Then select 'download license'
   - Store the license under /neurodesktop-storage/license_matlab.lic  
@@ -69,7 +71,7 @@ Singularity> ./Run_MRSI_test.sh
 To run applications outside of this container
 ---------------------------------------------
   (This is not working yet)  
-  ml mrsiproc/0.0.1
+  ml mrsiproc/toolVersion
 
 Citation
 --------
