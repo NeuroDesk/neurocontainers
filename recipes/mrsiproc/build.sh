@@ -12,7 +12,7 @@ export fslVersion='6.0.5.1'
 export pythonVersion='py310'
 export minicondaVersion='23.3.1-0'
 export dcm2niiVersion='003f0d19f1e57b0129c9dcf3e653f51ca3559028' # copied from qsmxt
-export juliaVersion='1.9.0-rc2'
+export juliaVersion='1.9.0-rc3'
 
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
@@ -110,20 +110,24 @@ neurodocker generate ${neurodocker_buildMode} \
    \
    --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm && \
       chmod +x mpm && \
-      ./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Coder && \
+      ./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Compiler && \
       rm mpm" \
    --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"      `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --run="rm /usr/local/bin/matlab"			`# rm original matlab symbolic link` \
-   --copy matlab /usr/local/bin/matlab `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
-   --run="chmod a+x /usr/local/bin/matlab"     		`# make matlab executables` \
-   --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		`# create license directory - this will later be bind-mounted to the homedirectory download folder` \
    --env DEPLOY_BINS=datalad:matlab:mex                           `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   `# Add MATLAB compiler runtime (doesn't need license)` \
+   --install bc curl libncurses5 libxext6 libxmu6 libxpm-dev libxt6 multiarch-support unzip openjdk-8-jre dbus-x11 \
+   --run="wget https://ssd.mathworks.com/supportfiles/downloads/R${matlabVersion}/Release/6/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R${matlabVersion}_Update_6_glnxa64.zip && \
+          unzip MATLAB_Runtime_R${matlabVersion}_Update_6_glnxa64.zip -d mcrtmp && \
+          mcrtmp/install -mode silent -destinationFolder /opt/MATLAB_Runtime_R${matlabVersion} -agreeToLicense yes && \
+          rm -rf mcrtmp && \
+          rm -f MATLAB_Runtime_R${matlabVersion}_Update_6_glnxa64.zip" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 ## To add in future version
+   #--matlabmcr version=2023a                `# Add MATLAB runtime for compiled MATLAB code without license` \ doesn't work for some reason..
    #--run "export MatlabFunctionsFolder=/opt/mrsiproc/matlab/MatlabFunctions"  `#export dir for matlab scripts` \
    #--run "mkdir -p /opt/mrsiproc/matlab/MatlabFunctions" \
    #--run "chmod a+rwx /opt/mrsiproc/matlab/ -R"  `#setup script dir for matlab functions and assorted scripts` \
