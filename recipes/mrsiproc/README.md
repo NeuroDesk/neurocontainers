@@ -71,7 +71,7 @@ Singularity> ./Run_MRSI_test.sh
 To run applications outside of this container
 ---------------------------------------------
   (This is not working yet)  
-  ml mrsiproc/toolVersion
+  ml mrsiproc/0.0.1
 
 Citation
 --------
