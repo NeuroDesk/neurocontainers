@@ -88,7 +88,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -o /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip https://www.ismrm.org/workshops/Spectroscopy16/mrs_fitting_challenge/basisset_LCModel.zip && \
          unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip && \
          rm -rf /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip" \
-   --copy license  /opt/lcmodel-${lcmodelVersion}/.lcmodel/license \
    --workdir=/opt/datasets \
    --run="curl -o /opt/datasets/testdata.rar https://zenodo.org/record/3904443/files/Spectra_hippocampus%28rat%29_TE02.rar?download=1 && \
           unrar x /opt/datasets/testdata.rar  && \
@@ -103,18 +102,21 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/opt/lcmodel-${lcmodelVersion}/.lcmodel/bin/:/opt/lcmodel-${lcmodelVersion}/.lcmodel/:'$PATH' \
    \
    --workdir /opt `# Add Julia` \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --run="rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz && \
+      tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz && \
+      rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
    --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
    --env JULIA_DEPOT_PATH=/opt/julia_depot \
    \
-   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm"      `# Add MATLAB and Matlab Toolboxes` \
-   --run="chmod +x mpm" \
-   --run="./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Coder" \
-   --run="rm mpm" \
+   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm && \
+      chmod +x mpm && \
+      ./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Coder && \
+      rm mpm" \
    --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"      `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --run="echo 'alias matlab='\''/opt/matlab/R${matlabVersion}/bin/matlab -c /neurodesktop-storage/license_matlab.lic'\''' >> ~/.bashrc" `# Set matlab license path` \
+   --run="rm /usr/local/bin/matlab"			`# rm original matlab symbolic link` \
+   --copy matlab /usr/local/bin/matlab `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
+   --run="chmod a+x /usr/local/bin/matlab"     		`# make matlab executables` \
+   --run="mkdir /opt/matlab/R${matlabVersion}/licenses"     		`# create license directory - this will later be bind-mounted to the homedirectory download folder` \
    --env DEPLOY_BINS=datalad:matlab:mex                           `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    \
    --copy README.md /README.md                          `# include README file in container` \

@@ -1,0 +1,4 @@
+#!/bin/bash
+export MLM_LICENSE_FILE=${HOME}/Downloads
+echo 'MLM_LICENSE_FILE='${MLM_LICENSE_FILE}
+/opt/matlab/2021b/bin/matlab
