@@ -108,12 +108,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/julia-${juliaVersion}/bin \
    --env JULIA_DEPOT_PATH=/opt/julia_depot \
    \
-   --run="wget -q https://www.mathworks.com/mpm/glnxa64/mpm && \
-      chmod +x mpm && \
-      ./mpm install --release=R${matlabVersion} --destination=/opt/matlab/R${matlabVersion}/ --products=MATLAB Simulink_3D_Animation Signal_Processing_Toolbox MATLAB_Compiler && \
-      rm mpm" \
-   --env PATH='${PATH}'":/opt/matlab/R${matlabVersion}/bin/"      `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --env DEPLOY_BINS=datalad:matlab:mex                           `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    `# Add MATLAB compiler runtime (doesn't need license)` \
    --install bc curl libncurses5 libxext6 libxmu6 libxpm-dev libxt6 multiarch-support unzip openjdk-8-jre dbus-x11 \
    --run="wget https://ssd.mathworks.com/supportfiles/downloads/R${matlabVersion}/Release/6/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R${matlabVersion}_Update_6_glnxa64.zip && \
