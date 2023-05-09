@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='2.0.0'
+export toolVersion='2.0.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -50,7 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && miniconda2/bin/pip install scipy==0.17.1 nibabel==2.1.0 \
        && miniconda2/bin/conda clean --all \
        && rm Miniconda2-4.6.14-Linux-x86_64.sh" \
-   --run="git clone --depth 1 --branch v1.1 https://github.com/QSMxT/TGV_QSM.git" \
+   --run="git clone --depth 1 --branch v1.0 https://github.com/QSMxT/TGV_QSM.git" \
    --workdir="/opt/TGV_QSM/TGV_QSM" \
    --copy setup.py "/opt/TGV_QSM/TGV_QSM" \
    --env PYTHONPATH="/opt/TGV_QSM/TGV_QSM/TGV_QSM" \
