@@ -1,4 +1,4 @@
-export toolName='hcppipelines'
+export toolName='bidsapphcppipelines'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
 export toolVersion='v4.3.0-3' 
