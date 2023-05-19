@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image bids/${toolName}:${toolVersion} \
+   --base-image bids/${toolName:7}:${toolVersion} \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
