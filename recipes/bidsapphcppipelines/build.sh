@@ -19,10 +19,15 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env PATH='$PATH':/ \
+   --env DEPLOY_PATH=/usr/local/fsl/bin:/opt/workbench/bin_linux64:/usr/local/miniconda/bin:/opt/freesurfer/bin:/opt/freesurfer/fsfast/bin:/opt/freesurfer/tktools:/opt/freesurfer/mni/bin:/ \
    --copy README.md /README.md \
+   --install qt4-dev-tools libxss1 libxext6 libxft2 libjpeg62-dev libmng-dev \
   > ${imageName}.${neurodocker_buildExt}
-  
+
+   # --entrypoint bash \ #needs to be moved up when debugging
+
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
