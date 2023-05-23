@@ -38,7 +38,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		 `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
    --copy README.md /README.md                          `# include readme file in container` \
-   --copy test.sh /test.sh                              `# include test file in container` \
    --run="rm /usr/local/bin/matlab"			`# rm original matlab symbolic link` \
    --copy matlab /usr/local/bin/matlab `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
    --run="chmod a+x /usr/local/bin/matlab"     		`# make matlab executables` \
