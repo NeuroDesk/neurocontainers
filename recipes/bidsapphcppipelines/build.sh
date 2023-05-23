@@ -1,7 +1,7 @@
 export toolName='bidsapphcppipelines'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export toolVersion='v4.3.0-3' 
+export toolVersion='4.3.0' 
 # the version number cannot contain a "-" - try to use x.x.x notation always
 # https://hub.docker.com/r/bids/hcppipelines/tags
 
@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image bids/${toolName:7}:${toolVersion} \
+   --base-image bids/${toolName:7}:v${toolVersion}-3 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
