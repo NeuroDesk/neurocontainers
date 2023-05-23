@@ -22,10 +22,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/ \
    --env DEPLOY_PATH=/usr/local/fsl/bin:/opt/workbench/bin_linux64:/usr/local/miniconda/bin:/opt/freesurfer/bin:/opt/freesurfer/fsfast/bin:/opt/freesurfer/tktools:/opt/freesurfer/mni/bin:/ \
    --copy README.md /README.md \
-   --install qt4-dev-tools libxss1 libxext6 libxft2 libjpeg62-dev \
+   --install opts="--quiet" qt4-dev-tools libxss1 libxext6 libxft2 libjpeg62-dev \
+   --entrypoint bash \
   > ${imageName}.${neurodocker_buildExt}
-
-   # --entrypoint bash \ #needs to be moved up when debugging
 
 
 if [ "$1" != "" ]; then

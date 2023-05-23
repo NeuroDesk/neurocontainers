@@ -1,6 +1,6 @@
 
 ----------------------------------
-## bidsapphcppipelines/v4.3.0-3 ##
+## bidsapphcppipelines/toolVersion ##
 Short_description_of_container
 
 Example:
@@ -18,7 +18,7 @@ run.py [-h]
 
 More documentation can be found here: https://github.com/bids-apps/HCPPipelines
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml bidsapphcppipelines/v4.3.0-3
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml bidsapphcppipelines/toolVersion
 
 ----------------------------------
 
