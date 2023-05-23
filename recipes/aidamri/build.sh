@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" ca-certificates curl cmake make g++ \
+   --install opts="--quiet" ca-certificates curl cmake make g++ \
    --workdir=/opt \
    --run="curl -fsSL --retry 5 https://github.com/aswendtlab/AIDAmri/archive/master.tar.gz | tar -xz -C ./" \
    --run="mv AIDAmri-master ${toolName}-${toolVersion}" \
@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" libgomp1 \
+   --install opts="--quiet" libgomp1 \
    --fsl version=5.0.11 exclude_paths='data' \
    --workdir=/opt/${toolName}-${toolVersion} \
    --copy-from '0' /opt/${toolName}-${toolVersion}/bin ./bin \
