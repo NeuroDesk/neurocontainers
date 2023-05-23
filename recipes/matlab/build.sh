@@ -46,6 +46,8 @@ neurodocker generate ${neurodocker_buildMode} \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 
+# improvements: combine copy and chmod in one line
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
