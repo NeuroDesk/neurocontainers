@@ -45,10 +45,15 @@ if [ -f "/var/lib/apt/lists/lock" ]; then
   sudo rm /var/lib/dpkg/lock*
 fi
 
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository -y ppa:apptainer/ppa
-sudo apt-get update
-sudo apt-get install -y apptainer 
+# install apptainer if no singularity executable is available
+if ! command -v singularity &> /dev/null
+then
+    sudo apt-get install -y software-properties-common
+    sudo add-apt-repository -y ppa:apptainer/ppa
+    sudo apt-get update
+    sudo apt-get install -y apptainer 
+fi
+
 
 export IMAGE_HOME="$HOME"
 
