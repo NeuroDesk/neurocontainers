@@ -31,6 +31,8 @@ neurodocker generate ${neurodocker_buildMode} \
   > ${imageName}.${neurodocker_buildExt}
    # --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
 
+#OPEN GL NOT WORKING!
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
