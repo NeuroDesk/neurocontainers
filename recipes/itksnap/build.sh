@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install curl ca-certificates unzip dbus-libs libX11 libglvnd-glx libglvnd-opengl libxkbcommon libglvnd-egl fontconfig \
+   --install curl ca-certificates libxkbcommon-x11 unzip dbus-libs libX11 libglvnd-glx libglvnd-opengl libxkbcommon libglvnd-egl fontconfig \
    --run="curl -fsSL -o /example_data.zip https://www.nitrc.org/frs/download.php/750/MRI-crop.zip  \
          && unzip /example_data.zip \
          && rm /example_data.zip" \
@@ -25,7 +25,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://ixpeering.dl.sourceforge.net/project/itk-snap/itk-snap/4.0.1/itksnap-4.0.1-20230320-Linux-gcc64.tar.gz | tar -xz --strip-components=1 -C /opt/${toolName}-${toolVersion}" \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
-   --env DEPLOY_ENV_TEST='$CONTAINER_PATH'/opt/fsl-${toolVersion} \
+   --env DEPLOY_ENV_TEST=/opt/fsl-${toolVersion} \
+   --env QT_DEBUG_PLUGINS=1 \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
    # --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
