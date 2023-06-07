@@ -29,7 +29,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env LC_ALL=en_US.UTF-8 \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_BINS=fsleyes:fsl \
-   --env DEPLOY_ENV_FSLDIR=/opt/fsl-${toolVersion} \
+   --env DEPLOY_ENV_FSLDIR='$CONTAINER_PATH'/opt/fsl-${toolVersion} \
    --env PATH='$PATH':/usr/local/cuda-9.1/bin \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/cuda-9.1/lib64 \
    --copy README.md /README.md \
