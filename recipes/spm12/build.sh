@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds spm12
 export toolName='spm12'
 export toolVersion='r7771'
-# Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -12,11 +10,6 @@ if [ "$1" != "" ]; then
 fi
 
 source ../main_setup.sh
-
-# once this is working contribute this to neurodocker project:
-# (tried to do it, but neurodocker currently hardcodes the mcr version)
-# yes | pip uninstall neurodocker
-# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update-spm12 --upgrade
 
 # try slimdown version next: https://github.com/spm/spm-docker/pull/2
 
@@ -53,8 +46,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
    --env PATH='$PATH':/opt/spm12:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+   --env DEPLOY_ENV_FORCE_SPMMCR="1" \
+   --env DEPLOY_ENV_SPMMCRCMD="BASEPATH/opt/spm12/run_spm12.sh BASEPATH/opt/mcr/v97/ script" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.${neurodocker_buildExt}
+
 
 
 if [ "$1" != "" ]; then

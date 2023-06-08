@@ -1,6 +1,6 @@
 
 ----------------------------------
-## spm12/r7771 ##
+## spm12/toolVersion ##
 SPM12 standalone with Matlab Compiler Runtime
 
 Example:
@@ -31,6 +31,6 @@ norm12.run()
 
 More documentation can be found here: https://www.fil.ion.ucl.ac.uk/spm/doc/
 
-To run container outside of this environment: ml spm12/r7771
+To run container outside of this environment: ml spm12/toolVersion
 
 ----------------------------------
