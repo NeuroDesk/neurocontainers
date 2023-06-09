@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_ENV_FORCE_SPMMCR="1" \
+   --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-test \
    --env DEPLOY_ENV_SPMMCRCMD="BASEPATH/opt/spm12/run_spm12.sh BASEPATH/opt/mcr/v97/ script" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
