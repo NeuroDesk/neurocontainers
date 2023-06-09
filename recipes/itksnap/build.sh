@@ -25,6 +25,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://ixpeering.dl.sourceforge.net/project/itk-snap/itk-snap/4.0.1/itksnap-4.0.1-20230320-Linux-gcc64.tar.gz | tar -xz --strip-components=1 -C /opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_ENV_FORCE_SPMMCR="1" \
+   --env DEPLOY_ENV_SPMMCRCMD="BASEPATH/opt/spm12/run_spm12.sh BASEPATH/opt/mcr/v97/ script" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
    # --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
