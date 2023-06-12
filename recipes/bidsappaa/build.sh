@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --env PATH='$PATH':/ \
+   --env PATH='$PATH':/opt/bin \
    --env DEPLOY_PATH=/opt/automaticanalysis5:/opt/bin:/opt/fsl/bin:/opt/freesurfer/bin \
    --copy README.md /README.md \
    --entrypoint bash \
