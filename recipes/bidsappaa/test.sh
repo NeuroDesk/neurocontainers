@@ -1,2 +1,0 @@
-freeview
-wb_view

@@ -1,6 +1,6 @@
 
 ----------------------------------
-## bidsappaa/0.2.0 ##
+## bidsappaa/toolVersion ##
 BIDS App containing an instance of the Automatic Analysis.
 
 Automatic Analysis software was originally developed by Dr Rhodri Cusack for supporting research at the MRC Cognition and Brain Science Unit. It is made available to the academic community in the hope that it may prove useful.
@@ -20,7 +20,7 @@ run <bids_dir> <output_dir> {participant|group}
 
 More documentation can be found here: http://www.automaticanalysis.org/
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml bidsappaa/0.2.0
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml bidsappaa/toolVersion
 
 
 For any papers that report data analyzed with aa, please include the website (http://www.automaticanalysis.org) and cite the aa paper:
