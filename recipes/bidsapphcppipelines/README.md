@@ -1,7 +1,7 @@
 
 ----------------------------------
 ## bidsapphcppipelines/toolVersion ##
-Short_description_of_container
+This a BIDS App wrapper for HCP Pipelines v4.3.0. Like every BIDS App it consists of a container that includes all of the dependencies and run script that parses a BIDS dataset. BIDS Apps run on Windows, Linux, Mac as well as HPCs/clusters.
 
 Example:
 ```
@@ -19,6 +19,8 @@ run.py [-h]
 More documentation can be found here: https://github.com/bids-apps/HCPPipelines
 
 To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed (without the need to use 'Apptainer exec'): ml bidsapphcppipelines/toolVersion
+
+Please cite Glasser et al. 2013 and Smith et al. 2013.
 
 ----------------------------------
 
