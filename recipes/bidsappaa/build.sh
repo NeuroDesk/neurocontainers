@@ -21,6 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --env PATH='$PATH':/opt/bin \
    --env DEPLOY_PATH=/opt/automaticanalysis5:/opt/bin:/opt/fsl/bin:/opt/freesurfer/bin \
+   --run="chmod +x /opt/automaticanalysis5/run_automaticanalysis.sh" \
    --copy README.md /README.md \
    --entrypoint bash \
   > ${imageName}.${neurodocker_buildExt}
