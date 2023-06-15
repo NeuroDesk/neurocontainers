@@ -25,6 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --entrypoint bash \
   > ${imageName}.${neurodocker_buildExt}
 
+# currently this image wastes 5gb of space due to chmod commands in the upstream Dockerfile!
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
