@@ -5,7 +5,7 @@ The BrainSuite BIDS App provides a portable, streamlined method for applying Bra
 
 Example:
 ```
-/Brainsuite/run.py [-h]
+/BrainSuite/run.py [-h]
               [--stages {CSE,SVREG,BDP,BFP,QC,DASHBOARD,ALL} [{CSE,SVREG,BDP,BFP,QC,DASHBOARD,ALL} ...]]
               [--preprocspec PREPROCSPEC]
               [--participant_label PARTICIPANT_LABEL [PARTICIPANT_LABEL ...]]
