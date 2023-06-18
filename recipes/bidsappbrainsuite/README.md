@@ -24,5 +24,6 @@ More documentation can be found here: https://github.com/bids-apps/BrainSuite
 
 To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml bidsappbrainsuite/21a
 
+
 ----------------------------------
 
