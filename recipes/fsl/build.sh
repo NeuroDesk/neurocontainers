@@ -30,7 +30,9 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env DEPLOY_BINS=fsleyes:fsl \
    --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-${toolVersion} \
-   --run="cp /opt/fsl-6.0.6.4/bin/eddy_cuda10.2 /opt/fsl-6.0.6.4/bin/eddy_cuda" \
+   --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \
+   --copy eddy /opt/fsl-${toolVersion}/bin/eddy \
+   --run="chmod +x /opt/fsl-${toolVersion}/bin/eddy" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 

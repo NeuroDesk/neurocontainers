@@ -1,0 +1,98 @@
+#!/usr/bin/env fslpython
+#
+# Call an appropriate variant of eddy based on
+# what is installed, and whether we have a GPU.
+
+
+import               glob
+import               sys
+import               re
+import               os
+import os.path    as op
+import subprocess as sp
+
+
+def query_cuda_version():
+    """Returns the installed CUDA runtime version, as a float, or None
+    if CUDA cannot be detected.
+    """
+
+    try:
+        output = sp.run('nvidia-smi',
+                        check=True,
+                        text=True,
+                        capture_output=True).stdout
+
+    except Exception:
+        return None
+
+    cudaver = None
+    pat     = r'CUDA Version: (\S+)'
+    lines   = output.split('\n')
+
+    for line in lines:
+        match = re.search(pat, line)
+        if match:
+            cudaver = float(match.group(1))
+            break
+
+    return cudaver
+
+
+def find_all_eddy_cudas():
+    """Returns a dictionary of {cuda_version : eddy_executable} mappings,
+    containing all eddy_cudaX.Y variants that are available.
+    """
+    fsldir     = os.environ['FSLDIR']
+    eddy_cudas = glob.glob(op.join(fsldir, 'bin', 'eddy_cuda*'))
+    eddy_vers  = [float(op.basename(f)[9:]) for f in eddy_cudas]
+    eddy_cudas = {ver : exe for ver, exe in zip(eddy_vers, eddy_cudas)}
+    return eddy_cudas
+
+
+def find_suitable_eddy_cuda():
+    """Returns the path to an eddy_cudaX.Y executable which is most
+    suitable for running on this machine.
+    """
+
+    eddy_cudas = find_all_eddy_cudas()
+    cuda_ver   = query_cuda_version()
+
+    if cuda_ver is None or len(eddy_cudas) == 0:
+        return None
+
+    # Find the nearest eddy_cuda
+    # which is less than or equal
+    # to the installed cuda
+    for eddy_ver in reversed(sorted(eddy_cudas)):
+        if eddy_ver <= cuda_ver:
+            return eddy_cudas[eddy_ver]
+
+    return None
+
+
+def main():
+    """Call an appropriate variant of eddy based on what is installed, and
+    whether a CUDA driver is available.
+    """
+    fsldir      = os.environ['FSLDIR']
+    eddy_cuda   = op.join(fsldir, 'bin', 'eddy_cuda')# old, but doesn't work when we pin eddy_cuda version to the cuda version in the container: find_suitable_eddy_cuda()
+    eddy_cpu    = op.join(fsldir, 'bin', 'eddy_cpu')
+
+    # Call eddy_cuda if it exists and we
+    # are running on a system with a GPU
+    if eddy_cuda is not None:
+        cmd = eddy_cuda
+
+    # Otherwise fall back to eddy_cpu
+    elif op.exists(eddy_cpu):
+        cmd = eddy_cpu
+
+    else:
+        sys.exit(1)
+
+    os.execl(cmd, cmd, *sys.argv[1:])
+
+
+if __name__ == '__main__':
+    main()
