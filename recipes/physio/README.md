@@ -26,7 +26,7 @@ PhysIO is part of the open-source [TAPAS Software Package](https://translational
 
 Please cite these works if you use PhysIO and see the [FAQ](https://gitlab.ethz.ch/physio/physio-doc/-/wikis/FAQ#3-how-do-i-cite-physio) for details.
 
-NeuroDesk offers the possibility of running PhysIO without installing Matlab or requiring a Matlab license. The functionality should be equivalent, though debugging and extending the toolbox, as well as unreleased development features, will only be available in the Matlab version of PhysIO, which is exlusively hosted on the [TAPAS GitHub](https://github.com/translationalneuromodeling/tapas).
+NeuroDesk offers the possibility of running PhysIO without installing Matlab or requiring a Matlab license. The functionality should be equivalent, though debugging and extending the toolbox, as well as unreleased development features, will only be available in the Matlab version of PhysIO, which is exclusively hosted on the [TAPAS GitHub](https://github.com/translationalneuromodeling/tapas).
 
 More general info about PhysIO is found in its [NeuroDesk Tutorial](https://neurodesk.github.io/tutorials/functional_imaging/physio/) and the [README](https://github.com/translationalneuromodeling/tapas/tree/master/PhysIO#readme) on GitHub.
 

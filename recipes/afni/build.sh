@@ -19,7 +19,7 @@ echo "installing development repository of neurodocker:"
 yes | pip uninstall neurodocker
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/afni-missing-dependencies-for-suma --upgrade
 
-# warning: afni currenlty needs fedora 35 or older due to a bug in the suma viewer (slider bug documented in tests!)
+# warning: afni currently needs fedora 35 or older due to a bug in the suma viewer (slider bug documented in tests!)
 neurodocker generate ${neurodocker_buildMode} \
    --base-image fedora:35 \
    --pkg-manager yum \

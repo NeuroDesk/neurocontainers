@@ -49,7 +49,7 @@ neurodocker generate ${neurodocker_buildMode} \
          BRAINVIEW=$MNIBASEPATH/share/brain-view \
          MINC_FORCE_V2=1 \
          MINC_COMPRESS=4 \
-         CIVET_JOB_SCHEDULER=DEFAULT                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+         CIVET_JOB_SCHEDULER=DEFAULT                 `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 if [ "$1" != "" ]; then
    ./../main_build.sh

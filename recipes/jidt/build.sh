@@ -24,7 +24,7 @@ source ../main_setup.sh
 export DOCKER_BUILDKIT=0
 export COMPOSE_DOCKER_CLI_BUILD=0
 
-#THIS RECIPE currenlty doesn not build, because when installing rJava it comes up with this error:
+#THIS RECIPE currently doesn not build, because when installing rJava it comes up with this error:
 
 # configure: error: Java Development Kit (JDK) is missing or not registered in R
 # Make sure R is configured with full Java support (including JDK). Run

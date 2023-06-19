@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo" \
    --run="flatpak install flathub org.jamovi.jamovi -y" `# install jamovi using the flatpak manager` \
    --env DEPLOY_PATH=/usr/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system` \
-   --env DEPLOY_BINS=flatpak                            `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --env DEPLOY_BINS=flatpak                            `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
