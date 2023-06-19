@@ -20,6 +20,6 @@ Civier O, Sourty M, Calamante F (2023) MFCSC: Novel method to calculate mismatch
 Rubinov M, Sporns O (2010) Complex network measures of brain connectivity: Uses and interpretations. NeuroImage 52:1059-69.
 ```
 
-To run mfcsc outside of this container, first type 'ml mfcsc/toolVersion' in the terminal and then follow the exmaple above
+To run mfcsc outside of this container, first type 'ml mfcsc/toolVersion' in the terminal and then follow the example above
 
 ----------------------------------

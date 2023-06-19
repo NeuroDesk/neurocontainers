@@ -19,7 +19,7 @@ source ../main_setup.sh
 # - 1.1.1: update Julia and move packages to depot_Path + changed python version to 3.7
 # - 1.1.2: changed python version back to 3.6 with older Miniconda version + fixed versions
 # - 1.1.3: Removed FSL, bidscoin, matplotlib, seaborn; added bet2
-# - 1.1.3 (fix): Fixed dependency problems occuring with Nipype (see github.com/QSMxT/QSMxT/runs/7553737387)
+# - 1.1.3 (fix): Fixed dependency problems occurring with Nipype (see github.com/QSMxT/QSMxT/runs/7553737387)
 # --qsmxt----------------------------------------------------------------------------------------------------
 # - 1.1.12: Combined qsmxt and qsmxtbase containers
 # - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13

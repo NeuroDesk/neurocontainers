@@ -27,7 +27,7 @@ neurodocker generate docker \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable` \
    --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
    --install sigviewer                                  `# install the software package` \
-   --env DEPLOY_BINS=${toolName}                        `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --env DEPLOY_BINS=${toolName}                        `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
 > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 

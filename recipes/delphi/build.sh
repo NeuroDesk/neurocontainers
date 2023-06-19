@@ -44,7 +44,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup-init.sh"                                        \
    --run="bash ./rustup-init.sh -y"                            `# install rustup`\
    --run="rustup install nightly"                              `# must use nightly version to compile `\
-   --run="rustup default nightly"                              `# make sure to use nightly, in case that stable version is intsalled as well`\
+   --run="rustup default nightly"                              `# make sure to use nightly, in case that stable version is installed as well`\
    --run="git clone https://github.com/yexincheng/delphi.git /opt/encryption"                                                 `# clone delphi homomorphic encryption inference github repo`\
    --workdir /opt/encryption/                                  `# switch to delphi folder`\
    --run="git pull"                                            `# sync changes in delphi repo`\

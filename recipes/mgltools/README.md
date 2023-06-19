@@ -5,7 +5,7 @@ Thew MGLTools software suite was developed in the Sanner lab at the Center for C
 
 - the Python Molecular Viewer (PMV), a general purpose molecular viewer
 - AutoDockTools (ADT) a set of PMV commands specifically developed to support AutoDock users
-- Vision, a visual programing environment.
+- Vision, a visual programming environment.
 
 Example:
 ```

@@ -38,7 +38,7 @@ For correction across contrasts (option -corrcon), the most detailed reference i
 For Non-Parametric Combination (NPC; options -npc, -npcmod and -npccon), classical multivariate tests (MANOVA, MANCOVA; option -mv) assessed with permutations, and for correction over contrasts and/or modalities (options -corrcon and -corrmod), the reference is:
 
 
-* Winkler AM, Webster MA, Brooks JC, Tracey I, Smith SM, Nichols TE. Non-Parametric Combination and related permutation tests for neuroimaging. Hum Brain Mapp. 2016 Apr;37(4):1486-511. (Open Access)
+* Winkler AM, Webster MA, Brooks JC, Tracey I, Smith SM, Nichols TE. Non-Parametric Combination and related permutation tests for neuroimaging. Hum Brain Map. 2016 Apr;37(4):1486-511. (Open Access)
 
 For the multi-level exchangeability blocks (options -eb, -vg, and for HCP data), the reference is:
 
@@ -53,7 +53,7 @@ For the accelerated permutation inference (options -accel or -approx), the refer
 For additional theory of permutation tests in neuroimaging, please see and cite:
 
 
-* Nichols TE, Holmes AP. Nonparametric permutation tests for functional neuroimaging: a primer with examples. Hum Brain Mapp. 2002 Jan;15(1):1-25.
+* Nichols TE, Holmes AP. Nonparametric permutation tests for functional neuroimaging: a primer with examples. Hum Brain Map. 2002 Jan;15(1):1-25.
 
 * Holmes AP, Blair RC, Watson JD, Ford I. Nonparametric analysis of statistic images from functional mapping experiments. J Cereb Blood Flow Metab. 1996 Jan;16(1):7-22.
 ```

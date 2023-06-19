@@ -35,7 +35,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install wget git curl ca-certificates datalad unzip libfftw3-3 `# install apt-get packages` \
    --miniconda version=latest \
    --env PATH='${PATH}'":/opt/matlab/R${toolVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
-   --env DEPLOY_BINS=datalad:matlab:mex                 `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --env DEPLOY_BINS=datalad:matlab:mex                 `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		 `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
    --copy README.md /README.md                          `# include readme file in container` \
    --run="rm /usr/local/bin/matlab"			`# rm original matlab symbolic link` \

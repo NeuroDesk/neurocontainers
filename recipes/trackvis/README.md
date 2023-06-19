@@ -22,7 +22,7 @@ To run applications outside of this container: ml trackvis/0.6.1
 
 Citation:
 ```
-You may use acknowlegement like "Ruopeng Wang, Van J. Wedeen, TrackVis.org, Martinos Center for Biomedical Imaging, Massachusetts General Hospital" or cite the related ISMRM abstract Proc. Intl. Soc. Mag. Reson. Med. 15 (2007) 3720
+You may use acknowledgement like "Ruopeng Wang, Van J. Wedeen, TrackVis.org, Martinos Center for Biomedical Imaging, Massachusetts General Hospital" or cite the related ISMRM abstract Proc. Intl. Soc. Mag. Reason. Med. 15 (2007) 3720
 ```
 
 ----------------------------------

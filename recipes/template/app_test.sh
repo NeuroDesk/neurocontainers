@@ -18,7 +18,7 @@
 # The script must be a bash script, as it will be executed using 'bash -e /neurodesk/app_test.sh'. 
 # The '-e' flag indicates to bash that if there is an error in the script, it should quit immediately with the non-zero exit code of the error rather than the bash default of continuing script execution after an error. This way errors in the script won't be overlooked during testing (the script continuing and returning zero exit code on termination, the administrator might not notice the error message).
 #
-# Notice that the script can also be executed by users directly by running /neurodesk/test.sh within the container. This can be used to double-check that the application works properly in the specific environment used by the user (although Singularity containers are supposed to run identically regardless of the execution environment, there are some excpetions).
+# Notice that the script can also be executed by users directly by running /neurodesk/test.sh within the container. This can be used to double-check that the application works properly in the specific environment used by the user (although Singularity containers are supposed to run identically regardless of the execution environment, there are some exceptions).
 #
 
 ############################################################
@@ -31,11 +31,11 @@ echo 'N/A' 1>&2; exit 1
 # The commands below provide an example for a test script. Please edit as necessary
 # When done, remove the line above and create the container
 #
-# After the conainer is incorporated into Neurocontainers and being built by the CI, 
+# After the container is incorporated into Neurocontainers and being built by the CI, 
 # convert it into a loacl sif file using the /neurocommand/local/fetch_and_run.sh command provided 
 # in the "New container ..." issue confirming the container was built.
 #
-# If you see that the container runs successfuly as a sif file, run the following commands to verify your test scripts return the appropriate output
+# If you see that the container runs successfully as a sif file, run the following commands to verify your test scripts return the appropriate output
 # when being called using a singularity exec command (using your package NAME, VERSION, and BUILDDATE):
 #
 # singularity --silent exec --pwd /tmp /neurocommand/local/containers/NAME_VERSION_BUILDDATE/NAME_VERSION_BUILDDATE.simg /bin/bash -e /neurodesk/app_test.sh 1>stdout 2>stderr
