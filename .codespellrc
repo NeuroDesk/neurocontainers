@@ -1,4 +1,5 @@
 [codespell]
 skip = .git,*.pdf,*.svg
+ignore-regex = (Linke AC|Claus Zimmer|Zimmer, Claus)
 # ND TE - valid name abbrevs etc
 ignore-words-list = nd,te
