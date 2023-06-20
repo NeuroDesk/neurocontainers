@@ -1,5 +1,5 @@
 export toolName='globus'
-export toolVersion='3.2.0' 
+export toolVersion='3.2.2' 
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
