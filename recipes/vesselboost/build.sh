@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --run='git clone https://github.com/KMarshallX/vessel_code.git' \
 --workdir='/opt/vessel_code/' \
 --run='pip install -r requirements.txt ' \
---workdir='/vessel_code/saved_models' \
+--workdir='/opt/vessel_code/saved_models' \
 --run='osf -p jg7cr fetch /saved_models/Init_ep1000_lr1e3_tver' \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
