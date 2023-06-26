@@ -1,1 +1,1 @@
-python eval.py --prep_bool "no" --init_thresh_vector 0.5 1 --final_thresh_vector 0.5 10 --eval_lr 0.001 --eval_ep 100 --ds_path "/root/Desktop/eval_data/" --ps_path "/root/Desktop/eval_prep/" --out_path "/root/Desktop/eval_out/"' \
+python test_time_adaptation.py --ds_path "/root/Desktop/eval_data/" --out_path "/root/Desktop/eval_out/" --pretrained "./saved_models/Init_ep1000_lr1e3_tver" --ep 2000 --prep_mode 4
