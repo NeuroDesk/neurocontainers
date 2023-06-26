@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-set -e
 export toolName='vesselboost'
 export toolVersion='0.5.0'
 
@@ -22,6 +20,6 @@ neurodocker generate ${neurodocker_buildMode} \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 
-if [ "$1" !=  ]; then 
-./../main_build.sh 
+if [ "$1" != "" ]; then
+   ./../main_build.sh
 fi
