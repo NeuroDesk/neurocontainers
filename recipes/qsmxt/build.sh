@@ -39,6 +39,7 @@ neurodocker generate ${neurodocker_buildMode} \
       zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 \
       libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default \
       libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev \
+      libsqlite3-dev \
    --env PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
    --run="mkdir -p ${mountPointList}" \
    --workdir="/opt/TGV_QSM" \
@@ -103,6 +104,14 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone --depth 1 --branch v${toolVersion}  https://github.com/QSMxT/QSMxT" \
    --env PATH="\${PATH}:/opt/QSMxT:/opt/QSMxT/scripts" \
    --env PYTHONPATH="\${PYTHONPATH}:/opt/QSMxT" \
+   --workdir="/opt" \
+   --run="git clone --depth 1 --branch main https://github.com/QSMxT/QSMxT-UI" \
+   --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
+       && tar xf node-v14.17.0-linux-x64.tar.xz \
+       && rm node-v14.17.0-linux-x64.tar.xz" \
+   --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
+   --run="cd QSMxT-UI/frontend/ && npm install && CI=false npm run build" \
+   --run="cd QSMxT-UI/api/ && npm install --unsafe-perm && npm i -g ts-node" \
    --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts" \
    --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py"  \
    --env LC_ALL="C.UTF-8" \
