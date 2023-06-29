@@ -1,7 +1,7 @@
-export toolName='bidsapppymvpa'
+export toolName='bidsappspm'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export toolVersion='2.0.2' 
+export toolVersion='0.0.20' 
 # the version number cannot contain a "-" - try to use x.x.x notation always
 # https://hub.docker.com/r/bids/mrtrix3_connectome/tags
 
@@ -19,10 +19,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --env PATH='$PATH':/code \
-   --env DEPLOY_PATH=/opt/fsl-6.0.5.1/bin:/code \
-   --copy README.md /README.md \
+   --env DEPLOY_PATH=/opt/spm12/ \
    --entrypoint bash \
+   --env PATH='$PATH':/opt/spm12 \
+   --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
 
