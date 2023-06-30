@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='0.5.0'
+export toolVersion='0.6.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
