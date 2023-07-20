@@ -25,6 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
   
+  
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
