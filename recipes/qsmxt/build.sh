@@ -28,6 +28,8 @@ source ../main_setup.sh
 # - 1.2.0: Major update; added QSM.jl; ROMEO unwrapping; Laplacian unwrapping; V-SHARP; RTS QSM; major pipeline refactor
 # - 1.3.0: Major update; added premade pipelines, interactive editor, PDF, TV, and fixed networkx version incompatibility
 # - 1.3.0 (container update): Fixed FastSurfer to v1.1.1 due to seeming slowness in v2
+# - ...
+# - 3.2.0: Added fix for scikit-sparse due to Cython bug https://github.com/scikit-sparse/scikit-sparse/releases/tag/v0.4.9
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -70,8 +72,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
-   --run="pip install Cython==0.29.4 \
-       && pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.5 \
+   --run="git clone --depth 1 --branch v0.4.9 https://github.com/scikit-sparse/scikit-sparse.git \
+       && pip install scikit-sparse/" \
+   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.5 \
        && pip install cloudstor \
        && pip install niflow-nipype1-workflows \
        && pip install tensorflow packaging" \
