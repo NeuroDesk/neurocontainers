@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='3.0.1'
+export toolVersion='3.2.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -70,7 +70,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
-   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.5 \
+   --run="pip install wheel setuptools pip --upgrade \
+       && pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn scikit-sparse traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.5 \
        && pip install cloudstor \
        && pip install niflow-nipype1-workflows \
        && pip install tensorflow packaging" \
