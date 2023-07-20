@@ -20,6 +20,9 @@ neurodocker generate ${neurodocker_buildMode} \
 --base-image ubuntu:22.04 \
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
+--run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
+--run="chmod +x /usr/bin/ll" \
+--run="mkdir -p ${mountPointList}" \
 --install ca-certificates lbzip2 libgl1 wget libqt5gui5 \
 --workdir /opt \
 --run='wget https://files.ilastik.org/ilastik-1.4.0-Linux.tar.bz2 \
