@@ -109,7 +109,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="\${PATH}:/opt/QSMxT:/opt/QSMxT/scripts" \
    --env PYTHONPATH="\${PYTHONPATH}:/opt/QSMxT" \
    --workdir="/opt" \
-   --run="git clone --depth 1 --branch v0.92 https://github.com/QSMxT/QSMxT-UI" \
+   --run="git clone --depth 1 --branch v0.93 https://github.com/QSMxT/QSMxT-UI" \
    --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
        && tar xf node-v14.17.0-linux-x64.tar.xz \
        && rm node-v14.17.0-linux-x64.tar.xz" \
