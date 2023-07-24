@@ -114,10 +114,9 @@ neurodocker generate ${neurodocker_buildMode} \
        && tar xf node-v14.17.0-linux-x64.tar.xz \
        && rm node-v14.17.0-linux-x64.tar.xz" \
    --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
-   --run="/opt/QSMxT-UI/setup.sh && rm QSMxT-UI/setup.sh" \
-   --env PATH="\${PATH}:/opt/QSMxT-UI" \
    --run="cd QSMxT-UI/frontend/ && npm install && CI=false npm run build" \
    --run="cd QSMxT-UI/api/ && npm install --unsafe-perm && npm i -g ts-node" \
+   --env PATH="\${PATH}:/opt/QSMxT-UI" \
    --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts:/opt/QSMxT-UI" \
    --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py"  \
    --env LC_ALL="C.UTF-8" \
