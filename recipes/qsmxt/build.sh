@@ -74,7 +74,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
    --run="git clone --depth 1 --branch v0.4.9 https://github.com/scikit-sparse/scikit-sparse.git \
        && pip install scikit-sparse/" \
-   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.14 \
+   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.15 \
        && pip install cloudstor \
        && pip install niflow-nipype1-workflows \
        && pip install tensorflow packaging" \
