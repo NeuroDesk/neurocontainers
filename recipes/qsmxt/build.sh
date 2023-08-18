@@ -71,13 +71,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
-       && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8" \
-   --run="git clone --depth 1 --branch v0.4.9 https://github.com/scikit-sparse/scikit-sparse.git \
-       && pip install scikit-sparse/" \
-   --run="pip install psutil datetime networkx==2.8.8 numpy h5py nibabel nilearn traits nipype scipy scikit-image pydicom pytest seaborn webdavclient3 images-upload-cli qsm-forward==0.15 osfclient \
-       && pip install cloudstor \
-       && pip install niflow-nipype1-workflows \
-       && pip install tensorflow packaging" \
+       && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
+       && pip install qsmxt=4.0.0" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
        && pip install -r /opt/FastSurfer/requirements.txt" \
@@ -105,9 +100,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="julia install_packages.jl \
        && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
-   --run="git clone --depth 1 --branch v${toolVersion}  https://github.com/QSMxT/QSMxT" \
-   --env PATH="\${PATH}:/opt/QSMxT:/opt/QSMxT/scripts" \
-   --env PYTHONPATH="\${PYTHONPATH}:/opt/QSMxT" \
    --workdir="/opt" \
    --run="git clone --depth 1 --branch v0.93 https://github.com/QSMxT/QSMxT-UI" \
    --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
@@ -116,9 +108,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
    --run="cd QSMxT-UI/frontend/ && npm install && CI=false npm run build" \
    --run="cd QSMxT-UI/api/ && npm install --unsafe-perm && npm i -g ts-node" \
-   --env PATH="\${PATH}:/opt/QSMxT-UI" \
-   --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer:/opt/QSMxT:/opt/QSMxT/scripts:/opt/QSMxT-UI" \
-   --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:qsmxt_version.py:run_0_dicomSort.py:run_1_dicomConvert.py:run_1_niftiConvert.py:run_2_qsm.py:run_3_segment.py:run_4_template.py:run_5_analysis.py"  \
+   --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer" \
+   --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:dicom-sort:dicom-convert:nifti-convert"  \
    --env LC_ALL="C.UTF-8" \
    --env LANG="C.UTF-8" \
    --copy README.md /README.md \
