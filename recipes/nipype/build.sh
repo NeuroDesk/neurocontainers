@@ -19,12 +19,13 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
+yes | pip uninstall neurodocker
 
 source ../main_setup.sh
 
-echo "installing development repository of neurodocker:"
-yes | pip uninstall neurodocker
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mcr-bug --upgrade
+# echo "installing development repository of neurodocker:"
+# yes | pip uninstall neurodocker
+# pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/mcr-bug --upgrade
 # --matlabmcr version=2019b install_path=/opt/mcr  \
 # doesn't work in Ubuntu 22.04 because of missing package multiarch-support -> bug in Neurodocker
 
@@ -35,9 +36,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --env GOPATH='$HOME'/go \
    --env PATH='$PATH':/usr/local/go/bin:${GOPATH}/bin:/opt/spm12 \
+   --matlabmcr version=2019b install_path=/opt/mcr  \
    --install wget curl libglib2.0-dev ca-certificates build-essential libseccomp-dev pkg-config squashfs-tools cryptsetup \
    --run="wget https://dl.google.com/go/go$GO_VERSION.$OS-$ARCH.tar.gz \
     && tar -C /usr/local -xzvf go$GO_VERSION.$OS-$ARCH.tar.gz \
@@ -68,7 +70,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env SPM_REVISION=r7771 \
    --env MCR_INHIBIT_CTF_LOCK=1 \
    --env SPM_HTML_BROWSER=0 \
-   --matlabmcr version=2019b install_path=/opt/mcr  \
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
       && rm -rf ./vscode.deb" \
