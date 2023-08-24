@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='3.2.1'
+export toolVersion='4.0.0.post2'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -72,7 +72,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
-       && pip install qsmxt==4.0.0" \
+       && pip install qsmxt==${toolVersion}" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
        && pip install -r /opt/FastSurfer/requirements.txt" \
