@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install octave curl ca-certificates wget unzip liboctave-dev patch make fonts-freefont-otf \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://github.com/neurolabusc/NiiStat/archive/refs/tags/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \

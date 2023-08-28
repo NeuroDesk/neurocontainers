@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install git ca-certificates curl libqt5gui5 `# install packages mesa is for swrast to work; the rest for QT5 xcb` \
    --miniconda version=latest \
       conda_install='python=3.8.8' \

@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --user root \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --env DEPLOY_BINS=rabies \
    --copy README.md /README.md \
    --user rabies \

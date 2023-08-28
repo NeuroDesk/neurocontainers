@@ -22,7 +22,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
    --pkg-manager apt \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --copy README.md /README.md \
    --${toolName} version=${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/volgenmodel-nipype/extra-scripts:/opt/${toolName}-${toolVersion}/pipeline \

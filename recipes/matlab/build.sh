@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget git curl ca-certificates datalad unzip libfftw3-3 `# install apt-get packages` \
    --miniconda version=latest \
    --env PATH='${PATH}'":/opt/matlab/R${toolVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \

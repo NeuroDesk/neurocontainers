@@ -28,7 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEBIAN_FRONTEND=noninteractive                 `# this disables interactive questions during package installs` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install wget ca-certificates unzip \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="wget https://github.com/layerfMRI/LAYNII/releases/download/v2.2.1/LayNii_v${toolVersion}_Linux64.zip \

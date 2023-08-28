@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --install git wget ca-certificates vim \
    --workdir /opt \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz" \

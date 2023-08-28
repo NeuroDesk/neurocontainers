@@ -15,7 +15,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:20.04 \
    --pkg-manager apt \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --install zlib1g-dev libzstd1 wget \

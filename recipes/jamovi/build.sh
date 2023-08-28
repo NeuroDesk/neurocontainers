@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum                                    `# this chooses the package manager to use ` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install flatpak ca-certificates \
    --run="flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo" \
    --run="flatpak install flathub org.jamovi.jamovi -y" `# install jamovi using the flatpak manager` \

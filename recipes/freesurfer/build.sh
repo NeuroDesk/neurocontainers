@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --run="cd /etc/yum.repos.d/" \
    --run="sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*" \
    --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \

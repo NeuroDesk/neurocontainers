@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install octave curl ca-certificates \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://s3-us-west-2.amazonaws.com/andersonwinkler/palm/palm-${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \

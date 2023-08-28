@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --env DEBIAN_FRONTEND=noninteractive \
     --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
     --run="chmod +x /usr/bin/ll" \
-    --run="mkdir ${mountPointList}" \
+    --run="mkdir -p ${mountPointList}" \
     --install git build-essential cmake \
     --run "export GIT_SSL_NO_VERIFY=1 && git clone https://github.com/rordenlab/dcm2niix.git" `# first command solves some issue with the close as explaine here: https://stackoverflow.com/questions/21181231/server-certificate-verification-failed-cafile-etc-ssl-certs-ca-certificates-c` \
     --run "cd dcm2niix; mkdir build && cd build; cmake ..; make install" \

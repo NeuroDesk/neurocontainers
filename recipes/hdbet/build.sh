@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --install git \
    --miniconda version=4.7.12.1 \
          conda_install='python=3.6' \

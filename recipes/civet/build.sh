@@ -23,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points`  			\
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points`  			\
    --install perl imagemagick gnuplot-nox locales gsfonts libtext-format-perl		\
    --install opts="--quiet" build-essential automake libtool bison libz-dev libjpeg-dev libxmu-dev libxi-dev libqt4-dev  \
       libpng-dev libtiff-dev liblcms2-dev flex libx11-dev freeglut3-dev git-lfs ca-certificates	\

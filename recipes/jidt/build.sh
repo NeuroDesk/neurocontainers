@@ -38,7 +38,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --install curl unzip openjdk-8-jre locales software-properties-common \
    --run="curl -s -k --retry 5 ${downloadLink} -o infodynamics-dist-1.6.zip \

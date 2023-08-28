@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --matlabmcr version=2020b method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/n/nrrir2sdpmdp/b/neurodesk/o/conn20b_mcr2020b.tar.gz \

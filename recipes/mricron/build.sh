@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --install wget unzip ca-certificates gtk2 \
    --workdir /opt \
    --run="wget --quiet -O MRIcon_linux.zip 'https://github.com/neurolabusc/MRIcron/releases/download/v${toolVersion}/MRIcron_linux.zip' \

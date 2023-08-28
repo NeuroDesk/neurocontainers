@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --${toolName} version=${toolVersion} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy Readme.md /README.md \

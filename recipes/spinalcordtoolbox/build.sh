@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install="gcc ca-certificates libmpich-dev python3-pyqt5 git curl bzip2 libglib2.0-0 rsync" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --run="curl -fsSL --retry 5 https://github.com/spinalcordtoolbox/spinalcordtoolbox/archive/refs/tags/${toolVersion}.tar.gz | tar -xz -C /opt/ " \
    --workdir="/opt/${toolName}-${toolVersion}" \
    --run="chmod a+rwx /opt/${toolName}-${toolVersion}/ -R" \

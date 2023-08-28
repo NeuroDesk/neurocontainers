@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --miniconda version=latest \
       conda_install="python=3.8 nipype jupyter nb_conda_kernels h5py seaborn numpy" \
       pip_install="osfclient" \
