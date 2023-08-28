@@ -6,7 +6,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-echo $toolVersion
+echo $toolVersion #last build with 23.2.08
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
