@@ -38,9 +38,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
-   --run="/opt/standalone/spm${SPM_VERSION} function exit \
-      && chmod +x /opt/standalone /*" \
-   --env PATH='$PATH':/opt/standalone:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+   --run="/opt/standalone/spm${SPM_VERSION} function exit" \
+   --env PATH='$PATH':/opt/standalone \
    --env DEPLOY_ENV_FORCE_SPMMCR="1" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.${neurodocker_buildExt}
