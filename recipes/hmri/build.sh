@@ -18,7 +18,7 @@ export SPM_VERSION=12
 export SPM_REVISION=7771
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:22.04 \
+   --base-image ubuntu:20.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
