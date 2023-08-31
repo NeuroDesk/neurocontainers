@@ -35,7 +35,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env MATLAB_VERSION=R$MATLAB_VERSION \
    --env MCR_VERSION=$MCR_VERSION \
    --env MCR_UPDATE=$MCR_UPDATE \
-   --env LD_LIBRARY_PATH=/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
+   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
    --run="/opt/standalone/spm${SPM_VERSION} function exit" \
