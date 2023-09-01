@@ -15,6 +15,8 @@ deface
 dicomsort
 pydeface
 rawmapper
+heudiconv:
+For heudiconv usage, please refer to: https://heudiconv.readthedocs.io/en/latest/heuristics.html
 
 convert dicom to bids:
 dicomsort dicomfolder/sub-folder -r -e .IMA
