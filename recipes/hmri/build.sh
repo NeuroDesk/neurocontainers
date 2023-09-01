@@ -27,7 +27,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2023a install_path=/opt/mcr  \
    --run="wget --no-check-certificate --progress=bar:force -P /opt https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
       && unzip -q /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip -d /opt \
-      && rm -f /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip" \
+      && rm -f /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
+      && rm -rf /opt/standalone/spm12_mcr" \
    --env SPM_VERSION=$SPM_VERSION \
    --env SPM_REVISION=r$SPM_REVISION \
    --env MCR_INHIBIT_CTF_LOCK=1 \
@@ -38,7 +39,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/mcr/${MCR_VERSION}/runtime/glnxa64:/opt/mcr/${MCR_VERSION}/bin/glnxa64:/opt/mcr/${MCR_VERSION}/sys/os/glnxa64:/opt/mcr/${MCR_VERSION}/sys/opengl/lib/glnxa64:/opt/mcr/${MCR_VERSION}/extern/bin/glnxa64 \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
-   --run="/opt/standalone/spm${SPM_VERSION} function exit" \
+   --run="/opt/standalone/spm${SPM_VERSION} function exit \
+         && chmod +x /opt/standalone/*" \
    --env PATH='$PATH':/opt/standalone \
    --env DEPLOY_ENV_FORCE_SPMMCR="1" \
    --copy README.md /README.md \
