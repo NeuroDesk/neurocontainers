@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidstools'
-export toolVersion='1.0.0'
+export toolVersion='1.0.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -14,19 +14,17 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:20.04 \
+   --base-image ubuntu:22.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --miniconda version=4.7.12.1 \
-              conda_install='python=3.6 traits' \
-              pip_install='bidscoin' \
-              pip_install='heudiconv' \
-
+   --miniconda version=latest \
+              conda_install='python=3.10 traits' \
+              pip_install='bidscoin heudiconv' \
    --dcm2niix method=source version=latest \
    --install opts="--quiet" wget zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
-   --install libgtk2.0-0 \
+   --install libgtk2.0-0 dcmtk xmedcon pigz \
    --workdir /opt/bru2 \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
