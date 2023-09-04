@@ -28,7 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget --no-check-certificate --progress=bar:force -P /opt https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
       && unzip -q /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip -d /opt \
       && rm -f /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
-      && rm -rf /opt/standalone/spm12_mcr" \
+      && chmod a+rx /opt/standalone/ -R" \
    --env SPM_VERSION=$SPM_VERSION \
    --env SPM_REVISION=r$SPM_REVISION \
    --env MCR_INHIBIT_CTF_LOCK=1 \
@@ -40,7 +40,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env XAPPLRESDIR=/opt/mcr/${MCR_VERSION}/x11/app-defaults \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
    --run="/opt/standalone/spm${SPM_VERSION} function exit \
-         && chmod +x /opt/standalone/*" \
+         && chmod a+rx /opt/standalone/ -R" \
    --env PATH='$PATH':/opt/standalone \
    --env DEPLOY_ENV_FORCE_SPMMCR="1" \
    --copy README.md /README.md \
