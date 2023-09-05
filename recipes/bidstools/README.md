@@ -13,29 +13,15 @@ rawmapper: https://bidscoin.readthedocs.io/en/latest/installation.html
 deface: https://bidscoin.readthedocs.io/en/stable/bidsapps.html?highlight=deface#defacing
 bidsparticipants: https://bidscoin.readthedocs.io/en/latest/installation.html
 dicomsort: https://bidscoin.readthedocs.io/en/latest/installation.html
-dcmtk: https://dcmtk.org/en/dcmtk/
-    config   - configuration utilities for DCMTK
-    dcmdata  - a data encoding/decoding library and utility apps
-    dcmect   - a library for working with Enhanced CT objects
-    dcmfg    - a library for working with functional groups
-    dcmimage - adds support for color images to dcmimgle
-    dcmimgle - an image processing library and utility apps
-    dcmiod   - a library for working with information objects and modules
-    dcmjpeg  - a compression/decompression library and utility apps
-    dcmjpls  - a compression/decompression library and utility apps
-    dcmnet   - a networking library and utility apps
-    dcmpmap  - a library for working with parametric map objects
-    dcmpstat - a presentation state library and utility apps
-    dcmqrdb  - an image database server
-    dcmrt    - a radiation therapy library and utility apps
-    dcmseg   - a library for working with segmentation objects
-    dcmsign  - a digital signature library and utility apps
-    dcmsr    - a structured reporting library and utility apps
-    dcmtls   - security extensions for the network library
-    dcmtract - a library for working with tractography results
-    dcmwlm   - a modality worklist database server
-    oflog    - a logging library based on log4cplus
-    ofstd    - a library of general purpose classes
+dcmtk: https://support.dcmtk.org/docs/pages.html
+    dcmdump
+    dump2dcm
+    dcmconv
+    dcm2json
+    dcmodify
+    img2dcm
+    dcm2pnm
+    dcmicmp
 xmedcon: https://xmedcon.sourceforge.io/
 heudiconv: https://heudiconv.readthedocs.io/en/latest/heuristics.html
 Bru2Nii: https://github.com/neurolabusc/Bru2Nii

@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
                mamba=true \
                conda_install='python=3.10 traits=6.3.2' \
                pip_install='bidscoin heudiconv pydeface' \
-   --install opts="--quiet" wget zip qt6-base-dev libgl1 libgtk2.0-0 dcmtk xmedcon pigz \
+   --install opts="--quiet" wget zip qt6-base-dev libgl1 libgtk2.0-0 dcmtk xmedcon pigz libxcb-cursor0 \
    --workdir /opt/bru2 \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
