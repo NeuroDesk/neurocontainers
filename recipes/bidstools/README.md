@@ -1,6 +1,6 @@
 
 ----------------------------------
-## bidstools/1.0.1 ##
+## bidstools/toolVersion ##
 Contains a collection of tools useful for DICOM to BIDS conversion
 
 Tools included:
@@ -53,6 +53,6 @@ Example converting Bruker data to Nifti
 Bru2 -o /Users/cr/dir2/out /Users/cr/dir/acqp
 ```
 
-To run container outside of this environment: ml bidstools/1.0.1
+To run container outside of this environment: ml bidstools/toolVersion
 
 ----------------------------------

@@ -29,13 +29,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
    --dcm2niix method=source version=latest \
-   --fsl version=6.0.3 \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:heudiconv  \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
-   # --run="pip install bidscoin heudiconv" \
 
+   # --fsl version=6.0.3 \ required for deface, but currenlty doesn't install because of problem with fsl conda environment
 
 
 if [ "$1" != "" ]; then
