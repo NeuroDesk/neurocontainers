@@ -34,7 +34,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
-   # --fsl version=6.0.3 \ required for deface, but currenlty doesn't install because of problem with fsl conda environment
+   # requires yes | before neurodocker
+   # --fsl version=6.0.3 \ required for deface, but currently doesn't install because of problem with fsl conda environment
 
 
 if [ "$1" != "" ]; then
