@@ -10,6 +10,7 @@ bidsmapper: https://bidscoin.readthedocs.io/en/latest/workflow.html#step-1a-runn
 bidseditor: https://bidscoin.readthedocs.io/en/latest/workflow.html#step-1b-running-the-bidseditor
 bidscoiner: https://bidscoin.readthedocs.io/en/latest/workflow.html#step-2-running-the-bidscoiner
 rawmapper: https://bidscoin.readthedocs.io/en/latest/installation.html
+deface: https://bidscoin.readthedocs.io/en/stable/bidsapps.html?highlight=deface#defacing
 bidsparticipants: https://bidscoin.readthedocs.io/en/latest/installation.html
 dicomsort: https://bidscoin.readthedocs.io/en/latest/installation.html
 dcmtk: https://dcmtk.org/en/dcmtk/
