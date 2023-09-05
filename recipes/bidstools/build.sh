@@ -11,6 +11,7 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
+# yes | pip uninstall neurodocker
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -20,18 +21,22 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --miniconda version=latest \
-              conda_install='python=3.10 traits' \
-              pip_install='bidscoin heudiconv' \
-   --dcm2niix method=source version=latest \
-   --install opts="--quiet" wget zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a \
-   --install libgtk2.0-0 dcmtk xmedcon pigz \
+               mamba=true \
+               conda_install='python=3.10 traits=6.3.2' \
+               pip_install='bidscoin heudiconv pydeface' \
+   --install opts="--quiet" wget zip qt6-base-dev libgl1 libgtk2.0-0 dcmtk xmedcon pigz \
    --workdir /opt/bru2 \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
    --run="unzip Bru2_Linux.zip" \
+   --dcm2niix method=source version=latest \
+   --fsl version=6.0.3 \
    --env PATH='$PATH':/opt/bru2 \
    --env DEPLOY_BINS=dcm2niix:bidsmapper:bidscoiner:bidseditor:bidsparticipants:bidstrainer:deface:dicomsort:pydeface:rawmapper:Bru2:Bru2Nii:heudiconv  \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
+   # --run="pip install bidscoin heudiconv" \
+
+
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
