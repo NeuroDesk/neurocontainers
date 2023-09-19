@@ -12,6 +12,11 @@ export toolVersion='2023a' #the version number cannot contain a "-" - try to use
 # !!!!
 
 
+export GO_VERSION="1.17.2" 
+export SINGULARITY_VERSION="3.9.3" 
+export OS=linux 
+export ARCH=amd64
+
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
