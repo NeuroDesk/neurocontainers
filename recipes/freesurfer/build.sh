@@ -8,8 +8,7 @@ if [ "$1" != "" ]; then
 fi
 
 export toolName='freesurfer'
-export toolVersion=7.3.2
-# Don't forget to update version change in README.md!!!!!
+export toolVersion=7.4.1
 
 source ../main_setup.sh
 
