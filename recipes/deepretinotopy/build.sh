@@ -14,11 +14,8 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:18.04 \
-   --pkg-manager apt \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-   --run="chmod +x /usr/bin/ll" \
-   --run="mkdir -p ${mountPointList}" \
+   --base-image ghcr.io/neurodesk/freesurfer_7.3.2:20230216 \
+   --pkg-manager yum \
    --install git \
    --miniconda version=py37_4.8.3 \
          conda_install='pytorch=1.6.0 torchvision=0.7.0 cudatoolkit=10.2 -c pytorch' \
@@ -28,9 +25,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run='pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='git clone https://github.com/felenitaribeiro/nilearn.git' \
-   --install git wget connectome-workbench \
-   --freesurfer version=7.1.1 \
-   --copy license.txt /opt/freesurfer-7.1.1/license.txt \
    --env DEPLOY_BINS=wb_view:wb_command:wb_shortcuts \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
