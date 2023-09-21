@@ -2,7 +2,7 @@
 ----------------------------------
 ## deepretinotopy/1.0.1 ##
 
-This container has FreeSurfer 7.1.1, Connectome Workbench, PyTorch 1.6, PyTorch geometric 1.6.3, and CUDA 10.2. These packages are required for data preparation, model training, and inference.
+This container has FreeSurfer 7.3.2, Connectome Workbench v1.5.0, PyTorch 1.6, PyTorch geometric 1.6.3, and CUDA 10.2. These packages are required for data preparation, model training, and inference.
 
 Example:
 ```
@@ -11,7 +11,7 @@ wb_view
 wb_shortcuts
 ```
 
-More documentation can be found here: https://github.com/Puckett-Lab/explainability_CorticalSurfaceGDL
+More documentation can be found here: https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox
 
 To run container outside of this environment: ml deepretinotopy/1.0.1
 
