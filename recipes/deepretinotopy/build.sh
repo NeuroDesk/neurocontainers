@@ -25,7 +25,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run='pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='git clone https://github.com/felenitaribeiro/nilearn.git' \
-   --env PATH="/opt/workbench/workbench/bin_rh_linux64/:$PATH" \
+   --env PATH=/opt/workbench/workbench/bin_rh_linux64/:'$PATH' \
    --env DEPLOY_BINS=wb_view:wb_command:wb_shortcuts \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
