@@ -1,19 +1,16 @@
 
 ----------------------------------
-## mrsiproc/0.0.1 ##
+## mrsiproc/toolVersion ##
 
 Includes the following:  
-##### -- OS: Ubuntu 20.04 (Built off Matlab 2022a Deep learning Docker)
+##### -- OS: Ubuntu 20.04 (Built from fsl neurodocker)
 ##### -- Minc 						(Version 1.9.15)
-##### -- MATLAB 					(Version R2021b)
+##### -- MATLAB Runtime		(Version R2021b)
 ##### -- HD-BET           (Version 1.0)
-##### -- tar
-##### -- gzip
-##### -- gunzip
 ##### -- LCModel 					(Version 6.3.1)
-##### -- dcm2nii
+##### -- dcm2niix
 ##### -- Python           (Version 3.10)
-##### -- Julia            (Version 1.9.0-rc2)
+##### -- Julia            (Version 1.9.3)
 
 
 Overview
@@ -61,7 +58,7 @@ Run MRSI scripts
 -----------------------------------------
 Run the scripts from within a singularity shell inside Neurodesk. Example:
 ```bash
-singularity shell singularity shell /cvmfs/neurodesk.ardc.edu.au/containers/mrsiproc_0.0.1_20221026/mrsiproc_0.0.1_20221026.simg
+singularity shell singularity shell /cvmfs/neurodesk.ardc.edu.au/containers/mrsiproc_toolVersion_20221026/mrsiproc_toolVersion_20221026.simg
 ```
 ```bash
 Singularity> cd /neurodesktop-storage/mrsi_proc
@@ -71,7 +68,7 @@ Singularity> ./Run_MRSI_test.sh
 To run applications outside of this container
 ---------------------------------------------
   (This is not working yet)  
-  ml mrsiproc/0.0.1
+  ml mrsiproc/toolVersion
 
 Citation
 --------
