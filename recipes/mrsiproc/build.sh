@@ -120,7 +120,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="julia install_packages.jl" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    \
-   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl" \
+   --workdir /opt `# Add MRSI pipeline scripts` \
+   --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git" \
+   --env PATH="\${PATH}:/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
+   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
