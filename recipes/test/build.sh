@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --copy README.md /README.md                          `# include readme file in container` \
    --copy *.sh /neurodesk/ 				`# copy test scripts to /neurodesk folder - build.sh will be included as well, which is a good idea` \
-   --run="chmod +x /neurodesk/*.sh" 			`# allow execution of all shell scripts in /neurodesk inside the cotainer` \
+   --run="chmod +x /neurodesk/*.sh" 			`# allow execution of all shell scripts in /neurodesk inside the container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
   
 if [ "$1" != "" ]; then

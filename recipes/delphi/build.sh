@@ -38,7 +38,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="pip install matplotlib"                              \
    --run="apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub"   `# update new public key for NVIDIA CUDA`\
    --install wget git tar curl ca-certificates libssl-dev clang llvm dpkg                                                     \
-   --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" `# rust compilling needs higher version of cmake`\
+   --run="curl -fsSL --retry 5 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local/" `# rust compiling needs higher version of cmake`\
    --run="mkdir -m777 /usr/local/rustup /usr/local/cargo"                                                                     `# make directory for rustuo and cargo`\
    --env RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH='$PATH':/usr/local/cargo/bin                          `# set environment path for rustup and cargo before downloading and installing`\
    --run="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup-init.sh"                                        \

@@ -32,7 +32,7 @@ echo 'N/A' 1>&2; exit 1
 # When done, remove the line above and create the container
 #
 # After the container is incorporated into Neurocontainers and being built by the CI, 
-# convert it into a loacl sif file using the /neurocommand/local/fetch_and_run.sh command provided 
+# convert it into a local sif file using the /neurocommand/local/fetch_and_run.sh command provided 
 # in the "New container ..." issue confirming the container was built.
 #
 # If you see that the container runs successfully as a sif file, run the following commands to verify your test scripts return the appropriate output
