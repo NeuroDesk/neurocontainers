@@ -3,7 +3,7 @@ set -e
 
 # this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
 export toolName='mrsiproc'
-export toolVersion='0.0.1' # the version number cannot contain a "-" - try to use x.x.x notation always
+export toolVersion='0.1.0' # the version number cannot contain a "-" - try to use x.x.x notation always
 export matlabVersion='2021b' # this has to match the version on which the matlab scripts were compiled
 export matlabUpdateVersion='6'
 export mincVersion='1.9.15'
@@ -37,7 +37,6 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_${fslVersion} \
    --pkg-manager apt \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --user=root `# otherwise some permission denied error occurs during docker build` \
    --dcm2niix method=source version=${dcm2niixVersion} \
    --minc version=${mincVersion} \
@@ -123,7 +122,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt `# Add MRSI pipeline scripts` \
    --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git" \
    --env PATH="\${PATH}:/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
-   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh" \
+   --copy update_mrsi.sh /opt/mrsi_pipeline_neurodesk \
+   --run="chmod a+x /opt/mrsi_pipeline_neurodesk/update_mrsi.sh" \
+   --env PATH="/neurodesktop-storage/mrsi_pipeline_neurodesk/Part1:/neurodesktop-storage/mrsi_pipeline_neurodesk/Part2:/opt/mrsi_pipeline_neurodesk:\${PATH}" \
+   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
