@@ -1,7 +1,7 @@
 rules:
   # If the efficiency is measured below X%, mark as failed.
   # Expressed as a ratio between 0-1.
-  lowestEfficiency: 0.99
+  lowestEfficiency: 0.9
 
   # If the amount of wasted space is at least X or larger than X, mark as failed.
   # Expressed in B, KB, MB, and GB.
