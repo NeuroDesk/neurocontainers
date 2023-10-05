@@ -2,7 +2,9 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.7.1'
+export toolVersion='6.0.7.4'
+# check for latest version: http://fsl.fmrib.ox.ac.uk/fsldownloads
+# check if latest version is in neurodocker https://github.com/ReproNim/neurodocker/blob/master/neurodocker/templates/fsl.yaml
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -10,11 +12,6 @@ if [ "$1" != "" ]; then
 fi
 
 source ../main_setup.sh
-
-echo "installing development repository of neurodocker:"
-yes | pip uninstall neurodocker
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/add-fsl-6.0.7.1 --upgrade
-
 
 yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:20.04 \
@@ -31,7 +28,11 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env LANG=en_US.UTF-8 \
    --env LANGUAGE=en_US:en \
    --env LC_ALL=en_US.UTF-8 \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --workdir /opt/ICA-AROMA \
+   --run="curl -sSL "https://github.com/rhr-pruim/ICA-AROMA/archive/v0.4.3-beta.tar.gz" | tar -xzC /opt/ICA-AROMA --strip-components 1 \
+      && chmod +x /opt/ICA-AROMA/ICA_AROMA.py" \
+   --env PATH=/opt/ICA-AROMA/:'$PATH' \
+   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/ICA-AROMA/ \
    --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-${toolVersion} \
    --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \
    --copy eddy /opt/fsl-${toolVersion}/bin/eddy \
@@ -44,4 +45,4 @@ if [ "$1" != "" ]; then
 fi
 
 #CUDA SETUP
-#FSL 6.0.6.4 only brings eddy_cuda10.2 -> so Ubuntu 20.04 could work because it brings nvidia-cuda-toolkit_10.1.243-3_amd64.deb or 22.04 with nvidia-cuda-toolkit_11.5.1-1ubuntu1_amd64.deb -> needed to hack eddy executable to make this work
+#FSL 6.0.6.4 only brings eddy_cuda10.2 -> so Ubuntu 20.04 could work because it brings nvidia-cuda-toolkit_10.1.243-3_amd64.deb or 22.04 with nvidia-cuda-toolkit_11.5.1-1ubuntu1_amd64.deb -> needed to patch eddy executable to make this work

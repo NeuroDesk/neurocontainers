@@ -5,6 +5,7 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 # install development version
+yes | pip uninstall neurodocker
 python -m pip install --no-cache-dir https://github.com/ReproNim/neurodocker/tarball/master --upgrade
 
 export PATH=$PATH:~/.local/bin
