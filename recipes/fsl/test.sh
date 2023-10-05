@@ -6,3 +6,5 @@ cd gpu_test/etest/
 bash runme_gpu.sh
 
 ICA_AROMA.py
+
+# make sure bash is not exported to module system
