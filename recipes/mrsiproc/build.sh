@@ -120,12 +120,15 @@ neurodocker generate ${neurodocker_buildMode} \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    \
    --workdir /opt `# Add MRSI pipeline scripts` \
-   --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git" \
+   --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git && \
+      cd mrsi_pipeline_neurodesk && \
+      git checkout ded1419c632f6db8e59091eda40628f4066c2acc" \
    --env PATH="\${PATH}:/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
    --copy update_mrsi.sh /opt/mrsi_pipeline_neurodesk \
    --run="chmod a+x /opt/mrsi_pipeline_neurodesk/update_mrsi.sh" \
    --env PATH="/neurodesktop-storage/mrsi_pipeline_neurodesk/Part1:/neurodesktop-storage/mrsi_pipeline_neurodesk/Part2:/opt/mrsi_pipeline_neurodesk:\${PATH}" \
-   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh" \
+   --env DEPLOY_PATH="/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
+   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh:fid_1.300000ms.basis:LCModel_Control_Template.m" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
