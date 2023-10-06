@@ -116,7 +116,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="\${PATH}:/opt/julia-${juliaVersion}/bin" \
    --copy install_packages.jl "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
-   --run="julia install_packages.jl" \
+   --run="julia install_packages.jl \
+      && chmod -R 755 /opt/julia_depot/packages/MRSI" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    \
    --workdir /opt `# Add MRSI pipeline scripts` \
