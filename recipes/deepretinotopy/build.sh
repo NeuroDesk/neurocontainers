@@ -26,7 +26,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='git clone https://github.com/felenitaribeiro/nilearn.git' \
    --workdir=/opt \
-   --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git' \
+   --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
+       cd deepRetinotopy_TheToolbox && \
+       git pull' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
    --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
    --env PATH=/opt/workbench/workbench/bin_rh_linux64/:'$PATH' \
