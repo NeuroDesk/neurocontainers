@@ -67,9 +67,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --install curl ca-certificates libxft2 libxss1 libnet-ifconfig-wrapper-perl vim nano unzip gv unrar `# LCModel dependencies (libtk8.6 removed asks interactive question)` \
    --run="curl -o /opt/lcm-64.tar http://www.s-provencher.com/pub/LCModel/programs/lcm-64.tar && \
           tar xf /opt/lcm-64.tar && \
-          rm -rf /opt/lcm-64.tar" \
-   --run="gunzip  -c  lcm-core.tar.gz  |  tar  xf  -" \
-   --run="rm -rf lcm-core.tar.gz" \
+          rm -rf /opt/lcm-64.tar && \
+          gunzip  -c  lcm-core.tar.gz  |  tar  xf  - && \
+          rm -rf lcm-core.tar.gz" \
    --workdir=/opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets \
    --run="curl -o /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/3t.zip http://www.s-provencher.com/pub/LCModel/3t.zip && \
          unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/3t.zip && \
