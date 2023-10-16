@@ -98,7 +98,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt" \
    --copy install_packages.jl "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
-   --run="julia install_packages.jl \
+   --run="julia  install_packages.jl \
        && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --workdir="/opt" \
