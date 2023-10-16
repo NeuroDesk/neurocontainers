@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='6.2.0'
+export toolVersion='6.3.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -44,23 +44,6 @@ neurodocker generate ${neurodocker_buildMode} \
       libsqlite3-dev \
    --env PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
    --run="mkdir -p ${mountPointList}" \
-   --workdir="/opt/TGV_QSM" \
-   --run="wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh \
-       && bash Miniconda2-4.6.14-Linux-x86_64.sh -b -p miniconda2 \
-       && miniconda2/bin/conda install -c anaconda cython==0.29.4 \
-       && miniconda2/bin/conda install numpy \
-       && miniconda2/bin/conda install pyparsing \
-       && miniconda2/bin/pip install scipy==0.17.1 nibabel==2.1.0 \
-       && miniconda2/bin/conda clean --all \
-       && rm Miniconda2-4.6.14-Linux-x86_64.sh" \
-   --run="git clone --depth 1 --branch v1.0 https://github.com/QSMxT/TGV_QSM.git" \
-   --workdir="/opt/TGV_QSM/TGV_QSM" \
-   --copy setup.py "/opt/TGV_QSM/TGV_QSM" \
-   --env PYTHONPATH="/opt/TGV_QSM/TGV_QSM/TGV_QSM" \
-   --run="/opt/TGV_QSM/miniconda2/bin/python setup.py install \
-       && mkdir /opt/TGV_QSM/bin/ \
-       && cp /opt/TGV_QSM/miniconda2/bin/tgv_qsm /opt/TGV_QSM/bin/" \
-   --env PATH="\${PATH}:/opt/TGV_QSM/bin" \
    --workdir="/opt/bet2" \
    --run="git clone https://github.com/liangfu/bet2.git . \
        && cmake . && make \
@@ -68,7 +51,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt" \
    --env SUBJECTS_DIR="/tmp" \
    --ants version=2.3.4 \
-   --dcm2niix method=source version=003f0d19f1e57b0129c9dcf3e653f51ca3559028 \
+   --dcm2niix method=source version=1.0.20230411 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
