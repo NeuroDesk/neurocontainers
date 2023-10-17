@@ -56,6 +56,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion}" \
+   --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
        && pip install -r /opt/FastSurfer/requirements.txt" \
