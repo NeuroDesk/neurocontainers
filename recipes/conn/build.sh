@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds conn
 export toolName='conn'
-export toolVersion='20b'
-# Don't forget to update version change in README.md!!!!!
+export toolVersion='21a'
+# https://www.nitrc.org/frs/?group_id=279
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -19,9 +18,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --matlabmcr version=2020b method=binaries \
+   --matlabmcr version=2021a method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/n/nrrir2sdpmdp/b/neurodesk/o/conn20b_mcr2020b.tar.gz \
+   --run="curl -fsSL --retry 5 https://www.nitrc.org/frs/download.php/12424/conn21a_glnxa64.zip \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --env DEPLOY_BINS=${toolName} \
    --install openjdk-8-jre \
