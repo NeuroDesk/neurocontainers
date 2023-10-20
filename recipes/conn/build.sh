@@ -20,8 +20,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --matlabmcr version=2021a method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --run="curl -fsSL --retry 5 https://www.nitrc.org/frs/download.php/12424/conn21a_glnxa64.zip \
-      | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
+   --install wget \
+   --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://www.nitrc.org/frs/download.php/12424/conn${toolVersion}_glnxa64.zip \
+      && unzip -q conn${toolVersion}_glnxa64.zip -d /opt/${toolName}-${toolVersion}/ \
+      && rm -f conn${toolVersion}_glnxa64.zip" \
    --env DEPLOY_BINS=${toolName} \
    --install openjdk-8-jre \
    --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
