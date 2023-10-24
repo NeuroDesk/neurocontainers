@@ -6,7 +6,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-echo $toolVersion #last build with 23.2.08
+echo $toolVersion #last build with 23.3.02
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -35,7 +35,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="@afni_R_package_install -afni -shiny -bayes_view" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
+   --copy test.tgz /opt/test.tgz \
   > ${imageName}.${neurodocker_buildExt}
+   # --env LC_ALL=C.UTF-8 \
 
 
 if [ "$1" != "" ]; then
