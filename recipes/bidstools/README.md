@@ -5,7 +5,7 @@ Contains a collection of tools useful for DICOM to BIDS conversion
 
 Tools included:
 ```
-dcm2niix: v1.0.20230411 https://github.com/rordenlab/dcm2niix
+dcm2niix: https://github.com/rordenlab/dcm2niix
 bidscoin: https://bidscoin.readthedocs.io
     bidscoin
     bidscoiner
@@ -21,6 +21,7 @@ bidscoin: https://bidscoin.readthedocs.io
     rawmapper
     skullstrip
     slicereport
+spec2nii: https://github.com/wtclarke/spec2nii
 dcmtk: https://support.dcmtk.org/docs/pages.html
     dcmdump
     dump2dcm

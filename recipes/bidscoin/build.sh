@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidscoin'
-export toolVersion='4.2.0'
+export toolVersion='4.2.1'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -32,12 +32,12 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --install curl \
     `# Install pigz (to speed up dcm2niix)` \
     --install pigz \
-    `# Install the 4.2.0+Qt5 branch from Github` \
+    `# Install the 4.2.1+Qt5 branch from Github` \
     `# NOTE: PyQt5 is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
     --install python3-pyqt5 \
     --miniconda version=latest \
-		pip_install='bidscoin[spec2nii2bids,deface]@git+https://github.com/Donders-Institute/bidscoin@v4.2.0+qt5' \
-   --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:skullstrip:slicereport:dcm2niix:pydeface  \
+		pip_install='bidscoin[spec2nii2bids,deface]@git+https://github.com/Donders-Institute/bidscoin@v4.2.1+qt5' \
+   --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:skullstrip:slicereport:dcm2niix:pydeface:spec2nii \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
