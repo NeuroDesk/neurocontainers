@@ -1,4 +1,5 @@
 using Pkg
+ENV["JULIA_PKG_PRECOMPILE_AUTO"]=0
 packages = ["ArgParse", "FFTW", "QSM"]
 Pkg.add(packages)
 Pkg.add(Pkg.PackageSpec(name="MriResearchTools", version=v"2.2.0"))

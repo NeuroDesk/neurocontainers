@@ -80,7 +80,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && rm -rf julia-1.9.3-linux-x86_64.tar.gz" \
    --env PATH="\${PATH}:/opt/julia-1.9.3/bin" \
    --workdir="/opt" \
-   --copy install_packages.jl "/opt" \
+   --copy install_packages.jl  "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia  install_packages.jl \
        && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
