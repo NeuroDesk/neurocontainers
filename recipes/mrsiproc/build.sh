@@ -112,7 +112,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://julialang-s3.julialang.org/bin/linux/x64/${juliaVersion:0:3}/julia-${juliaVersion}-linux-x86_64.tar.gz && \
       tar zxvf julia-${juliaVersion}-linux-x86_64.tar.gz && \
       rm -rf julia-${juliaVersion}-linux-x86_64.tar.gz" \
-   --env JULIA_DEPOT_PATH=/opt/julia_depot \
    --env PATH="\${PATH}:/opt/julia-${juliaVersion}/bin" \
    --copy install_packages.jl "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
@@ -121,6 +120,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    \
    --workdir /opt `# Add MRSI pipeline scripts` \
+   --install parallel \
    --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git && \
       cd mrsi_pipeline_neurodesk && \
       git checkout ded1419c632f6db8e59091eda40628f4066c2acc" \
