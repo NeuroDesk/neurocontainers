@@ -2,7 +2,7 @@
 set -e
 
 export toolName='hmri'
-export toolVersion='0.6.0'
+export toolVersion='0.6.1'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -25,9 +25,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --install wget unzip ca-certificates openjdk-8-jre dbus-x11 \
    --matlabmcr version=2023a install_path=/opt/mcr  \
-   --run="wget --no-check-certificate --progress=bar:force -P /opt https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
-      && unzip -q /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip -d /opt \
-      && rm -f /opt/hMRI_toolbox-v${toolVersion}-SPM${SPM_VERSION}v${SPM_REVISION}.zip \
+   --run="wget --no-check-certificate --progress=bar:force -P /opt https://github.com/hMRI-group/hMRI-toolbox/releases/download/v${toolVersion}/standalone-hMRItoolboxv${toolVersion}.zip \
+      && unzip -q /opt/standalone-hMRItoolboxv${toolVersion}.zip -d /opt \
+      && rm -f /opt/standalone-hMRItoolboxv${toolVersion}.zip \
       && chmod a+rx /opt/standalone/ -R" \
    --env SPM_VERSION=$SPM_VERSION \
    --env SPM_REVISION=r$SPM_REVISION \
