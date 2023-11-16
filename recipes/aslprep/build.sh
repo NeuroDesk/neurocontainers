@@ -2,7 +2,7 @@
 set -e
 
 export toolName='aslprep'
-export toolVersion='0.4.0'
+export toolVersion='0.5.0'
 # check if version is here: https://hub.docker.com/r/pennlinc/aslprep/tags
 # Don't forget to update version change in README.md!!!!!
 
