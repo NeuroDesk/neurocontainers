@@ -63,9 +63,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FASTSURFER_HOME="/opt/FastSurfer" \
    --env PATH="\${PATH}:/opt/FastSurfer" \
    --copy test.sh /test.sh \
-   --run="pip install cloudstor" \
+   --run="pip install osfclient" \
    --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm \
-       && python -c \"import cloudstor; cloudstor.cloudstor(url='https://cloudstor.aarnet.edu.au/plus/s/5OehmoRrTr9XlS5', password='').download('', 'nextqsm-weights.tar')\" \
+       && python -m osfclient -p zqfdc fetch nextqsm-weights.tar nextqsm-weights.tar \
        && tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints \
        && rm nextqsm-weights.tar" \
    --env PATH="\${PATH}:/opt/nextqsm/src_tensorflow" \
