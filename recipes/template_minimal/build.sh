@@ -19,6 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
+   --copy license.txt /license.txt                          `# MANDATORY: include license file in container` \
   > ${imageName}.${neurodocker_buildExt}
   
 if [ "$1" != "" ]; then
