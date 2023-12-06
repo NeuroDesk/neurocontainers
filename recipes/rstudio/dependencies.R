@@ -1,4 +1,6 @@
 # R Script to install the dependencies
+if("devtools" %in% rownames(installed.packages()) == FALSE) {install.packages("devtools")}
+if("RMINC" %in% rownames(installed.packages()) == FALSE) {devtools::install_github("Mouse-Imaging-Centre/RMINC", upgrade_dependencies = FALSE)}
 if("ProbBayes" %in% rownames(installed.packages()) == FALSE) {install.packages("ProbBayes")}
 if("bayesplot" %in% rownames(installed.packages()) == FALSE) {install.packages("bayesplot")}
 if("brms" %in% rownames(installed.packages()) == FALSE) {install.packages("brms")}
@@ -7,7 +9,6 @@ if("Rcpp" %in% rownames(installed.packages()) == FALSE) {install.packages("Rcpp"
 if("reticulate" %in% rownames(installed.packages()) == FALSE) {install.packages("reticulate")}
 if("fastICA" %in% rownames(installed.packages()) == FALSE) {install.packages("fastICA")}
 if("forge" %in% rownames(installed.packages()) == FALSE) {install.packages("forge")}
-if("devtools" %in% rownames(installed.packages()) == FALSE) {install.packages("devtools")}
 if("rmarkdown" %in% rownames(installed.packages()) == FALSE) {install.packages("rmarkdown")}
 if("plotly" %in% rownames(installed.packages()) == FALSE) {install.packages("plotly")}
 if("shiny" %in% rownames(installed.packages()) == FALSE) {install.packages("shiny")}
