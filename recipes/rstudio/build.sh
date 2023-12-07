@@ -35,7 +35,7 @@ neurodocker generate ${neurodocker_buildMode} \
       libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4 \
       libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
    --workdir /opt \
-   --run="wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
+   --run="wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --run="gdebi -q -n /opt/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --run="rm -rf rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --copy dependencies.R /opt \
