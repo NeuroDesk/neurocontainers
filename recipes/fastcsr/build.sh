@@ -26,10 +26,10 @@ neurodocker generate ${neurodocker_buildMode} \
 --env LD_LIBRARY_PATH=/usr/lib/jvm/java-11-openjdk-amd64/lib:/usr/lib/jvm/java-11-openjdk-amd64/lib/server \
 --workdir /opt \
 --run='git clone https://github.com/IndiLab/FastCSR.git' \
---run='wget https://drive.usercontent.google.com/download?id=1qATJ2PT8e6RhBnfJviU6qTtBicVO9_Qr&export=download&authuser=0&confirm=t&uuid=ba0ee838-2af9-48be-8a27-39e5475e4802&at=APZUnTWLoGPK9o4jOoHb5vxdbqCf:1698212871026 -O /opt/FastCSR/model.zip \
+--run='wget "https://drive.usercontent.google.com/download?id=1qATJ2PT8e6RhBnfJviU6qTtBicVO9_Qr&export=download&authuser=0&confirm=t&uuid=ba0ee838-2af9-48be-8a27-39e5475e4802&at=APZUnTWLoGPK9o4jOoHb5vxdbqCf:1698212871026" -O /opt/FastCSR/model.zip \
     && unzip /opt/FastCSR/model.zip \
     && rm /opt/FastCSR/model.zip' \
---run='wget https://drive.usercontent.google.com/download?id=1Ypw25hbpCloQzlbWhg1XWB-HuxIVlHH7&export=download&authuser=0&confirm=t&uuid=e00becd7-c885-4748-8099-04f472d7ccdd&at=APZUnTX9F-JDE6TLLHxD2NuSF0pA:1698212916237 -O /opt/FastCSR/data.zip \
+--run='wget "https://drive.usercontent.google.com/download?id=1Ypw25hbpCloQzlbWhg1XWB-HuxIVlHH7&export=download&authuser=0&confirm=t&uuid=e00becd7-c885-4748-8099-04f472d7ccdd&at=APZUnTX9F-JDE6TLLHxD2NuSF0pA:1698212916237" -O /opt/FastCSR/data.zip \
     && unzip /opt/FastCSR/data.zip \
     && rm /opt/FastCSR/data.zip' \
 --copy README.md /README.md \
