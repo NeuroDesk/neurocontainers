@@ -7,6 +7,7 @@ export additionalVersion='494'
 # https://posit.co/download/rstudio-desktop/
 # based on this, but no CUDA (yet): https://github.com/Characterisation-Virtual-Laboratory/CharacterisationVL-Software/blob/master/R/Singularity.R_4.0.5
 
+
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
