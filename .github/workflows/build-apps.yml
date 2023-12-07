@@ -26,6 +26,7 @@ jobs:
     if: ${{ inputs.applications != '[]' }}
     runs-on: ${{ fromJSON(inputs.runner) }}
     strategy:
+      fail-fast: false
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
     permissions:
