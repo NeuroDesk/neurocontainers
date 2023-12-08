@@ -87,9 +87,6 @@ neurodocker generate ${neurodocker_buildMode} \
          unzip /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip && \
          rm -rf /opt/lcmodel-${lcmodelVersion}/.lcmodel/basis-sets/basisset_LCModel.zip" \
    --workdir=/opt/datasets \
-   --run="curl -o /opt/datasets/testdata.rar https://zenodo.org/record/3904443/files/Spectra_hippocampus%28rat%29_TE02.rar?download=1 && \
-          unrar x /opt/datasets/testdata.rar  && \
-          rm -rf /opt/datasets/testdata.rar" \
    --run="curl -o /opt/lcmodel-${lcmodelVersion}/manual.pdf http://www.lcmodel.com/pub/LCModel/manual/manual.pdf" \
    --copy setup_lcmodel.sh  /opt/lcmodel-${lcmodelVersion}/.lcmodel/bin \
    --workdir /opt/lcmodel-${lcmodelVersion}/.lcmodel/profiles/1/control-defaults \
@@ -129,7 +126,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /opt/mrsi_pipeline_neurodesk/update_mrsi.sh" \
    --env PATH="/neurodesktop-storage/mrsi_pipeline_neurodesk/Part1:/neurodesktop-storage/mrsi_pipeline_neurodesk/Part2:/opt/mrsi_pipeline_neurodesk:\${PATH}" \
    --env DEPLOY_PATH="/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
-   --env DEPLOY_BINS="julia:python:dcm2niix:hd-bet:lcmodel:nii2mnc:bet:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh:fid_1.300000ms.basis:LCModel_Control_Template.m" \
+   --env DEPLOY_BINS="julia:python:dcm2niix:nii2mnc:dcm2mnc:rawtominc:mnc2nii:bet:hd-bet:lcmodel:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh:fid_1.300000ms.basis:LCModel_Control_Template.m" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
