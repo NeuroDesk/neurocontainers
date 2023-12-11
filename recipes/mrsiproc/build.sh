@@ -126,7 +126,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /opt/mrsi_pipeline_neurodesk/update_mrsi.sh" \
    --env PATH="/neurodesktop-storage/mrsi_pipeline_neurodesk/Part1:/neurodesktop-storage/mrsi_pipeline_neurodesk/Part2:/opt/mrsi_pipeline_neurodesk:\${PATH}" \
    --env DEPLOY_PATH="/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
-   --env DEPLOY_BINS="julia:python:dcm2niix:nii2mnc:dcm2mnc:rawtominc:mnc2nii:bet:hd-bet:lcmodel:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh:fid_1.300000ms.basis:LCModel_Control_Template.m" \
+   --env DEPLOY_BINS="julia:python:dcm2niix:nii2mnc:dcm2mnc:rawtominc:mnc2nii:bet:hd-bet:lcmodel:parallel:fsl:fslmaths:Part1_ProcessMRSI.sh:Part2_EvaluateMRSI.sh:update_mrsi.sh:fid_1.300000ms.basis:LCModel_Control_Template.m" \
    \
    --copy README.md /README.md                          `# include README file in container` \
    \
