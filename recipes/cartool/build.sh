@@ -30,6 +30,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy license.txt /license.txt                          `# MANDATORY: include license file in container` \
   > ${imageName}.${neurodocker_buildExt}
    
+   
    # this doesn't work yet -> zipping up installation folder for now on an interactive instance.
    # --run="Xvfb :0 -screen 0 1024x768x16 & DISPLAY=:0.0 wine Cartool64Setup.exe /S" \
 
