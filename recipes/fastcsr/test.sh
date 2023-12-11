@@ -1,9 +1,11 @@
 pip list | grep numpy
-# should not be 1.16.4
-# but rather: numpy               1.24.4              
+# numpy==1.20.3             
+
+pip list | grep nibabel
+# nibabel             2.5.2
 
 cd /opt/FastCSR
-python3 pipeline.py --sd ../data --sid sub-001  --t1 ../data/sub-001.nii.gz
+python3 pipeline.py --sd ./data --sid sub-001  --t1 ./data/sub-001.nii.gz --parallel_scheduling off --verbose
 
 # DOENS'T WORK
 # [INFO] 2023-12-08 07:10:30 PID: 15 pipeline.py Please cite the following paper when using FastCSR:
