@@ -120,7 +120,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install parallel \
    --run="git clone https://github.com/korbinian90/mrsi_pipeline_neurodesk.git && \
       cd mrsi_pipeline_neurodesk && \
-      git checkout ded1419c632f6db8e59091eda40628f4066c2acc" \
+      git checkout 64945adbc03581e1d92210d76cc4674836c7f803" \
    --env PATH="\${PATH}:/opt/mrsi_pipeline_neurodesk/Part1:/opt/mrsi_pipeline_neurodesk/Part2" \
    --copy update_mrsi.sh /opt/mrsi_pipeline_neurodesk \
    --run="chmod a+x /opt/mrsi_pipeline_neurodesk/update_mrsi.sh" \
