@@ -26,6 +26,12 @@ function build {
   if [ "$package_manager" = "apt" ]; then
       echo "--env DEBIAN_FRONTEND=noninteractive \\" >> build.sh
   fi
+  
+  echo "--run=\"printf '#!/bin/bash\nls -la' > /usr/bin/ll\" \\" >> build.sh
+   
+  echo "--run=\"chmod +x /usr/bin/ll \\" >> build.sh
+  echo "--run=\"mkdir -p \${mountPointList}\" \\" >> build.sh
+  
 
   read -p 'Software description: ' software_description 
   read -p 'Example of running the tool: ' example 
