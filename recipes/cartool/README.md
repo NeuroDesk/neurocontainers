@@ -1,6 +1,6 @@
 
 ----------------------------------
-## cartool/7608 ##
+## cartool/toolVersion ##
 The Cartool EEG Analysis software
 
 Example:
@@ -9,7 +9,7 @@ Example:
 
 More documentation can be found here: https://sites.google.com/site/cartoolcommunity/about-cartool?authuser=0
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml cartool/7608
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml cartool/toolVersion
 
 License:
 ```
