@@ -15,6 +15,9 @@ neurodocker generate ${neurodocker_buildMode} \
 --base-image ubuntu:20.04 \
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
+--run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
+--run="chmod +x /usr/bin/ll" \
+--run="mkdir -p ${mountPointList}" \
 --install opts=--quiet git software-properties-common wget openjdk-11-jdk bc binutils libgomp1 perl psmisc sudo tar tcsh unzip uuid-dev vim-common libjpeg62-dev python3-pip \
 --freesurfer version=6.0.0 \
 --copy fs_license.txt /opt/freesurfer-6.0.0/license.txt \
