@@ -56,10 +56,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="/opt/workbench/:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
-   --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
+   --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv97/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/extern/bin/glnxa64" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
+   --run="bash /test.sh" \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
 
