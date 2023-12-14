@@ -29,8 +29,8 @@ neurodocker generate ${neurodocker_buildMode} \
             && ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion} \
             && rm -rf freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --install mesa-dri-drivers which unzip ncurses-compat-libs libgomp java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
-   --matlabmcr version=2014b install_path=/opt/MCR  \
-   --run="ln -s /opt/MCR/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
+   --matlabmcr version=2019b install_path=/opt/MCR2019b  \
+   --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
