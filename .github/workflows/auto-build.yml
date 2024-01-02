@@ -20,7 +20,7 @@ jobs:
         fetch-depth: 0
     - name: Find all recipe directories with changes
       id: find_changed_dirs
-      uses: tj-actions/changed-files@v34
+      uses: tj-actions/changed-files@v41
       with:
         files: "recipes/**"
         dir_names: "true"
