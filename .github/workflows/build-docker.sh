@@ -67,8 +67,12 @@ if [ -n "${ORACLE_USER}" ]; then
 
     if curl --output /dev/null --silent --head --fail "https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/temporary-builds/${IMAGENAME}_${BUILDDATE}.simg"; then
         echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
+        echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+        rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
     else
         echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg does not exist yet. Something is WRONG"
+        echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+        rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
         exit 2
     fi
 else
