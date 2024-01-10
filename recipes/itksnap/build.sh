@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
- #  --env QT_QPA_PLATFORM="xcb" forces xcb under wayland 
+ #  --env QT_QPA_PLATFORM="xcb" forces xcb under wayland - this was otherwise causing a library error
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
