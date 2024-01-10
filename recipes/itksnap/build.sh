@@ -28,7 +28,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
-   # --entrypoint "/opt/${toolName}-${toolVersion}/bin/itksnap /MRIcrop-orig.gipl" \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
