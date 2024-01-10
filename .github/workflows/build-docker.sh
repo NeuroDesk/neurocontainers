@@ -59,8 +59,11 @@ export IMAGE_HOME="$HOME"
 
 echo "saving docker image locally for singularity to convert:"
 docker save $IMAGEID:$SHORT_SHA -o image.tar
-singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
- 
+
+if [ ! -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
+  singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
+fi
+
 if [ -n "${ORACLE_USER}" ]; then
     echo "[DEBUG] Attempting upload to Oracle ..."
     curl -X PUT -u ${ORACLE_USER} --upload-file $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg $ORACLE_NEURODESK_BUCKET/temporary-builds/
