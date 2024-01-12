@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install curl ca-certificates unzip libqt5gui5 libopengl0 \
+   --install curl ca-certificates unzip libqt5gui5 libopengl0 mlocate \
    --run="curl -fsSL -o /example_data.zip https://www.nitrc.org/frs/download.php/750/MRI-crop.zip  \
          && unzip /example_data.zip \
          && rm /example_data.zip" \
