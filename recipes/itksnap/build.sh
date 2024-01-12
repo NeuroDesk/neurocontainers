@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="curl -fsSL --retry 5 https://ixpeering.dl.sourceforge.net/project/itk-snap/itk-snap/${toolVersion}/itksnap-${toolVersion}-Linux-gcc64.tar.gz | tar -xz --strip-components=1 -C /opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
+   --run="updatedb" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
