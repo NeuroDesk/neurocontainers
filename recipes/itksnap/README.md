@@ -1,6 +1,6 @@
 
 ----------------------------------
-## itksnap/4.0.2 ##
+## itksnap/toolVersion ##
 itksnap is an image viewer for DICOM and NII files and supports manual segmentation of data.
 
 
