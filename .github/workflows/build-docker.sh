@@ -55,13 +55,31 @@ then
 fi
 
 
-export IMAGE_HOME="$HOME"
+export IMAGE_HOME="/storage/tmp"
+
+if [ -d "$IMAGE_HOME" ]; then
+  echo "[DEBUG] $IMAGE_HOME exists"
+else
+  echo "[DEBUG] $IMAGE_HOME does not exist. Creating ..."
+  sudo mkdir -p $IMAGE_HOME
+  sudo chmod a+rwx $IMAGE_HOME
+fi
 
 echo "saving docker image locally for singularity to convert:"
+# cleanup first
+if [ -f "image.tar" ]; then
+  rm -rf image.tar
+fi
 docker save $IMAGEID:$SHORT_SHA -o image.tar
 
-if [ ! -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
-  singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
+if [ -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
+  rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
+fi
+singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
+
+# cleanup
+if [ -f "image.tar" ]; then
+  rm -rf image.tar
 fi
 
 if [ -n "${ORACLE_USER}" ]; then
