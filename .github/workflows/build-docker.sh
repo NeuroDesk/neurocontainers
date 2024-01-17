@@ -67,19 +67,19 @@ fi
 
 echo "saving docker image locally for singularity to convert:"
 # cleanup first
-if [ -f "image.tar" ]; then
-  rm -rf image.tar
+if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
+  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
 fi
-docker save $IMAGEID:$SHORT_SHA -o image.tar
+docker save $IMAGEID:$SHORT_SHA -o ${IMAGENAME}_${BUILDDATE}.tar
 
 if [ -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
   rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
 fi
-singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
+singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://${IMAGENAME}_${BUILDDATE}.tar
 
 # cleanup
-if [ -f "image.tar" ]; then
-  rm -rf image.tar
+if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
+  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
 fi
 
 if [ -n "${ORACLE_USER}" ]; then
