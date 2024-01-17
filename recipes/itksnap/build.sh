@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install curl ca-certificates unzip libqt5gui5 libopengl0 mlocate binutils \
+   --install curl ca-certificates unzip  mlocate binutils libqt5gui5 libopengl0 \
    --run="curl -fsSL -o /example_data.zip https://www.nitrc.org/frs/download.php/750/MRI-crop.zip  \
          && unzip /example_data.zip \
          && rm /example_data.zip" \
@@ -27,9 +27,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin/ \
    --run="find /opt/itksnap-4.0.2/ -name '*.so.*' | xargs strip --remove-section=.note.ABI-tag" \
-   --run="updatedb" \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
+
+# 
+
+# needed for centos, but libcurl error: libX11 libglvnd-glx libglvnd-opengl libxkbcommon libglvnd-egl fontconfig dbus-libs
 
  #  --env QT_QPA_PLATFORM="xcb" forces xcb under wayland - this was otherwise causing a library error
 
