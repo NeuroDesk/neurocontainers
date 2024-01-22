@@ -55,7 +55,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
-       && pip install qsmxt==${toolVersion}" \
+       && pip install qsmxt==${toolVersion} \
+       && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
