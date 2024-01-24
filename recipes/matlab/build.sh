@@ -44,6 +44,23 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='${PATH}'":/opt/matlab/R${toolVersion}/bin/"   	 `# set PATH; not required to run matlab, but required for other Matlab tools like mex` \
    --env DEPLOY_BINS=datalad:matlab:mex                 `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --env MLM_LICENSE_FILE='~/Downloads'		 `# tell Matlab to look for the license file in Downloads under the home directory. There is the default download folder in Neurodesktop` \
+   --env GOPATH='$HOME'/go \
+   --env PATH='$PATH':/usr/local/go/bin:'$PATH':${GOPATH}/bin \
+   --run="wget https://dl.google.com/go/go$GO_VERSION.$OS-$ARCH.tar.gz \
+    && tar -C /usr/local -xzvf go$GO_VERSION.$OS-$ARCH.tar.gz \
+    && rm go$GO_VERSION.$OS-$ARCH.tar.gz \
+    && mkdir -p $GOPATH/src/github.com/sylabs \
+    && cd $GOPATH/src/github.com/sylabs \
+    && wget https://github.com/sylabs/singularity/releases/download/v${SINGULARITY_VERSION}/singularity-ce-${SINGULARITY_VERSION}.tar.gz \
+    && tar -xzvf singularity-ce-${SINGULARITY_VERSION}.tar.gz \
+    && cd singularity-ce-${SINGULARITY_VERSION} \
+    && ./mconfig --without-suid --prefix=/usr/local/singularity \
+    && make -C builddir \
+    && make -C builddir install \
+    && cd .. \
+    && rm -rf singularity-ce-${SINGULARITY_VERSION} \
+    && rm -rf /usr/local/go $GOPATH \
+    && ln -s /usr/local/singularity/bin/singularity /bin/" \
    --copy README.md /README.md                          `# include readme file in container` \
    --run="rm /usr/local/bin/matlab"			`# rm original matlab symbolic link` \
    --copy matlab /usr/local/bin/matlab `# replace original matlab with a script that sets MLM_LICENSE_FILE and then call matlab; license dir is set to ~/Downloads because there is where Firefox download the license to` \
