@@ -52,6 +52,10 @@ export buildDate=`date +%Y%m%d`
 
 export imageName=${toolName}_${toolVersion}
 
+# If TinyRange exists in the expected location then enable it.
+if test -f /storage/tinyrange/tinyrange; then
+       export TINYRANGE=/storage/tinyrange/tinyrange
+fi
 
 echo "building $imageName in mode $buildMode"
 
