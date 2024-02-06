@@ -36,7 +36,7 @@ else
    $TINYRANGE login \
       --size xl \
       --pkg ubuntu \
-      --pkg pkg:unzip,mlocate,binutils,libqt5gui5,libopengl0 \
+      --pkg pkg:curl,ca-certificates,unzip,mlocate,binutils,libqt5gui5,libopengl0 \
       --file https://www.nitrc.org/frs/download.php/750/MRI-crop.zip \
       --file https://ixpeering.dl.sourceforge.net/project/itk-snap/itk-snap/${toolVersion}/itksnap-${toolVersion}-Linux-gcc64.tar.gz \
       --exec "set -ex; \
