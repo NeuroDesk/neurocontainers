@@ -57,7 +57,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion} \
-       && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm" \
+       && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm \
+       && pip install nextqsm==1.0.4 \
+       && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
@@ -65,12 +67,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FASTSURFER_HOME="/opt/FastSurfer" \
    --env PATH="\${PATH}:/opt/FastSurfer" \
    --copy test.sh /test.sh \
-   --run="pip install osfclient" \
-   --run="git clone --depth 1 --branch v1.0.1 https://github.com/QSMxT/NeXtQSM /opt/nextqsm \
-       && python -m osfclient -p zqfdc fetch nextqsm-weights.tar nextqsm-weights.tar \
-       && tar xf nextqsm-weights.tar -C /opt/nextqsm/checkpoints \
-       && rm nextqsm-weights.tar" \
-   --env PATH="\${PATH}:/opt/nextqsm/src_tensorflow" \
    --workdir="/opt/bru2" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip \
        && unzip Bru2_Linux.zip \
