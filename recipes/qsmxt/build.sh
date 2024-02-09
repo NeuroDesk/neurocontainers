@@ -30,6 +30,7 @@ source ../main_setup.sh
 # - 1.3.0 (container update): Fixed FastSurfer to v1.1.1 due to seeming slowness in v2
 # - ...
 # - 3.2.0: Added fix for scikit-sparse due to Cython bug https://github.com/scikit-sparse/scikit-sparse/releases/tag/v0.4.9
+# - 6.3.2: Note that Julia v1.10 is not compatible with QSM.jl - created issue https://github.com/kamesy/QSM.jl/issues/8
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
@@ -76,14 +77,14 @@ neurodocker generate ${neurodocker_buildMode} \
        && rm Bru2_Linux.zip" \
    --env PATH="\${PATH}:/opt/bru2" \
    --workdir="/opt" \
-   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-1.10.0-linux-x86_64.tar.gz \
-       && tar zxvf julia-1.10.0-linux-x86_64.tar.gz \
-       && rm -rf julia-1.10.0-linux-x86_64.tar.gz" \
-   --env PATH="\${PATH}:/opt/julia-1.10.0/bin" \
+   --run="wget https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz \
+       && tar zxvf julia-1.9.3-linux-x86_64.tar.gz \
+       && rm -rf julia-1.9.3-linux-x86_64.tar.gz" \
+   --env PATH="\${PATH}:/opt/julia-1.9.3/bin" \
    --workdir="/opt" \
-   --copy install_packages.jl  "/opt" \
+   --copy install_packages.jl "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
-   --run="julia  install_packages.jl \
+   --run="julia install_packages.jl \
        && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --workdir="/opt" \
