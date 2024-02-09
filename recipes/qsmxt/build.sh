@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='6.3.2'
+export toolVersion='6.4.0'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -58,7 +58,6 @@ neurodocker generate ${neurodocker_buildMode} \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion} \
        && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm \
-       && pip install nextqsm==1.0.4 \
        && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
