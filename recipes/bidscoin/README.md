@@ -31,7 +31,7 @@ bidscoiner dicomfolder bidsoutputfolder
 ```
 
 More documentation can be found here:
-https://bidscoin.readthedocs.io/en/toolVersion
+https://bidscoin.readthedocs.io/
 
 
 Citation:
