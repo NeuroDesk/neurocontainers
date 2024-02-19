@@ -26,13 +26,12 @@ Getting started:
 bidscoin -h
 
 Convert DICOM to BIDS:
-bidsmapper dicomfolder bidsoutputfolder
-bidscoiner dicomfolder bidsoutputfolder
+bidsmapper inputfolder bidsoutputfolder
+bidscoiner inputfolder bidsoutputfolder
 ```
 
 More documentation can be found here:
 https://bidscoin.readthedocs.io/
-
 
 Citation:
 ```

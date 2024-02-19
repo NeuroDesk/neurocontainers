@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidstools'
-export toolVersion='1.0.2'
+export toolVersion='1.0.3'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -30,7 +30,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="unzip Bru2_Linux.zip" \
    --dcm2niix method=source version=latest \
    --env PATH='$PATH':/opt/bru2 \
-   --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:skullstrip:slicereport:dcm2niix:pydeface:Bru2:Bru2Nii:heudiconv  \
+   --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:skullstrip:slicereport:dcm2niix:pydeface:spec2nii:Bru2:Bru2Nii:heudiconv \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 

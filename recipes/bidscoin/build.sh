@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --install curl \
     `# Install pigz (to speed up dcm2niix)` \
     --install pigz \
-    `# Install the 4.2.0+Qt5 branch from Github` \
+    `# Install the 4.2.1+Qt5 branch from Github` \
     `# NOTE: PyQt5 is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
     --install python3-pyqt5 \
     --miniconda version=latest \

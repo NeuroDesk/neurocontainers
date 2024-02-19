@@ -26,6 +26,7 @@ jobs:
     if: ${{ inputs.applications != '[]' }}
     runs-on: ${{ fromJSON(inputs.runner) }}
     strategy:
+      fail-fast: false
       matrix:
         application: ${{ fromJSON(inputs.applications) }}
     permissions:
@@ -92,7 +93,7 @@ jobs:
         run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
       - name: Check image for wasted space using dive
         uses: MartinHeinz/dive-action@v0.1.0
-        if: ${{ !contains(github.event.head_commit.message, 'skipdive') }}
+        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
         with:
           image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
           # github-token: ${{ secrets.GITHUB_TOKEN }}

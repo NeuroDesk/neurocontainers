@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='0.6.0'
+export toolVersion='0.9.1'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -14,11 +14,15 @@ neurodocker generate ${neurodocker_buildMode} \
 --env DEBIAN_FRONTEND=noninteractive \
 --install git vim \
 --workdir=/opt \
---run='git clone https://github.com/KMarshallX/vessel_code.git' \
+--run='git clone https://github.com/KMarshallX/vessel_code.git && \
+    cd vessel_code && \
+    git checkout 43273dbe7bdf8c3746b0f5304e4d8cd900fa6c1d' \
 --workdir='/opt/vessel_code/' \
 --run='pip install -r requirements.txt ' \
 --workdir='/opt/vessel_code/saved_models' \
---run='osf -p jg7cr fetch /saved_models/Init_ep1000_lr1e3_tver' \
+--run='osf -p abk4p fetch osfstorage/pretrained_models/manual_ep1000_1029' \
+--run='osf -p abk4p fetch osfstorage/pretrained_models/om1_ep1000_1029' \
+--run='osf -p abk4p fetch osfstorage/pretrained_models/om2_ep1000_1029' \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 

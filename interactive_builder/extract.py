@@ -11,7 +11,7 @@ for history in open('bash_history'):
         pkgs = history.split('  ')[-1].split(' ')[2:]
         install.extend(pkg.replace('\n', '') for pkg in pkgs)
     
-f.write("--install " + ' '.join(set(install)) + " \\\n")
+f.write("--install opts=--quiet " + ' '.join(set(install)) + " \\\n")
 
 for history in open('bash_history'):
      if "apt install" not in history and "yum install" not in history:
