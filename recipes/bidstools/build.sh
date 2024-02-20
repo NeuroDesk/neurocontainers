@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --miniconda version=latest \
                mamba=true \
-               conda_install='python=3.11 traits=6.3.2' \
+               conda_install='python=3.11' \
                pip_install='heudiconv' \
    --install opts="--quiet" wget zip libgl1 libgtk2.0-0 dcmtk xmedcon pigz libxcb-cursor0 \
    --workdir /opt/bru2 \
