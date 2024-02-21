@@ -25,6 +25,6 @@ Example converting Bruker data to Nifti
 Bru2 -o /Users/cr/dir2/out /Users/cr/dir/acqp
 ```
 
-To run container outside of this environment: ml bidstools/toolVersion
+To run container outside of this environment: ml bidstools/1.0.4
 
 ----------------------------------

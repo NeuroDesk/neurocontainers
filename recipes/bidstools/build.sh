@@ -20,10 +20,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
+   --install opts="--quiet" gcc \
    --miniconda version=latest \
                mamba=true \
-               conda_install='python=3.11 traits' \
-               pip_install='heudiconv' \
+               conda_install='python=3.11' \
+               pip_install='heudiconv traits' \
    --install opts="--quiet" wget zip libgl1 libgtk2.0-0 dcmtk xmedcon pigz libxcb-cursor0 \
    --workdir /opt/bru2 \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip" \
