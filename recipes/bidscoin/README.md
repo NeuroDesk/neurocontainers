@@ -13,10 +13,8 @@ bidscoin: https://bidscoin.readthedocs.io/en/4.3.0
     bidseditor
     bidsmapper
     bidsparticipants
-    deface
     dicomsort
     echocombine
-    medeface
     physio2tsv
     plotphysio
     rawmapper
