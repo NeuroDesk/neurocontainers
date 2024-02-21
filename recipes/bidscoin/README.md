@@ -18,6 +18,7 @@ bidscoin: https://bidscoin.readthedocs.io/en/4.3.0
     physio2tsv
     plotphysio
     rawmapper
+    slicereport
 ```
 
 Example converting dicom to BIDS: 

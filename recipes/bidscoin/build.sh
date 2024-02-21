@@ -33,9 +33,11 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     `# NOTE: PyQt5 is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
     --install python3-pyqt5 \
     --miniconda version=latest \
-		pip_install="bidscoin[spec2nii2bids]@git+https://github.com/Donders-Institute/bidscoin@v${toolVersion}+qt5" \
-   --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:dicomsort:echocombine:physio2tsv:plotphysio:rawmapper:dcm2niix:spec2nii \
-   --copy README.md /README.md \
+    conda_install="-c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt" \
+		pip_install="bidscoin[spec2nii2bids,deface]@git+https://github.com/Donders-Institute/bidscoin@v${toolVersion}+qt5" \
+    --env FSLDIR=/opt/miniconda-latest FSLOUTPUTTYPE=NIFTI_GZ \
+    --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:slicereport:dcm2niix:spec2nii \
+    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$1" != "" ]; then
