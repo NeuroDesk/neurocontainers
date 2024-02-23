@@ -1,0 +1,39 @@
+pkgdef python3 {
+    require distro/alpine
+
+    pkg pkg:python3
+}
+
+pkgdef pyenv {
+    pkg python3
+
+    exec pyenv {
+        python3 -m venv $HOME/pyenv
+        echo "source $HOME/pyenv/bin/activate" >> $HOME/.profile
+        chmod +x $HOME/.profile
+
+        source $HOME/pyenv/bin/activate
+
+        pip config set global.trusted-host \
+            "pypi.org files.pythonhosted.org pypi.python.org" \
+            --trusted-host=pypi.python.org \
+            --trusted-host=pypi.org \
+            --trusted-host=files.pythonhosted.org
+    }
+}
+
+pkgdef python3-tkinter {
+    require distro/alpine
+
+    pkg pkg:python3-tkinter
+}
+
+pkgdef brkraw {
+    pkg pyenv
+
+    pkg python3-tkinter
+
+    exec brkraw {
+        pip install bruker'[SimpleITK]'
+    }    
+}
