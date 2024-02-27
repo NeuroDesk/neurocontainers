@@ -41,7 +41,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions/ -R" \
    --run="chmod a+rwx /opt/vscode-data -R" \
-   --env DEPLOY_BINS=code \
+   --env DEPLOY_BINS="code:julia" \
    --copy module.sh /usr/share/ \
    --user neuro \
    >${imageName}.${neurodocker_buildExt}
