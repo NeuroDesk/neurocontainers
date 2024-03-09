@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     `# Install the latest dcm2niix from source` \
     --install git build-essential cmake \
     --run "export GIT_SSL_NO_VERIFY=1 && git clone https://github.com/rordenlab/dcm2niix.git" `# first command solves some issue with the clone, see: https://stackoverflow.com/questions/21181231/server-certificate-verification-failed-cafile-etc-ssl-certs-ca-certificates-c` \
-    --run "cd dcm2niix; mkdir build && cd build; cmake ..; make install" \
+    --run "cd dcm2niix; mkdir build && cd build; cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..; make install" \
     `#  Install curl (sometimes needed by dcm2niix)` \
     --install curl \
     `# Install pigz (to speed up dcm2niix)` \
