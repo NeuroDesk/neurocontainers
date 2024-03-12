@@ -13,9 +13,11 @@ To make the executables and scripts inside this container transparently availabl
 
 The packages included in this container, their version, and the base folder of the installation within the container:
 
-relion - toolVersion - /opt/relion/toolVersion
+relion - toolVersion - /opt/relion-toolVersion
 
-packageB - 1111 - /opt/packageB_111
+ctffind - 4.1.14 - /opt/ctffind-4.1.14
+
+motioncor2 - 1.6.4 - /opt/motioncor2-1.6.4
 
 Citation:
 ```
