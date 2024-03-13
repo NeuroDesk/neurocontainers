@@ -19,6 +19,8 @@ ctffind - 4.1.14 - /opt/ctffind-4.1.14
 
 motioncor2 - 1.6.4 - /opt/motioncor2-1.6.4
 
+cudatoolkit - 11.8 - /usr/local/cuda-11.8
+
 Citation:
 ```
 
