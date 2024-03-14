@@ -59,7 +59,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --install cuda-toolkit-11-8				`# RELION: install CUDA Toolkit 11.8` \
    --run="git clone 'https://github.com/3dem/relion.git' --branch=${toolVersion}	`# RELION: clone relion git repository` \
        && cd relion && mkdir build && cd build		`# RELION: create and move into build directory` \
-       && cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON ..	`# RELION: Compile with GPU architecture and CUDA version` \
+       && if [[ -z '${COMPUTE_CAPABILITY}' ]] \
+       ;  then cmake -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. `# RELION: If there is no NVIDIA driver installed, compile without GPU` \
+       ;  else cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. ; fi `# RELION: Otherwise, compile with GPU architecture and CUDA version` \
        && make && make install" \
    --run="wget -O ctffind-${CTFFIND_VERSION}.tar.gz '${CTFFIND_LINK}'	`# CTFFIND: download and install ctffind` \
        && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz \
