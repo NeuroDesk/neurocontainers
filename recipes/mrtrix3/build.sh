@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --${toolName} version=${toolVersion} method="source" build_processes=1 \
    --ants version="2.3.4" \
    --workdir /opt/${toolName}-${toolVersion} \
-   --install dbus-x11 less python3-distutils mesa-common-dev libglu1-mesa qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libtiff5-dev libtiff5 libfftw3-dev \
+   --install dbus-x11 less python3-distutils mesa-common-dev libglu1-mesa qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libtiff5-dev libtiff5 libfftw3-dev liblapack3 \
    --run "python3 configure" \
    --run "python3 build" \
    --run "ln -s /usr/bin/python3 /usr/bin/python" \
