@@ -2,7 +2,7 @@
 set -e
 
 export toolName='mrtrix3'
-export toolVersion='3.0.2'
+export toolVersion='3.0.4'
 # Don't forget to update version change in README.md!!!!!
 # https://github.com/MRtrix3/mrtrix3/releases/
 
