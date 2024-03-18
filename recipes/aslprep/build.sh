@@ -21,8 +21,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --env DEPLOY_BINS=aslprep \
+   --env HOME=~/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
+   # --entrypoint bash \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
