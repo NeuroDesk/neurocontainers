@@ -2,12 +2,13 @@
 export toolName='relion'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export toolVersion='4.0.1' 
+export relionVersion='4.0.1'
+export toolVersion=${relionVersion}'.sm61' 
 # the version number cannot contain a "-" - try to use x.x.x notation always
 # toolVersion will automatically be written into README.md - for this to work leave "toolVersion" in the README unaltered.
 
-export COMPUTE_CAPABILITY=$(nvidia-smi --query-gpu=compute_cap --format=csv | sed -ne '2 s/\.// p')
-# get the Compute Capability of the GPU to compile relion with the right GPU architecture
+export COMPUTE_CAPABILITY=61
+# set the Compute Capability of the GPU to compile relion
 
 export CTFFIND_VERSION='4.1.14'
 export CTFFIND_LINK='https://grigoriefflab.umassmed.edu/system/tdf?path=ctffind-4.1.14.tar.gz&file=1&type=node&id=26'
@@ -57,11 +58,9 @@ neurodocker generate ${neurodocker_buildMode} \
        && dpkg -i cuda-repo-ubuntu2204-11-8-local_11.8.0-520.61.05-1_amd64.deb \
        && cp /var/cuda-repo-ubuntu2204-11-8-local/cuda-*-keyring.gpg /usr/share/keyrings/" \
    --install cuda-toolkit-11-8				`# RELION: install CUDA Toolkit 11.8` \
-   --run="git clone 'https://github.com/3dem/relion.git' --branch=${toolVersion}	`# RELION: clone relion git repository` \
+   --run="git clone 'https://github.com/3dem/relion.git' --branch=${relionVersion}	`# RELION: clone relion git repository` \
        && cd relion && mkdir build && cd build		`# RELION: create and move into build directory` \
-       && if [[ -z '${COMPUTE_CAPABILITY}' ]] \
-       ;  then cmake -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. `# RELION: If there is no NVIDIA driver installed, compile without GPU` \
-       ;  else cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. ; fi `# RELION: Otherwise, compile with GPU architecture and CUDA version` \
+       && cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. `# RELION: Compile with GPU architecture and CUDA version` \
        && make && make install" \
    --run="wget -O ctffind-${CTFFIND_VERSION}.tar.gz '${CTFFIND_LINK}'	`# CTFFIND: download and install ctffind` \
        && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz \
