@@ -2,8 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='6.4.0'
-# Don't forget to update version change in README.md!!!!!
+export toolVersion='6.4.2'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -79,17 +78,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt" \
    --copy install_packages.jl "/opt" \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
-   --run="julia install_packages.jl \
-       && chmod -R 755 /opt/julia_depot/packages/RomeoApp" \
+   --run="julia install_packages.jl" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
-   --workdir="/opt" \
-   --run="git clone --depth 1 --branch v0.93 https://github.com/QSMxT/QSMxT-UI" \
-   --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
-       && tar xf node-v14.17.0-linux-x64.tar.xz \
-       && rm node-v14.17.0-linux-x64.tar.xz" \
-   --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
-   --run="cd QSMxT-UI/frontend/ && npm install && CI=false npm run build" \
-   --run="cd QSMxT-UI/api/ && npm install --unsafe-perm && npm i -g ts-node" \
    --env DEPLOY_PATH="/opt/ants-2.3.4/:/opt/FastSurfer" \
    --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:dicom-sort:dicom-convert:nifti-convert"  \
    --env LC_ALL="C.UTF-8" \
