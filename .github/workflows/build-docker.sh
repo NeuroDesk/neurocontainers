@@ -85,9 +85,9 @@ fi
 if [ -n "${ORACLE_USER}" ]; then
     echo "[DEBUG] Attempting upload to Oracle ..."
     # curl -v -X PUT -u ${ORACLE_USER} --upload-file $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg $ORACLE_NEURODESK_BUCKET/temporary-builds/
-    rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg oracle-2021-us-bucket:/neurodesk/temporary-builds-new
+    rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg oracle-2021-sydney-bucket:/neurodesk/temporary-builds-new
 
-    if curl --output /dev/null --silent --head --fail "https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
+    if curl --output /dev/null --silent --head --fail "https://objectstorage.ap-sydney-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
         echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
         echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
         rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
