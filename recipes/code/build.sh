@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --miniconda version=latest \
-      conda_install="python nipype jupyter nb_conda_kernels h5py seaborn numpy" \
+      conda_install="python=3.12 nipype jupyter nb_conda_kernels h5py seaborn numpy" \
       pip_install="osfclient" \
    --install midori xdg-utils  python-pyqt5 unzip git apt-transport-https ca-certificates coreutils \
       curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
