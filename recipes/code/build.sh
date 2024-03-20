@@ -2,7 +2,7 @@
 set -e
 
 export toolName='code'
-export toolVersion='230315'
+export toolVersion='240320'
 export juliaVersion='1.6.3'
 export GO_VERSION="1.17.2" 
 export SINGULARITY_VERSION="3.9.3" 
