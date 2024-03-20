@@ -27,6 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
       && tar zxvf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
       && rm -rf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz" \
+   --env ARTHOME=/opt/acpcdetect_V2.1/ \
    --env PATH='$PATH':/opt/acpcdetect_V2.1/bin \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/acpcdetect_V2.1/bin \
    --copy README.md /README.md \
