@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidscoin'
-export toolVersion='4.3.1'    # Don't forget to update version change in README.md!!!!!
+export toolVersion='4.3.2'    # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
