@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='0.9.1'
+export toolVersion='0.9.2'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -16,7 +16,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --workdir=/opt \
 --run='git clone https://github.com/KMarshallX/vessel_code.git && \
     cd vessel_code && \
-    git checkout 43273dbe7bdf8c3746b0f5304e4d8cd900fa6c1d' \
+    git checkout 82361572fe09614dca829e95e609d08b8c041c98' \
 --workdir='/opt/vessel_code/' \
 --run='pip install -r requirements.txt ' \
 --workdir='/opt/vessel_code/saved_models' \
