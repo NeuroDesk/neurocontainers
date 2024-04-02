@@ -16,7 +16,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --workdir=/opt \
 --run='git clone https://github.com/KMarshallX/vessel_code.git && \
     cd vessel_code && \
-    git checkout 82361572fe09614dca829e95e609d08b8c041c98' \
+    git checkout 017212cf6257e903220cf665f84d19b7e498657d' \
 --workdir='/opt/vessel_code/' \
 --run='pip install -r requirements.txt ' \
 --workdir='/opt/vessel_code/saved_models' \
