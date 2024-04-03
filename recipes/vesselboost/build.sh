@@ -23,7 +23,8 @@ neurodocker generate ${neurodocker_buildMode} \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/manual_ep1000_1029' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om1_ep1000_1029' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om2_ep1000_1029' \
---env DEPLOY_PATH=/opt/VesselBoost/ \
+--env PATH='$PATH':/opt/VesselBoost/ \
+--env DEPLOY_BINS=predictions.py:boost.py:test_time_adaptation.py:train.py \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 
