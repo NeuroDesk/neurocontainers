@@ -14,15 +14,16 @@ neurodocker generate ${neurodocker_buildMode} \
 --env DEBIAN_FRONTEND=noninteractive \
 --install git vim \
 --workdir=/opt \
---run='git clone https://github.com/KMarshallX/vessel_code.git && \
-    cd vessel_code && \
+--run='git clone https://github.com/KMarshallX/VesselBoost.git && \
+    cd VesselBoost && \
     git checkout 017212cf6257e903220cf665f84d19b7e498657d' \
---workdir='/opt/vessel_code/' \
+--workdir='/opt/VesselBoost/' \
 --run='pip install -r requirements.txt ' \
---workdir='/opt/vessel_code/saved_models' \
+--workdir='/opt/VesselBoost/saved_models' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/manual_ep1000_1029' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om1_ep1000_1029' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om2_ep1000_1029' \
+--env DEPLOY_PATH=/opt/VesselBoost/ \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 
