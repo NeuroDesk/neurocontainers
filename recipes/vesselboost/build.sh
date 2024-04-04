@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='0.9.3'
+export toolVersion='0.9.4'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om1_ep1000_1029' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/om2_ep1000_1029' \
 --env PATH='$PATH':/opt/VesselBoost/ \
---env DEPLOY_BINS=predictions.py:boost.py:test_time_adaptation.py:train.py:python \
+--env DEPLOY_BINS=prediction.py:boost.py:test_time_adaptation.py:train.py:python \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 
