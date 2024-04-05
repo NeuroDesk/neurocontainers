@@ -2,8 +2,8 @@
 set -e
 
 export toolName='julia'
-export toolVersion='1.10.1'
-export releaseVersion='1.10'
+export toolVersion='1.9.4'
+export releaseVersion='1.9'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -36,6 +36,11 @@ neurodocker generate ${neurodocker_buildMode} \
       && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension KorbinianEckstein.niivue \
       && rm -rf /opt/vscode-data/CachedExtensionVSIXs/" \
    --env PATH='$PATH':/opt/julia-${toolVersion}/bin \
+   --workdir="/opt" \
+   --copy install_packages.jl "/opt" \
+   --env JULIA_DEPOT_PATH="/opt/julia_depot" \
+   --run="julia install_packages.jl" \
+   --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \
