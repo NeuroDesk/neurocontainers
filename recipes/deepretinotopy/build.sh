@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
        git checkout 208abc812ec335449d70f7b5ba737bfd35bb51f7' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
    --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
-   --env PATH=/opt/workbench/workbench/bin_rh_linux64/:'$PATH' \
+   --env PATH=/opt/workbench/workbench/bin_rh_linux64/:/opt/deepRetinotopy_TheToolbox/:'$PATH' \
    --env DEPLOY_BINS="wb_view:wb_command:wb_shortcuts:python:deepRetinotopy" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
