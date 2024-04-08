@@ -6,6 +6,7 @@ export toolName='deepretinotopy'
 export toolVersion='1.0.3'
 # Don't forget to update version change in README.md!!!!!
 
+
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
     export debug=$1
