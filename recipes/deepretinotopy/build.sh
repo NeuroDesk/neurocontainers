@@ -3,7 +3,7 @@ set -e
 
 
 export toolName='deepretinotopy'
-export toolVersion='1.0.3'
+export toolVersion='1.0.4'
 # Don't forget to update version change in README.md!!!!!
 
 
