@@ -29,4 +29,6 @@ IMPORTANT: Before using fsl you need to agree to this license: https://fsl.fmrib
 
 To run container outside of this environment: ml fsl/toolVersion
 
+License: solely for non-commercial use https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence
+
 ----------------------------------
