@@ -24,7 +24,6 @@ neurodocker generate ${neurodocker_buildMode} \
     --copy README.md /README.md \
     > ${toolName}_${toolVersion}.Dockerfile 
 
-
 if [ "$1" != "" ]; then 
 ./../main_build.sh 
 fi
