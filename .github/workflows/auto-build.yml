@@ -15,7 +15,7 @@ jobs:
       app_list: ${{ steps.find_changed_recipes.outputs.app_list }}
       runner: ${{ steps.select_runner.outputs.runner }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Find all recipe directories with changes

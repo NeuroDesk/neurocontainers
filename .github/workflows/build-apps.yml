@@ -33,7 +33,7 @@ jobs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGENAME: ${{ steps.IMAGEVARS.outputs.IMAGENAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set environment variables
         id: ENVVARS
         run: |
