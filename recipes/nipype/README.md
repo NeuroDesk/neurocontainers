@@ -10,7 +10,7 @@ ml fsl/6.0.5.1
 ml afni/22.1.14
 
 # download test data
-wget https://objectstorage.us-ashburn-1.oraclecloud.com/n/idrvm4tkz2a8/b/TOMCAT/o/TOMCAT_DIB/sub-01/ses-01_7T/anat/sub-01_ses-01_7T_T1w_defaced.nii.gz -O /neurodesktop-storage/sub-01_ses-01_7T_T1w_defaced.nii.gz 
+osf -p bt4ez fetch osfstorage/TOMCAT_DIB/sub-01/ses-01_7T/anat/sub-01_ses-01_7T_T1w_defaced.nii.gz ./sub-01_ses-01_7T_T1w_defaced.nii.gz
 
 gunzip /neurodesktop-storage/sub-01_ses-01_7T_T1w_defaced.nii.gz 
 
