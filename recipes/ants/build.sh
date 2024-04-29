@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --${toolName} method=source version=${toolVersion} make_opts='-j2'\
+   --${toolName} method=source version=${toolVersion} make_opts='-j8'\
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/bin:/opt/ants-${toolVersion}/Scripts \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
