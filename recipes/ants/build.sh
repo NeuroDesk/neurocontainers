@@ -2,8 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.4.2' # https://github.com/ANTsX/ANTs/releases
-# Don't forget to update version change in README.md!!!!!
+export toolVersion='2.5.1' # https://github.com/ANTsX/ANTs/releases
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -21,8 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --${toolName} method=source version=${toolVersion} make_opts='-j2'\
-   --run="chmod a+rx /opt/${toolName}-${toolVersion} -R" \
+   --${toolName} method=source version=${toolVersion} make_opts='-j8'\
    --env DEPLOY_PATH=/opt/ants-${toolVersion}/bin:/opt/ants-${toolVersion}/Scripts \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
