@@ -11,10 +11,22 @@ follow the instructions as described here: https://github.com/cvnlab/GLMsingle?t
 
 Example:
 ```
-Examples can be found here https://glmsingle.readthedocs.io/
-```
+We provide a number of example scripts that demonstrate usage of GLMsingle. You can browse these example scripts here:
 
-More documentation can be found here: https://github.com/cvnlab/GLMsingle
+(Python Example 1 - event-related design) https://htmlpreview.github.io/?https://github.com/kendrickkay/GLMsingle/blob/main/examples/example1.html
+
+(Python Example 2 - block design) https://htmlpreview.github.io/?https://github.com/kendrickkay/GLMsingle/blob/main/examples/example2.html
+
+(MATLAB Example 1 - event-related design) https://htmlpreview.github.io/?https://github.com/kendrickkay/GLMsingle/blob/main/matlab/examples/example1preview/example1.html
+
+(MATLAB Example 2 - block design) https://htmlpreview.github.io/?https://github.com/kendrickkay/GLMsingle/blob/main/matlab/examples/example2preview/example2.html
+
+These scripts are available in the GLMsingle github repository: https://github.com/cvnlab/GLMsingle
+
+More documentation can be found here: 
+- https://github.com/cvnlab/GLMsingle
+- https://glmsingle.readthedocs.io/
+```
 
 Citation:
 ```
