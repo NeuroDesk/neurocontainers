@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run "python3 build" \
    --run "ln -s /usr/bin/python3 /usr/bin/python" \
    --workdir /opt/acpcdetect_V2.1 \
-   --run="wget https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
+   --run="wget https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
       && tar zxvf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
       && rm -rf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz" \
    --env ARTHOME=/opt/acpcdetect_V2.1/ \

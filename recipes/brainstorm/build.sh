@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install curl unzip ca-certificates openjdk-8-jre dbus-x11 \
    --matlabmcr version=2020a install_path=/opt/MCR  \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --run="curl -fsSL --retry 5 https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/brainstorm3.211130_mcr2020a.tar.gz \
+   --run="curl -fsSL --retry 5 https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/brainstorm3.211130_mcr2020a.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
    --copy README.md /README.md \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \

@@ -27,7 +27,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install curl ca-certificates libXt libjpeg-turbo libpng12 libXrender fontconfig libXext mesa-libGLU`# install curl and ca-certificates for ssl + gui dependencies` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
-   --run="curl -fsSL --retry 5 https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/TrackVis_v${toolVersion}_x86_64.tar.gz \
+   --run="curl -fsSL --retry 5 https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/TrackVis_v${toolVersion}_x86_64.tar.gz \
          | tar -xz -C /opt/${toolName}-${toolVersion}/" `# install from object storage - upload there beforehand` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/   `# specify a path where ALL binary files will be exposed outside the container for the module system` \
