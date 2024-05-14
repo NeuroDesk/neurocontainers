@@ -56,6 +56,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion} \
+       && pip install dunamai \
        && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm \
        && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
