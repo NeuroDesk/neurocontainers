@@ -57,7 +57,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion} \
        && pip install dunamai \
-       && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm \
+       && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
        && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
