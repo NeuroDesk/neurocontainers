@@ -31,7 +31,8 @@ git clone --recurse-submodules https://github.com/cvnlab/GLMsingle.git
 ```
 
 For additional documentation and FAQ on GLMsingle,
-please see: https://glmsingle.readthedocs.io
+please see: https://glmsingle.readthedocs.io,
+and the main github page: https://github.com/cvnlab/GLMsingle
 
 For a lecture overview, implementation guide, and demo of GLMsingle,
 please see: https://cbmm.mit.edu/video/glmsingle-toolbox-improving-single-trial-fmri-response-estimates
