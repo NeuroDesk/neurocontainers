@@ -2,13 +2,13 @@
 export toolName='relion'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export relionVersion='4.0.1'
-export toolVersion=${relionVersion}'.sm61' 
-# the version number cannot contain a "-" - try to use x.x.x notation always
-# toolVersion will automatically be written into README.md - for this to work leave "toolVersion" in the README unaltered.
-
 export COMPUTE_CAPABILITY=61
 # set the Compute Capability of the GPU to compile relion
+
+export relionVersion='4.0.1'
+export toolVersion=${relionVersion}'.sm'${COMPUTE_CAPABILITY} 
+# the version number cannot contain a "-" - try to use x.x.x notation always
+# toolVersion will automatically be written into README.md - for this to work leave "toolVersion" in the README unaltered.
 
 export CTFFIND_VERSION='4.1.14'
 export CTFFIND_LINK='https://grigoriefflab.umassmed.edu/system/tdf?path=ctffind-4.1.14.tar.gz&file=1&type=node&id=26'
@@ -63,8 +63,9 @@ neurodocker generate ${neurodocker_buildMode} \
        && cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. `# RELION: Compile with GPU architecture and CUDA version` \
        && make && make install" \
    --run="wget -O ctffind-${CTFFIND_VERSION}.tar.gz '${CTFFIND_LINK}'	`# CTFFIND: download and install ctffind` \
-       && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz \
-       && cd ctffind-${CTFFIND_VERSION} \
+       && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz" \
+   --copy ctffind.cpp /tmp/ctffind-${CTFFIND_VERSION}/src/programs/ctffind \
+   --run="cd ctffind-${CTFFIND_VERSION} \
        && ./configure --disable-debugmode --enable-mkl --prefix=/opt/ctffind-${CTFFIND_VERSION}/ \
        && make && make install" \
    --run="wget -O MotionCor2_${MOTIONCOR2_VERSION}.zip '${MOTIONCOR2_LINK}'	`# MOTIONCOR2: download and install motioncor2` \
