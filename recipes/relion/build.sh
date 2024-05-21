@@ -75,7 +75,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /opt/${toolName}-${toolVersion}/load_topaz.sh" \
    --env RELION_CTFFIND_EXECUTABLE=/opt/ctffind-${CTFFIND_VERSION}/bin/ctffind    `# CTFFIND: relion environment variable for ctffind` \
    --env RELION_MOTIONCOR2_EXECUTABLE=/opt/motioncor2-${MOTIONCOR2_VERSION}/bin/MotionCor2_${MOTIONCOR2_VERSION}_Cuda118_Mar312023	`# MOTIONCOR2: relion environment variable for motioncor2` \
-   --env RELION_TOPAZ_EXECUTABLE=/opt/${toolName}-${toolVersion}/load_topaz	`# TOPAZ: relion environment variable for Topaz` \
+   --env RELION_TOPAZ_EXECUTABLE=/opt/${toolName}-${toolVersion}/load_topaz.sh	`# TOPAZ: relion environment variable for Topaz` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin `# MANDATORY: add your tool executables to PATH` \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ `# MANDATORY: define which directory's binaries should be exposed to module system (alternative: DEPLOY_BINS -> only exposes binaries in the list)` \
    --env GOPATH='$HOME'/go 				`# TOPAZ: install GO to compile singularity` \
