@@ -55,6 +55,8 @@ export imageName=${toolName}_${toolVersion}
 # If TinyRange exists in the expected location then enable it.
 if test -f /storage/tinyrange/tinyrange; then
        export TINYRANGE=/storage/tinyrange/tinyrange
+elif command -v tinyrange &> /dev/null; then
+       export TINYRANGE=tinyrange
 fi
 
 echo "building $imageName in mode $buildMode"
