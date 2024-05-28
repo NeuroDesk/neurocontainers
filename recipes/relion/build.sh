@@ -24,6 +24,9 @@ export OS=linux
 export ARCH=amd64
 # GO and singularity version to run modules with lmod
 
+# Working directory
+export WORKDIR=/tmp
+
 # !!!!
 # You can test the container build locally by running `bash build.sh -ds`
 # !!!!
@@ -51,7 +54,7 @@ neurodocker generate ${neurodocker_buildMode} \
              cmake git build-essential mpi-default-bin mpi-default-dev libfftw3-dev libtiff-dev libpng-dev ghostscript libxft-dev	`# RELION: install relion dependencies` \
              libwxgtk3.0-gtk3-dev			`# CTFFIND: install wx-config-3.0 for ctffind-4.1.14` \
              lmod 					`# TOPAZ: install lmod to run modules, like topaz` \
-   --workdir=/tmp \
+   --workdir=$WORKDIR \
    --run="wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin	`# RELION: steps to install CUDA 11.8 from https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local` \
        && mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600 \
        && wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda-repo-ubuntu2204-11-8-local_11.8.0-520.61.05-1_amd64.deb \
@@ -64,7 +67,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && make && make install" \
    --run="wget -O ctffind-${CTFFIND_VERSION}.tar.gz '${CTFFIND_LINK}'	`# CTFFIND: download and install ctffind` \
        && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz" \
-   --copy ctffind.cpp /tmp/ctffind-${CTFFIND_VERSION}/src/programs/ctffind \
+   --copy ctffind.cpp $WORKDIR/ctffind-${CTFFIND_VERSION}/src/programs/ctffind \
    --run="cd ctffind-${CTFFIND_VERSION} \
        && ./configure --disable-debugmode --enable-mkl --prefix=/opt/ctffind-${CTFFIND_VERSION}/ \
        && make && make install" \
