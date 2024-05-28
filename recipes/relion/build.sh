@@ -2,13 +2,13 @@
 export toolName='relion'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export relionVersion='4.0.1'
-export toolVersion=${relionVersion}'.sm61' 
-# the version number cannot contain a "-" - try to use x.x.x notation always
-# toolVersion will automatically be written into README.md - for this to work leave "toolVersion" in the README unaltered.
-
 export COMPUTE_CAPABILITY=61
 # set the Compute Capability of the GPU to compile relion
+
+export relionVersion='4.0.1'
+export toolVersion=${relionVersion}'.sm'${COMPUTE_CAPABILITY} 
+# the version number cannot contain a "-" - try to use x.x.x notation always
+# toolVersion will automatically be written into README.md - for this to work leave "toolVersion" in the README unaltered.
 
 export CTFFIND_VERSION='4.1.14'
 export CTFFIND_LINK='https://grigoriefflab.umassmed.edu/system/tdf?path=ctffind-4.1.14.tar.gz&file=1&type=node&id=26'
@@ -23,6 +23,9 @@ export SINGULARITY_VERSION='3.9.3'
 export OS=linux 
 export ARCH=amd64
 # GO and singularity version to run modules with lmod
+
+# Working directory
+export WORKDIR=/tmp
 
 # !!!!
 # You can test the container build locally by running `bash build.sh -ds`
@@ -51,7 +54,7 @@ neurodocker generate ${neurodocker_buildMode} \
              cmake git build-essential mpi-default-bin mpi-default-dev libfftw3-dev libtiff-dev libpng-dev ghostscript libxft-dev	`# RELION: install relion dependencies` \
              libwxgtk3.0-gtk3-dev			`# CTFFIND: install wx-config-3.0 for ctffind-4.1.14` \
              lmod 					`# TOPAZ: install lmod to run modules, like topaz` \
-   --workdir=/tmp \
+   --workdir=$WORKDIR \
    --run="wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin	`# RELION: steps to install CUDA 11.8 from https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local` \
        && mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600 \
        && wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda-repo-ubuntu2204-11-8-local_11.8.0-520.61.05-1_amd64.deb \
@@ -63,8 +66,9 @@ neurodocker generate ${neurodocker_buildMode} \
        && cmake -DCUDA_ARCH=${COMPUTE_CAPABILITY} -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.8 -DCMAKE_INSTALL_PREFIX=/opt/${toolName}-${toolVersion}/ -DFORCE_OWN_FLTK=ON .. `# RELION: Compile with GPU architecture and CUDA version` \
        && make && make install" \
    --run="wget -O ctffind-${CTFFIND_VERSION}.tar.gz '${CTFFIND_LINK}'	`# CTFFIND: download and install ctffind` \
-       && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz \
-       && cd ctffind-${CTFFIND_VERSION} \
+       && tar -xf ctffind-${CTFFIND_VERSION}.tar.gz" \
+   --copy ctffind.cpp $WORKDIR/ctffind-${CTFFIND_VERSION}/src/programs/ctffind \
+   --run="cd ctffind-${CTFFIND_VERSION} \
        && ./configure --disable-debugmode --enable-mkl --prefix=/opt/ctffind-${CTFFIND_VERSION}/ \
        && make && make install" \
    --run="wget -O MotionCor2_${MOTIONCOR2_VERSION}.zip '${MOTIONCOR2_LINK}'	`# MOTIONCOR2: download and install motioncor2` \
@@ -74,7 +78,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /opt/${toolName}-${toolVersion}/load_topaz.sh" \
    --env RELION_CTFFIND_EXECUTABLE=/opt/ctffind-${CTFFIND_VERSION}/bin/ctffind    `# CTFFIND: relion environment variable for ctffind` \
    --env RELION_MOTIONCOR2_EXECUTABLE=/opt/motioncor2-${MOTIONCOR2_VERSION}/bin/MotionCor2_${MOTIONCOR2_VERSION}_Cuda118_Mar312023	`# MOTIONCOR2: relion environment variable for motioncor2` \
-   --env RELION_TOPAZ_EXECUTABLE=/opt/${toolName}-${toolVersion}/load_topaz	`# TOPAZ: relion environment variable for Topaz` \
+   --env RELION_TOPAZ_EXECUTABLE=/opt/${toolName}-${toolVersion}/load_topaz.sh	`# TOPAZ: relion environment variable for Topaz` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin `# MANDATORY: add your tool executables to PATH` \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ `# MANDATORY: define which directory's binaries should be exposed to module system (alternative: DEPLOY_BINS -> only exposes binaries in the list)` \
    --env GOPATH='$HOME'/go 				`# TOPAZ: install GO to compile singularity` \
