@@ -17,4 +17,6 @@ More documentation can be found here: https://aslprep.readthedocs.io/en/latest/u
 
 To run container outside of this environment: ml aslprep/toolVersion
 
+License: 3-clause BSD license, https://github.com/pennlinc/aslprep/blob/main/LICENSE.md
+
 ----------------------------------

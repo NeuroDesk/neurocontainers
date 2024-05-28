@@ -14,4 +14,6 @@ More documentation can be found here: https://mrirecon.github.io/bart/
 
 To run container outside of this environment: ml bart/0.7.00
 
+License: 3-clause BSD license, https://github.com/mrirecon/bart?tab=BSD-3-Clause-1-ov-file#readme
+
 ----------------------------------

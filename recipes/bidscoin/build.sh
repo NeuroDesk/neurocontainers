@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidscoin'
-export toolVersion='4.3.0'    # Don't forget to update version change in README.md!!!!!
+export toolVersion='4.3.2'    # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --install curl \
     `# Install pigz (to speed up dcm2niix)` \
     --install pigz \
-    `# Install the 4.2.1+Qt5 branch from Github` \
+    `# Install the +qt5 branch from Github` \
     `# NOTE: PyQt5 is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
     --install python3-pyqt5 \
     --miniconda version=latest \

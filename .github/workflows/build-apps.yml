@@ -18,8 +18,6 @@ env:
   OS_USERNAME: ${{ secrets.SWIFT_OS_USERNAME }}
   OS_APPLICATION_CREDENTIAL_ID: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_ID }}
   OS_APPLICATION_CREDENTIAL_SECRET: ${{ secrets.SWIFT_OS_APPLICATION_CREDENTIAL_SECRET }}
-  ORACLE_USER: ${{ secrets.ORACLE_USER }}
-  ORACLE_NEURODESK_BUCKET: ${{ secrets.ORACLE_NEURODESK_BUCKET }}
 
 jobs:
   build:
@@ -35,7 +33,7 @@ jobs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGENAME: ${{ steps.IMAGEVARS.outputs.IMAGENAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set environment variables
         id: ENVVARS
         run: |
@@ -91,13 +89,6 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name : Run docker builder + Upload to docker and github registry
         run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
-      - name: Check image for wasted space using dive
-        uses: MartinHeinz/dive-action@v0.1.0
-        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
-        with:
-          image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
-          # github-token: ${{ secrets.GITHUB_TOKEN }}
-          config: ${{ github.workspace }}/.github/.dive-ci.yml
       - name: Generate job output
         run: |
           echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
@@ -109,3 +100,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         with:
           filename: .github/new_container_issue_template.md
+      - name: Check image for wasted space using dive
+        uses: MartinHeinz/dive-action@v0.1.3
+        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
+        with:
+          image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
+          config: ${{ github.workspace }}/.github/.dive-ci.yml

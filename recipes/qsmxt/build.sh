@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='6.4.2'
+export toolVersion='6.4.4'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -56,7 +56,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
        && pip install qsmxt==${toolVersion} \
-       && pip install git+https://github.com/astewartau/nii2dcm.git@main#egg=nii2dcm \
+       && pip install dunamai \
+       && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
        && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \

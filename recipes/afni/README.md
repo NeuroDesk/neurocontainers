@@ -38,5 +38,6 @@ RW Cox, JS Hyde (1997). Software tools for analysis and visualization of FMRI Da
 https://pubmed.ncbi.nlm.nih.gov/9430344/
 ```
 
+License: Gnu General Public License, https://afni.nimh.nih.gov/Legal_info
 
 ----------------------------------

@@ -2,8 +2,8 @@
 set -e
 
 export toolName='julia'
-export toolVersion='1.10.1'
-export releaseVersion='1.10'
+export toolVersion='1.9.4'
+export releaseVersion='1.9'
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -13,8 +13,9 @@ fi
 
 source ../main_setup.sh
 
+
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image debian \
+   --base-image ubuntu:22.04 \
    --pkg-manager apt \
    --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -22,7 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --install xdg-utils unzip git apt-transport-https ca-certificates coreutils \
       curl gnome-keyring gnupg libnotify4 wget libnss3 libxkbfile1 libsecret-1-0 libgtk-3-0 libxss1 libgbm1 libxshmfence1 libasound2 \
-      lmod less nano tree \
+      lmod less nano tree strace libx11-xcb1 \
       gcc graphviz libzstd1 zlib1g-dev zip build-essential uuid-dev libgpgme-dev libseccomp-dev pkg-config \
    --run="wget -O vscode.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' \
       && apt install ./vscode.deb  \
@@ -36,6 +37,11 @@ neurodocker generate ${neurodocker_buildMode} \
       && code --extensions-dir=/opt/vscode-extensions --user-data-dir=/opt/vscode-data --install-extension KorbinianEckstein.niivue \
       && rm -rf /opt/vscode-data/CachedExtensionVSIXs/" \
    --env PATH='$PATH':/opt/julia-${toolVersion}/bin \
+   --workdir="/opt" \
+   --copy install_packages.jl "/opt" \
+   --env JULIA_DEPOT_PATH="/opt/julia_depot" \
+   --run="julia install_packages.jl" \
+   --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
    --copy README.md /README.md \
    --copy code /usr/local/sbin/ \
    --run="chmod a+x /usr/local/sbin/code" \

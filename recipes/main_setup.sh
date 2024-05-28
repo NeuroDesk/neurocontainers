@@ -6,7 +6,11 @@
 
 # install development version
 yes | pip uninstall neurodocker
-python -m pip install --no-cache-dir https://github.com/ReproNim/neurodocker/tarball/master --upgrade
+# python -m pip install --no-cache-dir https://github.com/ReproNim/neurodocker/tarball/master --upgrade
+#       For example, if you're using pip, instead of https://github.com/user/proj/archive/master.zip use git+https://github.com/user/proj.git#egg=proj
+
+python -m pip install --no-cache-dir git+https://github.com/ReproNim/neurodocker.git#egg=neurodocker --upgrade
+
 
 export PATH=$PATH:~/.local/bin
 

@@ -3,8 +3,9 @@ set -e
 
 
 export toolName='deepretinotopy'
-export toolVersion='1.0.2'
+export toolVersion='1.0.5'
 # Don't forget to update version change in README.md!!!!!
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -28,11 +29,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt \
    --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
        cd deepRetinotopy_TheToolbox && \
-       git checkout 094806897d971e215525e3f68a58edf0fcaafc4f' \
+       git checkout 629a5dbb2e71eda22b4a83a3b9a2767be2ab82cc' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
    --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
-   --env PATH=/opt/workbench/workbench/bin_rh_linux64/:'$PATH' \
-   --env DEPLOY_BINS="wb_view:wb_command:wb_shortcuts:python" \
+   --env PATH=/opt/workbench/workbench/bin_rh_linux64/:/opt/deepRetinotopy_TheToolbox/:'$PATH' \
+   --env DEPLOY_BINS="wb_view:wb_command:wb_shortcuts:python:deepRetinotopy:1_native2fsaverage.sh:2_inference.py:3_fsaverage2native.sh" \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 

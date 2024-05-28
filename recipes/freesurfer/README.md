@@ -58,4 +58,5 @@ Thalamus
 A probabilistic atlas of the human thalamic nuclei combining ex vivo MRI and histology. Iglesias, J.E., Insausti, R., Lerma-Usabiaga, G., Bocchetta, M., Van Leemput, K., Greve, D., van der Kouwe, A., Caballero-Gaudes, C., Paz-Alonso, P. Neuroimage (accepted).
 ```
 
+License: Custom License https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferSoftwareLicense
 ----------------------------------
