@@ -662,7 +662,7 @@ void CtffindApp::DoInteractiveUserInput()
 			{
 				movie_is_gain_corrected 		= true;
 			}
-			defocus_is_known					= my_input->GetYesNoFromUser("Do you already know the defocus?","Answer yes if you already know the defocus and you just want to know the score or fit resolution. If you answer yes, the known astigmatism parameter specified eariler will be ignored","no");
+			defocus_is_known					= my_input->GetYesNoFromUser("Do you already know the defocus?","Answer yes if you already know the defocus and you just want to know the score or fit resolution. If you answer yes, the known astigmatism parameter specified earlier will be ignored","no");
 			if (defocus_is_known)
 			{
 				/*
@@ -749,7 +749,7 @@ void CtffindApp::AddCommandLineOptions()
 	command_line_parser.AddLongSwitch("amplitude-spectrum-input","The input image is an amplitude spectrum, not a real-space image");
 	command_line_parser.AddLongSwitch("filtered-amplitude-spectrum-input","The input image is filtered (background-subtracted) amplitude spectrum");
 	command_line_parser.AddLongSwitch("fast","Skip computation of fit statistics as well as spectrum contrast enhancement");
-	command_line_parser.AddOption("j","","Desired number of threads. Overrides interactive user input. Is overriden by env var OMP_NUM_THREADS",wxCMD_LINE_VAL_NUMBER);
+	command_line_parser.AddOption("j","","Desired number of threads. Overrides interactive user input. Is overridden by env var OMP_NUM_THREADS",wxCMD_LINE_VAL_NUMBER);
 }
 
 

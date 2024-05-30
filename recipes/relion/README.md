@@ -5,6 +5,7 @@ RELION (for REgularised LIkelihood OptimisatioN) is a stand-alone computer progr
 
 Example:
 ```
+relion
 ```
 
 More documentation can be found here: https://github.com/3dem/relion/tree/toolVersion
@@ -23,7 +24,9 @@ cudatoolkit - 11.8 - /usr/local/cuda-11.8
 
 Citation:
 ```
-
+Sjors H W Scheres. RELION: Implementation of a Bayesian approach to cryo-EM structure determination. Journal of Structural Biology, 180(3):519–530, December 2012. doi:10.1016/j.jsb.2012.09.006.
 ```
+
+License: GPLv2 license
 
 ----------------------------------

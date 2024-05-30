@@ -2,7 +2,8 @@
 export toolName='relion'
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
-export COMPUTE_CAPABILITY=61
+# export COMPUTE_CAPABILITY=61
+export COMPUTE_CAPABILITY=89
 # set the Compute Capability of the GPU to compile relion
 
 export relionVersion='4.0.1'
