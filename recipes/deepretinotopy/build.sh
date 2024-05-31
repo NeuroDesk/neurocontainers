@@ -19,7 +19,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum \
    --install git \
    --miniconda version=py37_4.8.3 \
-         conda_install='pytorch=1.6.0 torchvision=0.7.0 cudatoolkit=10.2 -c pytorch' \
+   --run='pip install --upgrade pip==23.3.2' \
+   --miniconda conda_install='pytorch=1.6.0 torchvision=0.7.0 cudatoolkit=10.2 -c pytorch' \
          pip_install='packaging pandas==1.1.5 seaborn==0.11.1 nibabel==3.2.1 torch-geometric==1.6.3 scikit-learn==0.22.2 scipy==1.5.4 matplotlib==3.3.4 osfclient==0.0.5' \
    --run='pip install --no-index torch-sparse -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
    --run='pip install --no-index torch-scatter -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
