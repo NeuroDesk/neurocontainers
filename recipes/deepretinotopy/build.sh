@@ -20,12 +20,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --install git \
    --run='python -c "import torch" 2>/dev/null || { echo "Failed to import module"; exit 1; }' \
    --workdir=/opt \
-   --run='rm -rf deepRetinotopy_TheToolbox' \
-   --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
-       cd deepRetinotopy_TheToolbox && \
+   --run='cd deepRetinotopy_TheToolbox && \
        git checkout 7411bed5c7a25f5beb165699f38f759b3adc90b6' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
-   --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
+   # --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
    --env PATH=/opt/workbench/workbench/bin_rh_linux64/:/opt/deepRetinotopy_TheToolbox/:'$PATH' \
    --env DEPLOY_BINS="wb_view:wb_command:wb_shortcuts:python:deepRetinotopy:1_native2fsaverage.sh:2_inference.py:3_fsaverage2native.sh" \
    --copy README.md /README.md \
@@ -44,3 +42,4 @@ fi
 #    --run='pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
 #    --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
 #    --run='git clone https://github.com/felenitaribeiro/nilearn.git' \
+#    --run='rm -rf deepRetinotopy_TheToolbox' \
