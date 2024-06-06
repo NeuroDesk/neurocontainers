@@ -17,8 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt \
    --install wget git curl ca-certificates python3 python3-pip \
    --run="pip install quickshear==1.2.0" \
-   --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_BINS=mri_synthstrip:quickshear \
    --copy README.md /README.md \
    --entrypoint bash \
   > ${imageName}.${neurodocker_buildExt}
