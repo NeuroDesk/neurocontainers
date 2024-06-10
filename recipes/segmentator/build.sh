@@ -1,5 +1,6 @@
-export toolName='template'
-export toolVersion='1.0' 
+export toolName='segmentator'
+export toolVersion='1.6.1' 
+# https://github.com/ofgulban/segmentator/releases 
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -14,14 +15,15 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
+   --install wget git curl ca-certificates unzip python3 python3-pip \
    --workdir /opt \
-   --install wget git curl ca-certificates unzip \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
-   --run="bash /test.sh" \
   > ${imageName}.${neurodocker_buildExt}
+   # --run="wget https://github.com/ofgulban/segmentator/archive/refs/tags/v1.6.1.zip | 
+   # && unzip " \
   
 if [ "$1" != "" ]; then
    ./../main_build.sh

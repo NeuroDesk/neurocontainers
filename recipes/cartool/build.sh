@@ -15,15 +15,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
-   --install opts='--quiet' wget git curl ca-certificates unzip \
-   --run="dpkg --add-architecture i386" \
-   --install opts='--quiet' wine xvfb wine32 \
+   --install opts='--quiet' wget git curl ca-certificates unzip wine xvfb python3 python3-pip \
+   --run="pip install gdown" \
    --env WINEPREFIX=/opt/wine \
    --run="winecfg" \
-   --workdir "/opt/wine/drive_c/Program\ Files" \
-   --run="wget “https://drive.usercontent.google.com/u/0/uc?id=13zT9rzScUDSd5juY4kxt6ld_ObniPiWw&export=download” -O Cartool64Setup.exe \
-            && unzip cartool7608.zip \
-            && rm cartool7608.zip" \
+   --run="gdown -O cartool.exe https://drive.google.com/file/d/13zT9rzScUDSd5juY4kxt6ld_ObniPiWw" \
+   --run="dpkg --add-architecture i386" \
+   --install opts='--quiet' wine32 \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \

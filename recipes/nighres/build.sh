@@ -18,7 +18,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run='curl https://download.java.net/java/GA/jdk20.0.1/b4887098932d415489976708ad6d1a4b/9/GPL/openjdk-20.0.1_linux-x64_bin.tar.gz | tar -zx -C /opt --transform='s/jdk-20.0.1/jdk-temurin-20.0.1/'' \
    --env JCC_JDK=/opt/jdk-temurin-20.0.1 \
    --env JAVAHOME=/opt/jdk-temurin-20.0.1 \
-   --env PATH='$PATH':$JAVAHOME/bin \
+   --env PATH='$PATH':/opt/jdk-temurin-20.0.1/bin \
    --run="pip3 install JCC" \
    --workdir /opt \
    --run="git clone https://github.com/nighres/nighres.git \
@@ -28,7 +28,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
    --run="bash /test.sh" \
-   --copy license.txt /license.txt                          `# MANDATORY: include license file in container` \
   > ${imageName}.${neurodocker_buildExt}
   
 if [ "$1" != "" ]; then
