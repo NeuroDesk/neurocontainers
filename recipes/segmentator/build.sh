@@ -24,8 +24,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget https://github.com/ofgulban/segmentator/archive/refs/tags/v${toolVersion}.zip \
       && unzip v${toolVersion}.zip \
       && rm v${toolVersion}.zip \
-      && cd segmentator-${toolVersion}/" \
-   --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
+      && cd segmentator-${toolVersion}/ \
+      && python setup.py install" \
    --env DEPLOY_BINS=segmentator \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
