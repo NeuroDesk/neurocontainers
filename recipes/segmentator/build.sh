@@ -9,22 +9,34 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image neurodebian:sid-non-free \
+   --base-image ubuntu:20.04 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install wget git curl ca-certificates unzip python3 python3-pip \
+   --install wget git gcc curl ca-certificates unzip gfortran build-essential \
+   --miniconda version=py38_22.11.1-1 \
+               mamba=true \
+               conda_install='python=3.8 numpy=1.22.0 matplotlib=3.1.1' \
+               pip_install='nibabel=2.5.1 pytest-cov=2.7.1 compoda=0.3.5 scipy=1.3.1' \
    --workdir /opt \
+   --run="wget https://github.com/ofgulban/segmentator/archive/refs/tags/v${toolVersion}.zip \
+      && unzip v${toolVersion}.zip \
+      && rm v${toolVersion}.zip \
+      && cd segmentator-${toolVersion}/" \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env DEPLOY_BINS=segmentator \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
-   # --run="wget https://github.com/ofgulban/segmentator/archive/refs/tags/v1.6.1.zip | 
-   # && unzip " \
-  
+
+               # pip_install='nibabel=2.5.1 pytest-cov=2.7.1 compoda=0.3.5 scipy=1.3.1' \
+
+      # && pip3 install -r requirements.txt" \
+
+# https://docs.anaconda.com/free/miniconda/miniconda-hashes/
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
