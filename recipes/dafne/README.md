@@ -5,7 +5,7 @@ Dafne is a program for the segmentation of medical images, specifically MR image
 
 Example:
 ```
-python dafne
+dafne
 ```
 
 More documentation can be found here: https://dafne.network/documentation/
