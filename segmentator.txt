@@ -1,0 +1,1 @@
+I find the segmentator tool really useful and I think many people could benefit if it were added to NeuroDesk. The URL is here: https://github.com/ofgulban/segmentator. Thanks.
