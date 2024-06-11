@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=py38_22.11.1-1 \
                mamba=true \
                conda_install='python=3.8 numpy=1.22.0 matplotlib=3.1.1' \
-               pip_install='nibabel=2.5.1 pytest-cov=2.7.1 compoda=0.3.5 scipy=1.3.1' \
+               pip_install='nibabel==2.5.1 pytest-cov==2.7.1 compoda==0.3.5 scipy==1.3.1' \
    --workdir /opt \
    --run="wget https://github.com/ofgulban/segmentator/archive/refs/tags/v${toolVersion}.zip \
       && unzip v${toolVersion}.zip \
