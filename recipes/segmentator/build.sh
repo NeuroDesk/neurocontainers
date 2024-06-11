@@ -15,7 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install wget git gcc curl ca-certificates unzip gfortran build-essential \
+   --install opts="--quiet" wget git gcc curl ca-certificates unzip gfortran build-essential libxt6 libxext6 libxtst6 libgl1-mesa-glx libc6 libice6 libsm6 libx11-6 \
    --miniconda version=py38_22.11.1-1 \
                mamba=true \
                conda_install='python=3.8 numpy=1.22.0 matplotlib=3.1.1' \
@@ -31,9 +31,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy test.sh /test.sh \
   > ${imageName}.${neurodocker_buildExt}
 
-               # pip_install='nibabel=2.5.1 pytest-cov=2.7.1 compoda=0.3.5 scipy=1.3.1' \
 
-      # && pip3 install -r requirements.txt" \
+# 
 
 # https://docs.anaconda.com/free/miniconda/miniconda-hashes/
 

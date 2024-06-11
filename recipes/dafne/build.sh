@@ -14,8 +14,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install opts="--quiet" build-essential wget git curl ca-certificates unzip python3 python3-pip python3-tk libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
-   --run="pip install dafne==${toolVersion} pyradiomics" \
+   --install opts="--quiet" build-essential wget git curl ca-certificates unzip libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
+   --miniconda version=py38_22.11.1-1 \
+            mamba=true \
+            conda_install='python=3.8 tensorflow ' \
+            pip_install='pyradiomics dafne==1.8a4' \
    --env DEPLOY_BINS=dafne \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
