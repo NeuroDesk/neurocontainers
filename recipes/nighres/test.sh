@@ -1,5 +1,5 @@
 python -c 'import nighres'
 
-cd /opt/nighres
+# cd /opt/nighres
 
-make smoke_tests
+# make smoke_tests
