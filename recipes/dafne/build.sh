@@ -1,5 +1,5 @@
-export toolName='template'
-export toolVersion='1.0' 
+export toolName='dafne'
+export toolVersion='1.8a4' 
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -15,7 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --install opts="--quiet" wget git curl ca-certificates unzip python3 python3-pip python3-tk libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
-   --run="pip install dafne" \
+   --run="pip install dafne==${toolVersion}" \
    --env DEPLOY_BINS=dafne \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
