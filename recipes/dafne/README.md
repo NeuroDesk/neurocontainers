@@ -19,6 +19,6 @@ Citation:
 Santini F, Wasserthal J, Agosti A, et al. Deep Anatomical Federated Network (Dafne): an open client/server framework for the continuous collaborative improvement of deep-learning-based medical image segmentation. 2023 doi: 10.48550/arXiv.2302.06352.
 ```
 
-License: GNU General Public License
+License: GNU General Public License, https://dafne.network/documentation/#license
 
 ----------------------------------
