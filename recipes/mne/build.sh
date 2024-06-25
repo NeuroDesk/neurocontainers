@@ -3,7 +3,7 @@ set -e
 
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='mne'
-export toolVersion='1.1.1'
+export toolVersion='1.7.1'
 # Don't forget to update version change in condaenv.yml AND README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -42,7 +42,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/sbin/code" \
    --run="chmod a+rwx /opt/vscode-extensions -R" \
    --env DEPLOY_BINS=code \
-   --env XDG_RUNTIME_DIR=/neurodesktop-storage \
+   --env XDG_RUNTIME_DIR=~/.vscode \
    --env RUNLEVEL=3\
    --user neuro \
  > ${imageName}.${neurodocker_buildExt}
