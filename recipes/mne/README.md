@@ -1,6 +1,6 @@
 
 ----------------------------------
-## mne/1.1.1 ##
+## mne/toolVersion ##
 Python MNE environment with VScode
 
 Example:
@@ -10,7 +10,7 @@ code
 Or:
 ```
 source /opt/miniconda-4.7.12/etc/profile.d/conda.sh
-conda activate mne-1.1.1 
+conda activate mne-toolVersion 
 ```
 
 More documentation can be found here: https://mne.tools/stable/index.html
