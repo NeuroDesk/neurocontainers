@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidscoin'
-export toolVersion='4.3.2'    # Don't forget to update version change in README.md!!!!!
+export toolVersion='4.3.3'    # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -36,7 +36,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     conda_install="-c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt" \
 		pip_install="bidscoin[spec2nii2bids,deface]@git+https://github.com/Donders-Institute/bidscoin@v${toolVersion}+qt5" \
     --env FSLDIR=/opt/miniconda-latest FSLOUTPUTTYPE=NIFTI_GZ \
-    --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:slicereport:dcm2niix:spec2nii \
+    --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:slicereport:fixmeta:dcm2niix:spec2nii \
     --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
