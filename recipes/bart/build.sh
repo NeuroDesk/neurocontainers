@@ -2,7 +2,7 @@
 set -e
 
 export toolName='bart'
-export toolVersion='0.7.00' #https://github.com/mrirecon/bart/releases
+export toolVersion='0.9.00' #https://github.com/mrirecon/bart/releases
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:20.04 \
+   --base-image ubuntu:24.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
