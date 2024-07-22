@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://github.com/mrirecon/bart/archive/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
-   --run="CUDA_BASE=/usr/local/cuda/ CUDA_LIB=lib64 CUDA=1 make" \
+   --run="CUDA_BASE=/usr/local/cuda/ CUDA_LIB=lib64 CUDA=1 make -j 8" \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}:${PATH} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \
