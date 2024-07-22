@@ -13,7 +13,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image docker.io/nvidia/cuda:12.5.1-devel-ubuntu24.04 \
+   --base-image docker.io/nvidia/cuda:12.5.1-devel-ubuntu22.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
