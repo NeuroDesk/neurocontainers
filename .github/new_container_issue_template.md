@@ -2,7 +2,7 @@
 title: New container {{ env.IMAGENAME_TEST }}
 labels: enhancement
 ---
-There is a new container by @{{ env.GITHUB_ACTOR }}, use this command to test on Neurodesk:
+There is a new container by @{{ env.GITHUB_ACTOR }}, use this command to test on Neurodesk (either a local installation or https://play.neurodesk.org/):
 ```
 bash /neurocommand/local/fetch_and_run.sh {{ env.IMAGENAME_TEST }} {{ env.BUILDDATE }}
 ```
