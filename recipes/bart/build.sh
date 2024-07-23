@@ -12,6 +12,11 @@ fi
 
 source ../main_setup.sh
 
+# note regarding cuda version:
+# https://github.com/NeuroDesk/neurocontainers/issues/733#issuecomment-2244341944
+# Bart v0.9.0 compiled with cuda 12.5.1 generates only empty output. 
+# 12.0.0 was successful so far.
+
 neurodocker generate ${neurodocker_buildMode} \
    --base-image docker.io/nvidia/cuda:12.0.0-devel-ubuntu22.04 \
    --pkg-manager apt \
