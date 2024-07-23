@@ -77,7 +77,7 @@ jobs:
         run: |
           DOCKERFILE=`basename $(find ./recipes/$APPLICATION/ -type f -iname "*.Dockerfile" | head -1)`
           IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
-          echo "IMAGENAME: $IMAGENAME" >> $GITHUB_ENV
+          echo "IMAGENAME: $IMAGENAME"
           echo "IMAGENAME_TEST=${IMAGENAME//_/ }" >> $GITHUB_ENV
           echo "test command: bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE"
           echo "IMAGENAME=$IMAGENAME" >> $GITHUB_ENV
