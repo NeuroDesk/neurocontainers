@@ -51,7 +51,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt" \
    --env SUBJECTS_DIR="/tmp" \
    --ants version=2.3.4 \
-   --dcm2niix method=source version=1.0.20240202 \
+   --dcm2niix method=source version=v1.0.20240202 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
