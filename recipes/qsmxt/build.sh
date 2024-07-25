@@ -55,6 +55,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
+       && pip install setuptools==0.70 \
        && pip install qsmxt==${toolVersion} \
        && pip install dunamai \
        && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
