@@ -50,7 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && ln -s /opt/bet2/bin/bet2 /bin/bet" \
    --workdir="/opt" \
    --env SUBJECTS_DIR="/tmp" \
-   --ants method=binaries version=2.3.4 \
+   --ants version=2.4.3 \
    --dcm2niix method=source version=v1.0.20240202 \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
