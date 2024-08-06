@@ -2,7 +2,7 @@
 set -e
 
 export toolName='qsmxt'
-export toolVersion='7.0.0'
+export toolVersion='7.1.0'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -85,7 +85,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="git clone --depth 1 --branch v0.5 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI" \
    --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
        && tar xf node-v14.17.0-linux-x64.tar.xz \
-       && rm node-v14.17.0-linux-x64.tar.xz" \
+       && rm node-v14.17.0-linux-x64.tar.xz \
+       && QSMxT-UI/setup.sh"
    --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
    --env DEPLOY_PATH="/opt/ants-2.4.3/:/opt/FastSurfer:/opt/QSMxT-UI" \
    --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:qsmxt-gui:dicom-sort:dicom-convert:nifti-convert"  \
