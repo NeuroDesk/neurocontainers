@@ -82,7 +82,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env JULIA_DEPOT_PATH="/opt/julia_depot" \
    --run="julia install_packages.jl" \
    --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
-   --run="git clone --depth 1 --branch v0.5 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI" \
+   --run="git clone --depth 1 --branch v0.51 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI" \
    --run="wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz \
        && tar xf node-v14.17.0-linux-x64.tar.xz \
        && rm node-v14.17.0-linux-x64.tar.xz \
