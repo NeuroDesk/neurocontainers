@@ -41,7 +41,7 @@ neurodocker generate ${neurodocker_buildMode} \
       zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6 \
       libasound2 libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6 qt5-default \
       libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev \
-      libsqlite3-dev \
+      libsqlite3-dev libopenjp2-7 \
    --env PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
    --run="mkdir -p ${mountPointList}" \
    --workdir="/opt/bet2" \
