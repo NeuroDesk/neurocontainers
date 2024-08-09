@@ -51,7 +51,13 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir="/opt" \
    --env SUBJECTS_DIR="/tmp" \
    --ants version=2.4.3 \
-   --dcm2niix method=source version=v1.0.20240202 \
+   --workdir="/opt/dcm2niix" \
+   --run="git clone --branch v1.0.20240202 --depth 1 https://github.com/rordenlab/dcm2niix.git . \
+       && mkdir build && cd build \
+       && cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON .. \
+       && make \
+       && make install" \
+   --workdir="/opt" \
    --miniconda version=4.7.12.1 conda_install='python=3.8' \
    --run="rm -rf /usr/bin/python3.8 \
        && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
