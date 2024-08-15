@@ -1,6 +1,6 @@
 
 ----------------------------------
-## Vesselboost/1.0.0 ##
+## Vesselboost/toolVersion ##
 This containers provides an interactive deep learning vessel segmentation algorithm 
 
 Example:
@@ -11,6 +11,6 @@ prediction.py --ds_path $path_to_images --out_path $path_to_output --pretrained 
 
 More documentation can be found here: https://github.com/KMarshallX/VesselBoost
 
-To run applications outside of this container: ml vesselboost/1.0.0
+To run applications outside of this container: ml vesselboost/toolVersion
 
 ----------------------------------
