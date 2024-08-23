@@ -1,1 +1,1 @@
-micapipe
+micapipe -help
