@@ -16,8 +16,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
    --install wget git curl ca-certificates unzip \
-   --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
-   --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
+   --env PATH='$PATH':/opt/${toolName}/ \
+   --env DEPLOY_PATH=/opt/${toolName}/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
    --run="bash /test.sh" \
