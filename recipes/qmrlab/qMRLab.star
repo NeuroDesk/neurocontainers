@@ -72,6 +72,7 @@ octave_deps = [
     query("font-noto"),
     query("adwaita-icon-theme"),
     query("faenza-icon-theme"),
+    query("bash"), # Needed for NeruoDesk
 ]
 
 qmr_lab_root = define.build_fs([
