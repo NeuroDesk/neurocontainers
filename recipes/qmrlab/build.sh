@@ -28,6 +28,7 @@ neurodocker generate ${neurodocker_buildMode} \
     --copy qMRLab.sh /usr/bin/qMRLab \
     --entrypoint "/usr/bin/qMRLab" \
     --env DEPLOY_BINS=qMRLab \
+    --copy README.md /README.md \
  > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then
