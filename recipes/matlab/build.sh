@@ -3,7 +3,7 @@ set -e
 
 # this template file builds datalad and is then used as a docker base image for layer caching + it contains examples for various things like github install, curl, ...
 export toolName='matlab'
-export toolVersion='2023a' #the version number cannot contain a "-" - try to use x.x.x notation always
+export toolVersion='2022a' #the version number cannot contain a "-" - try to use x.x.x notation always
 # Don't forget to update version change in README.md!!!!!
 # toolName or toolVersion CANNOT contain capital letters or dashes or underscores (Docker registry does not accept this!)
 
@@ -67,6 +67,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod a+x /usr/local/bin/matlab"     		`# make matlab executables` \
    --run="mkdir /opt/matlab/R${toolVersion}/licenses"     		`# create license directory - this will later be bind-mounted to the homedirectory download folder` \
    --run="chmod a+rwx /opt/matlab/R${toolVersion}/licenses"     		`# make licenses folder writable - this will be used for an overlay test` \
+   --copy module.sh /usr/share/ \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 
 

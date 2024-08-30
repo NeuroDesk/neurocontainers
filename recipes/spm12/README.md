@@ -21,7 +21,7 @@ python
 ```
 import nipype.interfaces.spm as spm
 
-matlab_cmd = '/opt/spm12/run_spm12.sh /opt/mcr/v97/ script'
+matlab_cmd = 'run_spm12.sh /opt/mcr/v97/ script'
 spm.SPMCommand.set_mlab_paths(matlab_cmd=matlab_cmd, use_mcr=True)
 
 norm12 = spm.Normalize12()

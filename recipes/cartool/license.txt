@@ -1,0 +1,9 @@
+Cartool is free
+Cartool is free if you use it for public research and non-commercial purposes. In this case, you agree with the following
+ Creative Commons BY-NC-ND license (full legal code here: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
+
+
+Cartool is not free
+Cartool is not free if you are either working with private funding (private research), and/or using Cartool for some commercial purpose (making money through its use).
+
+In either case, you will need an explicit agreement with us, through UNITEC, the University of Geneva's Transfer of Technology office.

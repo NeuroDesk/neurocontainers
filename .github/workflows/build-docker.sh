@@ -55,24 +55,48 @@ then
 fi
 
 
-export IMAGE_HOME="$HOME"
+export IMAGE_HOME="/storage/tmp"
+
+if [ -d "$IMAGE_HOME" ]; then
+  echo "[DEBUG] $IMAGE_HOME exists"
+else
+  echo "[DEBUG] $IMAGE_HOME does not exist. Creating ..."
+  sudo mkdir -p $IMAGE_HOME
+  sudo chmod a+rwx $IMAGE_HOME
+fi
 
 echo "saving docker image locally for singularity to convert:"
-docker save $IMAGEID:$SHORT_SHA -o image.tar
-singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://image.tar
- 
-if [ -n "${ORACLE_USER}" ]; then
-    echo "[DEBUG] Attempting upload to Oracle ..."
-    curl -X PUT -u ${ORACLE_USER} --upload-file $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg $ORACLE_NEURODESK_BUCKET/temporary-builds/
+# cleanup first
+if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
+  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
+fi
+docker save $IMAGEID:$SHORT_SHA -o ${IMAGENAME}_${BUILDDATE}.tar
 
-    if curl --output /dev/null --silent --head --fail "https://objectstorage.us-ashburn-1.oraclecloud.com/n/sd63xuke79z3/b/neurodesk/o/temporary-builds/${IMAGENAME}_${BUILDDATE}.simg"; then
-        echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
-    else
-        echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg does not exist yet. Something is WRONG"
-        exit 2
-    fi
+if [ -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
+  rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
+fi
+singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://${IMAGENAME}_${BUILDDATE}.tar
+
+# cleanup
+if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
+  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
+fi
+
+echo "[DEBUG] Attempting upload to Nectar Object Storage ..."
+rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
+
+echo "[DEBUG] Attempting upload to AWS Object Storage ..."
+rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
+
+if curl --output /dev/null --silent --head --fail "https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
+    echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
+    echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+    rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
 else
-    echo "Upload credentials not set. NOT uploading. This is OK, if it is an external pull request. Otherwise check credentials."
+    echo "[ERROR] ${IMAGENAME}_${BUILDDATE}.simg does not exist yet. Something is WRONG"
+    echo "[ERROR] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+    rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
+    exit 2
 fi
 
 

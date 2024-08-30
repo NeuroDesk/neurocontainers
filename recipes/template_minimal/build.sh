@@ -19,6 +19,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/bin \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \
    --copy README.md /README.md \
+   --copy test.sh /test.sh \
+   --run="bash /test.sh" \
   > ${imageName}.${neurodocker_buildExt}
   
 if [ "$1" != "" ]; then

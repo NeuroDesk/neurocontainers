@@ -2,7 +2,7 @@
 set -e
 
 export toolName='aslprep'
-export toolVersion='0.4.0'
+export toolVersion='0.7.0'
 # check if version is here: https://hub.docker.com/r/pennlinc/aslprep/tags
 # Don't forget to update version change in README.md!!!!!
 
@@ -21,8 +21,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
    --env DEPLOY_BINS=aslprep \
+   --env HOME=~/ \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
+   # --entrypoint bash \
 
 if [ "$1" != "" ]; then
    ./../main_build.sh

@@ -2,12 +2,11 @@
 set -e
 
 export toolName='rstudio'
-export toolVersion='2022.07.2'
-export additionalVersion='576'
+export toolVersion='2023.12.1'
+export additionalVersion='402'
 # https://posit.co/download/rstudio-desktop/
-# Don't forget to update version change in README.md!!!!!
-
 # based on this, but no CUDA (yet): https://github.com/Characterisation-Virtual-Laboratory/CharacterisationVL-Software/blob/master/R/Singularity.R_4.0.5
+
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -36,7 +35,7 @@ neurodocker generate ${neurodocker_buildMode} \
       libgfortran-9-dev libblas-dev libblas64-dev liblapack-dev gfortran libudunits2-dev r-cran-ncdf4 \
       libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev \
    --workdir /opt \
-   --run="wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
+   --run="wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --run="gdebi -q -n /opt/rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --run="rm -rf rstudio-${toolVersion}-${additionalVersion}-amd64.deb" \
    --copy dependencies.R /opt \

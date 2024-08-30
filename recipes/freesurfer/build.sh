@@ -8,7 +8,7 @@ if [ "$1" != "" ]; then
 fi
 
 export toolName='freesurfer'
-export toolVersion=7.4.1
+export toolVersion=7.3.2
 
 source ../main_setup.sh
 
@@ -29,8 +29,8 @@ neurodocker generate ${neurodocker_buildMode} \
             && ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion} \
             && rm -rf freesurfer-CentOS8-${toolVersion}-1.x86_64.rpm" \
    --install mesa-dri-drivers which unzip ncurses-compat-libs libgomp java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
-   --matlabmcr version=2014b install_path=/opt/MCR  \
-   --run="ln -s /opt/MCR/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
+   --matlabmcr version=2019b install_path=/opt/MCR2019b  \
+   --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
@@ -56,10 +56,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --env PATH="/opt/workbench/:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
-   --env LD_LIBRARY_PATH="/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64" \
+   --env LD_LIBRARY_PATH="/usr/local/freesurfer/${toolVersion}-1/lib/qt/lib/:/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv97/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/extern/bin/glnxa64" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
+   --run="bash /test.sh" \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
 
@@ -67,9 +68,15 @@ if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
 
-# debug:
+# debug segmentSubjectT1_autoEstimateAlveusML:
 # dnf install strace -y
 # strace segmentSubjectT1_autoEstimateAlveusML
 # this failed because java-1.8.0-openjdk wasn't installed!
 # solution found here: https://github.com/baxpr/freesurfer720/blob/master/Dockerfile
 # for this we needed centos 8 and that's why we can't use the neurodocker version right now
+
+# debug qt and freeview library errors:
+# yum update -y
+# yum install mlocate
+# updatedb
+# locate libQt5XcbQpa.so.5
