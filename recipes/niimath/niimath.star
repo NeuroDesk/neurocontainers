@@ -38,7 +38,9 @@ niimath_release = define.build(
 niimath_root = define.build_fs([
     define.plan(
         builder = "alpine@3.20",
-        packages = [],
+        packages = [
+            query("bash"),
+        ],
         tags = ["level3", "defaults", "noScripts"],
     ),
     directive.builtin("init", "/init"),
