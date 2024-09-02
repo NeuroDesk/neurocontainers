@@ -1,4 +1,6 @@
-niimath_url = "https://github.com/rordenlab/niimath/archive/a905ecd61c1f14e02872983ec6961537bf0d636c.tar.gz"
+revision = "018c646f17958a5b57feac6a7b1ccef6da8bb83e"
+
+niimath_url = "https://github.com/rordenlab/niimath/archive/{}.tar.gz".format(revision)
 
 niimath_compile = define.build_vm(
     directives = [
@@ -14,9 +16,9 @@ niimath_compile = define.build_vm(
         define.read_archive(define.fetch_http(niimath_url), ".tar.gz"),
         directive.run_command("\n".join([
             "source /etc/profile",
-            "cd /niimath-a905ecd61c1f14e02872983ec6961537bf0d636c",
+            "cd /niimath-{}".format(revision),
             "cd src/",
-            "gcc -O3 -static -std=gnu99 -DHAVE_BUTTERWORTH bw.c -DHAVE_TENSOR tensor.c -DHAVE_FORMATS base64.c -DNII2MESH meshify.c quadric.c bwlabel.c radixsort.c fdr.c -DUSE_CLASSIC_CUBES oldcubes.c niimath.c core.c core32.c niftilib/nifti2_io.c znzlib/znzlib.c -I./niftilib -I./znzlib -DFSLSTYLE -DPIGZ -DREJECT_COMPLEX -lm conform.c -DHAVE_CONFORM -DHAVE_64BITS core64.c -DHAVE_ZLIB -lz -flto -o niimath",
+            "make static",
             "mv niimath /niimath",
         ])),
     ],
