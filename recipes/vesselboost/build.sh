@@ -33,6 +33,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --run='git clone https://github.com/kspaceKelvin/python-ismrmrd-server && \
     find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \; && \
     find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix' \
+--copy invertcontrast.py /opt/code/python-ismrmrd-server/invertcontrast.py \
 --entrypoint='python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log -s -S=/tmp/share/saved_data' \
 --workdir='/opt' \
 --run='git clone https://github.com/KMarshallX/VesselBoost.git && \
