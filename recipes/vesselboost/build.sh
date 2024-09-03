@@ -9,9 +9,25 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
---base-image pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime \
+--base-image pytorch/pytorch:2.4.0-cuda11.8-cudnn9-runtime `# Ubuntu 22.04 base image`\
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
+--workdir='/opt/' \
+--install opts="--quiet" git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
+--run='git clone https://github.com/ismrmrd/ismrmrd.git && \
+    cd ./ismrmrd && \
+    cmake . && \
+    make -j $(nproc) && \
+    make install' \
+--run='git clone https://github.com/ismrmrd/siemens_to_ismrmrd.git && \
+    cd siemens_to_ismrmrd && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j $(nproc) && \
+    make install' \
+--workdir='/usr/local/lib/' \
+--run='tar -czf /opt/ismrmrd_libs.tar.gz libismrmrd*' \
 --install git vim \
 --workdir='/opt' \
 --run='git clone https://github.com/KMarshallX/VesselBoost.git && \
@@ -23,31 +39,19 @@ neurodocker generate ${neurodocker_buildMode} \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/manual_0429' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/omelette1_0429' \
 --run='osf -p abk4p fetch osfstorage/pretrained_models/omelette2_0429' \
---workdir='/opt/' \
---base-image python:3.12.0-slim \
---pkg-manager apt \
---env DEBIAN_FRONTEND=noninteractive \
---install git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
---run='git clone https://github.com/ismrmrd/ismrmrd.git && \
-    cd ./ismrmrd' \
---run='cmake .' \
---run='make -j $(nproc)' \
---run='make install' \
---workdir='/opt/'  \
---run='git clone https://github.com/ismrmrd/siemens_to_ismrmrd.git && \
-    cd siemens_to_ismrmrd && \
-    git checkout v1.2.11' \
---workdir='/opt/siemens_to_ismrmrd/build/' \
---run='cmake /opt/siemens_to_ismrmrd/' \
---run='make -j $(nproc)' \
---run='make install' \
---workdir='/usr/local/lib/' \
---run='tar -czf /opt/ismrmrd_libs.tar.gz libismrmrd*' \
 --workdir='/opt/VesselBoost/' \
 --env PATH='$PATH':/opt/VesselBoost/ \
 --env DEPLOY_BINS=prediction.py:boost.py:test_time_adaptation.py:train.py:python \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
+
+
+
+
+
+
+
+
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
