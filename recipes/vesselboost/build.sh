@@ -12,8 +12,8 @@ neurodocker generate ${neurodocker_buildMode} \
 --base-image pytorch/pytorch:2.4.0-cuda11.8-cudnn9-runtime `# Ubuntu 22.04 base image`\
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
---workdir='/opt/' \
---install opts="--quiet" git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
+--workdir='/opt/code' \
+--install libxslt1.1 libhdf5-103 libboost-program-options1.74.0 libpugixml1v5 vim dos2unix git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
 --run='git clone https://github.com/ismrmrd/ismrmrd.git && \
     cd ./ismrmrd && \
     cmake . && \
@@ -26,9 +26,14 @@ neurodocker generate ${neurodocker_buildMode} \
     cmake .. && \
     make -j $(nproc) && \
     make install' \
---workdir='/usr/local/lib/' \
---run='tar -czf /opt/ismrmrd_libs.tar.gz libismrmrd*' \
---install git vim \
+--run='pip3 install h5py==3.10.0 ismrmrd==1.14.0 matplotlib==3.8.2 pydicom==2.4.3 pynetdicom==2.0.2' \
+--run='git clone https://github.com/ismrmrd/ismrmrd-python-tools.git && \
+    cd ismrmrd-python-tools && \
+    pip3 install --no-cache-dir .' \
+--run='git clone https://github.com/kspaceKelvin/python-ismrmrd-server && \
+    find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \; && \
+    find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix' \
+--entrypoint='python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log -s -S=/tmp/share/saved_data' \
 --workdir='/opt' \
 --run='git clone https://github.com/KMarshallX/VesselBoost.git && \
     cd VesselBoost && \
@@ -45,6 +50,9 @@ neurodocker generate ${neurodocker_buildMode} \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 
+# opts="--quiet"
+    # 
+    # 
 
 
 
