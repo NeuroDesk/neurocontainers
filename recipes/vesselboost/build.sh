@@ -13,7 +13,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
 --workdir='/opt/code' \
---install libxslt1.1 libhdf5-103 libboost-program-options1.74.0 libpugixml1v5 vim dos2unix git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
+--install build-essential libxslt1.1 libhdf5-103 libboost-program-options1.74.0 libpugixml1v5 vim dos2unix git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
 --run='git clone https://github.com/ismrmrd/ismrmrd.git && \
     cd ./ismrmrd && \
     cmake . && \
@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
     cmake .. && \
     make -j $(nproc) && \
     make install' \
---run='pip3 install h5py==3.10.0 ismrmrd==1.14.0 matplotlib==3.8.2 pydicom==2.4.3 pynetdicom==2.0.2' \
+--run='pip3 install h5py ismrmrd matplotlib pydicom pynetdicom nibabel' \
 --run='git clone https://github.com/ismrmrd/ismrmrd-python-tools.git && \
     cd ismrmrd-python-tools && \
     pip3 install --no-cache-dir .' \
@@ -49,11 +49,6 @@ neurodocker generate ${neurodocker_buildMode} \
 --env DEPLOY_BINS=prediction.py:boost.py:test_time_adaptation.py:train.py:python \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
-
-# opts="--quiet"
-    # 
-    # 
-
 
 
 
