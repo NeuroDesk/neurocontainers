@@ -10,4 +10,6 @@ BrainNet Viewer is a brain network visualization tool, which can help researcher
 
 **Example:** `brainnetviewer`
 
+**License:** GNU General Public License Version 3 (GPL-3.0)
+
 ----------------------------------
