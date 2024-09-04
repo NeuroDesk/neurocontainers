@@ -12,7 +12,7 @@ fi
 source ../main_setup.sh
 
 # Use Singlrity/Apptainer to run TinyRange to generate the rootfs.
-singularity run docker://ghcr.io/tinyrange/tinyrange:stable build bnv.star:bnv_root -o bnv.tar
+singularity run -B /storage:/storage docker://ghcr.io/tinyrange/tinyrange:stable build bnv.star:bnv_root -o bnv.tar
 
 # Make sure the automaticcly included template doesn't add to the final layer.
 neurodocker generate ${neurodocker_buildMode} \
