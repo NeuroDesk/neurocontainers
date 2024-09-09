@@ -306,7 +306,7 @@ def process_image(images, connection, config, metadata):
             subprocess.run(["test_time_adaptation.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4"])
 
         if config['parameters']['options'] == 'booster':
-            logging.info("Running booster")
+            logging.info("Running booster. Not yet implemented")
             # subprocess.run(["thresholding.py"])
             # subprocess.run(["booster.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--lb_path", "--ep", "--lr", "--prep_mode", "4"])
 
