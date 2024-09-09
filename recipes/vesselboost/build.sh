@@ -47,8 +47,8 @@ neurodocker generate ${neurodocker_buildMode} \
 --env DEPLOY_BINS=prediction.py:boost.py:test_time_adaptation.py:train.py:python \
 --copy README.md /README.md \
 --copy invertcontrast.py /opt/code/python-ismrmrd-server/invertcontrast.py \
---entrypoint='python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log -s -S=/tmp/share/saved_data' \
 > ${toolName}_${toolVersion}.Dockerfile 
+# --entrypoint='python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log -s -S=/tmp/share/saved_data' \
 
 
 

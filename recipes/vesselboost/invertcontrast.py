@@ -263,9 +263,6 @@ def process_image(images, connection, config, metadata):
     head = [img.getHead()                                  for img in images]
     meta = [ismrmrd.Meta.deserialize(img.attribute_string) for img in images]
 
-    # Reformat data to [y x z cha img], i.e. [row col] for the first two dimensions
-    # data = data.transpose((3, 4, 2, 1, 0))
-
     # Reformat data to [y x img cha z], i.e. [row ~col] for the first two dimensions
     data = data.transpose((3, 4, 0, 1, 2))
 
@@ -276,7 +273,7 @@ def process_image(images, connection, config, metadata):
     # if 'IceMiniHead' in meta[0]:
     #     logging.debug("IceMiniHead[0]: %s", base64.b64decode(meta[0]['IceMiniHead']).decode('utf-8'))
 
-    logging.debug("Stebo: Original image data is size %s" % (data.shape,))
+    logging.debug("Original image data is size %s" % (data.shape,))
     # e.g. gre with 128x128x10 with phase and magnitude results in [128 128 1 1 1]
     np.save(debugFolder + "/" + "imgOrig.npy", data)
 
@@ -296,15 +293,26 @@ def process_image(images, connection, config, metadata):
 
     subprocess.run(["prediction.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4"])
 
+    if ('parameters' in config) and ('options' in config['parameters']):
+        if config['parameters']['options'] == 'tta':
+            logging.info("Running tta")
 
-    # subprocess.run(["singularity", "exec", "/opt/code/python-ismrmrd-server/vesselboost_1.0.0_20240815.simg"], "prediction.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4")
-    # path_to_model=/cvmfs/neurodesk.ardc.edu.au/containers/vesselboost_1.0.0_20240815/vesselboost_1.0.0_20240815.simg/opt/VesselBoost/saved_models/
-    # prediction.py --ds_path /path/ --out_path /path/ --pretrained "$path_to_model"/manual_0429 --prep_mode 4
-    # prediction.py --ds_path tof_input --out_path tof_output --pretrained /opt/VesselBoost/saved_models/manual_0429 --prep_mode 4
+            if config['parameters']['double']:
+                parameter = config['parameters']['double']
+                logging.info(parameter)
+            else:
+                logging.info("paramters[double] not found")
 
-    print('Hallo Welt from vesselboost')
+            subprocess.run(["test_time_adaptation.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4"])
+
+        if config['parameters']['options'] == 'booster':
+            logging.info("Running booster")
+            # subprocess.run(["thresholding.py"])
+            # subprocess.run(["booster.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--lb_path", "--ep", "--lr", "--prep_mode", "4"])
+
+
+    print('Processing done')
     img = nib.load('tof_output/tof.nii')
-    # img = nib.load('tof.nii')
     data = img.get_fdata()
 
     # Reformat data
@@ -329,11 +337,6 @@ def process_image(images, connection, config, metadata):
         data *= maxVal/data.max()
         data = np.around(data)
         data = data.astype(np.int16)
-
-    # Invert image contrast
-    # data = maxVal-data
-    # data = np.abs(data)
-    # np.save(debugFolder + "/" + "imgInverted.npy", data)
 
     currentSeries = 0
 
@@ -369,10 +372,10 @@ def process_image(images, connection, config, metadata):
         # Create a copy of the original ISMRMRD Meta attributes and update
         tmpMeta = meta[iImg]
         tmpMeta['DataRole']                       = 'Image'
-        tmpMeta['ImageProcessingHistory']         = ['PYTHON', 'INVERT']
+        tmpMeta['ImageProcessingHistory']         = ['PYTHON', 'VESSELBOOST']
         tmpMeta['WindowCenter']                   = str((maxVal+1)/2)
         tmpMeta['WindowWidth']                    = str((maxVal+1))
-        tmpMeta['SequenceDescriptionAdditional']  = 'FIRE'
+        tmpMeta['SequenceDescriptionAdditional']  = 'OpenRecon'
         tmpMeta['Keep_image_geometry']            = 1
 
         if ('parameters' in config) and ('options' in config['parameters']):
