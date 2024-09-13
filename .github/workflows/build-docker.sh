@@ -83,7 +83,7 @@ if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
 fi
 
 # echo "[DEBUG] Attempting upload to Nectar Object Storage ..."
-# rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
+rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
 
 echo "[DEBUG] Attempting upload to AWS Object Storage ..."
 rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
