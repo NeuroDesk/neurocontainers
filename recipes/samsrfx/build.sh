@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --matlabmcr version=2023b method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --install wget openjdk-8-jre dbus-x11 libglu1-mesa \
+   --install wget openjdk-8-jre dbus-x11 libgbm-dev \
    --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/SamSrfX.zip \
       && unzip -q SamSrfX.zip -d /opt/${toolName}-${toolVersion}/ \
       && chmod a+x /opt/${toolName}-${toolVersion}/run_SamSrfX.sh \
