@@ -3,14 +3,25 @@ set -e
 
 #https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/install_instructs/steps_linux_ubuntu20.html#install-prerequisite-packages
 #https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/install_instructs/steps_linux_Fed_RH.html
-
+#From https://github.com/afni/afni/blob/14a9d3b7bb36dd7d6c8315205418ae94a41e15bc/src/RomanImperator.h#L31
+#/* AFNI_VERSION_LABEL, defined in file AFNI_version.h, is a string of the form
+#     AFNI_ab.c.de
+#   where ab = year minus 2000 (e.g., 18 for 2018)
+#         c  = quarter within the year = 0, 1, 2, or 3
+#         de = minor number of version
+#   Macro AFNI_VERSION_RomanImperator (far below) uses ab and c to choose the
+#   cognomen (catch name) from the version; this macro is used in afni.c
+#   (cf. function show_AFNI_version() ) when option '-ver' is given to print
+#   out the AFNI version; e.g.,
+#     Oct 20 2020 (Version AFNI_20.3.01 'Vespasian')
+## so - pretty safe to assume that the version is 24.3.01 etc. 
 export toolName='afni'
-export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-echo $toolVersion #last build with 24.1.03
+export toolVersion='24.2.06'
+echo $toolVersion #
 
 if [ "$1" != "" ]; then
-    echo "Entering Debug mode"
-    export debug=$1
+   echo "Entering Debug mode"
+   export debug=$1
 fi
 
 source ../main_setup.sh
@@ -36,7 +47,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
    --copy test.tgz /opt/test.tgz \
-  > ${imageName}.${neurodocker_buildExt}
+> ${imageName}.${neurodocker_buildExt}
    # --env LC_ALL=C.UTF-8 \
 
 
