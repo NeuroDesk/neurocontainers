@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy dependencies.R /opt \
    --run="Rscript /opt/dependencies.R" \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.4.1/freesurfer_ubuntu18-7.4.1_amd64.deb \
-            && apt install freesurfer_ubuntu18-7.4.1_amd64.deb \
+            && apt install -y ./freesurfer_ubuntu18-7.4.1_amd64.deb \
             && ln -s /usr/local/freesurfer/7.4.1-1/ /opt/freesurfer-7.4.1 \
             && rm -rf freesurfer_ubuntu18-7.4.1_amd64.deb" \
    --env PATH='$PATH':/opt/freesurfer-7.4.1/tktools:/opt/freesurfer-7.4.1/bin:/opt/freesurfer-7.4.1/fsfast/bin:/opt/freesurfer-7.4.1/mni/bin \
