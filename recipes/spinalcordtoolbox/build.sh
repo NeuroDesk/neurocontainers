@@ -14,6 +14,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:20.04 \
    --pkg-manager apt \
+   --env DEBIAN_FRONTEND=noninteractive \
    --install="gcc ca-certificates libmpich-dev python3-pyqt5 git curl bzip2 libglib2.0-0 rsync" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
