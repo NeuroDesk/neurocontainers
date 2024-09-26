@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env R_LIBS=/usr/local/share/R-4.3 \
    --run="curl -O         https://afni.nimh.nih.gov/pub/dist/tgz/package_libs/linux_ubuntu_24_R-4.3_libs.tgz \
       && tar -xf         linux_ubuntu_24_R-4.3_libs.tgz \
-      && mv              linux_ubuntu_24_R-4.3_libs  ${R_LIBS} \
+      && mv              linux_ubuntu_24_R-4.3_libs  /usr/local/share/R-4.3 \
       && rm -f           linux_ubuntu_24_R-4.3_libs.tgz" \
    --run="@afni_R_package_install ALL" \
    --copy README.md /README.md \
