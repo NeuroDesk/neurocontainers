@@ -41,6 +41,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="Rscript /opt/dependencies.R" \
    --workdir /opt \
 > ${imageName}.${neurodocker_buildExt}
+
+# works for now, but no freesurfer yet.
+
    # --env PATH='$PATH':/opt/freesurfer-7.4.1/tktools:/opt/freesurfer-7.4.1/bin:/opt/freesurfer-7.4.1/fsfast/bin:/opt/freesurfer-7.4.1/mni/bin \
    # --env FREESURFER_HOME="/opt/freesurfer-7.4.1" \
    # --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
