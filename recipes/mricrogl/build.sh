@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install wget unzip ca-certificates libgtk2.0-0 libqt5pas1 appmenu-gtk2-module libglu1-mesa \
+   --install wget unzip ca-certificates libgtk2.0-0 libqt5pas1 appmenu-gtk2-module libglu1-mesa pigz \
    --workdir /opt \
    --run="wget --quiet -O MRIcroGL_linux_includes_Python.zip 'https://github.com/rordenlab/MRIcroGL/releases/download/v${toolVersion}/MRIcroGL_linux_includes_Python.zip' \
       && unzip MRIcroGL_linux_includes_Python.zip  \
