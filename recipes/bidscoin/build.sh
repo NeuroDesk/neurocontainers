@@ -22,7 +22,7 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --run="chmod +x /usr/bin/ll" \
     --run="mkdir -p ${mountPointList}" \
     `# Install the latest dcm2niix from source` \
-    --install ca-certificates git build-essential cmake \
+    --install ca-certificates git build-essential cmake pigz \
     --run "git clone https://github.com/rordenlab/dcm2niix.git" \
     --run "cd dcm2niix; mkdir build && cd build; cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..; make install" \
     `#  Install curl (sometimes needed by dcm2niix)` \
