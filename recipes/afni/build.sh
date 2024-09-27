@@ -19,7 +19,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --env DEPLOY_PATH=/opt/afni-latest/ \
    --install software-properties-common \
    --run="add-apt-repository universe -y" \
    --install libgdal-dev libopenblas-dev libnode-dev libudunits2-dev r-base r-base-dev tcsh xfonts-base libssl-dev python-is-python3 python3-matplotlib python3-numpy python3-flask python3-flask-cors python3-pil gsl-bin netpbm gnome-tweaks libjpeg62 xvfb xterm vim curl gedit evince eog libglu1-mesa-dev libglw1-mesa-dev libxm4 build-essential libcurl4-openssl-dev libxml2-dev libgfortran-14-dev libgomp1 gnome-terminal nautilus firefox xfonts-100dpi r-base-dev cmake bc libxext-dev libxmu-dev libxpm-dev libgsl-dev libglut-dev libxi-dev libglib2.0-dev \
@@ -42,6 +41,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="Rscript /opt/dependencies.R" \
    --freesurfer version=7.4.1 \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
+   --env DEPLOY_PATH=/usr/local/abin/ \
    --copy license.txt /opt/freesurfer-7.4.1/license.txt \
    --workdir /opt \
 > ${imageName}.${neurodocker_buildExt}
