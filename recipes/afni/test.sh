@@ -3,9 +3,7 @@ afni_system_check.py -check_all
 afni_system_check.py -disp_ver_pylibs flask flask_cors
 
 #Test freesurfer functions
-cp /opt/freesurfer-7.3.2/subjects/bert ~/bert -r
-
-\@SUMA_Make_Spec_FS -NIFTI -fspath ~/bert/surf/ -sid bert
+\@SUMA_Make_Spec_FS -NIFTI -fspath /opt/freesurfer-7.4.1/subjects/fsaverage/surf -sid fsaverage
 
 
 # Test R
