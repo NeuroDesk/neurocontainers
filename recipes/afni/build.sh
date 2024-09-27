@@ -2,7 +2,8 @@
 set -e
 
 export toolName='afni'
-export toolVersion='24.2.07'
+export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
+#this is currently: 24.2.07
 # https://hub.docker.com/r/afni/afni_make_build/tags
 
 if [ "$1" != "" ]; then
@@ -39,22 +40,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy test.tgz /opt/test.tgz \
    --copy dependencies.R /opt \
    --run="Rscript /opt/dependencies.R" \
+   --freesurfer version=7.4.1 \
+   --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
+   --copy license.txt /opt/freesurfer-7.4.1/license.txt \
    --workdir /opt \
 > ${imageName}.${neurodocker_buildExt}
-
-# works for now, but no freesurfer yet.
-
-   # --env PATH='$PATH':/opt/freesurfer-7.4.1/tktools:/opt/freesurfer-7.4.1/bin:/opt/freesurfer-7.4.1/fsfast/bin:/opt/freesurfer-7.4.1/mni/bin \
-   # --env FREESURFER_HOME="/opt/freesurfer-7.4.1" \
-   # --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
-   # --copy license.txt /opt/freesurfer-7.4.1/license.txt \
-
-   # --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.4.1/freesurfer_ubuntu18-7.4.1_amd64.deb \
-   #          && apt-get update -qq\
-   #          && apt-get install -y ./freesurfer_ubuntu18-7.4.1_amd64.deb \
-   #          && ln -s /usr/local/freesurfer/7.4.1-1/ /opt/freesurfer-7.4.1 \
-   #          && rm -rf freesurfer_ubuntu18-7.4.1_amd64.deb \
-   #          && rm -rf /var/lib/apt/lists/*" \
 
 # This hack is needed for images which set the user to non-root, because neurodocker needs startup scripts that run as root.
 # sed -i '/^FROM/a USER root' ${imageName}.${neurodocker_buildExt}
