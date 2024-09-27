@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
-   --copy license.txt /opt/license.txt
+   --copy license.txt /opt/license.txt \
 > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then

@@ -1,6 +1,6 @@
 
 ----------------------------------
-## micapipe/v0.2.3 ##
+## micapipe/toolVersion ##
 Micapipe is a processing pipeline providing a robust framework to analyze multimodal MRI data. This pipeline integrates processing streams for T1-weighted, microstructure-sensitive, diffusion-weighted, and resting-state functional imaging to facilitate the development of multiscale models of neural organization. For this purpose, we leverage several specialized software packages to bring BIDS-formatted raw MRI data to fully-processed surface-based feature matrices.
 
 Example:
@@ -29,7 +29,7 @@ micapipe \
 
 More documentation can be found here: (https://micapipe.readthedocs.io/en/latest/pages/01.whatyouneed/index.html)
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml micapipe/v0.2.3
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml micapipe/toolVersion
 
 Citation:
 ```
