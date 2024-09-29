@@ -34,14 +34,14 @@ neurodocker generate ${neurodocker_buildMode} \
       && mv              linux_ubuntu_24_R-4.3_libs  /usr/local/share/R-4.3 \
       && rm -f           linux_ubuntu_24_R-4.3_libs.tgz" \
    --run="@afni_R_package_install ALL" \
-   --copy README.md /README.md \
-   --copy test.sh /test.sh \
-   --copy test.tgz /opt/test.tgz \
-   --copy dependencies.R /opt \
-   --run="Rscript /opt/dependencies.R" \
    --freesurfer version=7.4.1 \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env DEPLOY_PATH=/usr/local/abin/ \
+   --copy dependencies.R /opt \
+   --copy README.md /README.md \
+   --copy test.sh /test.sh \
+   --copy test.tgz /opt/test.tgz \
+   --run="Rscript /opt/dependencies.R" \
    --copy license.txt /opt/freesurfer-7.4.1/license.txt \
    --workdir /opt \
 > ${imageName}.${neurodocker_buildExt}
