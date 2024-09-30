@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_6.0.5.1:20221016 \
    --pkg-manager apt \
    --${toolName} version=${toolVersion} method="source" build_processes=1 \
-   --ants version="2.3.4" \
+   --ants version="2.4.3" \
    --workdir /opt/${toolName}-${toolVersion} \
    --install dbus-x11 less python3-distutils mesa-common-dev libglu1-mesa qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libtiff5-dev libtiff5 libfftw3-dev liblapack3 \
    --run "python3 configure" \
