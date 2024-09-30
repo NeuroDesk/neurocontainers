@@ -28,9 +28,8 @@ neurodocker generate ${neurodocker_buildMode} \
       && tar zxvf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz \
       && rm -rf acpcdetect_V2.1_LinuxCentOS6.7.tar.gz" \
    --workdir /opt/workshop-data \
-   --run "curl https://osf.io/2mzbn/download \
-         && curl https://osf.io/razk2/download \
-         && curl https://osf.io/qx29y/download \
+   --run "pip install osfclient" \
+   --run "osf -p qg9jw clone . \
          && cat DICOM_dwifslpreproc-*.tar | tar -xi \
          && rm -f DICOM_dwifslpreproc-*.tar" \
    --env ARTHOME=/opt/acpcdetect_V2.1/ \
