@@ -3,7 +3,7 @@ set -e
 
 export toolName='afni'
 export toolVersion=`wget -O- https://afni.nimh.nih.gov/pub/dist/AFNI.version | head -n 1 | cut -d '_' -f 2`
-#this is currently: 24.2.07
+#this is currently: 24.3.00
 # https://hub.docker.com/r/afni/afni_make_build/tags
 
 if [ "$1" != "" ]; then
