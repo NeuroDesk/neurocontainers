@@ -2,7 +2,7 @@
 set -e
 
 export toolName='samsrfx'
-export toolVersion='0.0.1'
+export toolVersion='0.0.2'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -20,11 +20,11 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2023b method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
    --install wget openjdk-8-jre dbus-x11 libgbm-dev \
-   --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/SamSrfX.zip \
-      && unzip -q SamSrfX.zip -d /opt/${toolName}-${toolVersion}/ \
+   --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/samsrf_241003.zip \
+      && unzip -q samsrf_241003.zip -d /opt/${toolName}-${toolVersion}/ \
       && chmod a+x /opt/${toolName}-${toolVersion}/run_SamSrfX.sh \
       && chmod a+x /opt/${toolName}-${toolVersion}/SamSrfX \
-      && rm -f SamSrfX.zip" \
+      && rm -f samsrf_241003.zip" \
    --env DEPLOY_BINS=SamSrfX \
    --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
    --copy README.md /README.md \
