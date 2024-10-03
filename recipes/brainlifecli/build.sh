@@ -23,10 +23,9 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p /etc/apt/keyrings" \
    --run="curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg" \
    --run="echo 'deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main' | tee /etc/apt/sources.list.d/nodesource.list" \
-   --run="apt-get update && apt-get install -y nodejs" \
+   --install nodejs \
    --run="npm install -g npm@10.2.4" \
    --run="npm install -g brainlife" \
-   --env DEPLOY_PATH=/usr/local/bin \
    --env DEPLOY_BINS="bl" \
    --env PATH=/usr/local/bin:${PATH} \
    --copy README.md /README.md \
