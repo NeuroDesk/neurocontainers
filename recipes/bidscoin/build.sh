@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='bidscoin'
-export toolVersion='4.3.3'    # Don't forget to update version change in README.md!!!!!
+export toolVersion='4.4.0'    # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -22,19 +22,18 @@ neurodocker generate ${neurodocker_buildMode} `# Based on Singularity .def file 
     --run="chmod +x /usr/bin/ll" \
     --run="mkdir -p ${mountPointList}" \
     `# Install the latest dcm2niix from source` \
-    --install ca-certificates git build-essential cmake \
+    --install ca-certificates git build-essential cmake pigz \
     --run "git clone https://github.com/rordenlab/dcm2niix.git" \
     --run "cd dcm2niix; mkdir build && cd build; cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..; make install" \
     `#  Install curl (sometimes needed by dcm2niix)` \
     --install curl \
     `# Install pigz (to speed up dcm2niix)` \
     --install pigz \
-    `# Install the +qt5 branch from Github` \
-    `# NOTE: PyQt5 is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
-    --install python3-pyqt5 \
+    `# NOTE: PyQt is installed as Debian package to solve dependencies issues occurring when installed with pip.` \
+    --install python3-pyqt6 build-essential libgl1 libxcb-cursor0 \
     --miniconda version=latest \
     conda_install="-c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt" \
-		pip_install="bidscoin[spec2nii2bids,deface]@git+https://github.com/Donders-Institute/bidscoin@v${toolVersion}+qt5" \
+		pip_install="bidscoin[spec2nii2bids,deface]" \
     --env FSLDIR=/opt/miniconda-latest FSLOUTPUTTYPE=NIFTI_GZ \
     --env DEPLOY_BINS=bidscoin:bidscoiner:bidseditor:bidsmapper:bidsparticipants:deface:dicomsort:echocombine:medeface:physio2tsv:plotphysio:rawmapper:slicereport:fixmeta:dcm2niix:spec2nii \
     --copy README.md /README.md \

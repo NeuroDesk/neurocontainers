@@ -1,7 +1,7 @@
 export toolName='micapipe'
 export toolVersion='v0.2.3' 
 # check if version is here: https://hub.docker.com/r/micalab/micapipe/tags
-# Don't forget to update version change in README.md!!!!!
+# Don't forget to update version change in README.md (or replace with toolVersion) !!!!!
 if [ "$1" != "" ]; then
    echo "Entering Debug mode"
    export debug=$1
@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env DEPLOY_PATH=/opt/${toolName}/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
-   --run="bash /test.sh" \
+   --copy license.txt /opt/license.txt \
 > ${imageName}.${neurodocker_buildExt}
 
 if [ "$1" != "" ]; then

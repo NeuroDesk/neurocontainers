@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.7.4'
+export toolVersion='6.0.7.8'
 # check for latest version: http://fsl.fmrib.ox.ac.uk/fsldownloads
 # check if latest version is in neurodocker https://github.com/ReproNim/neurodocker/blob/master/neurodocker/templates/fsl.yaml
 

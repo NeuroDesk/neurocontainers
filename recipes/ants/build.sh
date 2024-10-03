@@ -2,7 +2,7 @@
 set -e
 
 export toolName='ants'
-export toolVersion='2.5.1' # https://github.com/ANTsX/ANTs/releases
+export toolVersion='2.5.3' # https://github.com/ANTsX/ANTs/releases
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
