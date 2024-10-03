@@ -22,8 +22,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --install wget openjdk-8-jre dbus-x11 libgbm-dev \
    --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/samsrf_241003.zip \
       && unzip -q samsrf_241003.zip -d /opt/${toolName}-${toolVersion}/ \
-      && chmod a+x /opt/${toolName}-${toolVersion}/run_SamSrfX.sh \
-      && chmod a+x /opt/${toolName}-${toolVersion}/SamSrfX \
+      && chmod a+x /opt/${toolName}-${toolVersion}/samsrf/SamSrfX \
       && rm -f samsrf_241003.zip" \
    --env DEPLOY_BINS=SamSrfX \
    --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
