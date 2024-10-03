@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-export toolName='brainlife-cli'
+export toolName='brainlifecli'
 export toolVersion='1.7.0' # https://github.com/brainlife/cli & https://www.npmjs.com/package/brainlife
 export NODE_MAJOR=20
 # Don't forget to update version change in README.md!!!!!
