@@ -29,6 +29,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
 
+#note: neurodocker installs a specific update version of the matlab runtime environment - this could cause problems.
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
