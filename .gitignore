@@ -20,3 +20,5 @@ recipes/fsl/manifest.json
 recipes/fsl/fslinstaller.py
 .DS_Store
 .vscode/settings.json
+*.nii
+*.h5

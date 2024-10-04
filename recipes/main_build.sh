@@ -31,7 +31,7 @@ if [ "$buildMode" = "docker_singularity" ]; then
               if [ "$GPU_FLAG" = "true" ]; then
                      sudo docker run -it --rm --gpus all ${imageName}:$buildDate
               else
-                     sudo docker run -it ${imageName}:$buildDate
+                     sudo docker run -it -v .:/data ${imageName}:$buildDate
               fi
        fi
 

@@ -275,23 +275,24 @@ def process_image(images, connection, config, metadata):
 
     logging.debug("Original image data is size %s" % (data.shape,))
     # e.g. gre with 128x128x10 with phase and magnitude results in [128 128 1 1 1]
-    np.save(debugFolder + "/" + "imgOrig.npy", data)
+    # np.save(debugFolder + "/" + "imgOrig.npy", data)
 
     # convert data to nifti using nibabel
+    # vesselboost needs 3D data:
+    data = np.squeeze(data)
+    logging.debug("Cropped to 3D from Original image data is size %s" % (data.shape,))
+
+    xform = np.eye(4)
+    new_img = nib.nifti1.Nifti1Image(data, xform)
+    nib.save(new_img, 'tof.nii')
     
     subprocess.run(["mkdir", "tof_input"])
     subprocess.run(["mkdir", "tof_output"])
-
-    xform = np.eye(4)
-
-    # vesselboost needs 3D data:
-    data = data[:,:,:]
-    new_img = nib.nifti1.Nifti1Image(data, xform)
-    nib.save(new_img, 'tof.nii')
-
     subprocess.run(["mv", "tof.nii", "tof_input"])
 
     subprocess.run(["prediction.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4"])
+
+    logging.info("Config: \n%s", config)
 
     if ('parameters' in config) and ('options' in config['parameters']):
         if config['parameters']['options'] == 'tta':
@@ -303,12 +304,12 @@ def process_image(images, connection, config, metadata):
             else:
                 logging.info("paramters[double] not found")
 
-            subprocess.run(["test_time_adaptation.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--prep_mode", "4"])
+            subprocess.run(["test_time_adaptation.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--ep", "100", "--prep_mode", "4"])
 
         if config['parameters']['options'] == 'booster':
-            logging.info("Running booster. Not yet implemented")
-            # subprocess.run(["thresholding.py"])
-            # subprocess.run(["booster.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--lb_path", "--ep", "--lr", "--prep_mode", "4"])
+            logging.info("Running boost")
+            subprocess.run(["mkdir", "init_label"])
+            subprocess.run(["angiboost.py", "--ds_path", "tof_input", "--out_path", "tof_output", "--lb_path", "init_label", "--pretrained", "/opt/VesselBoost/saved_models/manual_0429", "--outmo", "tof_output/outmo", "--ep", "100", "--lr", "0.05", "--prep_mode", "4"])
 
 
     print('Processing done')

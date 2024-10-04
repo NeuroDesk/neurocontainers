@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='1.0.1'
+export toolVersion='1.0.2'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -35,7 +35,8 @@ neurodocker generate ${neurodocker_buildMode} \
     find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix' \
 --workdir='/opt' \
 --run='git clone https://github.com/KMarshallX/VesselBoost.git && \
-    cd VesselBoost' \
+    cd VesselBoost \
+    chmod a+x angiboost.py' \
 --workdir='/opt/VesselBoost/' \
 --run='pip install -r requirements.txt ' \
 --workdir='/opt/VesselBoost/saved_models' \
