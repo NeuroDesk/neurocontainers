@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 export toolName='dsistudio'
-export toolVersion='chen.2024.04.19'
+export toolVersion='hou.2024.10.02'
 # Check latest version here - replace dashes with dots
 # https://hub.docker.com/r/dsistudio/dsistudio/tags
 
