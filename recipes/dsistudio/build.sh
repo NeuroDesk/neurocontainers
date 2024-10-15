@@ -26,6 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
     --workdir /opt \
     --run="wget https://github.com/frankyeh/DSI-Studio/releases/download/${toolVersion}/dsi_studio_ubuntu2204.zip \
             && unzip dsi_studio_ubuntu2204.zip \
+            && chmod a+rwx dsi-studio -R \
             && rm dsi_studio_ubuntu2204.zip" \
     --env QT_QPA_PLATFORM=xcb \
     --env PATH='$PATH':/opt/dsi-studio \
