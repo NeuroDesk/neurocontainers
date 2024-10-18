@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.7.8'
+export toolVersion='6.0.7.14'
 # check for latest version: http://fsl.fmrib.ox.ac.uk/fsldownloads
 # check if latest version is in neurodocker https://github.com/ReproNim/neurodocker/blob/master/neurodocker/templates/fsl.yaml
 
@@ -37,6 +37,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \
    --copy eddy /opt/fsl-${toolVersion}/bin/eddy \
    --run="chmod +x /opt/fsl-${toolVersion}/bin/eddy" \
+   --env USER=jovyan \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
 
