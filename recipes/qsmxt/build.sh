@@ -67,8 +67,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
        && nextqsm --download_weights" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
-   --run="pip install lapy==1.1.0 \
-       git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
+   --run="git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
        && pip install -r /opt/FastSurfer/requirements.txt" \
    --env FASTSURFER_HOME="/opt/FastSurfer" \
