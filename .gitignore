@@ -21,4 +21,5 @@ recipes/fsl/fslinstaller.py
 .DS_Store
 .vscode/settings.json
 *.nii
+*.nii.gz
 *.h5

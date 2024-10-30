@@ -4,12 +4,26 @@
 #install neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
-# install development version
-yes | pip uninstall neurodocker
-# python -m pip install --no-cache-dir https://github.com/ReproNim/neurodocker/tarball/master --upgrade
-#       For example, if you're using pip, instead of https://github.com/user/proj/archive/master.zip use git+https://github.com/user/proj.git#egg=proj
+# Parse command line arguments
+reinstall_neurodocker="true"  # default value
+for arg in "$@"
+do
+       case $arg in
+              --reinstall_neurodocker=*)
+              reinstall_neurodocker="${arg#*=}"
+              shift
+              ;;
+       esac
+done
 
-python -m pip install --no-cache-dir git+https://github.com/ReproNim/neurodocker.git#egg=neurodocker --upgrade
+# Check for reinstall_neurodocker parameter
+if [ "$reinstall_neurodocker" = "true" ]; then
+       # install development version
+       yes | pip uninstall neurodocker
+       # python -m pip install --no-cache-dir https://github.com/ReproNim/neurodocker/tarball/master --upgrade
+       #       For example, if you're using pip, instead of https://github.com/user/proj/archive/master.zip use git+https://github.com/user/proj.git#egg=proj
+       python -m pip install --no-cache-dir git+https://github.com/ReproNim/neurodocker.git#egg=neurodocker --upgrade
+fi
 
 
 export PATH=$PATH:~/.local/bin
