@@ -16,7 +16,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="mkdir -p ${mountPointList}" \
    --workdir /opt \
    --install wget git curl ca-certificates unzip \
-   --env PATH='$PATH':/opt/${toolName}/ \
+   --env PATH='$PATH':/opt/${toolName}/:/opt/miniconda-22.11.1/envs/micapipe/bin/ \
    --env DEPLOY_PATH=/opt/${toolName}/ \
    --copy README.md /README.md \
    --copy test.sh /test.sh \
