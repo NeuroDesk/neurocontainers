@@ -1,6 +1,6 @@
 
 ----------------------------------
-## quickshear/1.1.0 ##
+## quickshear/toolVersion ##
 Quickshear uses a skull stripped version of an anatomical image as a reference to deface the unaltered anatomical image.
 
 Example:
@@ -12,7 +12,7 @@ quickshear input.nii.gz mask.nii.gz defaced.nii.gz
 
 More documentation can be found here: [link_to_documentation](https://github.com/nipy/quickshear)
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml quickshear/1.1.0
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml quickshear/toolVersion
 
 Citation:
 ```

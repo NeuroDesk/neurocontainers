@@ -8,9 +8,9 @@ if [ "$1" != "" ]; then
 fi
 
 export toolName='freesurfer'
-export toolVersion=7.3.2
+export toolVersion=7.4.1
 
-source ../main_setup.sh
+source ../main_setup.sh --reinstall_neurodocker=false
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image centos:8 \
@@ -18,9 +18,6 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --run="cd /etc/yum.repos.d/" \
-   --run="sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*" \
-   --run="sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*" \
    --run="yum upgrade -y dnf" \
    --run="yum upgrade -y rpm" \
    --install wget \
@@ -64,9 +61,18 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
 
+# Hack to make CENTOS8 work with neurodocker
+sed -i '4i RUN sed -i '\''s/mirrorlist/#mirrorlist/g'\'' /etc/yum.repos.d/CentOS-*' ${imageName}.${neurodocker_buildExt}
+sed -i '5i RUN sed -i '\''s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g'\'' /etc/yum.repos.d/CentOS-*' ${imageName}.${neurodocker_buildExt}
+
+sed -i '/ENV LANG="en_US.UTF-8" \\/,+2d' ${imageName}.${neurodocker_buildExt}
+sed -i '/localedef \\/d' ${imageName}.${neurodocker_buildExt}
+sed -i '/&& localedef -i en_US -f UTF-8 en_US.UTF-8 \\/d' ${imageName}.${neurodocker_buildExt}
+
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
+
 
 # debug segmentSubjectT1_autoEstimateAlveusML:
 # dnf install strace -y
