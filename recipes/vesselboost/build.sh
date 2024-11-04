@@ -11,6 +11,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
 --base-image pytorch/pytorch:2.4.0-cuda11.8-cudnn9-runtime `# Ubuntu 22.04 base image`\
 --pkg-manager apt \
+--run="mkdir -p ${mountPointList}" \
 --env DEBIAN_FRONTEND=noninteractive \
 --workdir='/opt/code' \
 --install build-essential libxslt1.1 libhdf5-103 libboost-program-options1.74.0 libpugixml1v5 vim dos2unix git cmake g++ libhdf5-dev libxml2-dev libxslt1-dev libboost-all-dev libfftw3-dev libpugixml-dev \
