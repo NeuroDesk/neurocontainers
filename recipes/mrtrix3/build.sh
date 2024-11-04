@@ -16,6 +16,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_6.0.5.1:20221016 \
    --pkg-manager apt \
+   --run="mkdir -p ${mountPointList}" \
    --${toolName} version=${toolVersion} method="source" build_processes=1 \
    --ants version="2.4.3" \
    --workdir /opt/${toolName}-${toolVersion} \
