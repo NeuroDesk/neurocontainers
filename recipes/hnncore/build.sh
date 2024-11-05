@@ -14,6 +14,7 @@ neurodocker generate ${neurodocker_buildMode} \
     --base-image ubuntu:22.04 \
     --pkg-manager apt \
     --env DEBIAN_FRONTEND=noninteractive \
+    --run="mkdir -p ${mountPointList}" \
     --install python3.9 python3-pip libpython3-dev build-essential openmpi-bin openmpi-doc libopenmpi-dev \
     --run 'pip install numpy scipy matplotlib NEURON' \
     --run 'pip install ipywidgets voila scikit-learn joblib mpi4py psutil' \

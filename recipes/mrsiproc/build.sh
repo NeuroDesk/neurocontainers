@@ -38,6 +38,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_${fslVersion} \
    --pkg-manager apt \
+   --run="mkdir -p ${mountPointList}" \
    --user=root `# otherwise some permission denied error occurs during docker build` \
    --dcm2niix method=source version=${dcm2niixVersion} \
    --minc version=${mincVersion} \

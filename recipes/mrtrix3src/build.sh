@@ -16,6 +16,7 @@ source ../main_setup.sh
 neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_6.0.5.1:20221016 \
    --pkg-manager apt \
+   --run="mkdir -p ${mountPointList}" \
    --ants version="2.3.4" \
    --workdir /opt \
    --install dbus-x11 less python3-distutils mesa-common-dev libglu1-mesa qt5-default libqt5svg5-dev wget libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libtiff5-dev libtiff5 libfftw3-dev liblapack3 libeigen3-dev \

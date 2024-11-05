@@ -15,6 +15,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image vnmd/fsl_6.0.3:20200905 \
    --pkg-manager apt \
    --user root \
+   --run="mkdir -p ${mountPointList}" \
    --env DEBIAN_FRONTEND=noninteractive \
    --install ca-certificates \
    --miniconda version=latest \
