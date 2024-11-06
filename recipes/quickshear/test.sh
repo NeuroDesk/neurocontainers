@@ -16,17 +16,23 @@ cp stripped.nii.gz /data
 
 # convert dicom to ismrmrd
 cd /opt/code/python-ismrmrd-server
-pip install osfclient
-osf -p ru43c fetch GRE_2subj_1mm_TE20ms/sub1/GR_M_5_QSM_p2_1mmIso_TE20.zip
-unzip GR_M_5_QSM_p2_1mmIso_TE20.zip
-python3 dicom2mrd.py -o /data/input_data.h5 GR_M_5_QSM_p2_1mmIso_TE20
 
+# pip install osfclient
+# osf -p ru43c fetch GRE_2subj_1mm_TE20ms/sub1/GR_M_5_QSM_p2_1mmIso_TE20.zip
+# unzip GR_M_5_QSM_p2_1mmIso_TE20.zip
+# python3 dicom2mrd.py -o /data/input_data.h5 GR_M_5_QSM_p2_1mmIso_TE20
+
+python3 dicom2mrd.py -o /data/input_data_daniel.h5 /data/dicom_data
+
+
+#  "python3", "/opt/code/python-ismrmrd-server/main.py", "-v", "-r", "-H=0.0.0.0", "-p=9002", "-l=/tmp/python-ismrmrd-server.log", "-s", "-S=/tmp/share/saved_data"]')
 
 python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -s -S=/tmp/share/saved_data &
 # wait until you see Serving ... and the press ENTER
 # remove previous file outputs
 # remove old nifti output data
-python3 /opt/code/python-ismrmrd-server/client.py -G dataset -o /data/openrecon_output.h5 /data/input_data.h5
-cp input.nii /data/input_image_fixed.nii
-cp defaced.nii.gz /data/defaced_fixed.nii.gz
-cp stripped.nii.gz /data/stripped_fixed.nii.gz
+
+python3 /opt/code/python-ismrmrd-server/client.py -G dataset -o /data/openrecon_output_daniel.h5 /data/input_data_daniel.h5
+cp input.nii /data/input_image_daniel.nii
+cp defaced.nii.gz /data/defaced_daniel.nii.gz
+cp stripped.nii.gz /data/stripped_daniel.nii.gz
