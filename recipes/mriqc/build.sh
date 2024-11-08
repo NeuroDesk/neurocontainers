@@ -2,7 +2,7 @@
 set -e
 
 export toolName='mriqc'
-export toolVersion='22.0.6'
+export toolVersion='24.0.2'
 # https://hub.docker.com/r/nipreps/mriqc/tags
 # Don't forget to update version change in README.md!!!!!
 

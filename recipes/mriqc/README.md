@@ -1,7 +1,12 @@
 
 ----------------------------------
-## mriqc/22.0.6 ##
+## mriqc/24.0.2 ##
 MRIQC extracts no-reference IQMs (image quality metrics) from structural (T1w and T2w) and functional MRI (magnetic resonance imaging) data.
+
+NOTE: MRIQC has its $HOME variable hardcoded to be /home/mriqc. This can lead to problems on HPCs. A workaround is to run this before mriqc:
+```
+export neurodesk_singularity_opts="--home $HOME:/home"
+```
 
 example for running:
 ```
@@ -29,7 +34,7 @@ usage: mriqc [-h] [--version]
 
 More documentation can be found here: https://mriqc.readthedocs.io/en/stable/running.html
 
-To run applications outside of this container: ml mriqc/22.0.6
+To run applications outside of this container: ml mriqc/24.0.2
 
 ----------------------------------
 
