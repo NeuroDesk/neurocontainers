@@ -50,6 +50,23 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget --quiet -O workbench.zip 'https://humanconnectome.org/storage/app/media/workbench/workbench-rh_linux64-v1.5.0.zip' \
       && unzip workbench.zip  \
       && rm -rf workbench.zip" \
+      && echo 'Installing AANsegment...' \
+      && mkdir -p /opt/AANsegment/bin \
+      && mkdir -p /opt/AANsegment/lib \
+      && mkdir -p /opt/AANsegment/linux_x86_64 \
+      && mkdir -p /opt/AANsegment/mac_osx \
+      && mkdir -p /opt/AANsegment/src \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/SegmentAAN.sh /opt/AANsegment/bin/SegmentAAN.sh \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/AtlasMesh.gz /opt/AANsegment/lib/ \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/compressionLookupTable.txt /opt/AANsegment/lib/ \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/freeview.lut.txt /opt/AANsegment/lib/ \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/targetReg.mgz /opt/AANsegment/lib/ \
+      && cp /Users/VictorVidal/freesurfer/AANsegment/targetWorkingres.mgz /opt/AANsegment/lib/ \
+      && cp -r /Users/VictorVidal/freesurfer/AANsegment/linux_x86_64/* /opt/AANsegment/linux_x86_64/ \
+      && cp -r /Users/VictorVidal/freesurfer/AANsegment/mac_osx/* /opt/AANsegment/mac_osx/ \
+      && cp -r /Users/VictorVidal/freesurfer/AANsegment/src/* /opt/AANsegment/src/ \
+      && chmod +x /opt/AANsegment/bin/SegmentAAN.sh" \
+
    --env PATH="/opt/workbench/:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/${toolName}-${toolVersion}/mni/bin:/bin" \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
@@ -59,6 +76,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy test.sh /test.sh \
    --run="bash /test.sh" \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
+   --copy /Applications/freesurfer/bin/SegmentAAN.sh /opt/${toolName}-${toolVersion}/bin/ \
+   --run="chmod +x /opt/${toolName}-${toolVersion}/bin/my_script.sh" \
   > ${imageName}.${neurodocker_buildExt}
 
 # Hack to make CENTOS8 work with neurodocker
