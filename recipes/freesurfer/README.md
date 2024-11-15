@@ -1,6 +1,6 @@
 
 ----------------------------------
-## freesurfer/toolVersion ##
+## freesurfer/8.0.0 ##
 FreeSurfer contains a set of programs with a common focus of analyzing magnetic resonance imaging scans of brain tissue. It is an important tool in functional brain mapping and contains tools to conduct both volume based and surface based analysis.
 
 Example:
@@ -14,7 +14,7 @@ recon-all -subject subjectname -i invol1.nii.gz -all
 
 More documentation can be found here: https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
 
-To run container outside of this environment: ml freesurfer/toolVersion
+To run container outside of this environment: ml freesurfer/8.0.0
 
 Citation:
 ```

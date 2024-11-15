@@ -9,22 +9,32 @@ fi
 
 export toolName='freesurfer'
 export toolVersion=8.0.0
+export toolSUBversion=beta
 
 source ../main_setup.sh --reinstall_neurodocker=false
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
    --pkg-manager apt \
+   --env DEBIAN_FRONTEND=noninteractive \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install wget \
-   --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/$toolVersion-beta/freesurfer_ubuntu22-$toolVersion-beta_amd64.deb \
-            && deb install freesurfer_ubuntu22-$toolVersion-beta_amd64.deb \
-            && ln -s /usr/local/freesurfer/${toolVersion}-1/ /opt/${toolName}-${toolVersion} \
-            && rm -rf freesurfer_ubuntu22-$toolVersion-beta_amd64.deb" \
-   --install mesa-dri-drivers which unzip ncurses-compat-libs libgomp java-1.8.0-openjdk xorg-x11-server-Xvfb xorg-x11-xauth \
+   --install wget language-pack-en binutils libx11-dev gettext xterm x11-apps perl make csh tcsh \
+            file bc xorg xorg-dev xserver-xorg-video-intel libncurses5 libbsd0 libegl1 libexpat1 \
+            libfontconfig1 libfreetype6 libgl1 libglib2.0-0 libglu1-mesa libglvnd0 libglx0 \
+            libgomp1 libice6 libicu70 libjpeg62 libmd0 libopengl0 libpcre2-16-0 libpng16-16 \
+            libquadmath0 libsm6 libx11-6 libx11-xcb1 libxau6 libxcb-icccm4 libxcb-image0 \
+            libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-render0 libxcb-shape0 \
+            libxcb-shm0 libxcb-sync1 libxcb-util1 libxcb-xfixes0 libxcb-xinerama0 \
+            libxcb-xinput0 libxcb-xkb1 libxcb1 libxdmcp6 libxext6 libxft2 libxi6 libxkbcommon-x11-0 \
+            libxkbcommon0 libxmu6 libxrender1 libxss1 libxt6 \
+            mesa-utils unzip libncurses5 libgomp1 openjdk-8-jdk xvfb xauth \
+   --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/$toolVersion-${toolSUBversion}/freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb \
+            && dpkg -i freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb \
+            && rm -rf freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb" \
    --matlabmcr version=2019b install_path=/opt/MCR2019b  \
+   --workdir /opt/${toolName}-${toolVersion} \
    --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
    --env OS="Linux" \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
@@ -52,36 +62,30 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2014b install_path=/opt/MCR2014b  \
    --run="ln -s /opt/MCR2014b/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64 \
-   --workdir /opt/AANsegment \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/SegmentAAN.sh && chmod a+rwx SegmentAAN.sh" \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/AtlasMesh.gz" \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/compressionLookupTable.txt" \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetReg.mgz" \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetWorkingres.mgz" \
-   --workdir /opt/AANsegment/linux_x86_64 \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/segmentNuclei && chmod a+rwx segmentNuclei" \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/run_segmentNuclei.sh && chmod a+rwx run_segmentNuclei.sh" \
-   --workdir /opt/${toolName}-${toolVersion}/average/AAN/atlas/ \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/freeview.lut.txt" \
-   --env PATH='$PATH':/opt/AANsegment:/opt/AANsegment/linux_x86_64 \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
-   --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/:/opt/AANsegment:/opt/AANsegment/linux_x86_64" \
+   --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/freesurfer/${toolVersion}-1/lib/qt/lib/:/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv97/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/extern/bin/glnxa64 \
-   --run="ln -s /usr/local/freesurfer/${toolVersion}-1/* /usr/local/freesurfer/" \
+   --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /usr/local/freesurfer/" \
+   --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /opt/${toolName}-${toolVersion}" \
+   --workdir /opt/${toolName}-${toolVersion}/bin/ \
+   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/segmentNuclei && chmod a+rwx segmentNuclei" \
    --copy test.sh /test.sh \
    --copy README.md /README.md \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
+   # --workdir /opt/AANsegment \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/SegmentAAN.sh && chmod a+rwx SegmentAAN.sh" \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/AtlasMesh.gz" \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/compressionLookupTable.txt" \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetReg.mgz" \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetWorkingres.mgz" \
+   # --workdir /opt/AANsegment/linux_x86_64 \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/run_segmentNuclei.sh && chmod a+rwx run_segmentNuclei.sh" \
+   # --env PATH='$PATH':/opt/AANsegment:/opt/AANsegment/linux_x86_64 \
+   # --workdir /opt/${toolName}-${toolVersion}/average/AAN/atlas/ \
+   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/freeview.lut.txt" \
 
-# Hack to make CENTOS8 work with neurodocker
-sed -i '4i RUN sed -i '\''s/mirrorlist/#mirrorlist/g'\'' /etc/yum.repos.d/CentOS-*' ${imageName}.${neurodocker_buildExt}
-sed -i '5i RUN sed -i '\''s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g'\'' /etc/yum.repos.d/CentOS-*' ${imageName}.${neurodocker_buildExt}
-sed -i '6i RUN yum install -y ca-certificates' ${imageName}.${neurodocker_buildExt}
-
-sed -i '/ENV LANG="en_US.UTF-8" \\/,+2d' ${imageName}.${neurodocker_buildExt}
-sed -i '/localedef \\/d' ${imageName}.${neurodocker_buildExt}
-sed -i '/&& localedef -i en_US -f UTF-8 en_US.UTF-8 \\/d' ${imageName}.${neurodocker_buildExt}
-
+   # :/opt/AANsegment:/opt/AANsegment/linux_x86_64
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
