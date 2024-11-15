@@ -1,15 +1,15 @@
 
 ----------------------------------
-## samsrfx/toolVersion ##
-conn standalone with Matlab Compiler Runtime
+## samsrfx/v10 ##
+SamsrfX standalone with Matlab Compiler Runtime
 
 Example:
 ```
-/opt/samsrfx-toolVersion/samsrf/run_SamSrfX.sh /opt/MCR-2023b/R2023b/
+samsrfx
 ```
 
-More documentation can be found here: 
+More documentation can be found here: https://github.com/samsrf/samsrf
 
-To run container outside of this environment: ml samsrfx/toolVersion
+To run container outside of this environment: ml samsrfx/v10
 
 ----------------------------------
