@@ -2,7 +2,7 @@
 set -e
 
 export toolName='samsrfx'
-export toolVersion='v10'
+export toolVersion='v10.003'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
