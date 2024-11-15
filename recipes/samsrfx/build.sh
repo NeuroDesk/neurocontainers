@@ -25,7 +25,8 @@ neurodocker generate ${neurodocker_buildMode} \
       && chmod a+x /opt/${toolName}-${toolVersion}/samsrf/SamSrfX \
       && rm -f samsrf_${toolVersion}.zip" \
    --env DEPLOY_BINS=samsrfx \
-   --run="echo '/opt/samsrfx-${toolVersion}/samsrf/run_SamSrfX.sh /opt/MCR-2023b/R2023b/' > samsrfx \
+   --run="echo 'cd /opt/samsrfx-${toolVersion}/samsrf' > samsrfx \
+         && echo './run_SamSrfX.sh /opt/MCR-2023b/R2023b/' >> samsrfx \
          && chmod a+x samsrfx" \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}/ \
    --copy README.md /README.md \
