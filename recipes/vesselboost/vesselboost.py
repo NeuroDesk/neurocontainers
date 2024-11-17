@@ -239,7 +239,7 @@ def process_raw(group, connection, config, metadata):
         tmpImg.attribute_string = xml
         imagesOut.append(tmpImg)
 
-    # Call process_image() to invert image contrast
+    # Call process_image() to run vesselboost on the images
     imagesOut = process_image(imagesOut, connection, config, metadata)
 
     return imagesOut
@@ -344,7 +344,7 @@ def process_image(images, connection, config, metadata):
     # Re-slice back into 2D images
     imagesOut = [None] * data.shape[-1]
     for iImg in range(data.shape[-1]):
-        # Create new MRD instance for the inverted image
+        # Create new MRD instance for the final image
         # Transpose from convenience shape of [y x z cha] to MRD Image shape of [cha z y x]
         # from_array() should be called with 'transpose=False' to avoid warnings, and when called
         # with this option, can take input as: [cha z y x], [z y x], or [y x]

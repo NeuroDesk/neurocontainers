@@ -1,5 +1,5 @@
 export toolName='vesselboost'
-export toolVersion='1.0.2'
+export toolVersion='1.0.3'
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -48,7 +48,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --env PATH='$PATH':/opt/VesselBoost/ \
 --env DEPLOY_BINS=prediction.py:boost.py:test_time_adaptation.py:train.py:python \
 --copy README.md /README.md \
---copy invertcontrast.py /opt/code/python-ismrmrd-server/invertcontrast.py \
+--copy vesselboost.py /opt/code/python-ismrmrd-server/vesselboost.py \
 > ${toolName}_${toolVersion}.Dockerfile 
 # --entrypoint='python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -l=/tmp/python-ismrmrd-server.log -s -S=/tmp/share/saved_data' \
 
