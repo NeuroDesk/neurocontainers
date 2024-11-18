@@ -19,7 +19,7 @@ python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -s -S=/
 rm /data/tof_openrecon_output.h5
 # remove old nifti output data
 rm /data/tof_openrecon_output.nii
-python /opt/code/python-ismrmrd-server/client.py -G dataset -o /data/tof_openrecon_output.h5 /data/tof.h5
+python /opt/code/python-ismrmrd-server/client.py -G dataset -o /data/tof_openrecon_output.h5 /data/tof.h5 -c vesselboost
 cp tof_output/tof.nii /data/tof_openrecon_output.nii
 
 #TEST GPU capability.
