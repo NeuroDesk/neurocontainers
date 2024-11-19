@@ -16,7 +16,10 @@ set -e
 echo "buildMode: $buildMode"
 
 echo "check if Readme was updated. Otherwise don't build."
-grep -E "($toolVersion)" README.md || exit 2
+if ! grep -E "($toolVersion)" README.md; then
+       echo "Error: README.md does not contain the tool version $toolVersion."
+       exit 2
+fi
 
 echo "all good - starting to build ${imageName}:$buildDate from ${imageName}.Dockerfile"
 
