@@ -21,7 +21,7 @@ neurodocker generate ${neurodocker_buildMode} \
     --run="mkdir -p ${mountPointList}" \
     --install git wget ca-certificates pigz \
     --workdir /opt/${toolName}-${toolVersion} \
-    --run="curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_lnx.zip \
+    --run="curl -fLO https://github.com/rordenlab/dcm2niix/releases/download/v1.0.20240202/dcm2niix_lnx.zip \
         && unzip dcm2niix_lnx.zip \
         && chmod a+rwx /opt/${toolName}-${toolVersion}/${toolName} \
         && rm -rf dcm2niix_lnx.zip" \
