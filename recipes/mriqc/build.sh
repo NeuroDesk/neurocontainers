@@ -2,7 +2,7 @@
 set -e
 
 export toolName='mriqc'
-export toolVersion='22.0.6'
+export toolVersion='24.0.2'
 # https://hub.docker.com/r/nipreps/mriqc/tags
 # Don't forget to update version change in README.md!!!!!
 
@@ -19,7 +19,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --env DEPLOY_BINS=mriqc \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}

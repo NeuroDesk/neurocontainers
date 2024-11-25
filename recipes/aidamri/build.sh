@@ -1,6 +1,6 @@
 # this template file builds itksnap and is then used as a docker base image for layer caching
 export toolName='aidamri'
-export toolVersion='1.1'
+export toolVersion='2.0'
 export niftyreg_version='1.4.0'
 export niftyreg_commit_sha='83d8d1182ed4c227ce4764f1fdab3b1797eecd8d'
 # Don't forget to update version change in README.md!!!!!
@@ -17,8 +17,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" ca-certificates curl cmake make g++ \
+   --run="mkdir -p ${mountPointList}" \
+   --install opts="--quiet" ca-certificates curl cmake make g++ \
    --workdir=/opt \
    --run="curl -fsSL --retry 5 https://github.com/aswendtlab/AIDAmri/archive/master.tar.gz | tar -xz -C ./" \
    --run="mv AIDAmri-master ${toolName}-${toolVersion}" \
@@ -30,8 +30,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --base-image dsistudio/dsistudio:latest \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" libgomp1 \
+   --run="mkdir -p ${mountPointList}" \
+   --install opts="--quiet" libgomp1 \
    --fsl version=5.0.11 exclude_paths='data' \
    --workdir=/opt/${toolName}-${toolVersion} \
    --copy-from '0' /opt/${toolName}-${toolVersion}/bin ./bin \

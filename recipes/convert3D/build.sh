@@ -17,7 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --convert3d version=${toolVersion} \
    --env DEPLOY_PATH=/opt/convert3d-${toolVersion}/bin/ \
    --copy README.md /README.md \

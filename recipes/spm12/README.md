@@ -1,6 +1,6 @@
 
 ----------------------------------
-## spm12/r7771 ##
+## spm12/toolVersion ##
 SPM12 standalone with Matlab Compiler Runtime
 
 Example:
@@ -21,7 +21,7 @@ python
 ```
 import nipype.interfaces.spm as spm
 
-matlab_cmd = '/opt/spm12/run_spm12.sh /opt/mcr/v97/ script'
+matlab_cmd = 'run_spm12.sh /opt/mcr/v97/ script'
 spm.SPMCommand.set_mlab_paths(matlab_cmd=matlab_cmd, use_mcr=True)
 
 norm12 = spm.Normalize12()
@@ -31,6 +31,6 @@ norm12.run()
 
 More documentation can be found here: https://www.fil.ion.ucl.ac.uk/spm/doc/
 
-To run container outside of this environment: ml spm12/r7771
+To run container outside of this environment: ml spm12/toolVersion
 
 ----------------------------------

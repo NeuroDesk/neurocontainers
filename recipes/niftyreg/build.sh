@@ -24,7 +24,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="cd build && make && make install" \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}/bin:${PATH} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/ \

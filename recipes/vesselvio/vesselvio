@@ -1,3 +1,15 @@
 #!/usr/bin/env bash
-cd /opt/vesselvio-*
-python VesselVio.py
+cd ~
+mkdir -p ~/library/cache/
+
+FILE=~/library/cache/preferences.json
+if [ -f "$FILE" ]; then
+    echo "$FILE exists. Not overwriting."
+else 
+    echo "$FILE does not exist. Copying file template."
+    cp /opt/vesselvio-1.1.2/library/cache/preferences.json ~/library/cache/preferences.json
+fi
+
+cp -r /opt/vesselvio-1.1.2/library/annotation/ ~/library/
+cp -r /opt/vesselvio-1.1.2/library/volumes/ ~/library/
+python /opt/vesselvio-1.1.2/VesselVio.py

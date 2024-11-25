@@ -1,6 +1,6 @@
 
 ----------------------------------
-## matlab/2022a ##
+## matlab/toolVersion ##
 Matlab IDE
 
 Important note about licensing
@@ -44,7 +44,7 @@ More documentation can be found here
 To run applications outside of this container
 ---------------------------------------------
 
-  ml matlab/2022a
+  ml matlab/toolVersion
 
 Citation
 --------

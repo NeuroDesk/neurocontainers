@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-# this template file builds conn
 export toolName='conn'
-export toolVersion='20b'
-# Don't forget to update version change in README.md!!!!!
+export toolVersion='22a'
+# https://www.nitrc.org/frs/?group_id=279
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -14,15 +13,17 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:18.04 \
+   --base-image ubuntu:22.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --matlabmcr version=2020b method=binaries \
+   --run="mkdir -p ${mountPointList}" \
+   --matlabmcr version=2022a method=binaries \
    --workdir /opt/${toolName}-${toolVersion}/ \
-   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/n/nrrir2sdpmdp/b/neurodesk/o/conn20b_mcr2020b.tar.gz \
-      | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
+   --install wget \
+   --run="wget --no-check-certificate --progress=bar:force -P /opt/${toolName}-${toolVersion}/ https://www.nitrc.org/frs/download.php/13733/conn${toolVersion}_glnxa64.zip \
+      && unzip -q conn${toolVersion}_glnxa64.zip -d /opt/${toolName}-${toolVersion}/ \
+      && rm -f conn${toolVersion}_glnxa64.zip" \
    --env DEPLOY_BINS=${toolName} \
    --install openjdk-8-jre \
    --env PATH=/opt/${toolName}-${toolVersion}/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
@@ -32,3 +33,5 @@ neurodocker generate ${neurodocker_buildMode} \
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
+
+# 

@@ -24,7 +24,7 @@ cd ~/laynii-2.2.1/test_data
 More documentation can be found here: https://github.com/layerfMRI/LAYNII 
 Algorithm explanations can be found here: https://thingsonthings.org/
 and here: https://layerfmri.com/category/laynii/
-Video tutorials of how to use LayNii are avaliable here: https://youtube.com/playlist?list=PLs_umVHtShfadNm8brOweXHUSmqVDTk4q
+Video tutorials of how to use LayNii are available here: https://youtube.com/playlist?list=PLs_umVHtShfadNm8brOweXHUSmqVDTk4q
 
 To run applications outside of this container: ml laynii/2.2.1
 

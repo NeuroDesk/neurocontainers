@@ -24,12 +24,12 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum                                    `# this chooses the package manager to use ` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install flatpak ca-certificates \
    --run="flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo" \
    --run="flatpak install flathub org.jamovi.jamovi -y" `# install jamovi using the flatpak manager` \
    --env DEPLOY_PATH=/usr/bin/           `# specify a path where ALL binary files will be exposed outside the container for the module system` \
-   --env DEPLOY_BINS=flatpak                            `# specify indiviual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
+   --env DEPLOY_BINS=flatpak                            `# specify individual binaries (separated by :) on the PATH that should be exposed outside the container for the module system` \
    --copy README.md /README.md                          `# include readme file in container` \
   > ${imageName}.${neurodocker_buildExt}                `# LAST COMMENT; NOT FOLLOWED BY BACKSLASH!`
 

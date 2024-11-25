@@ -2,7 +2,7 @@
 set -e
 
 export toolName='bart'
-export toolVersion='0.7.00' #https://github.com/mrirecon/bart/releases
+export toolVersion='0.9.00' #https://github.com/mrirecon/bart/releases
 # Don't forget to update version change in README.md!!!!!
 
 if [ "$1" != "" ]; then
@@ -12,17 +12,22 @@ fi
 
 source ../main_setup.sh
 
+# note regarding cuda version:
+# https://github.com/NeuroDesk/neurocontainers/issues/733#issuecomment-2244341944
+# Bart v0.9.0 compiled with cuda 12.5.1 generates only empty output. 
+# 12.0.0 was successful so far.
+
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:20.04 \
+   --base-image docker.io/nvidia/cuda:12.0.0-devel-ubuntu22.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
-   --install apt_opts="--quiet" make gcc libfftw3-dev liblapacke-dev libpng-dev libopenblas-dev \
+   --run="mkdir -p ${mountPointList}" \
+   --install opts="--quiet" make gcc libfftw3-dev liblapacke-dev libpng-dev libopenblas-dev \
    --workdir=/opt/${toolName}-${toolVersion}/ \
    --run="curl -fsSL --retry 5 https://github.com/mrirecon/bart/archive/v${toolVersion}.tar.gz \
       | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" \
-   --run="make" \
+   --run="CUDA_BASE=/usr/local/cuda/ CUDA_LIB=lib64 CUDA=1 make -j 8" \
    --env TOOLBOX_PATH=/opt/${toolName}-${toolVersion}/ \
    --env PATH=/opt/${toolName}-${toolVersion}:${PATH} \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/ \

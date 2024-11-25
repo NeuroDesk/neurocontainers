@@ -24,10 +24,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum                                    `# desired package manager, has to match the base image (e.g. debian needs apt; centos needs yum)` \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
-   --run="mkdir ${mountPointList}"                      `# create folders for singularity bind points` \
+   --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
    --install curl ca-certificates libXt libjpeg-turbo libpng12 libXrender fontconfig libXext`# install curl and ca-certificates for ssl + gui dependencies` \
    --workdir /opt/${toolName}-${toolVersion}/           `# create install directory` \
-   --run="curl -fsSL --retry 5 https://objectstorage.us-ashburn-1.oraclecloud.com/p/b_NtFg0a37NZ-3nJfcTk_LSCadJUyN7IkhhVDB7pv8GGQ2e0brg8kYUnAwFfYb6N/n/sd63xuke79z3/b/neurodesk/o/Diffusion_Toolkit_v${toolVersion}_x86_64.tar.gz \
+   --run="curl -fsSL --retry 5 https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/Diffusion_Toolkit_v${toolVersion}_x86_64.tar.gz \
          | tar -xz -C /opt/${toolName}-${toolVersion}/ --strip-components 1" `# install from object storage - upload there beforehand; strip-components removes remove top directory in archive` \
    --env PATH='$PATH':/opt/${toolName}-${toolVersion}   `# set PATH` \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/   `# specify a path where ALL binary files will be exposed outside the container for the module system` \

@@ -26,7 +26,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir ${mountPointList}" \
+   --run="mkdir -p ${mountPointList}" \
    --install wget unzip ca-certificates openjdk-8-jre dbus-x11 \
    --env MATLAB_VERSION=$MATLAB_VERSION \
    --env MCR_VERSION=$MCR_VERSION \

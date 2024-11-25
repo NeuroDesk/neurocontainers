@@ -1,7 +1,7 @@
 
 ----------------------------------
 ## deepsif/0.0.1 ##
-Container enviroment for Deep Learning based Source Imaging Framework (DeepSIF)
+Container environment for Deep Learning based Source Imaging Framework (DeepSIF)
 Including pytorch, numpy mne h5py tvb and cuda11.5 cudnn 8.3.0.98
 
 Example:
