@@ -24,7 +24,7 @@ echo "[DEBUG] Pulling $IMAGEID"
 } || echo "$IMAGEID not found. Resuming build..."
 
 echo "[DEBUG] Docker build ..."
-docker build . --file ${IMAGENAME}.Dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
+time docker build . --file ${IMAGENAME}.Dockerfile --tag $IMAGEID:$SHORT_SHA --cache-from $IMAGEID --label "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" --label "GITHUB_SHA=$GITHUB_SHA"
 
 echo "[DEBUG] # Get image RootFS to check for changes ..."
 ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
@@ -65,28 +65,34 @@ else
   sudo chmod a+rwx $IMAGE_HOME
 fi
 
-echo "saving docker image locally for singularity to convert:"
+echo "[DEBUG] saving docker image locally for singularity to convert:"
 # cleanup first
 if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
   rm -rf ${IMAGENAME}_${BUILDDATE}.tar
 fi
-docker save $IMAGEID:$SHORT_SHA -o ${IMAGENAME}_${BUILDDATE}.tar
+time docker save $IMAGEID:$SHORT_SHA -o ${IMAGENAME}_${BUILDDATE}.tar
+echo "[DEBUG] done saving docker image locally for singularity to convert!"
+
 
 if [ -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
   rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
 fi
-singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://${IMAGENAME}_${BUILDDATE}.tar
+echo "[DEBUG] building singularity image from docker image:"
+time singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://${IMAGENAME}_${BUILDDATE}.tar
+echo "[DEBUG] done building singularity image from docker image!"
 
 # cleanup
 if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
   rm -rf ${IMAGENAME}_${BUILDDATE}.tar
 fi
 
-# echo "[DEBUG] Attempting upload to Nectar Object Storage ..."
-rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
+echo "[DEBUG] Attempting upload to Nectar Object Storage:"
+time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
+echo "[DEBUG] Done with uploading to Nectar Object Storage!"
 
-echo "[DEBUG] Attempting upload to AWS Object Storage ..."
-rclone copy --progress $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
+echo "[DEBUG] Attempting upload to AWS Object Storage:"
+time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
+echo "[DEBUG] Done with uploading to AWS Object Storage!"
 
 # if curl --output /dev/null --silent --head --fail "https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
 if curl --output /dev/null --silent --head --fail "https://neurocontainers.neurodesk.org/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
@@ -107,7 +113,8 @@ if [ "$GITHUB_REF" == "refs/heads/master" ]; then
     # Push to GH Packages
       docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
       docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-      docker push $IMAGEID:$BUILDDATE
+      time docker push $IMAGEID:$BUILDDATE
+      echo "[DEBUG] done Pushing to GitHub Registry!"
       docker push $IMAGEID:latest
     else
       echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
@@ -117,7 +124,8 @@ if [ "$GITHUB_REF" == "refs/heads/master" ]; then
       echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
       docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
-      docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
+      time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
+      echo "[DEBUG] done Pushing to Dockerhub Registry!"
       docker push $DOCKERHUB_ORG/$IMAGENAME:latest
     else
       echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
