@@ -1,5 +1,5 @@
 export toolName='nighres'
-export toolVersion='1.5.1' 
+export toolVersion='1.5.2' 
 
 if [ "$1" != "" ]; then
     echo "Entering Debug mode"
@@ -8,7 +8,7 @@ fi
 source ../main_setup.sh
 
 neurodocker generate ${neurodocker_buildMode} \
-   --base-image ubuntu:22.04 \
+   --base-image ubuntu:24.04 \
    --env DEBIAN_FRONTEND=noninteractive \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
@@ -23,6 +23,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt \
    --run="git clone https://github.com/nighres/nighres.git \
          && cd nighres \
+         && git checkout release-$toolVersion \
          && make install" \
    --ants method=source version=2.5.1 make_opts='-j8' \
    --env DEPLOY_BINS=python \

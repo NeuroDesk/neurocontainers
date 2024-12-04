@@ -1,6 +1,6 @@
 
 ----------------------------------
-## nighres/toolVersion ##
+## nighres/1.5.2 ##
 Neuroimaging at high resolution is a collection of python/java tools for processing
 of high resolution neuroimaging data, including UHF-MRI and microscopy. 
 The package includes many tools for quantitative MRI, brain parcellation, shape analysis 
@@ -25,7 +25,7 @@ make smoke_tests
 
 More documentation can be found here: https://nighres.readthedocs.io/en/latest/
 
-To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml nighres/toolVersion
+To make the executables and scripts inside this container transparently available in the command line of environments where Neurocommand is installed: ml nighres/1.5.2
 
 Citation:
 ```
