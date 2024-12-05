@@ -19,7 +19,10 @@ neurodocker generate ${neurodocker_buildMode} \
    --env JCC_JDK=/opt/jdk-temurin-20.0.1 \
    --env JAVAHOME=/opt/jdk-temurin-20.0.1 \
    --env PATH='$PATH':/opt/jdk-temurin-20.0.1/bin \
-   --run="pipx install JCC nipype pandas nilearn" \
+   --run="python3 -m venv /opt/python-venv/" \
+   --env PATH=/opt/python-venv/bin:'$PATH' \
+   --run="pip install nipype pandas nilearn JCC matplotlib" \
+   --run="python3 -m pip install --upgrade setuptools wheel " \
    --workdir /opt \
    --run="git clone https://github.com/nighres/nighres.git \
          && cd nighres \
