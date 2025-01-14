@@ -1,6 +1,6 @@
 
 ----------------------------------
-## deepretinotopy/1.0.5 ##
+## deepretinotopy/1.0.6 ##
 
 This container has FreeSurfer 7.3.2, Connectome Workbench v1.5.0, PyTorch 1.6, PyTorch geometric 1.6.3, and CUDA 10.2. These packages are required for data preparation, model training, and inference.
 
