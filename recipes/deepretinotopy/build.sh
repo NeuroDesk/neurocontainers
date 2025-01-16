@@ -39,7 +39,8 @@ neurodocker generate ${neurodocker_buildMode} \
    --copy README.md /README.md \
   > ${toolName}_${toolVersion}.Dockerfile
  
- #this hack is needed because neurodocker adds localedef, but this is not supported for all base images
+
+#this is needed because neurodocker adds localedef, but this is not supported for all base images
 sed -i '/localedef/d' ${toolName}_${toolVersion}.Dockerfile
 
 if [ "$1" != "" ]; then
