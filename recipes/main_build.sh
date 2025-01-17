@@ -1,17 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# function cleanup {
-# #   reset readme
-#   sed -i "s/${toolVersion}/toolVersion/g" README.md
-
-# }
-
-# trap cleanup EXIT
-
-# # replace toolVersion in README with actual tool version
-# sed -i "s/toolVersion/${toolVersion}/g" README.md
-
 
 echo "buildMode: $buildMode"
 
