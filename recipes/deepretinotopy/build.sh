@@ -3,7 +3,7 @@ set -e
 
 
 export toolName='deepretinotopy'
-export toolVersion='1.0.6'
+export toolVersion='1.0.7'
 # Don't forget to update version change in README.md!!!!!
 
  
@@ -31,7 +31,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt \
    --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
        cd deepRetinotopy_TheToolbox && \
-       git checkout 0292a291114be9719d1d3cbd6f29cdad9fe4bd19' \
+       git checkout f10b78eefd5aa8ec2a1d0607055a87abeca774ea' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
    --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
    --env PATH=/opt/workbench/workbench/bin_rh_linux64/:/opt/deepRetinotopy_TheToolbox/:/opt/deepRetinotopy_TheToolbox/main/:/opt/deepRetinotopy_TheToolbox/utils/:'$PATH' \
