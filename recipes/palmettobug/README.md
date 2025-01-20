@@ -1,6 +1,6 @@
 
 ----------------------------------
-## palmettobug/0.0.1 ##
+## palmettobug/0.0.2 ##
 CIPHER is a pure-python GUI in customtinker that, along with its sister package isoSegDenoise, can preprocess, segment, and analyze high-dimensional image or flow cytometry data, especially mass cytometry / imaging mass cytometry data
 
 Example: 
@@ -15,6 +15,6 @@ Citation:
 TBD
 ```
 
-To run container outside of this environment: ml palmettobug/0.0.1
+To run container outside of this environment: ml palmettobug/0.0.2
 
 ----------------------------------

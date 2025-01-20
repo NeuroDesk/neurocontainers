@@ -3,7 +3,7 @@ set -e
 
 # this template file builds tools required for dicom conversion to bids
 export toolName='palmettobug'
-export toolVersion='0.0.1'    # Don't forget to update version change in README.md!!!!!
+export toolVersion='0.0.2'    # Don't forget to update version change in README.md!!!!!
 
 
 if [ "$1" != "" ]; then
@@ -24,9 +24,9 @@ neurodocker generate ${neurodocker_buildMode} \
     --workdir /opt \
     --miniconda version=latest \
                 conda_install="python=3.9" \
-    --run="wget https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/CIPHER-main.zip \
-      && unzip CIPHER-main.zip \
-      && rm -rf CIPHER-main.zip \
+    --run="wget https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/CIPHER-main-20250120.zip \
+      && unzip CIPHER-main-20250120 \
+      && rm -rf CIPHER-main-20250120 \
       && cd CIPHER-main \
       && pip install . \
       && cd .. \
