@@ -2,7 +2,7 @@
 set -e
 
 export toolName='matlab'
-export toolVersion='2024b' 
+export toolVersion='2023b' 
 # https://hub.docker.com/r/mathworks/matlab-deep-learning
 # update version in matlab wrapper script:
 grep -q $toolVersion matlab && echo "Found" || exit 2
