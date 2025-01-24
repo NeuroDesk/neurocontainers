@@ -2,7 +2,7 @@
 set -e
 
 export toolName='matlab'
-export toolVersion='2023b' 
+export toolVersion='2022b' 
 # https://hub.docker.com/r/mathworks/matlab-deep-learning
 # update version in matlab wrapper script:
 grep -q $toolVersion matlab && echo "Found" || exit 2
@@ -35,7 +35,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll"   `# define the ll command to show detailed list including hidden files`  \
    --run="chmod +x /usr/bin/ll"                         `# make ll command executable`  \
    --run="mkdir -p ${mountPointList}"                      `# create folders for singularity bind points` \
-   --install wget git curl ca-certificates datalad unzip libfftw3-3 apt-transport-https coreutils\
+   --install csh wget git curl ca-certificates datalad unzip libfftw3-3 apt-transport-https coreutils\
    cryptsetup squashfs-tools lua-bit32 lua-filesystem lua-json lua-lpeg lua-posix lua-term lua5.2 lmod imagemagick less nano tree \
    gcc libzstd1 zlib1g-dev zip build-essential uuid-dev libgpgme-dev libseccomp-dev pkg-config \
    --miniconda version=latest \

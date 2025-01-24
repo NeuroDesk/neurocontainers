@@ -1,6 +1,6 @@
 
 ----------------------------------
-## matlab/2023b ##
+## matlab/2022b ##
 Matlab IDE
 
 Important note about licensing
@@ -44,7 +44,7 @@ More documentation can be found here
 To run applications outside of this container
 ---------------------------------------------
 
-  ml matlab/2023b
+  ml matlab/2022b
 
 Citation
 --------
