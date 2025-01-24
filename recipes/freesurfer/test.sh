@@ -2,6 +2,7 @@ segmentSubjectT1_autoEstimateAlveusML #should not complain about libraries missi
 checkMCR.sh #should not complain
 segmentThalamicNuclei.sh --help #should not compalin about matlab libraries missing
 mris_left_right_register # should not through permission denied error (was an apparmor problem)
+segmentNuclei # should work and not return a symbol error (if it does it uses the wrong matlab mcr version)
 
 # interactive test:
 if [[ -v DISPLAY ]]; then

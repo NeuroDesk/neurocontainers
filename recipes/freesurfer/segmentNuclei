@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+LD_LIBRARY_PATH=/opt/MCR2014b/v84/runtime/glnxa64:/opt/MCR2014b/v84/bin/glnxa64:/opt/freesurfer-8.0.0/MCRv84/bin segmentNuclei_mcr84 $@

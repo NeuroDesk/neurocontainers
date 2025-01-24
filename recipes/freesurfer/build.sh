@@ -20,7 +20,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir -p ${mountPointList}" \
-   --install wget language-pack-en binutils libx11-dev gettext xterm x11-apps perl make csh tcsh \
+   --install octave wget language-pack-en binutils libx11-dev gettext xterm x11-apps perl make csh tcsh \
             file bc xorg xorg-dev xserver-xorg-video-intel libncurses5 libbsd0 libegl1 libexpat1 \
             libfontconfig1 libfreetype6 libgl1 libglib2.0-0 libglu1-mesa libglvnd0 libglx0 \
             libgomp1 libice6 libicu70 libjpeg62 libmd0 libopengl0 libpcre2-16-0 libpng16-16 \
@@ -33,11 +33,16 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="wget --quiet https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/$toolVersion-${toolSUBversion}/freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb \
             && dpkg -i freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb \
             && rm -rf freesurfer_ubuntu22-$toolVersion-${toolSUBversion}_amd64.deb" \
-   --matlabmcr version=2019b install_path=/opt/MCR2019b  \
    --workdir /opt/${toolName}-${toolVersion} \
+   --matlabmcr version=2014b install_path=/opt/MCR2014b  \
+   --run="ln -s /opt/MCR2014b/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
+   --matlabmcr version=2019b install_path=/opt/MCR2019b  \
    --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
    --env FS_MCRROOT=/opt/MCR2019b/v97/ \
    --env OS="Linux" \
+   --env FS_OCTAVE_LIB="/usr/lib/x86_64-linux-gnu/octave/6.4.0" \
+   --env FS_OCTAVE_BIN="/usr/bin/octave" \
+   --env FS_USE_OCTAVE=1 \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
    --env FSFAST_HOME="/opt/${toolName}-${toolVersion}/fsfast" \
@@ -60,33 +65,20 @@ neurodocker generate ${neurodocker_buildMode} \
       && unzip workbench.zip  \
       && rm -rf workbench.zip" \
    --env PATH='$PATH':/opt/workbench/:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/tktools:/opt/${toolName}-${toolVersion}/bin:/opt/${toolName}-${toolVersion}/fsfast/bin:/opt/${toolName}-${toolVersion}/mni/bin \
-   --matlabmcr version=2014b install_path=/opt/MCR2014b  \
-   --run="ln -s /opt/MCR2014b/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
-   --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64 \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
    --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fsfast/bin/" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/freesurfer/${toolVersion}-1/lib/qt/lib/:/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv97/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/extern/bin/glnxa64 \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /usr/local/freesurfer/" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /opt/${toolName}-${toolVersion}" \
    --workdir /opt/${toolName}-${toolVersion}/bin/ \
-   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/segmentNuclei && chmod a+rwx segmentNuclei" \
+   --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/segmentNuclei && mv segmentNuclei segmentNuclei_mcr84 && chmod a+rwx segmentNuclei_mcr84" \
+   --copy segmentNuclei /opt/freesurfer-8.0.0/bin/segmentNuclei \
+   --run="chmod a+rwx /opt/freesurfer-8.0.0/bin/segmentNuclei" \
    --copy test.sh /test.sh \
    --copy README.md /README.md \
    --copy license.txt /opt/${toolName}-${toolVersion}/license.txt \
   > ${imageName}.${neurodocker_buildExt}
-   # --workdir /opt/AANsegment \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/SegmentAAN.sh && chmod a+rwx SegmentAAN.sh" \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/AtlasMesh.gz" \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/compressionLookupTable.txt" \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetReg.mgz" \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/targetWorkingres.mgz" \
-   # --workdir /opt/AANsegment/linux_x86_64 \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/linux_x86_64/run_segmentNuclei.sh && chmod a+rwx run_segmentNuclei.sh" \
-   # --env PATH='$PATH':/opt/AANsegment:/opt/AANsegment/linux_x86_64 \
-   # --workdir /opt/${toolName}-${toolVersion}/average/AAN/atlas/ \
-   # --run="wget https://raw.githubusercontent.com/freesurfer/freesurfer/refs/heads/dev/AANsegment/freeview.lut.txt" \
 
-   # :/opt/AANsegment:/opt/AANsegment/linux_x86_64
 if [ "$1" != "" ]; then
    ./../main_build.sh
 fi
