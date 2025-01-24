@@ -36,6 +36,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=2019b install_path=/opt/MCR2019b  \
    --workdir /opt/${toolName}-${toolVersion} \
    --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
+   --env FS_MCRROOT=/opt/MCR2019b/v97/ \
    --env OS="Linux" \
    --env SUBJECTS_DIR="~/freesurfer-subjects-dir" \
    --env LOCAL_DIR="/opt/${toolName}-${toolVersion}/local" \
@@ -63,7 +64,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --run="ln -s /opt/MCR2014b/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/opt/${toolName}-${toolVersion}/MCRv84/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv84/extern/bin/glnxa64 \
    --env FREESURFER="/opt/${toolName}-${toolVersion}" \
-   --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/" \
+   --env DEPLOY_PATH="/opt/${toolName}-${toolVersion}/bin/:/opt/${toolName}-${toolVersion}/fsfast/bin/" \
    --env LD_LIBRARY_PATH='$LD_LIBRARY_PATH':/usr/local/freesurfer/${toolVersion}-1/lib/qt/lib/:/usr/lib64/:/opt/${toolName}-${toolVersion}/MCRv97/runtime/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/bin/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/os/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/sys/opengl/lib/glnxa64:/opt/${toolName}-${toolVersion}/MCRv97/extern/bin/glnxa64 \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /usr/local/freesurfer/" \
    --run="ln -s /usr/local/freesurfer/${toolVersion}-${toolSUBversion}/* /opt/${toolName}-${toolVersion}" \
