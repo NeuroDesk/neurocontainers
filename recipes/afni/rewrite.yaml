@@ -98,7 +98,7 @@ build:
 
 deploy:
   path:
-    - /usr/local/abin
+    - /usr/local/abin/
 
 files:
   - name: "dependencies.R"
