@@ -1,14 +1,20 @@
 name: afni
 version: 24.3.00
+
+apps:
+  afni:
+    categories:
+      - functional imaging
+  sumaGUI:
+    command: suma
+    categories:
+      - functional imaging
+
 build:
   kind: neurodocker
+  base-image: ubuntu:24.04
+  pkg-manager: apt
   directives:
-    - base-image: ubuntu:24.04
-    - pkg-manager: apt
-    - run:
-        - printf '#!/bin/bash\nls -la' > /usr/bin/ll
-        - chmod +x /usr/bin/ll
-        - mkdir -p ${{ mountPointList }}
     - install:
         - software-properties-common
     - run:
