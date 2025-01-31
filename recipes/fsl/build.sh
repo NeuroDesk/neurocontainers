@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fsl'
-export toolVersion='6.0.7.14'
+export toolVersion='6.0.7.16'
 # check for latest version: http://fsl.fmrib.ox.ac.uk/fsldownloads
 # check if latest version is in neurodocker https://github.com/ReproNim/neurodocker/blob/master/neurodocker/templates/fsl.yaml
 
@@ -32,6 +32,8 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --run="curl -sSL "https://github.com/rhr-pruim/ICA-AROMA/archive/v0.4.3-beta.tar.gz" | tar -xzC /opt/ICA-AROMA --strip-components 1 \
       && chmod +x /opt/ICA-AROMA/ICA_AROMA.py" \
    --env PATH=/opt/ICA-AROMA/:'$PATH' \
+   --run="fslpython -m pip install Cython && rm -rf /root/.cache" \
+   --run="fslpython -m pip install oxasl oxasl_ve oxasl_mp && rm -rf /root/.cache" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/ICA-AROMA/ \
    --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-${toolVersion} \
    --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \

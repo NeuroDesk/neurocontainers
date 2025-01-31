@@ -7,4 +7,6 @@ bash runme_gpu.sh
 
 ICA_AROMA.py
 
+oxasl --version
+
 # make sure bash is not exported to module system
