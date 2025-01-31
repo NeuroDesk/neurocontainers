@@ -1,0 +1,203 @@
+name: afni
+version: 24.3.00
+build:
+  kind: neurodocker
+  directives:
+    - base-image: ubuntu:24.04
+    - pkg-manager: apt
+    - run:
+        - printf '#!/bin/bash\nls -la' > /usr/bin/ll
+        - chmod +x /usr/bin/ll
+        - mkdir -p ${{ mountPointList }}
+    - install:
+        - software-properties-common
+    - run:
+        - add-apt-repository universe -y
+    - install:
+        - libgdal-dev
+        - libopenblas-dev
+        - libnode-dev
+        - libudunits2-dev
+        - r-base
+        - r-base-dev
+        - tcsh
+        - xfonts-base
+        - libssl-dev
+        - python-is-python3
+        - python3-matplotlib
+        - python3-numpy
+        - python3-flask
+        - python3-flask-cors
+        - python3-pil
+        - gsl-bin
+        - netpbm
+        - gnome-tweaks
+        - libjpeg62
+        - xvfb
+        - xterm
+        - vim
+        - curl
+        - gedit
+        - evince
+        - eog
+        - libglu1-mesa-dev
+        - libglw1-mesa-dev
+        - libxm4
+        - build-essential
+        - libcurl4-openssl-dev
+        - libxml2-dev
+        - libgfortran-14-dev
+        - libgomp1
+        - gnome-terminal
+        - nautilus
+        - firefox
+        - xfonts-100dpi
+        - r-base-dev
+        - cmake
+        - bc
+        - libxext-dev
+        - libxmu-dev
+        - libxpm-dev
+        - libgsl-dev
+        - libglut-dev
+        - libxi-dev
+        - libglib2.0-dev
+    - workdir: /opt
+    - run:
+        - curl -O https://afni.nimh.nih.gov/pub/dist/tgz/linux_ubuntu_24_64.tgz
+        - tar -xvzf linux_ubuntu_24_64.tgz
+        - mv linux_ubuntu_24_64 /usr/local/abin
+        - rm -f linux_ubuntu_24_64.tgz
+    - environment:
+      PATH: /usr/local/abin:$PATH
+      R_LIBS: /usr/local/share/R-4.3
+    - run:
+        - curl -O https://afni.nimh.nih.gov/pub/dist/tgz/package_libs/linux_ubuntu_24_R-4.3_libs.tgz
+        - tar -xf linux_ubuntu_24_R-4.3_libs.tgz
+        - mv linux_ubuntu_24_R-4.3_libs  /usr/local/share/R-4.3
+        - rm -f linux_ubuntu_24_R-4.3_libs.tgz
+    - run:
+        - "@afni_R_package_install ALL"
+    - template:
+        name: freesurfer
+        version: 7.4.1
+    - environment:
+      SUBJECTS_DIR: ~/freesurfer-subjects-dir
+    - copy: dependencies.R /opt
+    - copy: test.sh /test.sh
+    - copy: test.tgz /opt/test.tgz
+    - run:
+        - Rscript /opt/dependencies.R
+    - copy: license.txt /opt/freesurfer-7.4.1/license.txt
+
+deploy:
+  path:
+    - /usr/local/abin
+
+files:
+  - name: "dependencies.R"
+    contents: |
+      # R Script to install the dependencies
+      if("data.table" %in% rownames(installed.packages()) == FALSE) {install.packages("data.table", repos = "http://cran.us.r-project.org")}
+      if("cmdstanr" %in% rownames(installed.packages()) == FALSE) {install.packages("cmdstanr", repos = "https://stan-dev.r-universe.dev")}
+      cmdstanr::install_cmdstan(dir = "/opt/", cores = 2)
+      if("lme4" %in% rownames(installed.packages()) == FALSE) {install.packages("lme4", repos = "http://cran.us.r-project.org")}
+      if("lmerTest" %in% rownames(installed.packages()) == FALSE) {install.packages("lmerTest", repos = "http://cran.us.r-project.org")}
+      if("phia" %in% rownames(installed.packages()) == FALSE) {install.packages("phia", repos = "http://cran.us.r-project.org")}
+      if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2", repos = "http://cran.us.r-project.org")}
+      if("ggridges" %in% rownames(installed.packages()) == FALSE) {install.packages("ggridges", repos = "http://cran.us.r-project.org")}
+      if("dplyr" %in% rownames(installed.packages()) == FALSE) {install.packages("dplyr", repos = "http://cran.us.r-project.org")}
+      if("tidyr" %in% rownames(installed.packages()) == FALSE) {install.packages("tidyr", repos = "http://cran.us.r-project.org")}
+      if("scales" %in% rownames(installed.packages()) == FALSE) {install.packages("scales", repos = "http://cran.us.r-project.org")}
+  - name: test.sh
+    contents: |
+      # Test AFNI functions
+      afni_system_check.py -check_all
+      afni_system_check.py -disp_ver_pylibs flask flask_cors
+
+      #Test freesurfer functions
+      \@SUMA_Make_Spec_FS -NIFTI -fspath /opt/freesurfer-7.4.1/subjects/fsaverage/surf -sid fsaverage
+
+
+      # Test R
+      R 
+      library("data.table")
+
+
+      # Test cmdstanr
+      R
+      library(cmdstanr)
+      cmdstanr::set_cmdstan_path("/opt/cmdstan-2.35.0/")
+      file <- file.path(cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
+      mod <- cmdstan_model(file)
+      mod$print()
+      mod$exe_file()
+
+      data_list <- list(N = 10, y = c(0,1,0,0,0,0,0,0,0,1))
+
+      fit <- mod$sample(
+        data = data_list,
+        seed = 123,
+        chains = 4,
+        parallel_chains = 4,
+        refresh = 500 # print update every 500 iters
+      )
+
+      # Test 3dLMEr
+      tar xvzf test.tgz
+      bash run.LMEr.txt
+
+      # Test SUMA bug
+      The suma crashes were triggered by a quite specific action: after opening suma, go to View > Object controller, then when I clicked and dragged the slider to adjust the T-threshold it would crash.
+  - name: test.tgz
+    filename: ./test.tgz
+  - name: license.txt
+    contents: |
+      s.bollmann@uq.edu.au
+      53024
+       *CgH0liqb0e9g
+       FSVt2Z862iDJk
+
+readme: |
+  ----------------------------------
+  ## afni/24.3.00 ##
+  AFNI (Analysis of Functional NeuroImages) is a leading software suite of C, Python, R programs and shell scripts primarily developed for the analysis and display of anatomical and functional MRI (FMRI) data. It is freely available (both in source code and in precompiled binaries) for research purposes. The software is made to run on virtually any Unix system with X11 and Motif displays. Binary Packages are provided for MacOS and Linux systems including Fedora, Ubuntu (including Ubuntu under the Windows Subsystem for Linux) 
+
+  To setup AFNI you need to run these commands on first use
+  ```
+  cp /opt/afni-latest/AFNI.afnirc ~/.afnirc
+  suma -update_env
+  apsearch -update_all_afni_help
+  # but don't add the commands to your .bashrc because this will cause errors outside of the AFNI container
+  ```
+
+  If you like to setup autocompletion for afni you need to run this any time you use the AFNI container:
+  ```
+  ahdir=`apsearch -afni_help_dir`
+  if [ -f "$ahdir/all_progs.COMP.bash" ]
+  then
+    . $ahdir/all_progs.COMP.bash
+  fi
+  ``` 
+
+  Example:
+  ```
+  suma
+  afni
+  ```
+
+  More documentation can be found here: https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/index.html
+
+  To run container outside of this environment: ml afni/24.3.00
+
+  Citation:
+  ```
+  Cox RW (1996). AFNI: software for analysis and visualization of functional magnetic resonance neuroimages. Comput Biomed Res 29(3):162-173. doi:10.1006/cbmr.1996.0014
+  https://pubmed.ncbi.nlm.nih.gov/8812068/
+  RW Cox, JS Hyde (1997). Software tools for analysis and visualization of FMRI Data. NMR in Biomedicine, 10: 171-178.
+  https://pubmed.ncbi.nlm.nih.gov/9430344/
+  ```
+
+  License: Gnu General Public License, https://afni.nimh.nih.gov/Legal_info
+
+  ----------------------------------
