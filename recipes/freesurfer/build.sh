@@ -36,6 +36,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir /opt/${toolName}-${toolVersion} \
    --matlabmcr version=2014b install_path=/opt/MCR2014b  \
    --run="ln -s /opt/MCR2014b/v84/ /opt/${toolName}-${toolVersion}/MCRv84" \
+   --env LD_LIBRARY_PATH='' \
    --matlabmcr version=2019b install_path=/opt/MCR2019b  \
    --run="ln -s /opt/MCR2019b/v97/ /opt/${toolName}-${toolVersion}/MCRv97" \
    --env FS_MCRROOT=/opt/MCR2019b/v97/ \
@@ -49,7 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FMRI_ANALYSIS_DIR="/opt/${toolName}-${toolVersion}/fsfast" \
    --env FUNCTIONALS_DIR="/opt/${toolName}-${toolVersion}/sessions" \
    --env FIX_VERTEX_AREA="" \
-   --env FSF_OUTPUT_FORMAT="nii.gz# mni env requirements" \
+   --env FSF_OUTPUT_FORMAT=.nii.gz \
    --env MINC_BIN_DIR="/opt/${toolName}-${toolVersion}/mni/bin" \
    --env MINC_LIB_DIR="/opt/${toolName}-${toolVersion}/mni/lib" \
    --env MNI_DIR="/opt/${toolName}-${toolVersion}/mni" \
