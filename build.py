@@ -34,67 +34,86 @@ class BuildContext(object):
         else:
             raise ValueError("Template object not supported.")
 
+    def build_neurodocker(self, build_directive, deploy):
+        args = ["neurodocker", "generate", "docker"]
 
-def build_neurodocker(ctx: BuildContext, build_directive, deploy):
-    args = ["neurodocker", "generate", "docker"]
+        base = self.execute_template(build_directive.get("base-image") or "")
+        pkg_manager = self.execute_template(build_directive.get("pkg-manager") or "")
 
-    base = build_directive.get("base-image") or ""
-    pkg_manager = build_directive.get("pkg-manager") or ""
+        if base == "" or pkg_manager == "":
+            raise ValueError("Base image or package manager cannot be empty.")
 
-    if base == "" or pkg_manager == "":
-        raise ValueError("Base image or package manager cannot be empty.")
+        args += ["--base-image", base, "--pkg-manager", pkg_manager]
 
-    args += ["--base-image", base, "--pkg-manager", pkg_manager]
+        args += [
+            "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
+            "--run=chmod +x /usr/bin/ll",
+            f"--run=mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}",
+        ]
 
-    args += [
-        "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
-        "--run=chmod +x /usr/bin/ll",
-        f"--run=mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}",
-    ]
-
-    for directive in build_directive["directives"]:
-        if "install" in directive:
-            if type(directive["install"]) == str:
-                args += ["--install"] + [
-                    f
-                    for f in directive["install"].replace("\n", " ").split(" ")
-                    if f != ""
+        def add_directive(directive):
+            if "install" in directive:
+                if type(directive["install"]) == str:
+                    return ["--install"] + self.execute_template(
+                        [
+                            f
+                            for f in directive["install"].replace("\n", " ").split(" ")
+                            if f != ""
+                        ]
+                    )
+                elif type(directive["install"]) == list:
+                    return ["--install"] + self.execute_template(directive["install"])
+                else:
+                    raise ValueError("Install directive must be a string or list.")
+            elif "run" in directive:
+                return [
+                    "--run=" + " \\\n && ".join(self.execute_template(directive["run"]))
                 ]
-            elif type(directive["install"]) == list:
-                args += ["--install"] + directive["install"]
+            elif "workdir" in directive:
+                return ["--workdir", self.execute_template(directive["workdir"])]
+            elif "environment" in directive:
+                ret = []
+                for key, value in directive["environment"].items():
+                    ret += [
+                        "--env",
+                        f"{self.execute_template(key)}={self.execute_template(value)}",
+                    ]
+                return ret
+            elif "template" in directive:
+                name = self.execute_template(directive["template"].get("name") or "")
+                if name == "":
+                    raise ValueError("Template name cannot be empty.")
+
+                items = [
+                    f"{k}={self.execute_template(v)}"
+                    for k, v in directive["template"].items()
+                    if k != "name"
+                ]
+
+                return ["--" + name] + items
+            elif "copy" in directive:
+                return ["--copy"] + self.execute_template(directive["copy"].split(" "))
             else:
-                raise ValueError("Install directive must be a string or list.")
-        elif "run" in directive:
-            args += [
-                "--run=" + " \\\n && ".join(ctx.execute_template(directive["run"]))
-            ]
-        elif "workdir" in directive:
-            args += ["--workdir", directive["workdir"]]
-        elif "environment" in directive:
-            for key, value in directive["environment"].items():
-                args += ["--env", f"{key}={value}"]
-        elif "template" in directive:
-            name = directive["template"]["name"]
-            if name == "":
-                raise ValueError("Template name cannot be empty.")
-            items = [
-                f"{k}={v}" for k, v in directive["template"].items() if k != "name"
-            ]
-            args += ["--" + name] + items
-        elif "copy" in directive:
-            args += ["--copy"] + directive["copy"].split(" ")
-        else:
-            raise ValueError(f"Directive {directive} not supported.")
+                raise ValueError(f"Directive {directive} not supported.")
 
-    if deploy is not None:
-        if "path" in deploy:
-            args += ["--env", "DEPLOY_PATH=" + ":".join(deploy["path"])]
-        if "bins" in deploy:
-            args += ["--env", "DEPLOY_BINS=" + ":".join(deploy["bins"])]
+        for directive in build_directive["directives"]:
+            args += add_directive(directive)
 
-    args += ["--copy", "README.md", "/README.md"]
+        if deploy is not None:
+            if "path" in deploy:
+                args += [
+                    "--env",
+                    "DEPLOY_PATH=" + ":".join(self.execute_template(deploy["path"])),
+                ]
+            if "bins" in deploy:
+                args += [
+                    "--env",
+                    "DEPLOY_BINS=" + ":".join(self.execute_template(deploy["bins"])),
+                ]
 
-    return subprocess.check_output(args).decode("utf-8")
+        args += ["--copy", "README.md", "/README.md"]
+
+        return subprocess.check_output(args).decode("utf-8")
 
 
 def http_get(url):
@@ -111,6 +130,9 @@ def main(args):
     parser.add_argument(
         "--recreate", action="store_true", help="Recreate the build directory"
     )
+    parser.add_argument(
+        "--build", action="store_true", help="Build the Docker image after creating it"
+    )
 
     args = parser.parse_args()
 
@@ -126,73 +148,97 @@ def main(args):
 
     readme = description_file.get("readme") or ""
 
+    ctx = BuildContext(name, version)
+
+    if "variables" in description_file:
+        for key, value in description_file["variables"].items():
+            ctx.__dict__[key] = value
+
+    ctx.readme = ctx.execute_template(readme)
+
     # If readme is not found, try to get it from a URL
     if "readme_url" in description_file:
-        readme_url = description_file["readme_url"]
+        readme_url = ctx.execute_template(description_file["readme_url"])
         if readme_url != "":
-            readme = http_get(readme_url)
+            ctx.readme = http_get(readme_url)
 
     # Check if name, version, or readme is empty
-    if name == "" or version == "" or readme == "":
+    if ctx.name == "" or ctx.version == "" or ctx.readme == "":
         raise ValueError("Name, version, or readme cannot be empty.")
 
-    # Get build information
-    build_info = description_file.get("build") or None
+    ctx.tag = f"{name}:{version}"
 
-    if build_info is None:
+    # Get build information
+    ctx.build_info = description_file.get("build") or None
+
+    if ctx.build_info is None:
         raise ValueError("No build tag found in description file.")
 
-    build_kind = build_info.get("kind") or ""
-    if build_kind == "":
+    ctx.build_kind = ctx.build_info.get("kind") or ""
+    if ctx.build_kind == "":
         raise ValueError("Build kind cannot be empty.")
 
-    deploy = description_file.get("deploy") or None
+    ctx.deploy = description_file.get("deploy") or None
 
     # Create build directory
-    build_directory = os.path.join(args.output_directory, name + "-" + version)
+    ctx.build_directory = os.path.join(args.output_directory, name + "-" + version)
 
-    if os.path.exists(build_directory):
+    if os.path.exists(ctx.build_directory):
         if args.recreate:
-            shutil.rmtree(build_directory)
+            shutil.rmtree(ctx.build_directory)
         else:
             raise ValueError("Build directory already exists.")
 
-    os.makedirs(build_directory)
+    os.makedirs(ctx.build_directory)
 
     # Write README.md
-    with open(os.path.join(build_directory, "README.md"), "w") as f:
-        f.write(readme)
+    with open(os.path.join(ctx.build_directory, "README.md"), "w") as f:
+        f.write(ctx.readme)
 
-    ctx = BuildContext(name, version)
-
-    # Write Dockerfile
-    if build_kind == "neurodocker":
-        dockerfile = build_neurodocker(ctx, build_info, deploy)
-
-        with open(os.path.join(build_directory, "Dockerfile"), "w") as f:
-            f.write(dockerfile)
-    else:
-        raise ValueError("Build kind not supported.")
-
-    files = description_file.get("files") or []
-    for file in files:
+    # Write all files
+    ctx.files = description_file.get("files") or []
+    for file in ctx.files:
         name = file["name"]
 
         if name == "":
             raise ValueError("File name cannot be empty.")
 
+        output_filename = os.path.join(ctx.build_directory, name)
+
         if "contents" in file:
-            contents = file["contents"]
-            with open(os.path.join(build_directory, name), "w") as f:
+            contents = ctx.execute_template(file["contents"])
+            with open(output_filename, "w") as f:
                 f.write(contents)
         elif "filename" in file:
             base = os.path.abspath(os.path.dirname(args.description_file))
             filename = os.path.join(base, file["filename"])
-            with open(os.path.join(build_directory, name), "wb") as f:
+            with open(output_filename, "wb") as f:
                 with open(filename, "rb") as f2:
                     f.write(f2.read())
         else:
             raise ValueError("File contents not found.")
+
+        if "executable" in file and file["executable"]:
+            os.chmod(output_filename, 0o755)
+
+    # Write Dockerfile
+    if ctx.build_kind == "neurodocker":
+        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy)
+
+        with open(os.path.join(ctx.build_directory, "Dockerfile"), "w") as f:
+            f.write(dockerfile)
+    else:
+        raise ValueError("Build kind not supported.")
+
+    if args.build:
+        print("Building Docker image...")
+        # Shell out to Docker
+        # docker-py does not support using BuildKit
+        subprocess.check_call(
+            ["docker", "build", "-t", ctx.tag, "."],
+            cwd=ctx.build_directory,
+        )
+        print("Docker image built successfully at", ctx.tag)
 
 
 if __name__ == "__main__":

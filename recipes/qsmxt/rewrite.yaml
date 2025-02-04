@@ -1,13 +1,37 @@
 name: qsmxt
 version: 7.2.2
 
+# Version history:
+# --qsmxtbase------------------------------------------------------------------------------------------------
+# - 1.0.0: Release for preprint including FS7, Minc, FSL
+# - 1.1.0: Change to Fastsurfer and replace minc with Ants
+# - 1.1.1: update Julia and move packages to depot_Path + changed python version to 3.7
+# - 1.1.2: changed python version back to 3.6 with older Miniconda version + fixed versions
+# - 1.1.3: Removed FSL, bidscoin, matplotlib, seaborn; added bet2
+# - 1.1.3 (fix): Fixed dependency problems occurring with Nipype (see github.com/QSMxT/QSMxT/runs/7553737387)
+# --qsmxt----------------------------------------------------------------------------------------------------
+# - 1.1.12: Combined qsmxt and qsmxtbase containers
+# - 1.1.13: https://github.com/QSMxT/QSMxT/releases/tag/v1.1.13
+# - 1.1.13 (container update): Added RomeoApp to Julia for nextQSM testing; removed run_1_fixGEphaseFFTshift.py from DEPLOY_BINS
+# - 1.1.13 (container update): Added NeXtQSM
+# - 1.2.0: Major update; added QSM.jl; ROMEO unwrapping; Laplacian unwrapping; V-SHARP; RTS QSM; major pipeline refactor
+# - 1.3.0: Major update; added premade pipelines, interactive editor, PDF, TV, and fixed networkx version incompatibility
+# - 1.3.0 (container update): Fixed FastSurfer to v1.1.1 due to seeming slowness in v2
+# - ...
+# - 3.2.0: Added fix for scikit-sparse due to Cython bug https://github.com/scikit-sparse/scikit-sparse/releases/tag/v0.4.9
+# - 6.3.2: Note that Julia v1.10 is not compatible with QSM.jl - created issue https://github.com/kamesy/QSM.jl/issues/8
+
+# Use the upstream readme file.
 readme_url: https://raw.githubusercontent.com/QSMxT/QSMxT/main/docs/container_readme.md
 
 build:
   kind: neurodocker
+
   base-image: ubuntu:18.04
   pkg-manager: apt
+
   directives:
+    # Install basic dependencies
     - environment:
         DEBIAN_FRONTEND: noninteractive
     - install:
@@ -18,6 +42,8 @@ build:
         libsqlite3-dev libopenjp2-7
     - environment:
         PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+    # Install BET2
     - workdir: /opt/bet2
     - run:
         - git clone https://github.com/liangfu/bet2.git .
@@ -27,9 +53,13 @@ build:
     - workdir: /opt
     - environment:
         SUBJECTS_DIR: /tmp
+
+    # Install ANTs
     - template:
         name: ants
         version: 2.4.3
+
+    # Install dcm2niix
     - workdir: /opt/dcm2niix
     - run:
         - git clone --branch v1.0.20240202 --depth 1 https://github.com/rordenlab/dcm2niix.git .
@@ -37,6 +67,8 @@ build:
         - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
         - make
         - make install
+
+    # Install Miniconda
     - workdir: /opt
     - template:
         name: miniconda
@@ -52,6 +84,8 @@ build:
         - nextqsm --download_weights
     - environment:
         PATH: $PATH:/opt/miniconda-latest/bin
+
+    # Install FastSurfer
     - run:
         - git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer
         - sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt
@@ -59,7 +93,8 @@ build:
     - environment:
         FASTSURFER_HOME: /opt/FastSurfer
         PATH: $PATH:/opt/FastSurfer
-    - copy: test.sh /test.sh
+
+    # Install bru2
     - workdir: /opt/bru2
     - run:
         - wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip
@@ -67,6 +102,8 @@ build:
         - rm Bru2_Linux.zip
     - environment:
         PATH: $PATH:/opt/bru2
+
+    # Install Julia
     - workdir: /opt
     - run:
         - wget https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
@@ -74,14 +111,31 @@ build:
         - rm -rf julia-1.9.3-linux-x86_64.tar.gz
     - environment:
         PATH: $PATH:/opt/julia-1.9.3/bin
+
+    # Install Julia packages
     - workdir: /opt
     - copy: install.packages.jl /opt
+
+    # Explanation for Julia hack:
+    # --env JULIA_DEPOT_PATH="/opt/julia_depot" \
+    # --run="julia install_packages.jl" \
+    # --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
+
+    # The problem is that Julia packages install by default in the homedirectory
+    # in singularity this homedirectory does not exist later on
+    # so we have to set the Julia depot path to a path that's available in the image later
+    # but: Julia assumes that this path is writable :( because it stores precompiled outputs there
+    # solution is to to add a writable path before the unwritable path
+    # behaviour: julia writes precompiled stuff to ~/.julia and searches for packages in both, but can't find them in ~/.julia and then searches in /opt/
+    # if anyone has a better way of doing this, please let me know: @sbollmann_MRI (Twitter)
     - environment:
         JULIA_DEPOT_PATH: /opt/julia_depot
     - run:
         - julia install.packages.jl
     - environment:
         JULIA_DEPOT_PATH: ~/.julia:/opt/julia_depot
+
+    # Install QSMxT-UI
     - run:
         - git clone --depth 1 --branch v0.51 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI
     - run:
@@ -92,6 +146,10 @@ build:
         PATH: $PATH:/opt/node-v14.17.0-linux-x64/bin
     - run:
         - QSMxT-UI/setup.sh
+
+    # Copy test script
+    - copy: test.sh /test.sh
+
     - environment:
         LC_ALL: C.UTF-8
         LANG: C.UTF-8
@@ -121,11 +179,11 @@ deploy:
 
 files:
   - name: test.sh
+    executable: true
     contents: |
       # test FastSurfer
       cd /opt/FastSurfer/
-      wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
-      mv 5e9bf3ab430166067ea05564\?action\=download test.nii.gz
+      wget -Otest.nii.gz "https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1"
       ./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only
   - name: install.packages.jl
     contents: |
