@@ -34,6 +34,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/opt/ICA-AROMA/:'$PATH' \
    --run="fslpython -m pip install Cython && rm -rf /root/.cache" \
    --run="fslpython -m pip install oxasl oxasl_ve oxasl_mp && rm -rf /root/.cache" \
+   --run="conda install fsl-truenet" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/ICA-AROMA/ \
    --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-${toolVersion} \
    --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \
