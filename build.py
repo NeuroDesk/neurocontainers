@@ -2,6 +2,11 @@
 import yaml
 import subprocess
 import os
+import sys
+import urllib.request
+import argparse
+import shutil
+import jinja2
 
 GLOBAL_MOUNT_POINT_LIST = (
     "/afm01 /afm02 /cvmfs /90days /30days "
@@ -12,12 +17,29 @@ GLOBAL_MOUNT_POINT_LIST = (
     + "/clusterdata /nvmescratch"
 ).split(" ")
 
+_jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
-def build_neurodocker(build_directive, deploy):
+
+class BuildContext(object):
+    def __init__(self, name, version):
+        self.name = name
+        self.version = version
+
+    def execute_template(self, obj):
+        if type(obj) == str:
+            tpl = _jinja_env.from_string(obj)
+            return tpl.render(context=self)
+        elif type(obj) == list:
+            return [self.execute_template(o) for o in obj]
+        else:
+            raise ValueError("Template object not supported.")
+
+
+def build_neurodocker(ctx: BuildContext, build_directive, deploy):
     args = ["neurodocker", "generate", "docker"]
 
-    base = build_directive["base-image"]
-    pkg_manager = build_directive["pkg-manager"]
+    base = build_directive.get("base-image") or ""
+    pkg_manager = build_directive.get("pkg-manager") or ""
 
     if base == "" or pkg_manager == "":
         raise ValueError("Base image or package manager cannot be empty.")
@@ -25,22 +47,31 @@ def build_neurodocker(build_directive, deploy):
     args += ["--base-image", base, "--pkg-manager", pkg_manager]
 
     args += [
-        "--run=\"printf '#!/bin/bash\\nls -la' > /usr/bin/ll\"",
-        '--run="chmod +x /usr/bin/ll"',
-        f'--run="mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}"',
+        "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
+        "--run=chmod +x /usr/bin/ll",
+        f"--run=mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}",
     ]
 
     for directive in build_directive["directives"]:
         if "install" in directive:
-            args += ["--install"] + directive["install"]
+            if type(directive["install"]) == str:
+                args += ["--install"] + [
+                    f
+                    for f in directive["install"].replace("\n", " ").split(" ")
+                    if f != ""
+                ]
+            elif type(directive["install"]) == list:
+                args += ["--install"] + directive["install"]
+            else:
+                raise ValueError("Install directive must be a string or list.")
         elif "run" in directive:
-            args += ["--run=" + " && ".join(directive["run"])]
+            args += [
+                "--run=" + " \\\n && ".join(ctx.execute_template(directive["run"]))
+            ]
         elif "workdir" in directive:
             args += ["--workdir", directive["workdir"]]
         elif "environment" in directive:
-            for key, value in directive.items():
-                if key == "environment":
-                    continue
+            for key, value in directive["environment"].items():
                 args += ["--env", f"{key}={value}"]
         elif "template" in directive:
             name = directive["template"]["name"]
@@ -58,73 +89,110 @@ def build_neurodocker(build_directive, deploy):
     if deploy is not None:
         if "path" in deploy:
             args += ["--env", "DEPLOY_PATH=" + ":".join(deploy["path"])]
+        if "bins" in deploy:
+            args += ["--env", "DEPLOY_BINS=" + ":".join(deploy["bins"])]
 
     args += ["--copy", "README.md", "/README.md"]
 
     return subprocess.check_output(args).decode("utf-8")
 
 
+def http_get(url):
+    with urllib.request.urlopen(url) as response:
+        return response.read().decode("utf-8")
+
+
 def main(args):
-    if len(args) != 2:
-        print("Usage: build.py <description_file> <output_directory>")
-        os.exit(1)
-    description_filename = args[0]
-    output_directory = args[1]
+    parser = argparse.ArgumentParser(
+        description="Build a Docker image from a description file."
+    )
+    parser.add_argument("description_file", help="Path to the description YAML file")
+    parser.add_argument("output_directory", help="Directory to output the build files")
+    parser.add_argument(
+        "--recreate", action="store_true", help="Recreate the build directory"
+    )
 
-    description_file = yaml.safe_load(open(description_filename, "r"))
+    args = parser.parse_args()
 
-    name = description_file["name"]
-    version = description_file["version"]
+    # Load description file
+    description_file = yaml.safe_load(open(args.description_file, "r"))
 
-    readme = description_file["readme"]
+    if description_file == None:
+        raise ValueError("Description file is empty.")
 
+    # Get basic information
+    name = description_file.get("name") or ""
+    version = description_file.get("version") or ""
+
+    readme = description_file.get("readme") or ""
+
+    # If readme is not found, try to get it from a URL
+    if "readme_url" in description_file:
+        readme_url = description_file["readme_url"]
+        if readme_url != "":
+            readme = http_get(readme_url)
+
+    # Check if name, version, or readme is empty
     if name == "" or version == "" or readme == "":
         raise ValueError("Name, version, or readme cannot be empty.")
 
-    build_kind = description_file["build"]["kind"]
+    # Get build information
+    build_info = description_file.get("build") or None
 
-    deploy = None
-    if "deploy" in description_file:
-        deploy = description_file["deploy"]
+    if build_info is None:
+        raise ValueError("No build tag found in description file.")
 
-    build_directory = os.path.join(output_directory, name + "-" + version)
+    build_kind = build_info.get("kind") or ""
+    if build_kind == "":
+        raise ValueError("Build kind cannot be empty.")
+
+    deploy = description_file.get("deploy") or None
+
+    # Create build directory
+    build_directory = os.path.join(args.output_directory, name + "-" + version)
 
     if os.path.exists(build_directory):
-        raise ValueError("Build directory already exists.")
+        if args.recreate:
+            shutil.rmtree(build_directory)
+        else:
+            raise ValueError("Build directory already exists.")
 
     os.makedirs(build_directory)
 
+    # Write README.md
     with open(os.path.join(build_directory, "README.md"), "w") as f:
         f.write(readme)
 
+    ctx = BuildContext(name, version)
+
+    # Write Dockerfile
     if build_kind == "neurodocker":
-        dockerfile = build_neurodocker(description_file["build"], deploy)
+        dockerfile = build_neurodocker(ctx, build_info, deploy)
 
         with open(os.path.join(build_directory, "Dockerfile"), "w") as f:
             f.write(dockerfile)
     else:
         raise ValueError("Build kind not supported.")
 
-    if "files" in description_file:
-        files = description_file["files"]
-        for file in files:
-            name = file["name"]
+    files = description_file.get("files") or []
+    for file in files:
+        name = file["name"]
 
-            if name == "":
-                raise ValueError("File name cannot be empty.")
+        if name == "":
+            raise ValueError("File name cannot be empty.")
 
-            if "contents" in file:
-                contents = file["contents"]
-                with open(os.path.join(build_directory, name), "w") as f:
-                    f.write(contents)
-            elif "filename" in file:
-                base = os.path.abspath(os.path.dirname(description_filename))
-                filename = os.path.join(base, file["filename"])
-                with open(os.path.join(build_directory, name), "wb") as f:
-                    with open(filename, "rb") as f2:
-                        f.write(f2.read())
-            else:
-                raise ValueError("File contents not found.")
+        if "contents" in file:
+            contents = file["contents"]
+            with open(os.path.join(build_directory, name), "w") as f:
+                f.write(contents)
+        elif "filename" in file:
+            base = os.path.abspath(os.path.dirname(args.description_file))
+            filename = os.path.join(base, file["filename"])
+            with open(os.path.join(build_directory, name), "wb") as f:
+                with open(filename, "rb") as f2:
+                    f.write(f2.read())
+        else:
+            raise ValueError("File contents not found.")
 
 
 if __name__ == "__main__":
