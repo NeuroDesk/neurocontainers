@@ -7,15 +7,37 @@ import urllib.request
 import argparse
 import shutil
 import jinja2
+import platform
 
-GLOBAL_MOUNT_POINT_LIST = (
-    "/afm01 /afm02 /cvmfs /90days /30days "
-    + "/QRISdata /RDS /data /short /proc_temp "
-    + "/TMPDIR /nvme /neurodesktop-storage /local "
-    + "/gpfs1 /working /winmounts /state /tmp "
-    + "/autofs /cluster /local_mount /scratch "
-    + "/clusterdata /nvmescratch"
-).split(" ")
+GLOBAL_MOUNT_POINT_LIST = [
+    "/afm01",
+    "/afm02",
+    "/cvmfs",
+    "/90days",
+    "/30days",
+    "/QRISdata",
+    "/RDS",
+    "/data",
+    "/short",
+    "/proc_temp",
+    "/TMPDIR",
+    "/nvme",
+    "/neurodesktop-storage",
+    "/local",
+    "/gpfs1",
+    "/working",
+    "/winmounts",
+    "/state",
+    "/tmp",
+    "/autofs",
+    "/cluster",
+    "/local_mount",
+    "/scratch",
+    "/clusterdata",
+    "/nvmescratch",
+]
+
+ARCHITECTURES = {"arm64": "aarch64"}
 
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
@@ -25,12 +47,29 @@ class BuildContext(object):
         self.name = name
         self.version = version
 
+    def get_architecture(self):
+        return ARCHITECTURES[platform.machine()]
+
+    def render_template(self, template):
+        tpl = _jinja_env.from_string(template)
+        return tpl.render(context=self, arch=self.get_architecture())
+
+    def execute_condition(self, condition):
+        result = self.render_template("{{" + condition + "}}")
+        return result == "True"
+
     def execute_template(self, obj):
         if type(obj) == str:
-            tpl = _jinja_env.from_string(obj)
-            return tpl.render(context=self)
+            return self.render_template(obj)
         elif type(obj) == list:
             return [self.execute_template(o) for o in obj]
+        elif type(obj) == dict:
+            if "try" in obj:
+                for value in obj["try"]:
+                    if self.execute_condition(value["condition"]):
+                        return self.execute_template(value["value"])
+
+                raise NotImplementedError("Try not implemented.")
         else:
             raise ValueError("Template object not supported.")
 
@@ -52,6 +91,10 @@ class BuildContext(object):
         ]
 
         def add_directive(directive):
+            if "condition" in directive:
+                if not self.execute_condition(directive["condition"]):
+                    return []
+
             if "install" in directive:
                 if type(directive["install"]) == str:
                     return ["--install"] + self.execute_template(
@@ -152,7 +195,7 @@ def main(args):
 
     if "variables" in description_file:
         for key, value in description_file["variables"].items():
-            ctx.__dict__[key] = value
+            ctx.__dict__[key] = ctx.execute_template(value)
 
     ctx.readme = ctx.execute_template(readme)
 
