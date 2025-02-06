@@ -1,6 +1,6 @@
 
 ----------------------------------
-## pydeface/toolVersion ##
+## pydeface/2.0.2 ##
 pydeface is defacing utility for MRI images
 
 
