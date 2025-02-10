@@ -50,7 +50,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --env FMRI_ANALYSIS_DIR="/opt/${toolName}-${toolVersion}/fsfast" \
    --env FUNCTIONALS_DIR="/opt/${toolName}-${toolVersion}/sessions" \
    --env FIX_VERTEX_AREA="" \
-   --env FSF_OUTPUT_FORMAT=.nii.gz \
+   --env FSF_OUTPUT_FORMAT=nii.gz \
    --env MINC_BIN_DIR="/opt/${toolName}-${toolVersion}/mni/bin" \
    --env MINC_LIB_DIR="/opt/${toolName}-${toolVersion}/mni/lib" \
    --env MNI_DIR="/opt/${toolName}-${toolVersion}/mni" \
