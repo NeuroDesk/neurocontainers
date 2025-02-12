@@ -2,7 +2,7 @@
 set -e
 
 export toolName='fmriprep'
-export toolVersion='24.1.0'
+export toolVersion='24.1.1'
 # check if version is here: https://hub.docker.com/r/nipreps/fmriprep/tags?page=1&ordering=last_updated
 # Don't forget to update version change in README.md!!!!!
 
