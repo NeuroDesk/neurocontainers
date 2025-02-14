@@ -14,7 +14,7 @@ export ACCEPT_FSL_LICENSE=yes
 
 source ../main_setup.sh
 
-neurodocker generate ${neurodocker_buildMode} \
+yes | neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:22.04 \
    --pkg-manager apt \
    --env DEBIAN_FRONTEND=noninteractive \
