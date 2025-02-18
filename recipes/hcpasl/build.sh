@@ -9,8 +9,6 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
-# Auto-accept FSL license
-export ACCEPT_FSL_LICENSE=yes
 
 source ../main_setup.sh
 
