@@ -32,7 +32,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=${MATLAB_VERSION} install_path=/opt/mcr  \
    --miniconda \
          version=latest \
-         conda_install='python=3.8 traits nipype numpy scipy h5py scikit-image' \
+         conda_install='python=3.9 traits nipype numpy scipy h5py scikit-image' \
          pip_install='osfclient' \
    --cat12 version=${toolVersion}_R${MATLAB_VERSION} install_path=/opt/cat12 \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \
