@@ -4,6 +4,7 @@ set -e
 # this template file builds cat12, new versions here: http://141.35.69.218/cat12/?C=M;O=D
 export toolName='cat12'
 export toolVersion='r2577'
+# https://github.com/ChristianGaser/cat12/releases
 # Don't forget to update version change in README.md!!!!!
 
 # inspired by: https://github.com/m-wierzba/cat-container/blob/master/Singularity
