@@ -3,7 +3,7 @@ set -e
 
 # this template file builds cat12, new versions here: http://141.35.69.218/cat12/?C=M;O=D
 export toolName='cat12'
-export toolVersion='r2166'
+export toolVersion='r2577'
 # Don't forget to update version change in README.md!!!!!
 
 # inspired by: https://github.com/m-wierzba/cat-container/blob/master/Singularity
@@ -20,10 +20,10 @@ source ../main_setup.sh
 yes | pip uninstall neurodocker
 pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update_cat --upgrade
 
-export MATLAB_VERSION=2017b
+export MATLAB_VERSION=2024b
 export MCR_VERSION=v93
 export MCR_UPDATE=9
-export CAT_VERSION=12.8
+export CAT_VERSION=12.9
 export CAT_REVISION=$toolVersion
 
 neurodocker generate ${neurodocker_buildMode} \
