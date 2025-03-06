@@ -5,6 +5,7 @@ set -e
 export toolName='cat12'
 export toolVersion='12.9'
 # https://github.com/ChristianGaser/cat12/releases
+# with 12.9 we use the new versioning scheme instead of the old (r****)
 # Don't forget to update version change in README.md!!!!!
 
 # inspired by: https://github.com/m-wierzba/cat-container/blob/master/Singularity
