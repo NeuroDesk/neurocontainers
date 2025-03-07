@@ -91,7 +91,8 @@ time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/te
 echo "[DEBUG] Done with uploading to Nectar Object Storage!"
 
 echo "[DEBUG] Attempting upload to AWS Object Storage:"
-time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
+# time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
+time aws s3 sync $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg s3://neurocontainers/temporary-builds-new
 echo "[DEBUG] Done with uploading to AWS Object Storage!"
 
 # if curl --output /dev/null --silent --head --fail "https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
