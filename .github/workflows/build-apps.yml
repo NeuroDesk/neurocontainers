@@ -29,6 +29,8 @@ jobs:
         application: ${{ fromJSON(inputs.applications) }}
     permissions:
       packages: write
+      id-token: write
+      contents: read
     outputs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGENAME: ${{ steps.IMAGEVARS.outputs.IMAGENAME }}
@@ -87,6 +89,11 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-2
       - name : Run docker builder + Upload to docker and github registry
         run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
       - name: Generate job output
