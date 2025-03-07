@@ -93,7 +93,7 @@ echo "[DEBUG] Done with uploading to Nectar Object Storage!"
 echo "[DEBUG] Attempting upload to AWS Object Storage:"
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install && rm -rf aws awscliv2.zip
 # time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg aws-neurocontainers:/neurocontainers/temporary-builds-new
-time aws s3 sync $IMAGE_HOME s3://neurocontainers/temporary-builds-new --exclude "*" --include "${IMAGENAME}_${BUILDDATE}.simg"
+time aws s3 cp $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg s3://neurocontainers/temporary-builds-new
 echo "[DEBUG] Done with uploading to AWS Object Storage!"
 
 # if curl --output /dev/null --silent --head --fail "https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/neurodesk/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
