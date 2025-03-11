@@ -30,6 +30,7 @@ source ../main_setup.sh
 # - ...
 # - 3.2.0: Added fix for scikit-sparse due to Cython bug https://github.com/scikit-sparse/scikit-sparse/releases/tag/v0.4.9
 # - 6.3.2: Note that Julia v1.10 is not compatible with QSM.jl - created issue https://github.com/kamesy/QSM.jl/issues/8
+# - 7.3.3: Triggering new build
 
 neurodocker generate ${neurodocker_buildMode} \
    --base-image ubuntu:18.04 \
