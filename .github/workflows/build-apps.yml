@@ -35,7 +35,7 @@ jobs:
       BUILDDATE: ${{ steps.ENVVARS.outputs.BUILDDATE }}
       IMAGENAME: ${{ steps.IMAGEVARS.outputs.IMAGENAME }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Set environment variables
         id: ENVVARS
         run: |
@@ -54,7 +54,7 @@ jobs:
           echo "FREEUPSPACE=${FREEUPSPACE}" >> $GITHUB_ENV
       - name: Free up space (optional)
         if: env.FREEUPSPACE == 'true'
-        uses: easimon/maximize-build-space@master
+        uses: easimon/maximize-build-space@fc881a613ad2a34aca9c9624518214ebc21dfc0c
         with:
           root-reserve-mb: 40000
           swap-size-mb: 1024
@@ -90,7 +90,7 @@ jobs:
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-2
@@ -102,13 +102,13 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
           echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY
       - name: Generate issue for new container to test and merge
-        uses: JasonEtco/create-an-issue@v2
+        uses: JasonEtco/create-an-issue@1b14a70e4d8dc185e5cc76d3bec9eab20257b2c5
         env: 
           GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         with:
           filename: .github/new_container_issue_template.md
       - name: Check image for wasted space using dive
-        uses: MartinHeinz/dive-action@v0.1.3
+        uses: MartinHeinz/dive-action@d76c172050c82c60a3742ab5487c2d3ac8b3306f
         if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
         with:
           image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
