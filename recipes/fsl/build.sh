@@ -28,6 +28,11 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env LANG=en_US.UTF-8 \
    --env LANGUAGE=en_US:en \
    --env LC_ALL=en_US.UTF-8 \
+   --run="wget -q --show-progress -O /opt/fsl_course_data.tar.gz https://www.fmrib.ox.ac.uk/fsldownloads/fsl_course_data_latest.tar.gz && \
+          mkdir -p /opt/fsl_course_data && \
+          tar -xzf /opt/fsl_course_data.tar.gz -C /opt/fsl_course_data --strip-components=1 && \
+          rm /opt/fsl_course_data.tar.gz" \
+   --env FSL_COURSE_DATA=/opt/fsl_course_data \
    --workdir /opt/ICA-AROMA \
    --run="curl -sSL "https://github.com/rhr-pruim/ICA-AROMA/archive/v0.4.3-beta.tar.gz" | tar -xzC /opt/ICA-AROMA --strip-components 1 \
       && chmod +x /opt/ICA-AROMA/ICA_AROMA.py" \
