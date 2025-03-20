@@ -1,0 +1,20 @@
+name: gradvenv
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy=1.15.4
+  - scipy=1.1.0
+  - h5py=2.10.0
+  - nibabel=3.2.2
+  - tqdm=4.65.0
+  - packaging=23.2
+  - setuptools=68.2.2
+  - pip=23.0.1
+  - pip:
+    - dipy==1.5.0
+    - fpdf
+    - imageio
+    - pypng
+    - freetype-py
