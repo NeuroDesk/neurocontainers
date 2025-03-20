@@ -28,7 +28,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env LANG=en_US.UTF-8 \
    --env LANGUAGE=en_US:en \
    --env LC_ALL=en_US.UTF-8 \
-      --run="wget -q --show-progress -O /opt/fsl_course_data.tar.gz https://www.fmrib.ox.ac.uk/fsldownloads/fsl_course_data_latest.tar.gz && \
+   --run="wget -q --show-progress -O /opt/fsl_course_data.tar.gz https://www.fmrib.ox.ac.uk/fsldownloads/fsl_course_data_latest.tar.gz && \
           mkdir -p /opt/fsl_course_data && \
           tar -xzf /opt/fsl_course_data.tar.gz -C /opt/fsl_course_data --strip-components=1 && \
           rm /opt/fsl_course_data.tar.gz" \
