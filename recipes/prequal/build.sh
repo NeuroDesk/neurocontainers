@@ -9,6 +9,12 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
+export MATLAB_VERSION=2017a #warning: 2021a currently does not work in the container as it tries to write things to disk on startup
+export MCR_VERSION=v99
+export SPM_VERSION=12
+export SPM_REVISION=r8224
+
+
 source ../main_setup.sh
 
 yes | neurodocker generate ${neurodocker_buildMode} \
@@ -102,35 +108,26 @@ yes | neurodocker generate ${neurodocker_buildMode} \
       make -j1 && \
       cd ANTS-build && \
       make install" \
-   --run="wget -nv -O /opt/mcr.zip http://ssd.mathworks.com/supportfiles/downloads/R2017a/deployment_files/R2017a/installers/glnxa64/MCR_R2017a_glnxa64_installer.zip && \
-         unzip -q /opt/mcr.zip -d /opt/MCR_installer && \
-         /opt/MCR_installer/install -mode silent -agreeToLicense yes && \
-         rm -r /opt/MCR_installer /opt/mcr.zip" \
    --run="git clone https://github.com/MASILab/PreQual.git /INSTALLERS/PreQual && \
          cd /INSTALLERS/PreQual && \
          git checkout v1.1.0 && \
          mv src/APPS/* /APPS && \
          mv src/CODE/* /CODE && \
          mv src/SUPPLEMENTAL/* /SUPPLEMENTAL" \
-   --run="cd /CODE/dtiQA_v7 && \
-         python3.8 -m venv venv && \
-         . venv/bin/activate && \
-         pip3 install --upgrade pip && \
-         pip3 install wheel && \
-         pip3 install -r /INSTALLERS/PreQual/venv/pip_install_dtiQA.txt && \
-         deactivate" \
  --copy environment.yml /APPS/gradtensor/environment.yml \
  --run="cd /APPS/gradtensor && \
          export CONDA_PATH=/APPS/gradtensor/conda && \
-         wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh && \
-         bash Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -b -p \"\$CONDA_PATH\" && \
+         mkdir -p \$CONDA_PATH && \
+         wget -q https://repo.anaconda.com/miniconda/Miniconda3-py38_23.11.0-2-Linux-x86_64.sh && \
+         chmod +x Miniconda3-py38_23.11.0-2-Linux-x86_64.sh && \
+         bash Miniconda3-py38_23.11.0-2-Linux-x86_64.sh -b -p \$CONDA_PATH -f && \
          rm Miniconda3-py38_23.11.0-2-Linux-x86_64.sh && \
          export PATH=\"\$CONDA_PATH/bin:\$PATH\" && \
-         \"\$CONDA_PATH/bin/conda\" init bash && \
-         . \"\$CONDA_PATH/etc/profile.d/conda.sh\" && \
-         \"\$CONDA_PATH/bin/conda\" config --add channels conda-forge && \
-         \"\$CONDA_PATH/bin/conda\" config --set channel_priority strict && \
-         \"\$CONDA_PATH/bin/conda\" create -n gradvenv -y python=3.8 && \
+         \$CONDA_PATH/bin/conda init bash && \
+         . \$CONDA_PATH/etc/profile.d/conda.sh && \
+         \$CONDA_PATH/bin/conda config --add channels conda-forge && \
+         \$CONDA_PATH/bin/conda config --set channel_priority strict && \
+         \$CONDA_PATH/bin/conda create -n gradvenv -y python=3.8 && \
          conda activate gradvenv && \
          conda install -y -c conda-forge dipy=1.5.0 && \
          conda install -y -c conda-forge fpdf imageio pypng freetype-py && \
@@ -153,9 +150,26 @@ yes | neurodocker generate ${neurodocker_buildMode} \
          deactivate" \
    --fsl version=6.0.5.1 \
    --freesurfer version=6.0.0 \
- --env PATH="/APPS/mrtrix3/bin:/APPS/c3d-1.0.0-Linux-x86_64/bin:${ANTSPATH}:/APPS/freesurfer/bin:$PATH" \
+   --run="apt-get update && apt-get install -y --no-install-recommends unzip wget ca-certificates libxt6 && \
+         mkdir -p /tmp/mcr-install && \
+         cd /tmp/mcr-install && \
+         wget -nv -O mcr.zip http://ssd.mathworks.com/supportfiles/downloads/R2017a/deployment_files/R2017a/installers/glnxa64/MCR_R2017a_glnxa64_installer.zip && \
+         unzip -q mcr.zip && \
+         ./install -mode silent -agreeToLicense yes -destinationFolder /opt/MCR && \
+         cd / && \
+         rm -rf /tmp/mcr-install" \
+   --run="cd /CODE/dtiQA_v7 && \
+         python3 -m venv venv && \
+         . venv/bin/activate && \
+         pip3 install --upgrade pip && \
+         pip3 install wheel setuptools && \
+         pip3 install --no-cache-dir Cython==0.29.30 && \
+         pip3 install --no-cache-dir -r /INSTALLERS/PreQual/venv/pip_install_dtiQA.txt && \
+         deactivate" \
  --env ANTSPATH="/APPS/ants/bin/" \
+ --env PATH="/APPS/mrtrix3/bin:/APPS/c3d-1.0.0-Linux-x86_64/bin:${ANTSPATH}:/APPS/freesurfer/bin:$PATH" \
  --env CPATH="/usr/local/cuda/include:$CPATH" \
+  --env PATH="/opt/MCR:$PATH" \
  --env PATH="/usr/local/cuda/bin:$PATH" \
  --env LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH" \
  --env CUDA_HOME="/usr/local/cuda" \
