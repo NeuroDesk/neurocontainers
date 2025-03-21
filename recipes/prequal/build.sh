@@ -9,12 +9,6 @@ if [ "$1" != "" ]; then
     export debug=$1
 fi
 
-export MATLAB_VERSION=2017a #warning: 2021a currently does not work in the container as it tries to write things to disk on startup
-export MCR_VERSION=v99
-export SPM_VERSION=12
-export SPM_REVISION=r8224
-
-
 source ../main_setup.sh
 
 yes | neurodocker generate ${neurodocker_buildMode} \
@@ -169,7 +163,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
  --env ANTSPATH="/APPS/ants/bin/" \
  --env PATH="/APPS/mrtrix3/bin:/APPS/c3d-1.0.0-Linux-x86_64/bin:${ANTSPATH}:/APPS/freesurfer/bin:$PATH" \
  --env CPATH="/usr/local/cuda/include:$CPATH" \
-  --env PATH="/opt/MCR:$PATH" \
+  --env PATH="/opt/MCR/:$PATH" \
  --env PATH="/usr/local/cuda/bin:$PATH" \
  --env LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH" \
  --env CUDA_HOME="/usr/local/cuda" \
