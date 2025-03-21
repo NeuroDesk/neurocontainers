@@ -34,16 +34,33 @@ yes | neurodocker generate ${neurodocker_buildMode} \
    --env PATH=/opt/ICA-AROMA/:'$PATH' \
    --run="fslpython -m pip install Cython && rm -rf /root/.cache" \
    --run="fslpython -m pip install oxasl oxasl_ve oxasl_mp && rm -rf /root/.cache" \
-   --run="conda install fsl-truenet" \
    --env DEPLOY_PATH=/opt/${toolName}-${toolVersion}/bin/:/opt/ICA-AROMA/ \
    --env DEPLOY_ENV_FSLDIR=BASEPATH/opt/fsl-${toolVersion} \
    --run="cp /opt/fsl-${toolVersion}/bin/eddy_cuda10.2 /opt/fsl-${toolVersion}/bin/eddy_cuda" \
    --copy eddy /opt/fsl-${toolVersion}/bin/eddy \
    --run="chmod +x /opt/fsl-${toolVersion}/bin/eddy" \
+   --run="mkdir -p /opt/fsl_course_data/UnixIntro /opt/fsl_course_data/preCourse /opt/fsl_course_data/registration /opt/fsl_course_data/structural /opt/fsl_course_data/fmri1 /opt/fsl_course_data/fmri2 /opt/fsl_course_data/fmri3 /opt/fsl_course_data/fmri_extras /opt/fsl_course_data/rest /opt/fsl_course_data/fdt /opt/fsl_course_data/mrs /opt/fsl_course_data/asl && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/UnixIntro.tar.gz -P /opt/fsl_course_data/UnixIntro && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/preCourse.tar.gz -P /opt/fsl_course_data/preCourse && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/registration.tar.gz -P /opt/fsl_course_data/registration && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/structural.tar.gz -P /opt/fsl_course_data/structural && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/fmri1.tar.gz -P /opt/fsl_course_data/fmri1 && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/fmri2.tar.gz -P /opt/fsl_course_data/fmri2 && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/fmri3.tar.gz -P /opt/fsl_course_data/fmri3 && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/fmri_extras.tar.gz -P /opt/fsl_course_data/fmri_extras && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/rest.tar.gz -P /opt/fsl_course_data/rest && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/fdt.tar.gz -P /opt/fsl_course_data/fdt && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/mrs.tar.gz -P /opt/fsl_course_data/mrs && \
+          wget -c http://fsl.fmrib.ox.ac.uk/fslcourse/downloads/asl.tar.gz -P /opt/fsl_course_data/asl && \
+          for dir in /opt/fsl_course_data/*; do tar -xzf $dir/*.tar.gz -C $dir --strip-components=1; done && \
+          rm /opt/fsl_course_data/*/*.tar.gz" \
+   --env FSL_COURSE_DATA=/opt/fsl_course_data \
    --env USER=jovyan \
    --copy README.md /README.md \
   > ${imageName}.${neurodocker_buildExt}
+   # --run="conda install fsl-truenet" \ #  doens't work yet
 
+# course material links are from here: https://fsl.fmrib.ox.ac.uk/fslcourse/downloads/manifest.json
 
 if [ "$1" != "" ]; then
    ./../main_build.sh
