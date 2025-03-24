@@ -78,7 +78,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
          export OPENSSL_INCLUDE_DIR=/usr/include/openssl && \
          export CMAKE_USE_OPENSSL=ON && \
          export CMAKE_USE_SYSTEM_LIBARCHIVE=OFF && \
-         ./bootstrap --parallel=${NUMBER_OF_PROCESSORS} -- \
+         ./bootstrap --parallel=1 -- \
            -DCMAKE_USE_OPENSSL=ON \
            -DCMAKE_BUILD_TYPE=Release \
            -DBUILD_TESTING=OFF \
@@ -88,8 +88,9 @@ yes | neurodocker generate ${neurodocker_buildMode} \
            -DOPENSSL_ROOT_DIR=/usr \
            -DOPENSSL_CRYPTO_LIBRARY=/usr/lib/x86_64-linux-gnu/libcrypto.so \
            -DOPENSSL_INCLUDE_DIR=/usr/include/openssl && \
-         make -j${NUMBER_OF_PROCESSORS} && make install" \
-   --run="cd /INSTALLERS && \
+         make -j1 && \
+         make install" \
+      --run="cd /INSTALLERS && \
       mkdir -p ants_installer && cd ants_installer && \
       git clone https://github.com/ANTsX/ANTs.git && \
       cd ANTs && \
@@ -97,7 +98,7 @@ yes | neurodocker generate ${neurodocker_buildMode} \
       touch README.txt && \
       mkdir -p ants_build && cd ants_build && \
       cmake /INSTALLERS/ants_installer/ANTs \
-      -DCMAKE_INSTALL_PREFIX=/APPS/ants  \
+      -DCMAKE_INSTALL_PREFIX=/APPS/ants \
       -DCMAKE_BUILD_TYPE=Release && \
       make -j1 && \
       cd ANTS-build && \
@@ -121,10 +122,15 @@ yes | neurodocker generate ${neurodocker_buildMode} \
          . \$CONDA_PATH/etc/profile.d/conda.sh && \
          \$CONDA_PATH/bin/conda config --add channels conda-forge && \
          \$CONDA_PATH/bin/conda config --set channel_priority strict && \
-         \$CONDA_PATH/bin/conda create -n gradvenv -y python=3.8 && \
+         \$CONDA_PATH/bin/conda config --set remote_connect_timeout_secs 60 && \
+         \$CONDA_PATH/bin/conda config --set remote_max_retries 10 && \
+         \$CONDA_PATH/bin/conda config --set remote_backoff_factor 2 && \
+         \$CONDA_PATH/bin/conda config --set remote_read_timeout_secs 120 && \
+         \$CONDA_PATH/bin/conda create -n gradvenv -y python=3.8 pip=23.3.2 && \
+         . \$CONDA_PATH/etc/profile.d/conda.sh && \
          conda activate gradvenv && \
-         conda install -y -c conda-forge dipy=1.5.0 && \
-         conda install -y -c conda-forge fpdf imageio pypng freetype-py && \
+         pip install dipy==1.5.0 && \
+         (conda install -y -c conda-forge fpdf imageio pypng freetype-py || (echo 'First attempt failed, retrying' && sleep 30 && conda install -y -c conda-forge fpdf imageio pypng freetype-py)) && \
          git clone https://github.com/scilus/scilpy.git && \
          cd scilpy && \
          git checkout 1.4.0 && \
@@ -140,10 +146,11 @@ yes | neurodocker generate ${neurodocker_buildMode} \
          . pytorch/bin/activate && \
          python3.6 -m pip install --upgrade pip setuptools wheel && \
          sed -i '/pkg-resources==0.0.0/d' /INSTALLERS/PreQual/venv/pip_install_synb0.txt && \
-         python3.6 -m pip install -r /INSTALLERS/PreQual/venv/pip_install_synb0.txt && \
+         python3.6 -m pip install --timeout 120 --retries 5 -r /INSTALLERS/PreQual/venv/pip_install_synb0.txt || \
+         (echo 'First attempt failed, retrying with longer timeout' && \
+          sleep 30 && \
+          python3.6 -m pip install --timeout 180 --retries 10 -r /INSTALLERS/PreQual/venv/pip_install_synb0.txt) && \
          deactivate" \
-   --fsl version=6.0.5.1 \
-   --freesurfer version=6.0.0 \
    --run="apt-get update && apt-get install -y --no-install-recommends unzip wget ca-certificates libxt6 && \
          mkdir -p /tmp/mcr-install && \
          cd /tmp/mcr-install && \
@@ -157,13 +164,18 @@ yes | neurodocker generate ${neurodocker_buildMode} \
          . venv/bin/activate && \
          pip3 install --upgrade pip && \
          pip3 install wheel setuptools && \
-         pip3 install --no-cache-dir Cython==0.29.30 && \
-         pip3 install --no-cache-dir -r /INSTALLERS/PreQual/venv/pip_install_dtiQA.txt && \
+         pip3 install --no-cache-dir --timeout 120 --retries 5 Cython==0.29.30 && \
+         pip3 install --no-cache-dir --timeout 120 --retries 5 -r /INSTALLERS/PreQual/venv/pip_install_dtiQA.txt || \
+         (echo 'First attempt failed, retrying with longer timeout' && \
+          sleep 30 && \
+          pip3 install --no-cache-dir --timeout 180 --retries 10 -r /INSTALLERS/PreQual/venv/pip_install_dtiQA.txt) && \
          deactivate" \
+  --fsl version=6.0.5.1 \
+  --freesurfer version=6.0.0 \
  --env ANTSPATH="/APPS/ants/bin/" \
  --env PATH="/APPS/mrtrix3/bin:/APPS/c3d-1.0.0-Linux-x86_64/bin:${ANTSPATH}:/APPS/freesurfer/bin:$PATH" \
  --env CPATH="/usr/local/cuda/include:$CPATH" \
-  --env PATH="/opt/MCR/:$PATH" \
+ --env PATH="/opt/MCR/:$PATH" \
  --env PATH="/usr/local/cuda/bin:$PATH" \
  --env LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH" \
  --env CUDA_HOME="/usr/local/cuda" \
