@@ -1,8 +1,10 @@
 segmentSubjectT1_autoEstimateAlveusML #should not complain about libraries missing
 checkMCR.sh #should not complain
 segmentThalamicNuclei.sh --help #should not compalin about matlab libraries missing
-mris_left_right_register # should not through permission denied error (was an apparmor problem)
-segmentNuclei # should work and not return a symbol error (if it does it uses the wrong matlab mcr version)
+mris_left_right_register # should not through permission denied error (was an apparmor problem blocking miner names)
+segmentNuclei # should work and not return a symbol error (needs mcr /MCR2014b/v84/ - if it does it uses the wrong matlab mcr version)
+fast_selxavg3b.glnxa64 # should not return a symbol error (needs mcr /opt/MCR2019b/v97/)
+echo $FSF_OUTPUT_FORMAT # needs to be .nii.gz so that fast_selxavg3b.glnxa64 can work without scratch directory beeing writable
 
 # interactive test:
 if [[ -v DISPLAY ]]; then
