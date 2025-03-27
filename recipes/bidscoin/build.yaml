@@ -1,98 +1,107 @@
 name: bidscoin
-version: 4.5.0
+version: 4.6.0
 
 architectures:
-  - x86_64
+    - x86_64
 
 build:
-  kind: neurodocker
+    kind: neurodocker
 
-  base-image: debian:stable
-  pkg-manager: apt
+    base-image: debian:stable
+    pkg-manager: apt
 
-  directives:
-    - environment:
-        DEBIAN_FRONTEND: noninteractive
+    directives:
+        - environment:
+              DEBIAN_FRONTEND: noninteractive
 
-    - install:
-        - ca-certificates
-        - git
-        - build-essential
-        - cmake
-        - pigz
+        - install:
+              - ca-certificates
+              - git
+              - build-essential
+              - cmake
+              - pigz
 
-    - run:
-        - git clone https://github.com/rordenlab/dcm2niix.git
+        - run:
+              - git clone https://github.com/rordenlab/dcm2niix.git
 
-    - run:
-        - cd dcm2niix; mkdir build && cd build; cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..; make install
+        - run:
+              - cd dcm2niix
+              - mkdir build && cd build
+              - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
+              - make install
 
-    - install:
-        - curl
-        - pigz
-        - python3-pyqt6
-        - build-essential
-        - libgl1
-        - libxcb-cursor0
+        - install:
+              - curl # sometimes needed for dcm2niix
 
-    - template:
-        name: miniconda
-        conda_install: -c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt
-        pip_install: bidscoin[spec2nii2bids,deface]
-        version: latest
+        - install:
+              - python3-pyqt6
+              - build-essential
+              - libgl1
+              - libxcb-cursor0
 
-    - environment:
-        FSLDIR: /opt/miniconda-latest
-        FSLOUTPUTTYPE: NIFTI_GZ
+        - template:
+              name: miniconda
+              conda_install: -c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt
+              pip_install: bidscoin[spec2nii2bids,deface]
+              version: latest
+
+        - environment:
+              FSLDIR: /opt/miniconda-latest
+              FSLOUTPUTTYPE: NIFTI_GZ
 
 deploy:
-  bins:
-    - spec2nii
+    bins:
+        - spec2nii
+
+# Test image with:
+# sudo docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bidscoin_${toolVersion}:TAG bidscoin -t
+# sudo docker run -it -v /root:/root --entrypoint /bin/bash -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bidscoin_${toolVersion}:TAG
+# bidscoin -t
 
 readme: |-
-  ----------------------------------
-  ## bidscoin/4.4.0 ##
-  Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
+    ----------------------------------
+    ## bidscoin/{{ context.version }} ##
+    Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
 
-  Tools included:
-  ```
-  dcm2niix: https://github.com/rordenlab/dcm2niix (v1.0.20240202)
-  spec2nii: https://github.com/wtclarke/spec2nii (v0.8.2)
-  bidscoin: https://bidscoin.readthedocs.io/en/4.4.0
-      bidscoin
-      bidscoiner
-      bidseditor
-      bidsmapper
-      bidsparticipants
-      deface
-      dicomsort
-      echocombine
-      medeface
-      physio2tsv
-      plotphysio
-      rawmapper
-      slicereport
-      fixmeta
-  ```
+    Tools included:
+    ```
+    dcm2niix: https://github.com/rordenlab/dcm2niix (v1.0.20240202)
+    spec2nii: https://github.com/wtclarke/spec2nii (v0.8.2)
+    bidscoin: https://bidscoin.readthedocs.io/en/{{ context.version }}
+        bidscoin
+        bidscoiner
+        bidseditor
+        bidsmapper
+        bidsparticipants
+        deface
+        dicomsort
+        echocombine
+        medeface
+        physio2tsv
+        plotphysio
+        rawmapper
+        slicereport
+        fixmeta
+    ```
 
-  Example converting dicom to BIDS:
-  ```
-  Getting started:
-  bidscoin -h
+    Example converting dicom to BIDS:
+    ```
+    Getting started:
+    bidscoin -h
 
-  Convert DICOM to BIDS:
-  bidsmapper inputfolder bidsoutputfolder
-  bidscoiner inputfolder bidsoutputfolder
-  ```
+    Convert DICOM to BIDS:
+    bidsmapper inputfolder bidsoutputfolder
+    bidscoiner inputfolder bidsoutputfolder
+    ```
 
-  More documentation can be found here:
-  https://bidscoin.readthedocs.io/
+    More documentation can be found here:
+    https://bidscoin.readthedocs.io/
 
-  Citation:
-  ```
-  Zwiers MP, Moia S, Oostenveld R. BIDScoin: A User-Friendly Application to Convert Source Data to Brain Imaging Data Structure. Front Neuroinform. 2022 Jan 13;15:770608. doi: 10.3389/fninf.2021.770608. PMID: 35095452; PMCID: PMC8792932.
-  ```
+    Citation:
+    ```
+    Zwiers MP, Moia S, Oostenveld R. BIDScoin: A User-Friendly Application to Convert Source Data to Brain Imaging Data Structure. Front Neuroinform. 2022 Jan 13;15:770608. doi: 10.3389/fninf.2021.770608. PMID: 35095452; PMCID: PMC8792932.
+    ```
 
-  To run container outside of this environment: ml bidscoin/4.4.0
+    To run container outside of this environment: ml bidscoin/{{ context.version }}
 
-  ----------------------------------
+    ----------------------------------

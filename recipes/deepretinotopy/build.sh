@@ -3,7 +3,7 @@ set -e
 
 
 export toolName='deepretinotopy'
-export toolVersion='1.0.7'
+export toolVersion='1.0.8'
 # Don't forget to update version change in README.md!!!!!
 
  
@@ -19,21 +19,20 @@ neurodocker generate ${neurodocker_buildMode} \
    --pkg-manager yum \
    --install git \
    --run="mkdir -p ${mountPointList}" \
-   --miniconda version=py37_4.8.3 \
-         conda_install='cudatoolkit=10.2' \
-         pip_install='packaging torch==1.6.0 torchvision==0.7.0 pandas==1.1.5 seaborn==0.11.1 nibabel==3.2.1 torch-geometric==1.6.3 scikit-learn==0.22.2 scipy==1.5.4 matplotlib==3.3.4 osfclient==0.0.5' \
-   --run='pip install --no-index torch-sparse -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
-   --run='pip install --no-index torch-scatter -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
-   --run='pip install --no-index torch-cluster -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
-   --run='pip install --no-index torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.6.0+cu102.html' \
-   --run='git clone https://github.com/felenitaribeiro/nilearn.git' \
+   --miniconda version=latest \
+         conda_install='python=3.12.8' \
+         pip_install='packaging osfclient==0.0.5 nibabel' \
+   --run='pip3 install torch==2.5.1 torchvision --index-url https://download.pytorch.org/whl/cpu' \
+   --run='pip install torch_geometric==2.6.1' \
+   --run='pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.5.1+cpu.html' \
    --run='python -c "import torch" 2>/dev/null || { echo "Failed to import module"; exit 1; }' \
    --workdir=/opt \
    --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
        cd deepRetinotopy_TheToolbox && \
-       git checkout f10b78eefd5aa8ec2a1d0607055a87abeca774ea' \
+       git checkout 6c827d5e8e7286a7fc6bb11fdd8104ec488135ad && \
+       files_to_download=("osfstorage/new_models/deepRetinotopy_polarAngle_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_LH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_polarAngle_RH_model4.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_RH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_RH_model5.pt") && \
+       for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \
-   --run='osf -p ermbz list | while read i; do if [[ ${i:0:10} == "osfstorage" ]]; then path=".${i:10}"; sudo mkdir -p ${path%/*}; sudo chmod 777 ${path%/*}; osf -p ermbz fetch $i ".${i:10}"; echo $i; fi; done' \
    --env PATH=/opt/workbench/workbench/bin_rh_linux64/:/opt/deepRetinotopy_TheToolbox/:/opt/deepRetinotopy_TheToolbox/main/:/opt/deepRetinotopy_TheToolbox/utils/:'$PATH' \
    --env DEPLOY_BINS="wb_view:wb_command:wb_shortcuts:python:deepRetinotopy:signMaps:1_native2fsaverage.sh:2_inference.py:3_fsaverage2native.sh:4_signmaps.py:transform_polarangle_lh.py:midthickness_surf.py" \
    --copy README.md /README.md \

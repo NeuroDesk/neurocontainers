@@ -3,7 +3,9 @@ set -e
 
 # this template file builds cat12, new versions here: http://141.35.69.218/cat12/?C=M;O=D
 export toolName='cat12'
-export toolVersion='r2166'
+export toolVersion='12.9'
+# https://github.com/ChristianGaser/cat12/releases
+# with 12.9 we use the new versioning scheme instead of the old (r****)
 # Don't forget to update version change in README.md!!!!!
 
 # inspired by: https://github.com/m-wierzba/cat-container/blob/master/Singularity
@@ -16,14 +18,10 @@ fi
 
 source ../main_setup.sh
 
-# once this is working contribute this to neurodocker project:
-yes | pip uninstall neurodocker
-pip install --no-cache-dir https://github.com/NeuroDesk/neurodocker/tarball/update_cat --upgrade
-
 export MATLAB_VERSION=2017b
 export MCR_VERSION=v93
 export MCR_UPDATE=9
-export CAT_VERSION=12.8
+export CAT_VERSION=12.9
 export CAT_REVISION=$toolVersion
 
 neurodocker generate ${neurodocker_buildMode} \
@@ -35,7 +33,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --matlabmcr version=${MATLAB_VERSION} install_path=/opt/mcr  \
    --miniconda \
          version=latest \
-         conda_install='python=3.8 traits nipype numpy scipy h5py scikit-image' \
+         conda_install='python=3.9 traits nipype numpy scipy h5py scikit-image' \
          pip_install='osfclient' \
    --cat12 version=${toolVersion}_R${MATLAB_VERSION} install_path=/opt/cat12 \
    --env DEPLOY_BINS=run_spm12.sh:spm12 \

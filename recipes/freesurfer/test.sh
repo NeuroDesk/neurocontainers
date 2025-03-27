@@ -5,6 +5,7 @@ mris_left_right_register # should not through permission denied error (was an ap
 segmentNuclei # should work and not return a symbol error (needs mcr /MCR2014b/v84/ - if it does it uses the wrong matlab mcr version)
 fast_selxavg3b.glnxa64 # should not return a symbol error (needs mcr /opt/MCR2019b/v97/)
 echo $FSF_OUTPUT_FORMAT # needs to be .nii.gz so that fast_selxavg3b.glnxa64 can work without scratch directory beeing writable
+touch /scratch/test # scratch needs to be writable for fast_selxavg3b.glnxa64
 
 # interactive test:
 if [[ -v DISPLAY ]]; then
