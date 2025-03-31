@@ -26,3 +26,4 @@ recipes/fsl/fslinstaller.py
 dicom_data
 *.utr
 build/
+local/

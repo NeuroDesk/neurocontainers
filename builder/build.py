@@ -196,7 +196,9 @@ def build_tinyrange(tinyrange_path, description_file, output_dir, name, version)
     # ensure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
 
-    build_dir = subprocess.check_output([tinyrange_path, "env", "build-dir"]).decode("utf-8")
+    build_dir = subprocess.check_output([tinyrange_path, "env", "build-dir"]).decode(
+        "utf-8"
+    )
 
     # Remove the persist docker image each time.
     try:
@@ -274,6 +276,9 @@ def main(args):
         default=os.cpu_count(),
     )
     parser.add_argument("--test", action="store_true", help="Run tests after building")
+    parser.add_argument(
+        "--ignore-architectures", action="store_true", help="Ignore architecture checks"
+    )
 
     args = parser.parse_args()
 
@@ -309,7 +314,7 @@ def main(args):
     if allowed_architectures == []:
         raise ValueError("No architectures specified in description file.")
 
-    if arch not in allowed_architectures:
+    if arch not in allowed_architectures and not args.ignore_architectures:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
 
     ctx = BuildContext(name, version, arch)
