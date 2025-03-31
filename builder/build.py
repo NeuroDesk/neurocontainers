@@ -225,7 +225,14 @@ class BuildContext(object):
 
         p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         output, _ = p.communicate(input=b"y\n")
-        return output.decode("utf-8")
+
+        output = output.decode("utf-8")
+
+        # Hack to remove the localedef installation since neurodocker adds it.
+        if build_directive.get("fix-locale-def"):
+            output = output.replace("localedef", "")
+
+        return output
 
 
 def http_get(url):
