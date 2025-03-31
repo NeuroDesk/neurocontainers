@@ -391,7 +391,12 @@ def main(args):
         if "executable" in file and file["executable"]:
             os.chmod(output_filename, 0o755)
 
-    test_info = description_file.get("tests") or []
+    # if test.yaml is next to the description file, read it
+    test_info = []
+    test_file = os.path.join(os.path.dirname(args.description_file), "test.yaml")
+    if os.path.exists(test_file):
+        with open(test_file, "r") as f:
+            test_info = yaml.safe_load(f).get("tests") or []
 
     test_cases = []
 

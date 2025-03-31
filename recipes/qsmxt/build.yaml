@@ -283,13 +283,6 @@ deploy:
     - dicom-convert
     - nifti-convert
 
-tests:
-  - name: Test FastSurfer
-    script: |
-      cd /opt/FastSurfer/
-      wget -Otest.nii.gz "https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1"
-      ./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only --allow-root
-
 files:
   - name: install.packages.jl
     contents: |

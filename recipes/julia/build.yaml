@@ -116,6 +116,7 @@ readme: |-
   To run container outside of this environment: ml julia/{{ context.version }}
 
   ----------------------------------
+
 files:
   - name: install_packages.jl
     contents: |-
@@ -124,10 +125,12 @@ files:
       Pkg.add("ArgParse")
       Pkg.add("FFTW")
       Pkg.add("IJulia")
+
   - name: code
     contents: |-
       #!/usr/bin/env sh
       /usr/bin/code --extensions-dir=/opt/vscode-extensions --no-sandbox
+
   - name: module.sh
     contents: |-
       # system-wide profile.modules                                          #
