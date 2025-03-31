@@ -71,7 +71,7 @@ jobs:
       - name: Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
-          ./builder/build.py recipes/$APPLICATION/build.yaml build --recreate
+          ./builder/build.py build $APPLICATION --recreate
       - name: Set image variables
         id: IMAGEVARS
         run: |
