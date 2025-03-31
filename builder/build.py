@@ -425,7 +425,7 @@ def main(args):
     ctx.deploy = description_file.get("deploy") or None
 
     # Create build directory
-    ctx.build_directory = os.path.join(args.output_directory, name + "-" + version)
+    ctx.build_directory = os.path.join(args.output_directory, name)
 
     if os.path.exists(ctx.build_directory):
         if args.recreate:
@@ -495,11 +495,13 @@ def main(args):
 
         os.chmod(os.path.join(ctx.build_directory, "tests", filename), 0o755)
 
+    dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
+
     # Write Dockerfile
     if ctx.build_kind == "neurodocker":
         dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy, test_cases)
 
-        with open(os.path.join(ctx.build_directory, "Dockerfile"), "w") as f:
+        with open(os.path.join(ctx.build_directory, dockerfile_name), "w") as f:
             f.write(dockerfile)
     else:
         raise ValueError("Build kind not supported.")
@@ -509,7 +511,7 @@ def main(args):
         # Shell out to Docker
         # docker-py does not support using BuildKit
         subprocess.check_call(
-            ["docker", "build", "-t", ctx.tag, "."],
+            ["docker", "build", "-f", dockerfile_name, "-t", ctx.tag, "."],
             cwd=ctx.build_directory,
         )
         print("Docker image built successfully at", ctx.tag)

@@ -75,7 +75,7 @@ jobs:
       - name: Set image variables
         id: IMAGEVARS
         run: |
-          DOCKERFILE=./build/$APPLICATION/Dockerfile
+          DOCKERFILE=`basename $(find ./build/$APPLICATION/ -type f -iname "*.Dockerfile" | head -1)`
           IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
           echo "IMAGENAME: $IMAGENAME"
           echo "IMAGENAME_TEST=${IMAGENAME//_/ }" >> $GITHUB_ENV

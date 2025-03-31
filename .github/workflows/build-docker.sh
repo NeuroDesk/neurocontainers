@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "[DEBUG] recipes/$APPLICATION"
-cd recipes/$APPLICATION
+echo "[DEBUG] build/$APPLICATION"
+cd build/$APPLICATION
 
 IMAGENAME=$1
 
