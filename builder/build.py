@@ -301,48 +301,56 @@ def build_tinyrange(tinyrange_path, description_file, output_dir, name, version)
     )
 
 
-def main(args):
-    parser = argparse.ArgumentParser(
-        description="Build a Docker image from a description file."
-    )
-    parser.add_argument("description_file", help="Path to the description YAML file")
-    parser.add_argument("output_directory", help="Directory to output the build files")
-    parser.add_argument(
-        "--recreate", action="store_true", help="Recreate the build directory"
-    )
-    parser.add_argument(
-        "--build", action="store_true", help="Build the Docker image after creating it"
-    )
-    parser.add_argument(
-        "--build-tinyrange",
-        action="store_true",
-        help="Build the Docker image after creating it using TinyRange",
-    )
-    parser.add_argument(
-        "--tinyrange-path",
-        help="Path to the TinyRange binary",
-        default="tinyrange",
-    )
-    parser.add_argument(
-        "--max-parallel-jobs",
-        type=int,
-        help="Maximum number of parallel jobs to run during the build",
-        default=os.cpu_count(),
-    )
-    parser.add_argument("--test", action="store_true", help="Run tests after building")
-    parser.add_argument(
-        "--ignore-architectures", action="store_true", help="Ignore architecture checks"
-    )
-    parser.add_argument(
-        "--option",
-        action="append",
-        help="Set an option in the description file. Use --option key=value",
-    )
+def get_recipe_directory(name):
+    return os.path.join("recipes", name)
 
-    args = parser.parse_args()
+
+def main_init(args):
+    name = args.name
+    version = args.version
+
+    if name == "" or version == "":
+        raise ValueError("Name and version cannot be empty.")
+
+    recipe_path = get_recipe_directory(name)
+    if not os.path.exists(recipe_path):
+        os.makedirs(recipe_path)
+
+    # Create description file
+    description_file = os.path.join(recipe_path, "build.yaml")
+    if os.path.exists(description_file):
+        raise ValueError("Description file {} already exists.".format(description_file))
+
+    with open(description_file, "w") as f:
+        yaml.safe_dump(
+            {
+                "name": name,
+                "version": version,
+                "architectures": ["x86_64"],
+                "build": {
+                    "kind": "neurodocker",
+                    "base-image": "ubuntu:24.04",
+                    "pkg-manager": "apt",
+                    "directives": [
+                        {"run": ["echo 'Hello World'"]},
+                    ],
+                },
+                "readme": "TODO",
+            },
+            f,
+            sort_keys=False,
+            default_flow_style=False,
+            width=10000,
+        )
+
+
+def main_build(args):
+    recipe_path = get_recipe_directory(args.name)
 
     # Load description file
-    description_file = yaml.safe_load(open(args.description_file, "r"))
+    description_file = yaml.safe_load(
+        open(os.path.join(recipe_path, "build.yaml"), "r")
+    )
 
     if description_file == None:
         raise ValueError("Description file is empty.")
@@ -454,7 +462,7 @@ def main(args):
             with open(output_filename, "w") as f:
                 f.write(contents)
         elif "filename" in file:
-            base = os.path.abspath(os.path.dirname(args.description_file))
+            base = os.path.abspath(recipe_path)
             filename = os.path.join(base, file["filename"])
             with open(output_filename, "wb") as f:
                 with open(filename, "rb") as f2:
@@ -467,7 +475,7 @@ def main(args):
 
     # if test.yaml is next to the description file, read it
     test_info = []
-    test_file = os.path.join(os.path.dirname(args.description_file), "test.yaml")
+    test_file = os.path.join(recipe_path, "test.yaml")
     if os.path.exists(test_file):
         with open(test_file, "r") as f:
             test_info = yaml.safe_load(f).get("tests") or []
@@ -529,6 +537,75 @@ def main(args):
             )
 
         print("Tests passed.")
+
+
+def main(args):
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder",
+    )
+
+    command = root.add_subparsers(dest="command")
+
+    build_parser = command.add_parser(
+        "build",
+        help="Build a Docker image from a description file",
+    )
+    build_parser.add_argument("name", help="Name of the recipe to build")
+    build_parser.add_argument(
+        "--output-directory",
+        help="Output directory for the build",
+        default=os.path.join(os.getcwd(), "build"),
+    )
+    build_parser.add_argument(
+        "--recreate", action="store_true", help="Recreate the build directory"
+    )
+    build_parser.add_argument(
+        "--build", action="store_true", help="Build the Docker image after creating it"
+    )
+    build_parser.add_argument(
+        "--build-tinyrange",
+        action="store_true",
+        help="Build the Docker image after creating it using TinyRange",
+    )
+    build_parser.add_argument(
+        "--tinyrange-path",
+        help="Path to the TinyRange binary",
+        default="tinyrange",
+    )
+    build_parser.add_argument(
+        "--max-parallel-jobs",
+        type=int,
+        help="Maximum number of parallel jobs to run during the build",
+        default=os.cpu_count(),
+    )
+    build_parser.add_argument(
+        "--test", action="store_true", help="Run tests after building"
+    )
+    build_parser.add_argument(
+        "--ignore-architectures", action="store_true", help="Ignore architecture checks"
+    )
+    build_parser.add_argument(
+        "--option",
+        action="append",
+        help="Set an option in the description file. Use --option key=value",
+    )
+
+    init_parser = command.add_parser(
+        "init",
+        help="Initialize a new recipe",
+    )
+    init_parser.add_argument("name", help="Name of the recipe to create")
+    init_parser.add_argument("version", help="Version of the recipe to create")
+
+    args = root.parse_args()
+
+    if args.command == "init":
+        main_init(args)
+    elif args.command == "build":
+        main_build(args)
+    else:
+        root.print_help()
+        sys.exit(1)
 
 
 if __name__ == "__main__":

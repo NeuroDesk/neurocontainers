@@ -13,5 +13,5 @@ for dir in recipes/*/; do
 
     echo "Checking ${name}..."
 
-    python3 builder/build.py "${dir}build.yaml" build --recreate --ignore-architectures
+    python3 builder/build.py build $name --recreate --ignore-architectures
 done
