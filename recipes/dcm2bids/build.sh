@@ -15,9 +15,8 @@ neurodocker generate ${neurodocker_buildMode} \
 --pkg-manager apt \
 --env DEBIAN_FRONTEND=noninteractive \
 --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
---run="chmod +x /usr/bin/ll \
+--run="chmod +x /usr/bin/ll" \
 --run="mkdir -p ${mountPointList}" \
---install opts=--quiet  \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 if [ "$1" != "" ]; then 
