@@ -50,8 +50,40 @@ class BuildContext(object):
     def __init__(self, name, version, arch):
         self.name = name
         self.version = version
+        self.original_version = version
         self.arch = arch
         self.max_parallel_jobs = os.cpu_count()
+        self.options = {}
+        self.option_info = {}
+
+    def add_option(self, key, description="", default=False, version_suffix=""):
+        self.options[key] = default
+        self.option_info[key] = {
+            "description": description,
+            "default": default,
+            "version_suffix": version_suffix,
+        }
+
+    def set_option(self, key, value):
+        if key not in self.options:
+            raise ValueError(f"Option {key} not found.")
+
+        if value == "true":
+            self.options[key] = True
+            self.calculate_version()
+        elif value == "false":
+            self.options[key] = False
+        else:
+            raise ValueError(f"Value {value} not supported.")
+
+    def calculate_version(self):
+        version = self.original_version
+        for key, value in self.options.items():
+            version_suffix = self.option_info[key]["version_suffix"]
+            if value and version_suffix != "":
+                version += version_suffix
+
+        self.version = version
 
     def set_max_parallel_jobs(self, max_parallel_jobs):
         self.max_parallel_jobs = max_parallel_jobs
@@ -68,7 +100,10 @@ class BuildContext(object):
 
     def execute_template(self, obj):
         if type(obj) == str:
-            return self.render_template(obj)
+            try:
+                return self.render_template(obj)
+            except jinja2.exceptions.TemplateSyntaxError as e:
+                raise ValueError(f"Template syntax error: {e} in {obj}")
         elif type(obj) == list:
             return [self.execute_template(o) for o in obj]
         elif type(obj) == dict:
@@ -80,6 +115,9 @@ class BuildContext(object):
                 raise NotImplementedError("Try not implemented.")
         else:
             raise ValueError("Template object not supported.")
+
+    def file_exists(self, filename):
+        return os.path.exists(os.path.join(self.build_directory, filename))
 
     def build_neurodocker(self, build_directive, deploy, test_cases):
         args = ["neurodocker", "generate", "docker"]
@@ -127,6 +165,9 @@ class BuildContext(object):
             elif "entrypoint" in directive:
                 return ["--entrypoint", self.execute_template(directive["entrypoint"])]
             elif "environment" in directive:
+                if directive["environment"] == None:
+                    raise ValueError("Environment must be a map of keys and values.")
+
                 ret = []
                 for key, value in directive["environment"].items():
                     ret += [
@@ -147,7 +188,18 @@ class BuildContext(object):
 
                 return ["--" + name] + items
             elif "copy" in directive:
-                return ["--copy"] + self.execute_template(directive["copy"].split(" "))
+                args = []
+                if type(directive["copy"]) == str:
+                    args = self.execute_template(directive["copy"].split(" "))
+                elif type(directive["copy"]) == list:
+                    args = self.execute_template(directive["copy"])
+
+                if len(args) == 2:
+                    # check to make sure the first reference is a file and it exists.
+                    if not self.file_exists(args[0]):
+                        raise ValueError(f"File {args[0]} does not exist.")
+
+                return ["--copy"] + args
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
@@ -171,7 +223,9 @@ class BuildContext(object):
         for test_case in test_cases:
             args += ["--copy", f"tests/{test_case}", f"/tests/{test_case}"]
 
-        return subprocess.check_output(args).decode("utf-8")
+        p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        output, _ = p.communicate(input=b"y\n")
+        return output.decode("utf-8")
 
 
 def http_get(url):
@@ -279,6 +333,11 @@ def main(args):
     parser.add_argument(
         "--ignore-architectures", action="store_true", help="Ignore architecture checks"
     )
+    parser.add_argument(
+        "--option",
+        action="append",
+        help="Set an option in the description file. Use --option key=value",
+    )
 
     args = parser.parse_args()
 
@@ -323,6 +382,21 @@ def main(args):
     if "variables" in description_file:
         for key, value in description_file["variables"].items():
             ctx.__dict__[key] = ctx.execute_template(value)
+
+    options = description_file.get("options") or {}
+    for key, value in options.items():
+        ctx.add_option(
+            key,
+            description=value.get("description") or "",
+            default=value.get("default") or False,
+            version_suffix=value.get("version_suffix") or "",
+        )
+
+    # Set options from command line
+    if args.option is not None:
+        for option in args.option:
+            key, value = option.split("=")
+            ctx.set_option(key, value)
 
     ctx.readme = ctx.execute_template(readme)
 

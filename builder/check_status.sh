@@ -46,6 +46,7 @@ for dir in recipes/*/; do
     # Check if it contains both build.sh and build.yaml
     if file_exists $dir "build.sh" && file_exists $dir "build.yaml"; then
         error "${name} contains both build.sh and build.yaml"
+        exit 1
     fi
 
     # Check if it contains a build.sh file
@@ -53,9 +54,9 @@ for dir in recipes/*/; do
         # If build.sh has been modified in git since 21-March-2025, warn the user
         mod_time=$(git log -n 1 --pretty=format:%cd --date=unix -- $dir/build.sh)
         if [[ $mod_time -gt $MIGRATION_START_TIME ]]; then
-            warn "${name} build.sh exists and has been modified since migration started"
+            warn "[-] ${name} needs migration"
         else
-            verbose "${name} contains build.sh"
+            verbose "[ ] ${name}"
         fi
         unmigrated_recipes=$((unmigrated_recipes + 1))
         continue
@@ -67,7 +68,7 @@ for dir in recipes/*/; do
         exit 1
     fi
 
-    ok "${name} contains build.yaml"
+    ok "[x] ${name}"
     migrated_recipes=$((migrated_recipes + 1))
 
     if file_exists $dir "README.md"; then
