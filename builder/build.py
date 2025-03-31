@@ -88,28 +88,31 @@ class BuildContext(object):
     def set_max_parallel_jobs(self, max_parallel_jobs):
         self.max_parallel_jobs = max_parallel_jobs
 
-    def render_template(self, template):
+    def render_template(self, template, locals=None):
         tpl = _jinja_env.from_string(template)
         return tpl.render(
-            context=self, arch=self.arch, parallel_jobs=self.max_parallel_jobs
+            context=self,
+            arch=self.arch,
+            parallel_jobs=self.max_parallel_jobs,
+            local=locals,
         )
 
-    def execute_condition(self, condition):
-        result = self.render_template("{{" + condition + "}}")
+    def execute_condition(self, condition, locals=None):
+        result = self.render_template("{{" + condition + "}}", locals=locals)
         return result == "True"
 
-    def execute_template(self, obj):
+    def execute_template(self, obj, locals=None):
         if type(obj) == str:
             try:
-                return self.render_template(obj)
+                return self.render_template(obj, locals=locals)
             except jinja2.exceptions.TemplateSyntaxError as e:
                 raise ValueError(f"Template syntax error: {e} in {obj}")
         elif type(obj) == list:
-            return [self.execute_template(o) for o in obj]
+            return [self.execute_template(o, locals=locals) for o in obj]
         elif type(obj) == dict:
             if "try" in obj:
                 for value in obj["try"]:
-                    if self.execute_condition(value["condition"]):
+                    if self.execute_condition(value["condition"], locals=locals):
                         return self.execute_template(value["value"])
 
                 raise NotImplementedError("Try not implemented.")
@@ -136,9 +139,9 @@ class BuildContext(object):
             f"--run=mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}",
         ]
 
-        def add_directive(directive):
+        def add_directive(directive, locals):
             if "condition" in directive:
-                if not self.execute_condition(directive["condition"]):
+                if not self.execute_condition(directive["condition"], locals=locals):
                     return []
 
             if "install" in directive:
@@ -148,22 +151,37 @@ class BuildContext(object):
                             f
                             for f in directive["install"].replace("\n", " ").split(" ")
                             if f != ""
-                        ]
+                        ],
+                        locals=locals,
                     )
                 elif type(directive["install"]) == list:
-                    return ["--install"] + self.execute_template(directive["install"])
+                    return ["--install"] + self.execute_template(
+                        directive["install"], locals=locals
+                    )
                 else:
                     raise ValueError("Install directive must be a string or list.")
             elif "run" in directive:
                 return [
-                    "--run=" + " \\\n && ".join(self.execute_template(directive["run"]))
+                    "--run="
+                    + " \\\n && ".join(
+                        self.execute_template(directive["run"], locals=locals)
+                    )
                 ]
             elif "workdir" in directive:
-                return ["--workdir", self.execute_template(directive["workdir"])]
+                return [
+                    "--workdir",
+                    self.execute_template(directive["workdir"], locals=locals),
+                ]
             elif "user" in directive:
-                return ["--user", self.execute_template(directive["user"])]
+                return [
+                    "--user",
+                    self.execute_template(directive["user"], locals=locals),
+                ]
             elif "entrypoint" in directive:
-                return ["--entrypoint", self.execute_template(directive["entrypoint"])]
+                return [
+                    "--entrypoint",
+                    self.execute_template(directive["entrypoint"], locals=locals),
+                ]
             elif "environment" in directive:
                 if directive["environment"] == None:
                     raise ValueError("Environment must be a map of keys and values.")
@@ -172,16 +190,18 @@ class BuildContext(object):
                 for key, value in directive["environment"].items():
                     ret += [
                         "--env",
-                        f"{self.execute_template(key)}={self.execute_template(value)}",
+                        f"{self.execute_template(key, locals=locals)}={self.execute_template(value, locals=locals)}",
                     ]
                 return ret
             elif "template" in directive:
-                name = self.execute_template(directive["template"].get("name") or "")
+                name = self.execute_template(
+                    directive["template"].get("name") or "", locals=locals
+                )
                 if name == "":
                     raise ValueError("Template name cannot be empty.")
 
                 items = [
-                    f"{k}={self.execute_template(v)}"
+                    f"{k}={self.execute_template(v, locals=locals)}"
                     for k, v in directive["template"].items()
                     if k != "name"
                 ]
@@ -190,9 +210,11 @@ class BuildContext(object):
             elif "copy" in directive:
                 args = []
                 if type(directive["copy"]) == str:
-                    args = self.execute_template(directive["copy"].split(" "))
+                    args = self.execute_template(
+                        directive["copy"].split(" "), locals=locals
+                    )
                 elif type(directive["copy"]) == list:
-                    args = self.execute_template(directive["copy"])
+                    args = self.execute_template(directive["copy"], locals=locals)
 
                 if len(args) == 2:
                     # check to make sure the first reference is a file and it exists.
@@ -200,11 +222,26 @@ class BuildContext(object):
                         raise ValueError(f"File {args[0]} does not exist.")
 
                 return ["--copy"] + args
+            elif "group" in directive:
+                variables = {**locals}
+
+                if "with" in directive:
+                    for key, value in directive["with"].items():
+                        variables[key] = self.execute_template(value, locals=variables)
+
+                ret = []
+
+                for item in directive["group"]:
+                    ret += add_directive(item, locals=variables)
+
+                return ret
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
+        locals = {}
+
         for directive in build_directive["directives"]:
-            args += add_directive(directive)
+            args += add_directive(directive, locals=locals)
 
         if deploy is not None:
             if "path" in deploy:
