@@ -3,7 +3,7 @@ set -e
 
 
 export toolName='deepretinotopy'
-export toolVersion='1.0.8'
+export toolVersion='1.0.9'
 # Don't forget to update version change in README.md!!!!!
 
  
@@ -29,7 +29,7 @@ neurodocker generate ${neurodocker_buildMode} \
    --workdir=/opt \
    --run='git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git && \
        cd deepRetinotopy_TheToolbox && \
-       git checkout 6c827d5e8e7286a7fc6bb11fdd8104ec488135ad && \
+       git checkout 51437f47db4153bb21a9370be758aaad2fe15eb6 && \
        files_to_download=("osfstorage/new_models/deepRetinotopy_polarAngle_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_LH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_polarAngle_RH_model4.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_RH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_RH_model5.pt") && \
        for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done' \
    --workdir='/opt/deepRetinotopy_TheToolbox' \

@@ -18,10 +18,7 @@ fi
 
 source ../main_setup.sh
 
-export MATLAB_VERSION=2017b
-export MCR_VERSION=v93
-export MCR_UPDATE=9
-export CAT_VERSION=12.9
+export MATLAB_VERSION=2023b
 export CAT_REVISION=$toolVersion
 
 neurodocker generate ${neurodocker_buildMode} \

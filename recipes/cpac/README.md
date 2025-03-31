@@ -1,0 +1,32 @@
+## cpac/1.8.7 ##
+
+## C-PAC (Configurable Pipeline for the Analysis of Connectomes)
+
+C-PAC is a configurable, open-source pipeline for the analysis of functional MRI data. It provides tools for preprocessing, quality control, and functional connectivity analysis. C-PAC is designed to be user-friendly and adaptable to a variety of research needs.
+
+Repository: [C-PAC GitHub](https://github.com/FCP-INDI/C-PAC)
+
+Example:
+```
+cpac --help
+cpac /path/to/bids_dir \
+   /path/to/output_dir \
+   participant \ # analysis_level
+   --pipeline_file <pipeline_config> \ # required
+   --participant_label <label> # optional
+```
+
+To run the container outside of this environment: `ml cpac/1.8.7`
+
+More documentation can be found here: https://fcp-indi.github.io/docs/latest/
+
+Citation:
+```
+Craddock, R. C., Sikka, S., Cheung, B., Khanuja, R., Ghosh, S. S., Yan, C., ... & Milham, M. P. (2013). Towards automated analysis of connectomes: The configurable pipeline for the analysis of connectomes (C-PAC). Frontiers in Neuroinformatics, 7, 42. doi:10.3389/fninf.2013.00042.
+```
+
+Please also cite the Zenodo DOI for the version you're referencing.
+
+License: BSD 3-Clause License
+
+License details: https://github.com/FCP-INDI/C-PAC/blob/main/LICENSE

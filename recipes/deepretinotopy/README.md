@@ -1,6 +1,6 @@
 
 ----------------------------------
-## deepretinotopy/1.0.8 ##
+## deepretinotopy/1.0.9 ##
 
 This container has FreeSurfer 7.3.2, Connectome Workbench v1.5.0, PyTorch 2.5.1 (cpu), and PyTorch geometric 2.6.1 (cpu). These packages are required for data preparation and model inference.
 
@@ -9,11 +9,12 @@ Example:
 wb_command
 wb_view
 wb_shortcuts
+deepRetinotopy
 ```
 
 More documentation can be found here: https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox
 
-To run the container outside of this environment: ml deepretinotopy/1.0.8
+To run the container outside of this environment: ml deepretinotopy/1.0.9
 
 Citation:
 ```@article{Ribeiro2022,

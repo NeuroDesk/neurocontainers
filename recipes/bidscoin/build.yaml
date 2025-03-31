@@ -1,5 +1,5 @@
 name: bidscoin
-version: 4.6.0
+version: 4.6.1
 
 architectures:
     - x86_64
