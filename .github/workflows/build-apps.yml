@@ -58,26 +58,24 @@ jobs:
         with:
           root-reserve-mb: 40000
           swap-size-mb: 1024
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          overprovision-lvm: 'true'
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          overprovision-lvm: "true"
       - name: Move docker installation (optional)
         if: env.FREEUPSPACE == 'true'
         run: |
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
-      - name : Build recipes
+      - name: Build recipes
         run: |
           echo "APPLICATION: $APPLICATION"
-          cd recipes/$APPLICATION
-          echo `which python`
-          /bin/bash build.sh
+          ./builder/build.py recipes/$APPLICATION/build.yaml build --recreate
       - name: Set image variables
         id: IMAGEVARS
         run: |
-          DOCKERFILE=`basename $(find ./recipes/$APPLICATION/ -type f -iname "*.Dockerfile" | head -1)`
+          DOCKERFILE=./build/$APPLICATION/Dockerfile
           IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
           echo "IMAGENAME: $IMAGENAME"
           echo "IMAGENAME_TEST=${IMAGENAME//_/ }" >> $GITHUB_ENV
@@ -94,7 +92,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-2
-      - name : Run docker builder + Upload to docker and github registry
+      - name: Run docker builder + Upload to docker and github registry
         run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
       - name: Generate job output
         run: |
@@ -103,7 +101,7 @@ jobs:
           echo "bash /neurocommand/local/fetch_and_run.sh ${IMAGENAME//_/ } $BUILDDATE" >> $GITHUB_STEP_SUMMARY
       - name: Generate issue for new container to test and merge
         uses: JasonEtco/create-an-issue@1b14a70e4d8dc185e5cc76d3bec9eab20257b2c5
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         with:
           filename: .github/new_container_issue_template.md
