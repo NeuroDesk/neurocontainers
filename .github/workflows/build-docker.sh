@@ -65,20 +65,11 @@ else
   sudo chmod a+rwx $IMAGE_HOME
 fi
 
-echo "[DEBUG] saving docker image locally for singularity to convert:"
-# cleanup first
-if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
-  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
-fi
-time docker save $IMAGEID:$SHORT_SHA -o ${IMAGENAME}_${BUILDDATE}.tar
-echo "[DEBUG] done saving docker image locally for singularity to convert!"
-
-
 if [ -f "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" ]; then
   rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
 fi
 echo "[DEBUG] building singularity image from docker image:"
-time singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-archive://${IMAGENAME}_${BUILDDATE}.tar
+time singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-daemon://$IMAGEID:$SHORT_SHA
 echo "[DEBUG] done building singularity image from docker image!"
 
 # cleanup
