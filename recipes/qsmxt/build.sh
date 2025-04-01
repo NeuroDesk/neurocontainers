@@ -59,15 +59,6 @@ neurodocker generate ${neurodocker_buildMode} \
        && make \
        && make install" \
    --workdir="/opt" \
-   --miniconda version=4.7.12.1 conda_install='python=3.8' \
-   --run="rm -rf /usr/bin/python3.8 \
-       && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
-       && pip install setuptools==69.5.1 \
-       && pip install qsmxt==${toolVersion} \
-       && pip install dunamai \
-       && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
-       && nextqsm --download_weights" \
-   --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
        && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
        && pip install -r /opt/FastSurfer/requirements.txt" \
@@ -95,6 +86,15 @@ neurodocker generate ${neurodocker_buildMode} \
        && rm node-v14.17.0-linux-x64.tar.xz" \
    --env PATH="\${PATH}:/opt/node-v14.17.0-linux-x64/bin" \
    --run="QSMxT-UI/setup.sh" \
+   --miniconda version=4.7.12.1 conda_install='python=3.8' \
+   --run="rm -rf /usr/bin/python3.8 \
+       && ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8 \
+       && pip install setuptools==69.5.1 \
+       && pip install dunamai \
+       && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
+       && nextqsm --download_weights" \
+   --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
+   --run="pip install qsmxt==${toolVersion}" \
    --env DEPLOY_PATH="/opt/ants-2.4.3/:/opt/FastSurfer:/opt/QSMxT-UI" \
    --env DEPLOY_BINS="nipypecli:bet:dcm2niix:Bru2:Bru2Nii:tgv_qsm:julia:python3:python:pytest:predict_all.py:qsmxt:qsmxt-gui:dicom-sort:dicom-convert:nifti-convert"  \
    --env LC_ALL="C.UTF-8" \
