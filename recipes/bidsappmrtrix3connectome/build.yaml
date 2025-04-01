@@ -13,8 +13,7 @@ build:
   directives:
     - environment:
         DEBIAN_FRONTEND: noninteractive
-        PATH: $PATH:/
-
+        PATH: ${PATH}:/
     - entrypoint: bash
 
 deploy:
