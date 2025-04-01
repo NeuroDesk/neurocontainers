@@ -572,44 +572,52 @@ def main_generate(args):
         )
         print("Docker image built successfully at", ctx.tag)
 
-    if args.build_simg:
-        print("Building Singularity image...")
+        if args.build_sif:
+            print("Building Singularity image...")
 
-        if not shutil.which("singularity"):
-            raise ValueError("Singularity not found in PATH.")
+            if not shutil.which("singularity"):
+                raise ValueError("Singularity not found in PATH.")
 
-        output_filename = os.path.join("sifs", ctx.tag + ".sif")
-        if not os.path.exists("sifs"):
-            os.makedirs("sifs")
+            output_filename = os.path.join("sifs", f"{ctx.name}_{ctx.version}.sif")
+            if not os.path.exists("sifs"):
+                os.makedirs("sifs")
 
-        subprocess.check_call(
-            [
-                "singularity",
-                "build",
-                "--force",
-                ctx.tag + ".sif",
-                "docker-daemon://" + ctx.tag,
-            ],
-        )
-
-        print("Singularity image built successfully as", ctx.tag + ".sif")
-
-    if args.test:
-        print("Running tests...")
-        if len(test_cases) == 0:
-            print("No tests found.")
-            return
-
-        if not shutil.which("docker"):
-            raise ValueError("Docker not found in PATH.")
-
-        for filename in test_cases:
             subprocess.check_call(
-                ["docker", "run", ctx.tag, "/tests/" + filename],
-                cwd=ctx.build_directory,
+                [
+                    "singularity",
+                    "build",
+                    "--force",
+                    output_filename,
+                    "docker-daemon://" + ctx.tag,
+                ],
             )
 
-        print("Tests passed.")
+            print("Singularity image built successfully as", ctx.tag + ".sif")
+
+        if args.test:
+            print("Running tests...")
+            if len(test_cases) == 0:
+                print("No tests found.")
+                return
+
+            if not shutil.which("docker"):
+                raise ValueError("Docker not found in PATH.")
+
+            for filename in test_cases:
+                subprocess.check_call(
+                    ["docker", "run", ctx.tag, "/tests/" + filename],
+                    cwd=ctx.build_directory,
+                )
+
+            print("Tests passed.")
+    else:
+        if args.build_sif:
+            raise ValueError(
+                "Building Singularity image requires building the Docker image first."
+            )
+
+        if args.test:
+            raise ValueError("Running tests requires building the Docker image first.")
 
 
 def main(args):
@@ -636,7 +644,7 @@ def main(args):
         "--build", action="store_true", help="Build the Docker image after creating it"
     )
     build_parser.add_argument(
-        "--build-simg",
+        "--build-sif",
         action="store_true",
         help="Build a Singularity image after building the Docker image",
     )
