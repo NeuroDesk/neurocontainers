@@ -68,10 +68,10 @@ jobs:
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
-      - name: Build recipes
+      - name: Generate Dockerfile
         run: |
           echo "APPLICATION: $APPLICATION"
-          ./builder/build.py build $APPLICATION --recreate
+          ./builder/build.py generate $APPLICATION --recreate
       - name: Set image variables
         id: IMAGEVARS
         run: |

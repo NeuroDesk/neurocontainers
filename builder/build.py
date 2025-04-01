@@ -388,7 +388,7 @@ def main_init(args):
         )
 
 
-def main_build(args):
+def main_generate(args):
     recipe_path = get_recipe_directory(args.name)
 
     # Load description file
@@ -591,10 +591,10 @@ def main(args):
     command = root.add_subparsers(dest="command")
 
     build_parser = command.add_parser(
-        "build",
-        help="Build a Docker image from a description file",
+        "generate",
+        help="Generate a Docker image from a description file",
     )
-    build_parser.add_argument("name", help="Name of the recipe to build")
+    build_parser.add_argument("name", help="Name of the recipe to generate")
     build_parser.add_argument(
         "--output-directory",
         help="Output directory for the build",
@@ -645,8 +645,8 @@ def main(args):
 
     if args.command == "init":
         main_init(args)
-    elif args.command == "build":
-        main_build(args)
+    elif args.command == "generate":
+        main_generate(args)
     else:
         root.print_help()
         sys.exit(1)
