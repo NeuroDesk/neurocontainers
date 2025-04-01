@@ -560,6 +560,10 @@ def main_generate(args):
 
     if args.build:
         print("Building Docker image...")
+
+        if not shutil.which("docker"):
+            raise ValueError("Docker not found in PATH.")
+
         # Shell out to Docker
         # docker-py does not support using BuildKit
         subprocess.check_call(
@@ -568,11 +572,36 @@ def main_generate(args):
         )
         print("Docker image built successfully at", ctx.tag)
 
+    if args.build_simg:
+        print("Building Singularity image...")
+
+        if not shutil.which("singularity"):
+            raise ValueError("Singularity not found in PATH.")
+
+        output_filename = os.path.join("sifs", ctx.tag + ".sif")
+        if not os.path.exists("sifs"):
+            os.makedirs("sifs")
+
+        subprocess.check_call(
+            [
+                "singularity",
+                "build",
+                "--force",
+                ctx.tag + ".sif",
+                "docker-daemon://" + ctx.tag,
+            ],
+        )
+
+        print("Singularity image built successfully as", ctx.tag + ".sif")
+
     if args.test:
         print("Running tests...")
         if len(test_cases) == 0:
             print("No tests found.")
             return
+
+        if not shutil.which("docker"):
+            raise ValueError("Docker not found in PATH.")
 
         for filename in test_cases:
             subprocess.check_call(
@@ -605,6 +634,11 @@ def main(args):
     )
     build_parser.add_argument(
         "--build", action="store_true", help="Build the Docker image after creating it"
+    )
+    build_parser.add_argument(
+        "--build-simg",
+        action="store_true",
+        help="Build a Singularity image after building the Docker image",
     )
     build_parser.add_argument(
         "--build-tinyrange",
