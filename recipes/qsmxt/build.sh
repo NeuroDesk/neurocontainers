@@ -86,6 +86,7 @@ neurodocker generate ${neurodocker_buildMode} \
        && pip install setuptools==69.5.1 \
        && pip install dunamai \
        && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
+       && pip install nextqsm \
        && nextqsm --download_weights" \
    --workdir="/opt" \
    --run="git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
