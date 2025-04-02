@@ -1,5 +1,5 @@
 name: qsmxt
-version: 8.0.0
+version: 8.0.1
 architectures:
   - x86_64
   - aarch64
@@ -133,16 +133,10 @@ build:
         - pip install h5py==3.11.0
       condition: arch=="aarch64"
 
-    # Install QSMxT
-    - run:
-        - pip install qsmxt=={{ context.version }}
     - run:
         - pip install dunamai
-    - run:
         - pip install git+https://github.com/astewartau/nii2dcm.git@qsm
         - nextqsm --download_weights
-    - environment:
-        PATH: $PATH:/opt/miniconda-latest/bin
 
     # Install FastSurfer
     - run:
@@ -161,6 +155,9 @@ build:
     - environment:
         FASTSURFER_HOME: /opt/FastSurfer
         PATH: $PATH:/opt/FastSurfer
+
+    - environment:
+        PATH: $PATH:/opt/miniconda-latest/bin
 
     # Install bru2
     - workdir: /opt/bru2
@@ -255,6 +252,10 @@ build:
       condition: arch=="aarch64"
     - run:
         - QSMxT-UI/setup.sh
+
+    # Install QSMxT last for caching.
+    - run:
+        - pip install qsmxt=={{ context.version }}
 
     - environment:
         LC_ALL: C.UTF-8
