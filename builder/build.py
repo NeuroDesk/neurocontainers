@@ -450,6 +450,15 @@ def main_generate(args):
             key, value = option.split("=")
             ctx.set_option(key, value)
 
+    if readme == "":
+        # If readme is not found, try to get it from a file
+        readme_file = os.path.join(recipe_path, "README.md")
+        if os.path.exists(readme_file):
+            with open(readme_file, "r") as f:
+                readme = f.read()
+        else:
+            raise ValueError("README.md not found and readme is empty")
+
     ctx.readme = ctx.execute_template(readme)
 
     # If readme is not found, try to get it from a URL
