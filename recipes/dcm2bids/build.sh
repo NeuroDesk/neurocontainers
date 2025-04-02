@@ -17,6 +17,7 @@ neurodocker generate ${neurodocker_buildMode} \
 --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
 --run="chmod +x /usr/bin/ll" \
 --run="mkdir -p ${mountPointList}" \
+--env DEPLOY_BINS=dcm2bids \
 --copy README.md /README.md \
 > ${toolName}_${toolVersion}.Dockerfile 
 if [ "$1" != "" ]; then 
