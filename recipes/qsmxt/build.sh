@@ -58,12 +58,6 @@ neurodocker generate ${neurodocker_buildMode} \
        && cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON .. \
        && make \
        && make install" \
-   --workdir="/opt" \
-   --run="git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
-       && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
-       && pip install -r /opt/FastSurfer/requirements.txt" \
-   --env FASTSURFER_HOME="/opt/FastSurfer" \
-   --env PATH="\${PATH}:/opt/FastSurfer" \
    --copy test.sh /test.sh \
    --workdir="/opt/bru2" \
    --run="wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip \
@@ -93,6 +87,12 @@ neurodocker generate ${neurodocker_buildMode} \
        && pip install dunamai \
        && pip install git+https://github.com/astewartau/nii2dcm.git@qsm \
        && nextqsm --download_weights" \
+   --workdir="/opt" \
+   --run="git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer \
+       && sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt \
+       && pip install -r /opt/FastSurfer/requirements.txt" \
+   --env FASTSURFER_HOME="/opt/FastSurfer" \
+   --env PATH="\${PATH}:/opt/FastSurfer" \
    --env PATH="\${PATH}:/opt/miniconda-latest/bin" \
    --run="pip install qsmxt==${toolVersion}" \
    --env DEPLOY_PATH="/opt/ants-2.4.3/:/opt/FastSurfer:/opt/QSMxT-UI" \
