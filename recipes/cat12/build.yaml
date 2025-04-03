@@ -13,6 +13,7 @@ architectures:
 
 variables:
   matlab_version: 2023b
+  cat12_version: "{{ context.version }}_R{{ context.matlab_version }}"
 
 build:
   kind: neurodocker
@@ -35,14 +36,14 @@ build:
     - group:
         # Based on: https://github.com/ReproNim/neurodocker/blob/91e3247ffb0d176f77c3ac3b3837acf8f252fd06/neurodocker/templates/cat12.yaml
         - install: ca-certificates curl unzip
+        - copy: cat12.zip /tmp/cat12.zip
         - run:
             # Install cat12
             - echo "Downloading standalone CAT12 ..."
-            - curl -fL -o /tmp/cat12.zip {{ local.url }}
             - unzip -q /tmp/cat12.zip -d /tmp
             - rm -rf /tmp/cat12.zip
             - mkdir -p {{ local.install_path }}
-            - mv /tmp/*{{ local.version }}*/* {{ local.install_path }}/
+            - mv /tmp/*{{ context.cat12_version }}*/* {{ local.install_path }}/
             - chmod -R 777 {{ local.install_path }}
         # - run:
             # Test
@@ -58,13 +59,15 @@ build:
             PATH: "{{ local.install_path }}:$PATH"
       with:
         install_path: /opt/cat12
-        version: "{{ context.version }}_R{{ context.matlab_version }}"
-        url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ local.version }}_MCR_Linux.zip
 
 deploy:
   bins:
     - run_spm12.sh
     - spm12
+
+files:
+  - name: cat12.zip
+    url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ context.version }}_R{{ context.matlab_version }}_MCR_Linux.zip
 
 readme: |
   ----------------------------------
