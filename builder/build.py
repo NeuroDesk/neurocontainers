@@ -450,7 +450,7 @@ def main_generate(args):
             key, value = option.split("=")
             ctx.set_option(key, value)
 
-    if readme == "":
+    if (readme == "") and ("readme_url" not in description_file):
         # If readme is not found, try to get it from a file
         readme_file = os.path.join(recipe_path, "README.md")
         if os.path.exists(readme_file):
@@ -462,6 +462,7 @@ def main_generate(args):
     ctx.readme = ctx.execute_template(readme)
 
     # If readme is not found, try to get it from a URL
+    # This is done after so we don't execute the template
     if "readme_url" in description_file:
         readme_url = ctx.execute_template(description_file["readme_url"])
         if readme_url != "":

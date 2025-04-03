@@ -1,5 +1,5 @@
 name: qsmxt
-version: 8.0.1
+version: 8.0.2
 architectures:
   - x86_64
   - aarch64
@@ -23,6 +23,7 @@ architectures:
 # - ...
 # - 3.2.0: Added fix for scikit-sparse due to Cython bug https://github.com/scikit-sparse/scikit-sparse/releases/tag/v0.4.9
 # - 6.3.2: Note that Julia v1.10 is not compatible with QSM.jl - created issue https://github.com/kamesy/QSM.jl/issues/8
+# - 7.3.3: Triggering new build
 
 # Use the upstream readme file.
 readme_url: https://raw.githubusercontent.com/QSMxT/QSMxT/main/docs/container_readme.md
