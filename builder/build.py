@@ -8,6 +8,7 @@ import argparse
 import shutil
 import jinja2
 import platform
+import hashlib
 
 GLOBAL_MOUNT_POINT_LIST = [
     "/afm01",
@@ -390,6 +391,44 @@ def main_init(args):
         )
 
 
+def sha256(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def get_cache_dir():
+    # Get the cache directory
+    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
+    if not os.path.exists(cache_dir):
+        os.makedirs(cache_dir)
+
+    return cache_dir
+
+
+def download_with_cache(url):
+    # download with curl to a temporary file
+    if shutil.which("curl") is None:
+        raise ValueError("curl not found in PATH.")
+
+    cache_dir = get_cache_dir()
+    os.makedirs(cache_dir, exist_ok=True)
+
+    filename = sha256(url.encode("utf-8"))
+
+    # Make the output filename and check if it exists
+    output_filename = os.path.join(cache_dir, filename)
+    if os.path.exists(output_filename):
+        return output_filename
+
+    # download the file
+    print(f"Downloading {url} to {output_filename}")
+    subprocess.check_call(
+        ["curl", "-L", "-o", output_filename, url],
+        stdout=subprocess.DEVNULL,
+    )
+
+    return output_filename
+
+
 def main_generate(args):
     recipe_path = get_recipe_directory(args.name)
 
@@ -523,6 +562,11 @@ def main_generate(args):
             with open(output_filename, "wb") as f:
                 with open(filename, "rb") as f2:
                     f.write(f2.read())
+        elif "url" in file:
+            # download and cache the file
+            url = ctx.execute_template(file["url"])
+            cached_file = download_with_cache(url)
+            shutil.copy(cached_file, output_filename)
         else:
             raise ValueError("File contents not found.")
 
@@ -583,6 +627,13 @@ def main_generate(args):
             cwd=ctx.build_directory,
         )
         print("Docker image built successfully at", ctx.tag)
+
+        if args.login:
+            subprocess.check_call(
+                ["docker", "run", "--rm", "-it", ctx.tag],
+                cwd=ctx.build_directory,
+            )
+            return
 
         if args.build_sif:
             print("Building Singularity image...")
@@ -686,6 +737,11 @@ def main(args):
         "--option",
         action="append",
         help="Set an option in the description file. Use --option key=value",
+    )
+    build_parser.add_argument(
+        "--login",
+        action="store_true",
+        help="Run a interactive docker container with the generated image",
     )
 
     init_parser = command.add_parser(
