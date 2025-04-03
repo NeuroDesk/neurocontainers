@@ -12,6 +12,10 @@ build:
 
   directives: []
 
+deploy:
+  bins:
+    - dcm2bids
+
 readme: |
   ## dcm2bids/{{ context.version }} ##
   ---- 
