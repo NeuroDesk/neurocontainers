@@ -1,0 +1,11 @@
+[project]
+name = "neurocontainers"
+version = "0.1.0"
+description = "Neurocontainers YAML Build System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2>=3.1.6",
+    "pyyaml>=6.0.2",
+    "neurodocker>=1.0.1",
+]

@@ -1,5 +1,15 @@
 # NeuroContainers YAML Build System
 
+## Setup
+
+Either use [UV](https://docs.astral.sh/uv/) and `uv run` in front of the other commands or use `venv` with...
+
+```sh
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
 ## Introduction
 
 Run `./builder/build.py init <name> <version>` to create a new recipe.

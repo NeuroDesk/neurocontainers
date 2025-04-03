@@ -133,10 +133,12 @@ class BuildContext(object):
 
         args += ["--base-image", base, "--pkg-manager", pkg_manager]
 
+        mount_point_list = " ".join(GLOBAL_MOUNT_POINT_LIST)
+
         args += [
             "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
             "--run=chmod +x /usr/bin/ll",
-            f"--run=mkdir -p {" ".join(GLOBAL_MOUNT_POINT_LIST)}",
+            f"--run=mkdir -p {mount_point_list}",
         ]
 
         def add_directive(directive, locals):
@@ -306,6 +308,8 @@ def build_tinyrange(tinyrange_path, description_file, output_dir, name, version)
 
     description_filename = os.path.basename(description_file)
 
+    persist_size = str(tinyrange_config["docker_persist_size"] * 1024)
+
     login_file = {
         "version": 1,
         "builder": "alpine@3.21",
@@ -321,9 +325,7 @@ def build_tinyrange(tinyrange_path, description_file, output_dir, name, version)
         "files": ["../build.py", "../requirements.txt", "../" + description_file],
         "packages": ["py3-pip", "docker"],
         "macros": ["//lib/alpine_kernel:kernel,3.21"],
-        "volumes": [
-            f"docker,{str(tinyrange_config["docker_persist_size"] * 1024)},/var/lib/docker,persist"
-        ],
+        "volumes": [f"docker,{persist_size},/var/lib/docker,persist"],
         "min_spec": {
             "cpu": tinyrange_config["cpu_cores"],
             "memory": tinyrange_config["memory_size"] * 1024,
