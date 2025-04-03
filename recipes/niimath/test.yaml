@@ -1,0 +1,6 @@
+tests:
+  - name: Test NiiMath
+    script: |
+      #!/usr/bin/env bash
+      file /usr/bin/niimath
+      niimath

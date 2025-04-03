@@ -1,6 +1,5 @@
-
-----------------------------------
-## niimath/toolVersion##
+ ----------------------------------
+## niimath/{{ context.version }}##
 
 ## About
 
@@ -23,43 +22,43 @@ The Reason to use fslmaths instead of niimath:
 
 niimath provides the same commands as [fslmaths](https://mandymejia.com/fsl-maths-commands/), so you can use it just as you would fslmaths. If you are brave, you can even rename it fslmaths and use it as a drop in replacement. You can also modify your environment variables to unleash advanced features:
 
- - Just like fslmaths, it uses your [`FSLOUTPUTTYPE` Environment Variable ](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslEnvironmentVariables) to determine output file format. Unix users can specify `export NIFTI_GZ` or `export NIFTI` from the command line or profile to select between compressed (smaller) or uncompressed (faster) results. Windows users can use `set` instead of `export`.
- - To turn on parallel processing and threading, you can either set the environment variable `export AFNI_COMPRESSOR=PIGZ`. If the environment variable `AFNI_COMPRESSOR` does not exist, or is set to any value other than `PIGZ` you will get single threaded compresson.
+- Just like fslmaths, it uses your [`FSLOUTPUTTYPE` Environment Variable ](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslEnvironmentVariables) to determine output file format. Unix users can specify `export NIFTI_GZ` or `export NIFTI` from the command line or profile to select between compressed (smaller) or uncompressed (faster) results. Windows users can use `set` instead of `export`.
+- To turn on parallel processing and threading, you can either set the environment variable `export AFNI_COMPRESSOR=PIGZ`. If the environment variable `AFNI_COMPRESSOR` does not exist, or is set to any value other than `PIGZ` you will get single threaded compresson.
 
 niimath has a few features not provided by fslmaths:
 
- - `bandpass <hp> <lp> <tr>`: Butterworth filter, highpass and lowpass in Hz,TR in seconds (zero-phase 2*2nd order filtfilt)
- - `bptfm <hp> <lp>`        : Same as bptf but does not remove mean (emulates fslmaths < 5.0.7)
- - `bwlabel <conn>`         : Connected component labelling for non-zero voxels (conn sets neighbors: 6, 18, 26)
- - `ceil`                   : round voxels upwards to the nearest integer
- - `crop <tmin> <tsize>`    : remove volumes, starts with 0 not 1! Inputting -1 for a size will set it to the full range
- - `dehaze <mode>`          : set dark voxels to zero (mode 1..5; higher yields more surviving voxels)
- - `detrend`                : remove linear trend (and mean) from input
- - `demean`                 : remove average signal across volumes (requires 4D input)
- - `edt`                    : estimate Euler Distance Transform (distance field). Assumes isotropic input
- - `floor`                  : round voxels downwards to the nearest integer
- - `mod`                    : modulus fractional remainder - same as '-rem' but includes fractions
- - `otsu <mode>`            : binarize image using Otsu''s method (mode 1..5; higher yields more bright voxels))
- - `power <exponent>`       : raise the current image by following exponent
- - `resize <X> <Y> <Z> <m>` : grow (>1) or shrink (<1) image. Method <m> (0=nearest,1=linear,2=spline,3=Lanczos,4=Mitchell)\n");
- - `round`                  : round voxels to the nearest integer
- - `sobel`                  : fast edge detection
- - `sobel_binary`           : sobel creating binary edge
- - `tensor_2lower`          : convert FSL style upper triangle image to NIfTI standard lower triangle order
- - `tensor_2upper`          : convert NIfTI standard lower triangle image to FSL style upper triangle order
- - `tensor_decomp_lower`    : as tensor_decomp except input stores lower diagonal (AFNI, ANTS, Camino convention)
- - `trunc`                  : truncates the decimal value from floating point value and returns integer value
- - `unsharp  <sigma> <scl>` : edge enhancing unsharp mask (sigma in mm, not voxels; 1.0 is typical for amount (scl))
- - `dog <sPos> <sNeg>`      : difference of gaussian with zero-crossing edges (positive and negative sigma mm)
- - `dogr <sPos> <sNeg>`     : as dog, without zero-crossing (raw rather than binarized data)
- - `dogx <sPos> <sNeg>`    : as dog, zero-crossing for 2D sagittal slices
- - `dogy <sPos> <sNeg>`    : as dog, zero-crossing for 2D coronal slices
- - `dogz <sPos> <sNeg>`    : as dog, zero-crossing for 2D axial slices
- - `mesh`                  : see separate section below
- - `qform <code>`          : set qform code
- - `sform <code>`          : set sform code
- - `--compare <ref>`       : report if images are identical, terminates without saving new image\n");
- - `filename.nii`          : mimic fslhd (can also export to a txt file: 'niimath T1.nii 2> T1.txt') report header and terminate without saving new image
+- `bandpass <hp> <lp> <tr>`: Butterworth filter, highpass and lowpass in Hz,TR in seconds (zero-phase 2*2nd order filtfilt)
+- `bptfm <hp> <lp>`        : Same as bptf but does not remove mean (emulates fslmaths < 5.0.7)
+- `bwlabel <conn>`         : Connected component labelling for non-zero voxels (conn sets neighbors: 6, 18, 26)
+- `ceil`                   : round voxels upwards to the nearest integer
+- `crop <tmin> <tsize>`    : remove volumes, starts with 0 not 1! Inputting -1 for a size will set it to the full range
+- `dehaze <mode>`          : set dark voxels to zero (mode 1..5; higher yields more surviving voxels)
+- `detrend`                : remove linear trend (and mean) from input
+- `demean`                 : remove average signal across volumes (requires 4D input)
+- `edt`                    : estimate Euler Distance Transform (distance field). Assumes isotropic input
+- `floor`                  : round voxels downwards to the nearest integer
+- `mod`                    : modulus fractional remainder - same as '-rem' but includes fractions
+- `otsu <mode>`            : binarize image using Otsu''s method (mode 1..5; higher yields more bright voxels))
+- `power <exponent>`       : raise the current image by following exponent
+- `resize <X> <Y> <Z> <m>` : grow (>1) or shrink (<1) image. Method <m> (0=nearest,1=linear,2=spline,3=Lanczos,4=Mitchell)\n");
+- `round`                  : round voxels to the nearest integer
+- `sobel`                  : fast edge detection
+- `sobel_binary`           : sobel creating binary edge
+- `tensor_2lower`          : convert FSL style upper triangle image to NIfTI standard lower triangle order
+- `tensor_2upper`          : convert NIfTI standard lower triangle image to FSL style upper triangle order
+- `tensor_decomp_lower`    : as tensor_decomp except input stores lower diagonal (AFNI, ANTS, Camino convention)
+- `trunc`                  : truncates the decimal value from floating point value and returns integer value
+- `unsharp  <sigma> <scl>` : edge enhancing unsharp mask (sigma in mm, not voxels; 1.0 is typical for amount (scl))
+- `dog <sPos> <sNeg>`      : difference of gaussian with zero-crossing edges (positive and negative sigma mm)
+- `dogr <sPos> <sNeg>`     : as dog, without zero-crossing (raw rather than binarized data)
+- `dogx <sPos> <sNeg>`    : as dog, zero-crossing for 2D sagittal slices
+- `dogy <sPos> <sNeg>`    : as dog, zero-crossing for 2D coronal slices
+- `dogz <sPos> <sNeg>`    : as dog, zero-crossing for 2D axial slices
+- `mesh`                  : see separate section below
+- `qform <code>`          : set qform code
+- `sform <code>`          : set sform code
+- `--compare <ref>`       : report if images are identical, terminates without saving new image\n");
+- `filename.nii`          : mimic fslhd (can also export to a txt file: 'niimath T1.nii 2> T1.txt') report header and terminate without saving new image
 
 ## License
 
@@ -76,4 +75,4 @@ niimath is licensed under the 2-Clause BSD License. Except where noted, the code
 
   - Rorden C, Webster M, Drake C,  Jenkinson M, Clayden JD, Li N, Hanayik T ([2024](https://apertureneuro.org/article/94384-niimath-and-fslmaths-replication-as-a-method-to-enhance-popular-neuroimaging-tools)) niimath and fslmaths: replication as a method to enhance popular neuroimaging tools. Aperture Neuro.4. doi:10.52294/001c.94384
 
-----------------------------------
+ ----------------------------------

@@ -25,3 +25,8 @@ recipes/fsl/fslinstaller.py
 *.h5
 dicom_data
 *.utr
+
+build/
+local/
+env/
+sifs/
