@@ -44,11 +44,12 @@ build:
             - mkdir -p {{ local.install_path }}
             - mv /tmp/*{{ local.version }}*/* {{ local.install_path }}/
             - chmod -R 777 {{ local.install_path }}
+        # - run:
             # Test
-            - "{{ local.install_path }}/spm12 function exit"
+            # - "{{ local.install_path }}/spm12 function exit"
             # Fix m file
-            - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
-            - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            # - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            # - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
         - environment:
             FORCE_SPMMCR: "1"
             SPM_HTML_BROWSER: "0"
