@@ -15,6 +15,10 @@ variables:
   matlab_version: 2023b
   cat12_version: "{{ context.version }}_R{{ context.matlab_version }}"
 
+files:
+  - name: cat12.zip
+    url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ context.version }}_R{{ context.matlab_version }}_MCR_Linux.zip
+
 build:
   kind: neurodocker
 
@@ -39,7 +43,6 @@ build:
         - copy: cat12.zip /tmp/cat12.zip
         - run:
             # Install cat12
-            - echo "Downloading standalone CAT12 ..."
             - unzip -q /tmp/cat12.zip -d /tmp
             - rm -rf /tmp/cat12.zip
             - mkdir -p {{ local.install_path }}
@@ -64,10 +67,6 @@ deploy:
   bins:
     - run_spm12.sh
     - spm12
-
-files:
-  - name: cat12.zip
-    url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ context.version }}_R{{ context.matlab_version }}_MCR_Linux.zip
 
 readme: |
   ----------------------------------
