@@ -107,7 +107,7 @@ jobs:
           filename: .github/new_container_issue_template.md
       - name: Check image for wasted space using dive
         uses: MartinHeinz/dive-action@d76c172050c82c60a3742ab5487c2d3ac8b3306f
-        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
+        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/main'}}
         with:
           image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
           config: ${{ github.workspace }}/.github/.dive-ci.yml

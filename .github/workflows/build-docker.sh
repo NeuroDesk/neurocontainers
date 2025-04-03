@@ -104,7 +104,7 @@ else
 fi
 
 
-if [ "$GITHUB_REF" == "refs/heads/master" ]; then
+if [ "$GITHUB_REF" == "refs/heads/main" ]; then
     if [ -n "$GH_REGISTRY" ]; then
       echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
     # Push to GH Packages
@@ -128,6 +128,6 @@ if [ "$GITHUB_REF" == "refs/heads/master" ]; then
       echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
     fi
 else
-    echo "[DEBUG] Skipping push to registry. Not on master branch"
+    echo "[DEBUG] Skipping push to registry. Not on main branch"
 fi
 
