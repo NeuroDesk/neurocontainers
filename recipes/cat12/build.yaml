@@ -12,45 +12,109 @@ architectures:
   - x86_64
 
 variables:
-  matlab_version: 2023b
-  cat12_version: "{{ context.version }}_R{{ context.matlab_version }}"
+  matlab_version: 2017b
+  cat12_version: "{{ context.version }}_R2023b"
+
+files:
+  - name: matlab2023b.zip
+    url: https://ssd.mathworks.com/supportfiles/downloads/R2023b/Release/9/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2023b_Update_9_glnxa64.zip
+
+  - name: matlab2017b.zip
+    url: https://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_R2017b_glnxa64_installer.zip
+
+  - name: Miniconda3-latest-Linux-x86_64.sh
+    url: https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+  - name: cat12.zip
+    url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ context.cat12_version }}_MCR_Linux.zip
 
 build:
   kind: neurodocker
 
-  base-image: ubuntu:16.04
+  base-image: ubuntu:22.04
   pkg-manager: apt
 
   directives:
-    - template:
-        name: matlabmcr
-        version: "{{ context.matlab_version }}"
+    - group:
+        - install: bc curl libncurses5 libxext6 libxmu6 libxpm-dev libxt6 unzip openjdk-8-jre dbus-x11
+        - run:
+            - unzip -q {{ get_file("matlab2017b.zip") }} -d "/tmp/mcrtmp"
+            - "/tmp/mcrtmp/install -destinationFolder {{ local.install_path }} -mode silent -agreeToLicense yes"
+            - rm -rf /tmp/mcrtmp
+        - environment:
+            LD_LIBRARY_PATH: $LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu:{{ local.installed }}/runtime/glnxa64:{{ local.installed }}/bin/glnxa64:{{ local.installed }}/sys/os/glnxa64:{{ local.installed }}/extern/bin/glnxa64
+            MATLABCMD: "{{ local.installed }}/toolbox/matlab"
+            XAPPLRESDIR: "/opt/{{ local.installed }}/x11/app-defaults"
+            MCRROOT: "{{ local.installed }}"
+      with:
         install_path: /opt/mcr
+        version: "{{ context.matlab_version }}"
+        installed: "{{ local.install_path }}/v93"
 
-    - template:
-        name: miniconda
-        version: latest
+    # Install Miniconda
+    - group:
+        - install: bzip2 ca-certificates curl
+        - run:
+            - export PATH="{{ local.install_path }}/bin:$PATH"
+
+            # Install Miniconda
+            - bash {{ get_file("Miniconda3-latest-Linux-x86_64.sh") }} -b -p {{ local.install_path }}
+
+            # Use libmamba for faster installs
+            - conda install -yq -nbase conda-libmamba-solver
+            - conda config --set solver libmamba
+
+            # Update conda to latest version
+            - conda update -yq -nbase conda
+
+            # Prefer packages in conda-forge
+            - conda config --system --prepend channels conda-forge
+
+            # Packages in lower-priority channels not considered if a package with the same
+            # name exists in a higher priority channel. Can dramatically speed up installations.
+            # Conda recommends this as a default
+            # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html
+            - conda config --set channel_priority strict
+            - conda config --system --set auto_update_conda false
+            - conda config --system --set show_channel_urls true
+
+            # Enable `conda activate`
+            - conda init bash
+
+            # Install conda deps
+            - conda install -y -q --name {{ local.env_name }} {{ local.conda_install }}
+
+            # Install pip deps
+            - bash -c "source activate {{ local.env_name }} && python -m pip install --no-cache-dir {{ local.pip_install }}"
+
+            # Clean up
+            - sync && conda clean --all --yes && sync
+            - rm -rf ~/.cache/pip/*
+
+        - environment:
+            CONDA_DIR: "{{ local.install_path }}"
+            PATH: "{{ local.install_path }}/bin:$PATH"
+      with:
+        install_path: /opt/miniconda-latest
+        env_name: base
         conda_install: "python=3.9 traits nipype numpy scipy h5py scikit-image"
         pip_install: "osfclient"
 
     - group:
         # Based on: https://github.com/ReproNim/neurodocker/blob/91e3247ffb0d176f77c3ac3b3837acf8f252fd06/neurodocker/templates/cat12.yaml
         - install: ca-certificates curl unzip
-        - copy: cat12.zip /tmp/cat12.zip
         - run:
             # Install cat12
-            - echo "Downloading standalone CAT12 ..."
-            - unzip -q /tmp/cat12.zip -d /tmp
-            - rm -rf /tmp/cat12.zip
+            - unzip -q {{ get_file("cat12.zip") }} -d /tmp
             - mkdir -p {{ local.install_path }}
             - mv /tmp/*{{ context.cat12_version }}*/* {{ local.install_path }}/
             - chmod -R 777 {{ local.install_path }}
-        # - run:
+        - run:
             # Test
-            # - "{{ local.install_path }}/spm12 function exit"
+            - "{{ local.install_path }}/spm12 function exit"
             # Fix m file
-            # - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
-            # - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
         - environment:
             FORCE_SPMMCR: "1"
             SPM_HTML_BROWSER: "0"
@@ -60,14 +124,12 @@ build:
       with:
         install_path: /opt/cat12
 
+    - install: strace
+
 deploy:
   bins:
     - run_spm12.sh
     - spm12
-
-files:
-  - name: cat12.zip
-    url: https://dbm.neuro.uni-jena.de/cat12/CAT{{ context.version }}_R{{ context.matlab_version }}_MCR_Linux.zip
 
 readme: |
   ----------------------------------

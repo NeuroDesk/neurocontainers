@@ -44,7 +44,92 @@ ARCHITECTURES = {
     "aarch64": "aarch64",
 }
 
+
+def get_cache_dir():
+    # Get the cache directory
+    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
+    if not os.path.exists(cache_dir):
+        os.makedirs(cache_dir)
+
+    return cache_dir
+
+
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
+
+
+class LocalBuildContext(object):
+    def __init__(self, context, cache_id):
+        self.context = context
+        self.run_args = []
+        self.mounted_cache = False
+        self.cache_id = cache_id
+
+    def try_mount_cache(self):
+        target = "/.neurocontainer-cache/" + self.cache_id
+
+        if self.mounted_cache:
+            return target
+
+        cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cache_relpath = os.path.relpath(cache_dir, self.context.build_directory)
+
+        self.run_args.append(
+            f"--mount=type=bind,source={cache_relpath},target={target},readonly"
+        )
+        self.mounted_cache = True
+
+        return target
+
+    def ensure_context_cached(self, cache_filename, guest_filename):
+        # Check if the file is already cached
+        context_cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cached_file = os.path.join(context_cache_dir, guest_filename)
+        if os.path.exists(cached_file):
+            return guest_filename
+
+        # if not then link it from the cache
+        os.link(cache_filename, cached_file)
+
+        # return the filename
+        return guest_filename
+
+    def get_file(self, filename):
+        file_info = self.context.files.get(filename)
+        if file_info is None:
+            raise ValueError(f"File {filename} not found.")
+
+        if "cached_path" in file_info:
+            cache_dir = self.try_mount_cache()
+            cache_filename = self.ensure_context_cached(
+                file_info["cached_path"],
+                filename,
+            )
+            return cache_dir + "/" + cache_filename
+        elif "context_path" in file_info:
+            return file_info["context_path"]
+        else:
+            raise ValueError("File has no cached path or context path.")
+
+    def methods(self):
+        return {
+            "get_file": self.get_file,
+        }
+
+
+def hash_obj(obj):
+    # Hash the object using SHA256
+    if isinstance(obj, str):
+        obj = obj.encode("utf-8")
+    elif isinstance(obj, dict):
+        obj = yaml.dump(obj).encode("utf-8")
+    elif isinstance(obj, list):
+        obj = yaml.dump(obj).encode("utf-8")
+    else:
+        raise ValueError("Object type not supported.")
+
+    return hashlib.sha256(obj).hexdigest()
 
 
 class BuildContext(object):
@@ -56,6 +141,7 @@ class BuildContext(object):
         self.max_parallel_jobs = os.cpu_count()
         self.options = {}
         self.option_info = {}
+        self.files = {}
 
     def add_option(self, key, description="", default=False, version_suffix=""):
         self.options[key] = default
@@ -89,39 +175,94 @@ class BuildContext(object):
     def set_max_parallel_jobs(self, max_parallel_jobs):
         self.max_parallel_jobs = max_parallel_jobs
 
-    def render_template(self, template, locals=None):
+    def get_context_cache_dir(self, cache_id):
+        cache_dir = os.path.join(self.build_directory, "cache", cache_id)
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+
+        return cache_dir
+
+    def render_template(self, template, locals=None, methods=None):
         tpl = _jinja_env.from_string(template)
         return tpl.render(
             context=self,
             arch=self.arch,
             parallel_jobs=self.max_parallel_jobs,
             local=locals,
+            **(methods or {}),
         )
 
     def execute_condition(self, condition, locals=None):
         result = self.render_template("{{" + condition + "}}", locals=locals)
         return result == "True"
 
-    def execute_template(self, obj, locals=None):
+    def execute_template(self, obj, locals=None, methods=None):
         if type(obj) == str:
             try:
-                return self.render_template(obj, locals=locals)
+                return self.render_template(obj, locals=locals, methods=methods)
             except jinja2.exceptions.TemplateSyntaxError as e:
                 raise ValueError(f"Template syntax error: {e} in {obj}")
         elif type(obj) == list:
-            return [self.execute_template(o, locals=locals) for o in obj]
+            return [
+                self.execute_template(o, locals=locals, methods=methods) for o in obj
+            ]
         elif type(obj) == dict:
             if "try" in obj:
                 for value in obj["try"]:
-                    if self.execute_condition(value["condition"], locals=locals):
+                    if self.execute_condition(
+                        value["condition"], locals=locals, methods=methods
+                    ):
                         return self.execute_template(value["value"])
 
                 raise NotImplementedError("Try not implemented.")
         else:
             raise ValueError("Template object not supported.")
 
+    def add_file(self, file, recipe_path):
+        name = file["name"]
+
+        if name == "":
+            raise ValueError("File name cannot be empty.")
+
+        output_filename = os.path.join(self.build_directory, name)
+
+        if "url" in file:
+            # download and cache the file
+            url = self.execute_template(file["url"])
+            cached_file = download_with_cache(url)
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "cached_path": cached_file,
+            }
+        else:
+            if "contents" in file:
+                contents = self.execute_template(file["contents"])
+                with open(output_filename, "w") as f:
+                    f.write(contents)
+            elif "filename" in file:
+                base = os.path.abspath(recipe_path)
+                filename = os.path.join(base, file["filename"])
+                with open(output_filename, "wb") as f:
+                    with open(filename, "rb") as f2:
+                        f.write(f2.read())
+            else:
+                raise ValueError("File contents not found.")
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "context_path": file["filename"],
+            }
+
     def file_exists(self, filename):
         return os.path.exists(os.path.join(self.build_directory, filename))
+
+    def generate_cache_id(self, directive):
+        return "h" + directive[:8]
 
     def build_neurodocker(self, build_directive, deploy, test_cases):
         args = ["neurodocker", "generate", "docker"]
@@ -164,12 +305,18 @@ class BuildContext(object):
                 else:
                     raise ValueError("Install directive must be a string or list.")
             elif "run" in directive:
-                return [
-                    "--run="
-                    + " \\\n && ".join(
-                        self.execute_template(directive["run"], locals=locals)
-                    )
-                ]
+                local = LocalBuildContext(
+                    self, self.generate_cache_id(hash_obj(directive))
+                )
+                args = self.execute_template(
+                    directive["run"],
+                    locals=locals,
+                    methods=local.methods(),
+                )
+                run_param = (
+                    "--run=" + " ".join(local.run_args) + " " + " \\\n && ".join(args)
+                )
+                return [run_param]
             elif "workdir" in directive:
                 return [
                     "--workdir",
@@ -395,15 +542,6 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def get_cache_dir():
-    # Get the cache directory
-    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
-    if not os.path.exists(cache_dir):
-        os.makedirs(cache_dir)
-
-    return cache_dir
-
-
 def download_with_cache(url):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
@@ -543,35 +681,8 @@ def main_generate(args):
         f.write(ctx.readme)
 
     # Write all files
-    ctx.files = description_file.get("files") or []
-    for file in ctx.files:
-        name = file["name"]
-
-        if name == "":
-            raise ValueError("File name cannot be empty.")
-
-        output_filename = os.path.join(ctx.build_directory, name)
-
-        if "contents" in file:
-            contents = ctx.execute_template(file["contents"])
-            with open(output_filename, "w") as f:
-                f.write(contents)
-        elif "filename" in file:
-            base = os.path.abspath(recipe_path)
-            filename = os.path.join(base, file["filename"])
-            with open(output_filename, "wb") as f:
-                with open(filename, "rb") as f2:
-                    f.write(f2.read())
-        elif "url" in file:
-            # download and cache the file
-            url = ctx.execute_template(file["url"])
-            cached_file = download_with_cache(url)
-            shutil.copy(cached_file, output_filename)
-        else:
-            raise ValueError("File contents not found.")
-
-        if "executable" in file and file["executable"]:
-            os.chmod(output_filename, 0o755)
+    for file in description_file.get("files", []):
+        ctx.add_file(file, recipe_path)
 
     # if test.yaml is next to the description file, read it
     test_info = []
