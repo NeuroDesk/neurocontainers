@@ -19,8 +19,8 @@ echo "[DEBUG] IMAGEID: $IMAGEID"
 
 echo "[DEBUG] Pulling $IMAGEID"
 {
-  docker pull $IMAGEID \
-    && ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
+  docker pull $IMAGEID &&
+    ROOTFS_CACHE=$(docker inspect --format='{{.RootFS}}' $IMAGEID)
 } || echo "$IMAGEID not found. Resuming build..."
 
 echo "[DEBUG] Docker build ..."
@@ -31,29 +31,27 @@ ROOTFS_NEW=$(docker inspect --format='{{.RootFS}}' $IMAGEID:$SHORT_SHA)
 
 # Tag and Push if new image RootFS differs from cached image
 if [ "$ROOTFS_NEW" = "$ROOTFS_CACHE" ]; then
-    echo "[DEBUG] Skipping push to registry. No changes found"
+  echo "[DEBUG] Skipping push to registry. No changes found"
 else
-    echo "[DEBUG] Changes found"
+  echo "[DEBUG] Changes found"
 fi
 
 # Build singularity container and upload to cache to speed up testing of images:
 
-#This prevents the sometimes stuck apt process from stopping the build
-if [ -f "/var/lib/apt/lists/lock" ]; then
-  sudo rm /var/lib/apt/lists/lock
-  sudo rm /var/cache/apt/archives/lock
-  sudo rm /var/lib/dpkg/lock*
-fi
-
 # install apptainer if no singularity executable is available
-if ! command -v singularity &> /dev/null
-then
-    sudo apt-get install -y software-properties-common
-    sudo add-apt-repository -y ppa:apptainer/ppa
-    sudo apt-get update
-    sudo apt-get install -y apptainer 
-fi
+if ! command -v singularity &>/dev/null; then
+  #This prevents the sometimes stuck apt process from stopping the build
+  if [ -f "/var/lib/apt/lists/lock" ]; then
+    sudo rm -f /var/lib/apt/lists/lock
+    sudo rm -f /var/cache/apt/archives/lock
+    sudo rm -f /var/lib/dpkg/lock*
+  fi
 
+  sudo apt-get install -y software-properties-common
+  sudo add-apt-repository -y ppa:apptainer/ppa
+  sudo apt-get update
+  sudo apt-get install -y apptainer
+fi
 
 export IMAGE_HOME="/storage/tmp"
 
@@ -84,50 +82,47 @@ echo "[DEBUG] Done with uploading to Nectar Object Storage!"
 echo "[DEBUG] Attempting upload to AWS Object Storage:"
 
 # check if aws cli is installed
-if ! command -v aws &> /dev/null
-then
-    echo "[DEBUG] Installing AWS CLI"
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install && rm -rf aws awscliv2.zip
+if ! command -v aws &>/dev/null; then
+  echo "[DEBUG] Installing AWS CLI"
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install && rm -rf aws awscliv2.zip
 fi
 time aws s3 cp $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg s3://neurocontainers/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg
 echo "[DEBUG] Done with uploading to AWS Object Storage!"
 
 if curl --output /dev/null --silent --head --fail "https://neurocontainers.neurodesk.org/temporary-builds-new/${IMAGENAME}_${BUILDDATE}.simg"; then
-    echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
-    echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
-    rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
+  echo "[DEBUG] ${IMAGENAME}_${BUILDDATE}.simg was freshly build and exists now :)"
+  echo "[DEBUG] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+  rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
 else
-    echo "[ERROR] ${IMAGENAME}_${BUILDDATE}.simg does not exist yet. Something is WRONG"
-    echo "[ERROR] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
-    rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
-    exit 2
+  echo "[ERROR] ${IMAGENAME}_${BUILDDATE}.simg does not exist yet. Something is WRONG"
+  echo "[ERROR] cleaning up $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg"
+  rm -rf $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg
+  exit 2
 fi
-
 
 if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-    if [ -n "$GH_REGISTRY" ]; then
-      echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
+  if [ -n "$GH_REGISTRY" ]; then
+    echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
     # Push to GH Packages
-      docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
-      docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-      time docker push $IMAGEID:$BUILDDATE
-      echo "[DEBUG] done Pushing to GitHub Registry!"
-      docker push $IMAGEID:latest
-    else
-      echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
-    fi
-    # Push to Dockerhub
-    if [ -n "$DOCKERHUB_ORG" ]; then
-      echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
-      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
-      docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
-      time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
-      echo "[DEBUG] done Pushing to Dockerhub Registry!"
-      docker push $DOCKERHUB_ORG/$IMAGENAME:latest
-    else
-      echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
-    fi
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
+    time docker push $IMAGEID:$BUILDDATE
+    echo "[DEBUG] done Pushing to GitHub Registry!"
+    docker push $IMAGEID:latest
+  else
+    echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
+  fi
+  # Push to Dockerhub
+  if [ -n "$DOCKERHUB_ORG" ]; then
+    echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
+    time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
+    echo "[DEBUG] done Pushing to Dockerhub Registry!"
+    docker push $DOCKERHUB_ORG/$IMAGENAME:latest
+  else
+    echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
+  fi
 else
-    echo "[DEBUG] Skipping push to registry. Not on main branch"
+  echo "[DEBUG] Skipping push to registry. Not on main branch"
 fi
-
