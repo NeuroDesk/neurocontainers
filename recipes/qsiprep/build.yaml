@@ -1,5 +1,5 @@
 name: qsiprep
-version: 0.20.0
+version: 1.0.1
 
 architectures:
   - x86_64
@@ -7,7 +7,7 @@ architectures:
 build:
   kind: neurodocker
 
-  base-image: pennbbl/qsiprep:0.20.0
+  base-image: pennbbl/qsiprep:{{ context.version }}
   pkg-manager: apt
 
   directives: []
