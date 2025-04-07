@@ -491,6 +491,9 @@ def main_generate(args):
             key, value = option.split("=")
             ctx.set_option(key, value)
 
+    # Set options from description file
+    ctx.calculate_version()
+
     if (readme == "") and ("readme_url" not in description_file):
         # If readme is not found, try to get it from a file
         readme_file = os.path.join(recipe_path, "README.md")
