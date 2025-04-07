@@ -7,7 +7,7 @@ architectures:
 build:
   kind: neurodocker
 
-  base-image: pennbbl/qsiprep:{{ context.version }}
+  base-image: pennlinc/qsiprep:{{ context.version }}
   pkg-manager: apt
 
   directives: []
