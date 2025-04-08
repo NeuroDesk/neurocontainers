@@ -424,6 +424,7 @@ def download_with_cache(url, check_only=False):
         with open(output_filename, "w") as f:
             f.write("")
         print("Check only mode: skipping file download.")
+        return output_filename
 
     # download the file
     print(f"Downloading {url} to {output_filename}")
