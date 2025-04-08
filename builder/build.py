@@ -617,6 +617,10 @@ def main_generate(args):
     else:
         raise ValueError("Build kind not supported.")
 
+    if args.check_only:
+        print("Dockerfile generated successfully at", dockerfile_name)
+        return
+
     if args.build:
         print("Building Docker image...")
 
@@ -745,6 +749,11 @@ def main(args):
         "--login",
         action="store_true",
         help="Run a interactive docker container with the generated image",
+    )
+    build_parser.add_argument(
+        "--check-only",
+        action="store_true",
+        help="Check the recipe and exit without building",
     )
 
     init_parser = command.add_parser(
