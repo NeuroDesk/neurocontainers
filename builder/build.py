@@ -123,7 +123,7 @@ class BuildContext(object):
     def file_exists(self, filename):
         return os.path.exists(os.path.join(self.build_directory, filename))
 
-    def build_neurodocker(self, build_directive, deploy, test_cases):
+    def build_neurodocker(self, build_directive, deploy):
         args = ["neurodocker", "generate", "docker"]
 
         base = self.execute_template(build_directive.get("base-image") or "")
@@ -259,9 +259,6 @@ class BuildContext(object):
                 ]
 
         args += ["--copy", "README.md", "/README.md"]
-
-        for test_case in test_cases:
-            args += ["--copy", f"tests/{test_case}", f"/tests/{test_case}"]
 
         p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         output, _ = p.communicate(input=b"y\n")
@@ -573,41 +570,11 @@ def main_generate(args):
         if "executable" in file and file["executable"]:
             os.chmod(output_filename, 0o755)
 
-    # if test.yaml is next to the description file, read it
-    test_info = []
-    test_file = os.path.join(recipe_path, "test.yaml")
-    if os.path.exists(test_file):
-        with open(test_file, "r") as f:
-            test_info = yaml.safe_load(f).get("tests") or []
-
-    test_cases = []
-
-    os.makedirs(os.path.join(ctx.build_directory, "tests"))
-
-    for test in test_info:
-        name = ctx.execute_template(test.get("name") or "")
-        script = ctx.execute_template(test.get("script") or "")
-        if name == "" or script == "":
-            raise ValueError("Test name or script cannot be empty.")
-
-        # Check if condition is met
-        if "if" in test:
-            if not ctx.execute_condition(test["if"]):
-                continue
-
-        filename = name.lower().replace(" ", "_") + ".sh"
-        test_cases.append(filename)
-
-        with open(os.path.join(ctx.build_directory, "tests", filename), "w") as f:
-            f.write(script)
-
-        os.chmod(os.path.join(ctx.build_directory, "tests", filename), 0o755)
-
     dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
 
     # Write Dockerfile
     if ctx.build_kind == "neurodocker":
-        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy, test_cases)
+        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy)
 
         with open(os.path.join(ctx.build_directory, dockerfile_name), "w") as f:
             f.write(dockerfile)
@@ -656,31 +623,11 @@ def main_generate(args):
             )
 
             print("Singularity image built successfully as", ctx.tag + ".sif")
-
-        if args.test:
-            print("Running tests...")
-            if len(test_cases) == 0:
-                print("No tests found.")
-                return
-
-            if not shutil.which("docker"):
-                raise ValueError("Docker not found in PATH.")
-
-            for filename in test_cases:
-                subprocess.check_call(
-                    ["docker", "run", ctx.tag, "/tests/" + filename],
-                    cwd=ctx.build_directory,
-                )
-
-            print("Tests passed.")
     else:
         if args.build_sif:
             raise ValueError(
                 "Building Singularity image requires building the Docker image first."
             )
-
-        if args.test:
-            raise ValueError("Running tests requires building the Docker image first.")
 
 
 def main(args):
@@ -726,9 +673,6 @@ def main(args):
         type=int,
         help="Maximum number of parallel jobs to run during the build",
         default=os.cpu_count(),
-    )
-    build_parser.add_argument(
-        "--test", action="store_true", help="Run tests after building"
     )
     build_parser.add_argument(
         "--ignore-architectures", action="store_true", help="Ignore architecture checks"

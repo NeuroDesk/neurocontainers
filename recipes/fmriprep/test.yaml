@@ -1,0 +1,35 @@
+tests:
+  - name: full test
+    manual: true
+
+    files:
+      - name: license.txt
+        contents: |
+          Steffen.Bollmann@cai.uq.edu.au
+          21029
+          *Cqyn12sqTCxo
+          FSxgcvGkNR59Y
+
+    shares:
+      - name: ds000102
+        manual: true
+        instructions:
+          datalad install https://github.com/OpenNeuroDatasets/ds000102.git
+          cd ds000102 && datalad get sub-08
+
+    script: |
+      #!/bin/bash
+
+      export SUBJECTS_DIR=$PWD/fmriprep-freesurfer-dir
+      export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=2 
+      export MPLCONFIGDIR=~/matplotlib-mpldir
+
+      fmriprep ds000102/ fmriprep-output participant \
+        --fs-license-file {{ get_file("license.txt") }} \
+        --output-spaces T1w MNI152NLin2009cAsym fsaverage fsnative \
+        --participant-label 08 \
+        --nprocs $ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS \
+        --mem 10000 \
+        --skip_bids_validation \
+        --fs-subjects-dir $SUBJECTS_DIR \
+        -v
