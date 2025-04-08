@@ -404,7 +404,7 @@ def get_cache_dir():
     return cache_dir
 
 
-def download_with_cache(url):
+def download_with_cache(url, check_only=False):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
         raise ValueError("curl not found in PATH.")
@@ -568,7 +568,7 @@ def main_generate(args):
         elif "url" in file:
             # download and cache the file
             url = ctx.execute_template(file["url"])
-            cached_file = download_with_cache(url)
+            cached_file = download_with_cache(url, args.check_only)
             shutil.copy(cached_file, output_filename)
         else:
             raise ValueError("File contents not found.")
