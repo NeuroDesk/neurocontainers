@@ -404,7 +404,7 @@ def get_cache_dir():
     return cache_dir
 
 
-def download_with_cache(url):
+def download_with_cache(url, check_only=False):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
         raise ValueError("curl not found in PATH.")
@@ -417,6 +417,13 @@ def download_with_cache(url):
     # Make the output filename and check if it exists
     output_filename = os.path.join(cache_dir, filename)
     if os.path.exists(output_filename):
+        return output_filename
+
+    # Skip download if check_only is True
+    if check_only:
+        with open(output_filename, "w") as f:
+            f.write("")
+        print("Check only mode: skipping file download.")
         return output_filename
 
     # download the file
@@ -568,7 +575,7 @@ def main_generate(args):
         elif "url" in file:
             # download and cache the file
             url = ctx.execute_template(file["url"])
-            cached_file = download_with_cache(url)
+            cached_file = download_with_cache(url, args.check_only)
             shutil.copy(cached_file, output_filename)
         else:
             raise ValueError("File contents not found.")
@@ -616,6 +623,10 @@ def main_generate(args):
             f.write(dockerfile)
     else:
         raise ValueError("Build kind not supported.")
+
+    if args.check_only:
+        print("Dockerfile generated successfully at", dockerfile_name)
+        return
 
     if args.build:
         print("Building Docker image...")
@@ -745,6 +756,11 @@ def main(args):
         "--login",
         action="store_true",
         help="Run a interactive docker container with the generated image",
+    )
+    build_parser.add_argument(
+        "--check-only",
+        action="store_true",
+        help="Check the recipe and exit without building",
     )
 
     init_parser = command.add_parser(
