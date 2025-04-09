@@ -270,7 +270,13 @@ class BuildContext(object):
 
         # Hack to remove the localedef installation since neurodocker adds it.
         if build_directive.get("fix-locale-def"):
-            output = output.replace("localedef", "")
+            # go though the output looking for the first line containing localedef and remove it.
+            lines = output.split("\n")
+            for i, line in enumerate(lines):
+                if "localedef" in line:
+                    lines[i] = ""
+                    break
+            output = "\n".join(lines)
 
         return output
 

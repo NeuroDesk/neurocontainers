@@ -10,6 +10,7 @@ build:
   base-image: ghcr.io/neurodesk/freesurfer_7.3.2:20230216
   pkg-manager: yum
 
+  # Delete the line containing localedef which is added automatically by NeuroDocker.
   fix-locale-def: true
 
   directives:
@@ -41,7 +42,7 @@ build:
         - cd deepRetinotopy_TheToolbox
         - git checkout 690a683016b4c7423aa6a6c80dc91cf476629a12
         - files_to_download=("osfstorage/new_models/deepRetinotopy_polarAngle_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_LH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_polarAngle_RH_model4.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_RH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_RH_model5.pt")
-        - for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done'
+        - for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done
 
     - workdir: /opt/deepRetinotopy_TheToolbox
 
