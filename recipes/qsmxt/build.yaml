@@ -1,5 +1,6 @@
 name: qsmxt
 version: 8.0.2
+
 architectures:
   - x86_64
   - aarch64
