@@ -1,6 +1,7 @@
 # this template file builds cat12, new versions here: http://141.35.69.218/cat12/?C=M;O=D
 name: cat12
 version: "12.9"
+draft: true
 
 # https://github.com/ChristianGaser/cat12/releases
 # with 12.9 we use the new versioning scheme instead of the old (r****)
@@ -40,20 +41,18 @@ build:
     - group:
         # Based on: https://github.com/ReproNim/neurodocker/blob/91e3247ffb0d176f77c3ac3b3837acf8f252fd06/neurodocker/templates/cat12.yaml
         - install: ca-certificates curl unzip
-        - copy: cat12.zip /tmp/cat12.zip
         - run:
             # Install cat12
-            - unzip -q /tmp/cat12.zip -d /tmp
-            - rm -rf /tmp/cat12.zip
+            - unzip -q {{ get_file("cat12.zip") }} -d /tmp
             - mkdir -p {{ local.install_path }}
             - mv /tmp/*{{ context.cat12_version }}*/* {{ local.install_path }}/
             - chmod -R 777 {{ local.install_path }}
-        # - run:
+        - run:
             # Test
-            # - "{{ local.install_path }}/spm12 function exit"
+            - "{{ local.install_path }}/spm12 function exit"
             # Fix m file
-            # - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
-            # - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            - rm {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
+            - cp {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.txt {{ local.install_path }}/spm12_mcr/home/gaser/gaser/spm/spm12/toolbox/cat12/cat_long_main.m
         - environment:
             FORCE_SPMMCR: "1"
             SPM_HTML_BROWSER: "0"

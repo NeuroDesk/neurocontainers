@@ -44,11 +44,95 @@ ARCHITECTURES = {
     "aarch64": "aarch64",
 }
 
+
+def get_cache_dir():
+    # Get the cache directory
+    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
+    if not os.path.exists(cache_dir):
+        os.makedirs(cache_dir)
+
+    return cache_dir
+
+
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
 
+class LocalBuildContext(object):
+    def __init__(self, context, cache_id):
+        self.context = context
+        self.run_args = []
+        self.mounted_cache = False
+        self.cache_id = cache_id
+
+    def try_mount_cache(self):
+        target = "/.neurocontainer-cache/" + self.cache_id
+
+        if self.mounted_cache:
+            return target
+
+        cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cache_relpath = os.path.relpath(cache_dir, self.context.build_directory)
+
+        self.run_args.append(
+            f"--mount=type=bind,source={cache_relpath},target={target},readonly"
+        )
+        self.mounted_cache = True
+
+        return target
+
+    def ensure_context_cached(self, cache_filename, guest_filename):
+        # Check if the file is already cached
+        context_cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cached_file = os.path.join(context_cache_dir, guest_filename)
+        if os.path.exists(cached_file):
+            return guest_filename
+
+        # if not then link it from the cache
+        os.link(cache_filename, cached_file)
+
+        # return the filename
+        return guest_filename
+
+    def get_file(self, filename):
+        file_info = self.context.files.get(filename)
+        if file_info is None:
+            raise ValueError(f"File {filename} not found.")
+
+        if "cached_path" in file_info:
+            cache_dir = self.try_mount_cache()
+            cache_filename = self.ensure_context_cached(
+                file_info["cached_path"],
+                filename,
+            )
+            return cache_dir + "/" + cache_filename
+        else:
+            raise ValueError("File has no cached path or context path.")
+
+    def methods(self):
+        return {
+            "get_file": self.get_file,
+        }
+
+
+def hash_obj(obj):
+    # Hash the object using SHA256
+    if isinstance(obj, str):
+        obj = obj.encode("utf-8")
+    elif isinstance(obj, dict):
+        obj = yaml.dump(obj).encode("utf-8")
+    elif isinstance(obj, list):
+        obj = yaml.dump(obj).encode("utf-8")
+    else:
+        raise ValueError("Object type not supported.")
+
+    return hashlib.sha256(obj).hexdigest()
+
+
 class BuildContext(object):
-    def __init__(self, name, version, arch):
+    def __init__(self, base_path, name, version, arch):
+        self.base_path = base_path
         self.name = name
         self.version = version
         self.original_version = version
@@ -56,6 +140,7 @@ class BuildContext(object):
         self.max_parallel_jobs = os.cpu_count()
         self.options = {}
         self.option_info = {}
+        self.files = {}
 
     def add_option(self, key, description="", default=False, version_suffix=""):
         self.options[key] = default
@@ -89,27 +174,37 @@ class BuildContext(object):
     def set_max_parallel_jobs(self, max_parallel_jobs):
         self.max_parallel_jobs = max_parallel_jobs
 
-    def render_template(self, template, locals=None):
+    def get_context_cache_dir(self, cache_id):
+        cache_dir = os.path.join(self.build_directory, "cache", cache_id)
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+
+        return cache_dir
+
+    def render_template(self, template, locals=None, methods=None):
         tpl = _jinja_env.from_string(template)
         return tpl.render(
             context=self,
             arch=self.arch,
             parallel_jobs=self.max_parallel_jobs,
             local=locals,
+            **(methods or {}),
         )
 
     def execute_condition(self, condition, locals=None):
         result = self.render_template("{{" + condition + "}}", locals=locals)
         return result == "True"
 
-    def execute_template(self, obj, locals=None):
+    def execute_template(self, obj, locals=None, methods=None):
         if type(obj) == str:
             try:
-                return self.render_template(obj, locals=locals)
+                return self.render_template(obj, locals=locals, methods=methods)
             except jinja2.exceptions.TemplateSyntaxError as e:
                 raise ValueError(f"Template syntax error: {e} in {obj}")
         elif type(obj) == list:
-            return [self.execute_template(o, locals=locals) for o in obj]
+            return [
+                self.execute_template(o, locals=locals, methods=methods) for o in obj
+            ]
         elif type(obj) == dict:
             if "try" in obj:
                 for value in obj["try"]:
@@ -120,10 +215,62 @@ class BuildContext(object):
         else:
             raise ValueError("Template object not supported.")
 
+    def add_file(self, file, recipe_path, check_only=False):
+        name = file["name"]
+
+        if name == "":
+            raise ValueError("File name cannot be empty.")
+
+        output_filename = os.path.join(self.build_directory, name)
+
+        if "url" in file:
+            # download and cache the file
+            url = self.execute_template(file["url"])
+            cached_file = download_with_cache(url, check_only=check_only)
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "cached_path": cached_file,
+            }
+        else:
+            if "contents" in file:
+                contents = self.execute_template(file["contents"])
+                with open(output_filename, "w") as f:
+                    f.write(contents)
+            elif "filename" in file:
+                base = os.path.abspath(recipe_path)
+                filename = os.path.join(base, file["filename"])
+                with open(output_filename, "wb") as f:
+                    with open(filename, "rb") as f2:
+                        f.write(f2.read())
+            else:
+                raise ValueError("File contents not found.")
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "cached_path": output_filename,
+            }
+
     def file_exists(self, filename):
         return os.path.exists(os.path.join(self.build_directory, filename))
 
-    def build_neurodocker(self, build_directive, deploy, test_cases):
+    def generate_cache_id(self, directive):
+        return "h" + directive[:8]
+
+    def load_include_file(self, filename):
+        filename = os.path.join(self.base_path, filename)
+
+        if not os.path.exists(filename):
+            raise ValueError(f"Include file {filename} not found.")
+
+        with open(filename, "r") as f:
+            return yaml.safe_load(f)
+
+    def build_neurodocker(self, build_directive, deploy):
         args = ["neurodocker", "generate", "docker"]
 
         base = self.execute_template(build_directive.get("base-image") or "")
@@ -164,12 +311,18 @@ class BuildContext(object):
                 else:
                     raise ValueError("Install directive must be a string or list.")
             elif "run" in directive:
-                return [
-                    "--run="
-                    + " \\\n && ".join(
-                        self.execute_template(directive["run"], locals=locals)
-                    )
-                ]
+                local = LocalBuildContext(
+                    self, self.generate_cache_id(hash_obj(directive))
+                )
+                args = self.execute_template(
+                    directive["run"],
+                    locals=locals,
+                    methods=local.methods(),
+                )
+                run_param = (
+                    "--run=" + " ".join(local.run_args) + " " + " \\\n && ".join(args)
+                )
+                return [run_param]
             elif "workdir" in directive:
                 return [
                     "--workdir",
@@ -238,6 +391,28 @@ class BuildContext(object):
                     ret += add_directive(item, locals=variables)
 
                 return ret
+            elif "include" in directive:
+                filename = self.execute_template(
+                    directive["include"] or "", locals=locals
+                )
+
+                include_file = self.load_include_file(filename)
+
+                if include_file.get("builder") != "neurodocker":
+                    raise ValueError("Include file must be a neurodocker file.")
+
+                variables = {**locals}
+
+                if "with" in directive:
+                    for key, value in directive["with"].items():
+                        variables[key] = self.execute_template(value, locals=variables)
+
+                ret = []
+
+                for directive in include_file["directives"]:
+                    ret += add_directive(directive, locals=variables)
+
+                return ret
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
@@ -259,9 +434,6 @@ class BuildContext(object):
                 ]
 
         args += ["--copy", "README.md", "/README.md"]
-
-        for test_case in test_cases:
-            args += ["--copy", f"tests/{test_case}", f"/tests/{test_case}"]
 
         p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         output, _ = p.communicate(input=b"y\n")
@@ -380,13 +552,22 @@ def main_init(args):
                 "name": name,
                 "version": version,
                 "architectures": ["x86_64"],
+                "files": [
+                    {
+                        "name": "hello.txt",  # Example file
+                        "contents": "Hello, world!",  # Example content
+                    }
+                ],
                 "build": {
                     "kind": "neurodocker",
                     "base-image": "ubuntu:24.04",
                     "pkg-manager": "apt",
                     "directives": [
-                        {"run": ["echo 'Hello World'"]},
+                        {"run": ['cat {{ get_file("hello.txt") }}']},
                     ],
+                },
+                "deploy": {
+                    "bins": ["TODO"],
                 },
                 "readme": "TODO",
             },
@@ -443,6 +624,7 @@ def download_with_cache(url, check_only=False):
 
 
 def main_generate(args):
+    base_path = os.getcwd()
     recipe_path = get_recipe_directory(args.name)
 
     # Load description file
@@ -472,6 +654,9 @@ def main_generate(args):
     draft = description_file.get("draft") or False
     if draft:
         print("WARN: This is a draft recipe.")
+        if args.auto_build:
+            print("WARN: Auto build is enabled. Skipping build.")
+            return
 
     arch = ARCHITECTURES[platform.machine()]
 
@@ -482,7 +667,7 @@ def main_generate(args):
     if arch not in allowed_architectures and not args.ignore_architectures:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
 
-    ctx = BuildContext(name, version, arch)
+    ctx = BuildContext(base_path, name, version, arch)
     ctx.set_max_parallel_jobs(args.max_parallel_jobs)
 
     if "variables" in description_file:
@@ -543,6 +728,13 @@ def main_generate(args):
 
     ctx.deploy = description_file.get("deploy") or None
 
+    # Check if deploy is empty
+    if ctx.deploy is None:
+        raise ValueError("No deploy info found in description file.")
+
+    if len(ctx.deploy.get("path", [])) == 0 and len(ctx.deploy.get("bins", [])) == 0:
+        raise ValueError("No deploy path or bins found in description file.")
+
     # Create build directory
     ctx.build_directory = os.path.join(args.output_directory, name)
 
@@ -559,71 +751,14 @@ def main_generate(args):
         f.write(ctx.readme)
 
     # Write all files
-    ctx.files = description_file.get("files") or []
-    for file in ctx.files:
-        name = file["name"]
-
-        if name == "":
-            raise ValueError("File name cannot be empty.")
-
-        output_filename = os.path.join(ctx.build_directory, name)
-
-        if "contents" in file:
-            contents = ctx.execute_template(file["contents"])
-            with open(output_filename, "w") as f:
-                f.write(contents)
-        elif "filename" in file:
-            base = os.path.abspath(recipe_path)
-            filename = os.path.join(base, file["filename"])
-            with open(output_filename, "wb") as f:
-                with open(filename, "rb") as f2:
-                    f.write(f2.read())
-        elif "url" in file:
-            # download and cache the file
-            url = ctx.execute_template(file["url"])
-            cached_file = download_with_cache(url, args.check_only)
-            shutil.copy(cached_file, output_filename)
-        else:
-            raise ValueError("File contents not found.")
-
-        if "executable" in file and file["executable"]:
-            os.chmod(output_filename, 0o755)
-
-    # if test.yaml is next to the description file, read it
-    test_info = []
-    test_file = os.path.join(recipe_path, "test.yaml")
-    if os.path.exists(test_file):
-        with open(test_file, "r") as f:
-            test_info = yaml.safe_load(f).get("tests") or []
-
-    test_cases = []
-
-    os.makedirs(os.path.join(ctx.build_directory, "tests"))
-
-    for test in test_info:
-        name = ctx.execute_template(test.get("name") or "")
-        script = ctx.execute_template(test.get("script") or "")
-        if name == "" or script == "":
-            raise ValueError("Test name or script cannot be empty.")
-
-        # Check if condition is met
-        if "if" in test:
-            if not ctx.execute_condition(test["if"]):
-                continue
-
-        filename = name.lower().replace(" ", "_") + ".sh"
-        test_cases.append(filename)
-
-        with open(os.path.join(ctx.build_directory, "tests", filename), "w") as f:
-            f.write(script)
-
-        os.chmod(os.path.join(ctx.build_directory, "tests", filename), 0o755)
+    for file in description_file.get("files", []):
+        ctx.add_file(file, recipe_path, check_only=args.check_only)
 
     dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
 
     # Write Dockerfile
     if ctx.build_kind == "neurodocker":
-        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy, test_cases)
+        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy)
 
         with open(os.path.join(ctx.build_directory, dockerfile_name), "w") as f:
             f.write(dockerfile)
@@ -676,31 +811,11 @@ def main_generate(args):
             )
 
             print("Singularity image built successfully as", ctx.tag + ".sif")
-
-        if args.test:
-            print("Running tests...")
-            if len(test_cases) == 0:
-                print("No tests found.")
-                return
-
-            if not shutil.which("docker"):
-                raise ValueError("Docker not found in PATH.")
-
-            for filename in test_cases:
-                subprocess.check_call(
-                    ["docker", "run", ctx.tag, "/tests/" + filename],
-                    cwd=ctx.build_directory,
-                )
-
-            print("Tests passed.")
     else:
         if args.build_sif:
             raise ValueError(
                 "Building Singularity image requires building the Docker image first."
             )
-
-        if args.test:
-            raise ValueError("Running tests requires building the Docker image first.")
 
 
 def main(args):
@@ -748,9 +863,6 @@ def main(args):
         default=os.cpu_count(),
     )
     build_parser.add_argument(
-        "--test", action="store_true", help="Run tests after building"
-    )
-    build_parser.add_argument(
         "--ignore-architectures", action="store_true", help="Ignore architecture checks"
     )
     build_parser.add_argument(
@@ -767,6 +879,11 @@ def main(args):
         "--check-only",
         action="store_true",
         help="Check the recipe and exit without building",
+    )
+    build_parser.add_argument(
+        "--auto-build",
+        action="store_true",
+        help="Set if the recipe is being built in CI",
     )
 
     init_parser = command.add_parser(

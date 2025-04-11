@@ -23,7 +23,7 @@ build:
         PATH: "'$PATH':/opt/pydeface/bin"
 
 deploy:
-  paths:
+  path:
     - /opt/pydeface-{{ context.version }}/bin/
     - /opt/pydeface/bin
 
