@@ -13,5 +13,5 @@ for dir in recipes/*/; do
 
     echo "Checking ${name}..."
 
-    python3 builder/build.py generate $name --recreate --ignore-architectures --check-only
+    python3 builder/build.py generate $name --recreate --ignore-architectures --check-only --auto-build
 done
