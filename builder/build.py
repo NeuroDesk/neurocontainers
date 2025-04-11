@@ -657,7 +657,8 @@ def main_generate(args):
     if draft:
         print("WARN: This is a draft recipe.")
         if args.auto_build:
-            raise ValueError("Draft recipes cannot be built automatically in CI.")
+            print("WARN: Auto build is enabled. Skipping build.")
+            return
 
     arch = ARCHITECTURES[platform.machine()]
 

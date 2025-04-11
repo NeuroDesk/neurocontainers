@@ -76,6 +76,11 @@ jobs:
         id: IMAGEVARS
         run: |
           DOCKERFILE=`basename $(find ./build/$APPLICATION/ -type f -iname "*.Dockerfile" | head -1)`
+          # if the dockerfile is not found, exit with error
+          if [ -z "$DOCKERFILE" ]; then
+            echo "Dockerfile not found for $APPLICATION"
+            exit 1
+          fi
           IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
           echo "IMAGENAME: $IMAGENAME"
           echo "IMAGENAME_TEST=${IMAGENAME//_/ }" >> $GITHUB_ENV
