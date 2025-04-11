@@ -218,7 +218,7 @@ class BuildContext(object):
         else:
             raise ValueError("Template object not supported.")
 
-    def add_file(self, file, recipe_path):
+    def add_file(self, file, recipe_path, check_only=False):
         name = file["name"]
 
         if name == "":
@@ -229,7 +229,7 @@ class BuildContext(object):
         if "url" in file:
             # download and cache the file
             url = self.execute_template(file["url"])
-            cached_file = download_with_cache(url)
+            cached_file = download_with_cache(url, check_only=check_only)
 
             if "executable" in file and file["executable"]:
                 os.chmod(output_filename, 0o755)
@@ -704,7 +704,7 @@ def main_generate(args):
 
     # Write all files
     for file in description_file.get("files", []):
-        ctx.add_file(file, recipe_path)
+        ctx.add_file(file, recipe_path, check_only=args.check_only)
 
     dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
 
