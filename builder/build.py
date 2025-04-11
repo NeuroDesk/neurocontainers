@@ -131,7 +131,8 @@ def hash_obj(obj):
 
 
 class BuildContext(object):
-    def __init__(self, name, version, arch):
+    def __init__(self, base_path, name, version, arch):
+        self.base_path = base_path
         self.name = name
         self.version = version
         self.original_version = version
@@ -262,6 +263,15 @@ class BuildContext(object):
     def generate_cache_id(self, directive):
         return "h" + directive[:8]
 
+    def load_include_file(self, filename):
+        filename = os.path.join(self.base_path, filename)
+
+        if not os.path.exists(filename):
+            raise ValueError(f"Include file {filename} not found.")
+
+        with open(filename, "r") as f:
+            return yaml.safe_load(f)
+
     def build_neurodocker(self, build_directive, deploy):
         args = ["neurodocker", "generate", "docker"]
 
@@ -381,6 +391,28 @@ class BuildContext(object):
 
                 for item in directive["group"]:
                     ret += add_directive(item, locals=variables)
+
+                return ret
+            elif "include" in directive:
+                filename = self.execute_template(
+                    directive["include"] or "", locals=locals
+                )
+
+                include_file = self.load_include_file(filename)
+
+                if include_file.get("builder") != "neurodocker":
+                    raise ValueError("Include file must be a neurodocker file.")
+
+                variables = {**locals}
+
+                if "with" in directive:
+                    for key, value in directive["with"].items():
+                        variables[key] = self.execute_template(value, locals=variables)
+
+                ret = []
+
+                for directive in include_file["directives"]:
+                    ret += add_directive(directive, locals=variables)
 
                 return ret
             else:
@@ -594,6 +626,7 @@ def download_with_cache(url, check_only=False):
 
 
 def main_generate(args):
+    base_path = os.getcwd()
     recipe_path = get_recipe_directory(args.name)
 
     # Load description file
@@ -635,7 +668,7 @@ def main_generate(args):
     if arch not in allowed_architectures and not args.ignore_architectures:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
 
-    ctx = BuildContext(name, version, arch)
+    ctx = BuildContext(base_path, name, version, arch)
     ctx.set_max_parallel_jobs(args.max_parallel_jobs)
 
     if "variables" in description_file:
