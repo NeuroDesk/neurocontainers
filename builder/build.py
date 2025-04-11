@@ -616,6 +616,8 @@ def main_generate(args):
     draft = description_file.get("draft") or False
     if draft:
         print("WARN: This is a draft recipe.")
+        if args.auto_build:
+            raise ValueError("Draft recipes cannot be built automatically in CI.")
 
     arch = ARCHITECTURES[platform.machine()]
 
@@ -831,6 +833,11 @@ def main(args):
         "--check-only",
         action="store_true",
         help="Check the recipe and exit without building",
+    )
+    build_parser.add_argument(
+        "--auto-build",
+        action="store_true",
+        help="Set if the recipe is being built in CI",
     )
 
     init_parser = command.add_parser(

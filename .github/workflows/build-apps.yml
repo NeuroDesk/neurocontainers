@@ -71,7 +71,7 @@ jobs:
       - name: Generate Dockerfile
         run: |
           echo "APPLICATION: $APPLICATION"
-          ./builder/build.py generate $APPLICATION --recreate
+          ./builder/build.py generate $APPLICATION --recreate --auto-build
       - name: Set image variables
         id: IMAGEVARS
         run: |
