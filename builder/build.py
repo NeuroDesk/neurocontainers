@@ -208,9 +208,7 @@ class BuildContext(object):
         elif type(obj) == dict:
             if "try" in obj:
                 for value in obj["try"]:
-                    if self.execute_condition(
-                        value["condition"], locals=locals, methods=methods
-                    ):
+                    if self.execute_condition(value["condition"], locals=locals):
                         return self.execute_template(value["value"])
 
                 raise NotImplementedError("Try not implemented.")
