@@ -107,8 +107,6 @@ class LocalBuildContext(object):
                 filename,
             )
             return cache_dir + "/" + cache_filename
-        elif "context_path" in file_info:
-            return file_info["context_path"]
         else:
             raise ValueError("File has no cached path or context path.")
 
@@ -255,7 +253,7 @@ class BuildContext(object):
                 os.chmod(output_filename, 0o755)
 
             self.files[name] = {
-                "context_path": file["filename"],
+                "cached_path": output_filename,
             }
 
     def file_exists(self, filename):
@@ -524,13 +522,22 @@ def main_init(args):
                 "name": name,
                 "version": version,
                 "architectures": ["x86_64"],
+                "files": [
+                    {
+                        "name": "hello.txt",  # Example file
+                        "contents": "Hello, world!",  # Example content
+                    }
+                ],
                 "build": {
                     "kind": "neurodocker",
                     "base-image": "ubuntu:24.04",
                     "pkg-manager": "apt",
                     "directives": [
-                        {"run": ["echo 'Hello World'"]},
+                        {"run": ['cat {{ get_file("hello.txt") }}']},
                     ],
+                },
+                "deploy": {
+                    "bins": ["TODO"],
                 },
                 "readme": "TODO",
             },
@@ -688,6 +695,13 @@ def main_generate(args):
         raise ValueError("Build kind cannot be empty.")
 
     ctx.deploy = description_file.get("deploy") or None
+
+    # Check if deploy is empty
+    if ctx.deploy is None:
+        raise ValueError("No deploy info found in description file.")
+
+    if len(ctx.deploy.get("path", [])) == 0 and len(ctx.deploy.get("bins", [])) == 0:
+        raise ValueError("No deploy path or bins found in description file.")
 
     # Create build directory
     ctx.build_directory = os.path.join(args.output_directory, name)
