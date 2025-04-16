@@ -1,5 +1,5 @@
 name: qsmxt
-version: 8.0.2
+version: 8.0.3
 
 architectures:
   - x86_64
@@ -138,6 +138,7 @@ build:
     - run:
         - pip install dunamai
         - pip install git+https://github.com/astewartau/nii2dcm.git@qsm
+        - pip install nextqsm
         - nextqsm --download_weights
 
     # Install FastSurfer
