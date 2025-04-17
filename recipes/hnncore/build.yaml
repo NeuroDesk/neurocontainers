@@ -32,7 +32,9 @@ build:
     - run:
         - pip install hnn_core hnn_core[opt] hnn_core[gui]
 
-deploy: {}
+deploy:
+  bins:
+    - hnn-gui
 
 readme: |-
   ## hnncore/{{ context.version }} ##
