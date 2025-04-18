@@ -9,7 +9,7 @@ bash /neurocommand/local/fetch_and_run.sh {{ env.IMAGENAME_TEST }} {{ env.BUILDD
 Or, for testing directly with Apptainer/Singularity:
 ```
 curl -X GET https://neurocontainers.neurodesk.org/temporary-builds-new/{{ env.IMAGENAME }}_{{ env.BUILDDATE }}.simg -O
-singularity shell {{ env.IMAGENAME }}_{{ env.BUILDDATE }}.simg
+singularity shell --overlay /tmp/apptainer_overlay {{ env.IMAGENAME }}_{{ env.BUILDDATE }}.simg
 ```
 
 If test was successful, then add to apps.json to release:
