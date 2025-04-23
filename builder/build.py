@@ -650,7 +650,7 @@ def main_generate(args):
 
         if args.login:
             subprocess.check_call(
-                ["docker", "run", "--rm", "-it", ctx.tag],
+                ["docker", "run", "--rm", "-it", "-v", "/:/host", ctx.tag],
                 cwd=ctx.build_directory,
             )
             return
