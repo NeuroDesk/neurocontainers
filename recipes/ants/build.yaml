@@ -15,7 +15,7 @@ build:
         method: source
         version: "{{ context.version }}"
     - install:
-        - coreutils
+        - bc
 
 deploy:
   path:
