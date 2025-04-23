@@ -557,6 +557,8 @@ def main_generate(args):
     # Write README.md
     with open(os.path.join(ctx.build_directory, "README.md"), "w") as f:
         f.write(ctx.readme)
+        #add empty line at the end so that promt in a container is on the new line:
+        f.write("\n")
 
     # Write all files
     ctx.files = description_file.get("files") or []
