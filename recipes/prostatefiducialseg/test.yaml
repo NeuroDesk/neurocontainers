@@ -31,7 +31,7 @@ tests:
         /host/home/ashley/repos/prostate/test/t1.h5 \
         -c prostatefiducialseg
 
-        python3 /opt/code/python-ismrmrd-server/client.py \
+      python3 /opt/code/python-ismrmrd-server/client.py \
         -G dataset \
         -o /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/output.h5 \
         /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/t1.h5 \
