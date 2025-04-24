@@ -1,11 +1,11 @@
 name: ants
-version: 2.5.4 # https://github.com/ANTsX/ANTs/releases
+version: 2.6.0 # https://github.com/ANTsX/ANTs/releases
 architectures:
   - x86_64
 build:
   kind: neurodocker
 
-  base-image: ubuntu:22.04
+  base-image: ubuntu:24.04
   pkg-manager: apt
 
   directives:
