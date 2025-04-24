@@ -16,6 +16,10 @@ tests:
         -o /host/home/ashley/repos/prostate/test/t1.h5 \
         /host/home/ashley/repos/prostate/test/t1_dcm
 
+      python /opt/code/python-ismrmrd-server/dicom2mrd.py \
+        -o /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/t1.h5 \
+        /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/t1_dcm
+
       # Start OpenRecon server
       python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -s -S=/tmp/share/saved_data &
       sleep 5
@@ -25,6 +29,12 @@ tests:
         -G dataset \
         -o /host/home/ashley/repos/prostate/test/output.h5 \
         /host/home/ashley/repos/prostate/test/t1.h5 \
+        -c prostatefiducialseg
+
+        python3 /opt/code/python-ismrmrd-server/client.py \
+        -G dataset \
+        -o /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/output.h5 \
+        /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/t1.h5 \
         -c prostatefiducialseg
 
       # Convert output ISMRMRD to DICOM
