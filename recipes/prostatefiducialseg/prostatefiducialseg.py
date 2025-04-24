@@ -213,7 +213,7 @@ def process_image(images, connection, config, metadata):
 
     currentSeries = 0
 
-    # TODO ADD 3D DIMENSION TO PASS THROUGH ORIGINAL
+    # TODO ADD another series TO PASS THROUGH ORIGINAL data as well.
 
     # Re-slice back into 2D images
     imagesOut = [None] * data.shape[-1]
