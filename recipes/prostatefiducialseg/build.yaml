@@ -43,6 +43,7 @@ build:
     # install mamba to speed up installs
     - run:
         - conda install mamba
+        - mamba clean --all --yes
 
     - run:
         - mamba install -y --name base "python=3.10"
