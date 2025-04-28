@@ -119,7 +119,5 @@ build:
 
 deploy:
   bins:
-    - python
-    - pip
     - predict2.py
 
