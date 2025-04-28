@@ -146,7 +146,7 @@ def process_image(images, connection, config, metadata):
         os.makedirs(debugFolder)
         logging.debug("Created folder " + debugFolder + " for debug output files")
 
-    logging.debug("Processing data with %d images of type %s", len(images), ismrmrd.get_dtype_from_data_type(images[0].data_type))
+    # logging.debug("Processing data with %d images of type %s", len(images), ismrmrd.get_dtype_from_data_type(images[0].data_type))
 
     # Note: The MRD Image class stores data as [cha z y x]
 
@@ -155,8 +155,28 @@ def process_image(images, connection, config, metadata):
     head = [img.getHead()                                  for img in images]
     meta = [ismrmrd.Meta.deserialize(img.attribute_string) for img in images]
 
+    # Diagnostic info
+    matrix    = np.array(head[0].matrix_size  [:]) 
+    fov       = np.array(head[0].field_of_view[:])
+    voxelsize = fov/matrix
+    read_dir  = np.array(images[0].read_dir )
+    phase_dir = np.array(images[0].phase_dir)
+    slice_dir = np.array(images[0].slice_dir)
+    logging.info(f'MRD computed maxtrix [x y z] : {matrix   }')
+    logging.info(f'MRD computed fov     [x y z] : {fov      }')
+    logging.info(f'MRD computed voxel   [x y z] : {voxelsize}')
+    logging.info(f'MRD read_dir         [x y z] : {read_dir }')
+    logging.info(f'MRD phase_dir        [x y z] : {phase_dir}')
+    logging.info(f'MRD slice_dir        [x y z] : {slice_dir}')
+
+    logging.debug("Original image data before transposing is %s" % (data.shape,))
+
     # Reformat data to [y x img cha z], i.e. [row ~col] for the first two dimensions
-    data = data.transpose((3, 4, 0, 1, 2))
+    # data = data.transpose((3, 4, 2, 1, 0))
+    # t1.h5 is 40 x 1 x 1 x 320 x 320
+    # data = data.transpose((3, 4, 0, 1, 2))
+    # after resorting it should be: 320 x 320 x 40 x 1 x 1
+    data = data.transpose((3, 4, 2, 1, 0))
 
     # Display MetaAttributes for first image
     # logging.debug("MetaAttributes[0]: %s", ismrmrd.Meta.serialize(meta[0]))
@@ -165,19 +185,21 @@ def process_image(images, connection, config, metadata):
     # if 'IceMiniHead' in meta[0]:
     #     logging.debug("IceMiniHead[0]: %s", base64.b64decode(meta[0]['IceMiniHead']).decode('utf-8'))
 
-    logging.debug("Original image data is size %s" % (data.shape,))
-    # e.g. gre with 128x128x10 with phase and magnitude results in [128 128 1 1 1]
-    # np.save(debugFolder + "/" + "imgOrig.npy", data)
+    logging.debug("Original image data after transposing is %s" % (data.shape,))
 
     # convert data to nifti using nibabel
     # prostatefiducialseg needs 3D data:
-    data = np.squeeze(data)
-    logging.debug("Cropped to 3D from Original image data is size %s" % (data.shape,))
+    # data = np.squeeze(data)
+    data = data[:,:,0,0,:]
+    logging.debug("Squeezed to 3D: %s" % (data.shape,))
 
     xform = np.eye(4)
-    data = np.rot90(data, k=-1, axes=(0, 1)) # tried (0,2)
+    # data = np.rot90(data, k=-1, axes=(0, 1)) # tried (0,2)
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
+    # debug
+    subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # debug
 
     subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/prostate-fiducial-seg/model.pth", "-o", "output"])
 
@@ -185,31 +207,36 @@ def process_image(images, connection, config, metadata):
 
     print('Processing done')
     # TODO add t1_from_h5.nii AND MAKE THIS 4D
-    img = nib.load('output/prob_class1.nii.gz')
+
+    subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+
+    # img = nib.load('output/prob_class1.nii.gz')
+    img = nib.load('t1_from_h5.nii')
     data = img.get_fdata()
+    logging.debug("Shape after loading output data is %s" % (data.shape,))
 
     # Reformat data
-    print("shape after loading with nibabel")
-    print(data.shape)
     data = data[:, :, :, None, None]
-    data = data.transpose((0, 1, 4, 3, 2))
+    logging.debug("Output data before transposing is %s" % (data.shape,))
+    
 
-    if ('parameters' in config) and ('options' in config['parameters']) and (config['parameters']['options'] == 'complex'):
-        # Complex images are requested
-        data = data.astype(np.complex64)
-        maxVal = data.max()
-    else:
-        # Determine max value (12 or 16 bit)
-        BitsStored = 12
-        # if (mrdhelper.get_userParameterLong_value(metadata, "BitsStored") is not None):
-        #     BitsStored = mrdhelper.get_userParameterLong_value(metadata, "BitsStored")
-        maxVal = 2**BitsStored - 1
+    data = data.transpose((0, 1, 3, 4, 2))
 
-        # Normalize and convert to int16
-        data = data.astype(np.float64)
-        data *= maxVal/data.max()
-        data = np.around(data)
-        data = data.astype(np.int16)
+    logging.debug("Output data after transposing is %s" % (data.shape,))
+
+
+
+    # Determine max value (12 or 16 bit)
+    BitsStored = 12
+    # if (mrdhelper.get_userParameterLong_value(metadata, "BitsStored") is not None):
+    #     BitsStored = mrdhelper.get_userParameterLong_value(metadata, "BitsStored")
+    maxVal = 2**BitsStored - 1
+
+    # Normalize and convert to int16
+    data = data.astype(np.float64)
+    data *= maxVal/data.max()
+    data = np.around(data)
+    data = data.astype(np.int16)
 
     currentSeries = 0
 
@@ -229,10 +256,6 @@ def process_image(images, connection, config, metadata):
         # (we changed it to int16 from all other types)
         oldHeader = head[iImg]
         oldHeader.data_type = imagesOut[iImg].data_type
-
-        # Set the image_type to match the data_type for complex data
-        if (imagesOut[iImg].data_type == ismrmrd.DATATYPE_CXFLOAT) or (imagesOut[iImg].data_type == ismrmrd.DATATYPE_CXDOUBLE):
-            oldHeader.image_type = ismrmrd.IMTYPE_COMPLEX
 
         # Unused example, as images are grouped by series before being passed into this function now
         # oldHeader.image_series_index = currentSeries
