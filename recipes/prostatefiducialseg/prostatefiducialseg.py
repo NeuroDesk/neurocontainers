@@ -179,7 +179,7 @@ def process_image(images, connection, config, metadata):
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
 
-    subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/prostate-fiducial-seg/model.pth", "-o", "output"])
+    subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
 
     logging.info("Config: \n%s", config)
 
