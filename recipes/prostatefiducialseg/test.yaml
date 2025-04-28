@@ -6,7 +6,7 @@ tests:
 
       predict2.py \
         -i /host/home/ashley/repos/prostate/test/t1_new.nii \
-        -m /opt/prostate-fiducial-seg/model.pth \
+        -m /opt/models/model.pth \
         -o /host/home/ashley/repos/prostate/test/output
 
       # === TEST PREDICTION WITH OPENRECON ===

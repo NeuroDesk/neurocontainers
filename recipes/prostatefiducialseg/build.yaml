@@ -103,16 +103,21 @@ build:
     # install pip packages
     - run:
         - pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
-        - pip install nibabel SimpleITK osfclient
+        - pip install nibabel SimpleITK osfclient torchio
+
+    # download model
+    - workdir: /opt
+    - run:
+        - mkdir -p /opt/models
+        - osf -p f7hjv fetch T1-20250428-163831-0-best1.pth /opt/models/model.pth
 
     # clone prostate segmentation repository
     - workdir: /opt
     - run:
         - git clone https://github.com/astewartau/prostate-fiducial-seg.git
-        - cd prostate-fiducial-seg
-        - git checkout 4114201
+        - cd /opt/prostate-fiducial-seg
+        - git checkout 6daa4e3
         - chmod +x predict2.py
-        - osf -p f7hjv fetch model.pth /opt/prostate-fiducial-seg/model.pth
     - environment:
         PATH: /opt/prostate-fiducial-seg:$PATH
     - copy: prostatefiducialseg.py /opt/code/python-ismrmrd-server/prostatefiducialseg.py

@@ -201,7 +201,7 @@ def process_image(images, connection, config, metadata):
     subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # debug
 
-    subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/prostate-fiducial-seg/model.pth", "-o", "output"])
+    subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
 
     logging.info("Config: \n%s", config)
 
