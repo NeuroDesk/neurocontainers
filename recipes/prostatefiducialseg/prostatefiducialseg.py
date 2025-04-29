@@ -198,7 +198,7 @@ def process_image(images, connection, config, metadata):
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
     # debug
-    subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # debug
 
     subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
@@ -208,7 +208,9 @@ def process_image(images, connection, config, metadata):
     print('Processing done')
     # TODO add t1_from_h5.nii AND MAKE THIS 4D
 
-    subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # subprocess.run(["cp", "output/prob_class0.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # subprocess.run(["cp", "output/prob_class2.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
 
     # img = nib.load('output/prob_class1.nii.gz')
     img = nib.load('t1_from_h5.nii')
