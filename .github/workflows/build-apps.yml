@@ -87,8 +87,12 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-      - name: Run docker builder + Upload to docker and github registry
+      - name: Run docker builder
         run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
+      - name: Run simg build from docker image
+        run: /bin/bash .github/workflows/build-simg.sh $IMAGENAME
+      - name: Upload nectar object storage
+        run: /bin/bash .github/workflows/upload-nectar.sh $IMAGENAME
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722
         with:
