@@ -125,8 +125,9 @@ def process(connection, config, metadata):
 
         if len(imgGroup) > 0:
             logging.info("Processing a group of images (untriggered)")
-            image = process_image(imgGroup, connection, config, metadata)
+            image,segmentation = process_image(imgGroup, connection, config, metadata)
             connection.send_image(image)
+            connection.send_image(segmentation)
             imgGroup = []
 
     except Exception as e:
@@ -212,21 +213,15 @@ def process_image(images, connection, config, metadata):
     # subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # subprocess.run(["cp", "output/prob_class2.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
 
-    img = nib.load('output/prob_class1.nii.gz')
-    # img = nib.load('t1_from_h5.nii')
-    data = img.get_fdata()
-    logging.debug("Shape after loading output data is %s" % (data.shape,))
+    segmentation_img = nib.load('output/prob_class1.nii.gz')
+    segmentation = segmentation_img.get_fdata()
+    segmentation = segmentation[:, :, :, None, None]
+    segmentation = segmentation.transpose((0, 1, 3, 4, 2))
 
-    # Reformat data
+    data_img = nib.load('t1_from_h5.nii')
+    data = data_img.get_fdata()
     data = data[:, :, :, None, None]
-    logging.debug("Output data before transposing is %s" % (data.shape,))
-    
-
     data = data.transpose((0, 1, 3, 4, 2))
-
-    logging.debug("Output data after transposing is %s" % (data.shape,))
-
-
 
     # Determine max value (12 or 16 bit)
     BitsStored = 12
@@ -234,17 +229,81 @@ def process_image(images, connection, config, metadata):
     #     BitsStored = mrdhelper.get_userParameterLong_value(metadata, "BitsStored")
     maxVal = 2**BitsStored - 1
 
-    # Normalize and convert to int16
+    # Normalize Segmentation and convert to int16
+    segmentation = segmentation.astype(np.float64)
+    segmentation *= maxVal/segmentation.max()
+    segmentation = np.around(segmentation)
+    segmentation = segmentation.astype(np.int16)
+
+    # Normalize Data and convert to int16
     data = data.astype(np.float64)
     data *= maxVal/data.max()
     data = np.around(data)
     data = data.astype(np.int16)
 
+
     currentSeries = 0
 
-    # TODO ADD another series TO PASS THROUGH ORIGINAL data as well.
+    # Re-slice segmentation back into 2D images
+    segmentationOut = [None] * segmentation.shape[-1]
+    for iImg in range(segmentation.shape[-1]):
+        # Create new MRD instance for the final image
+        # Transpose from convenience shape of [y x z cha] to MRD Image shape of [cha z y x]
+        # from_array() should be called with 'transpose=False' to avoid warnings, and when called
+        # with this option, can take input as: [cha z y x], [z y x], or [y x]
+        # imagesOut[iImg] = ismrmrd.Image.from_array(data[...,iImg].transpose((3, 2, 0, 1)), transpose=False)
+        segmentationOut[iImg] = ismrmrd.Image.from_array(segmentation[...,iImg].transpose((3, 2, 0, 1)), transpose=False)
 
-    # Re-slice back into 2D images
+        # Create a copy of the original fixed header and update the data_type
+        # (we changed it to int16 from all other types)
+        oldHeader = head[iImg]
+        oldHeader.data_type = segmentationOut[iImg].data_type
+
+        # Unused example, as images are grouped by series before being passed into this function now
+        # oldHeader.image_series_index = currentSeries
+
+        # Increment series number when flag detected (i.e. follow ICE logic for splitting series)
+        if mrdhelper.get_meta_value(meta[iImg], 'IceMiniHead') is not None:
+            if mrdhelper.extract_minihead_bool_param(base64.b64decode(meta[iImg]['IceMiniHead']).decode('utf-8'), 'BIsSeriesEnd') is True:
+                currentSeries += 1
+
+        segmentationOut[iImg].setHead(oldHeader)
+
+        # Create a copy of the original ISMRMRD Meta attributes and update
+        tmpMeta = meta[iImg]
+        tmpMeta['DataRole']                       = 'Image'
+        tmpMeta['ImageProcessingHistory']         = ['PYTHON', 'PROSTATEFIDUCIALSEG']
+        tmpMeta['WindowCenter']                   = str((maxVal+1)/2)
+        tmpMeta['WindowWidth']                    = str((maxVal+1))
+        tmpMeta['SequenceDescriptionAdditional']  = 'OpenRecon'
+        tmpMeta['Keep_image_geometry']            = 1
+        
+        tmpMeta['LUTFileName'] = 'MicroDeltaHotMetal.pal'
+        
+        # if ('parameters' in config) and ('options' in config['parameters']):
+        #     # Example for sending ROIs
+        #     if config['parameters']['options'] == 'roi':
+        #         logging.info("Creating ROI_example")
+        #         tmpMeta['ROI_example'] = create_example_roi(data.shape)
+
+        #     # Example for setting colormap
+        #     if config['parameters']['options'] == 'colormap':
+        #         tmpMeta['LUTFileName'] = 'MicroDeltaHotMetal.pal'
+
+        # Add image orientation directions to MetaAttributes if not already present
+        if tmpMeta.get('ImageRowDir') is None:
+            tmpMeta['ImageRowDir'] = ["{:.18f}".format(oldHeader.read_dir[0]), "{:.18f}".format(oldHeader.read_dir[1]), "{:.18f}".format(oldHeader.read_dir[2])]
+
+        if tmpMeta.get('ImageColumnDir') is None:
+            tmpMeta['ImageColumnDir'] = ["{:.18f}".format(oldHeader.phase_dir[0]), "{:.18f}".format(oldHeader.phase_dir[1]), "{:.18f}".format(oldHeader.phase_dir[2])]
+
+        metaXml = tmpMeta.serialize()
+        # logging.debug("Image MetaAttributes: %s", xml.dom.minidom.parseString(metaXml).toprettyxml())
+        logging.debug("Image data has %d elements", segmentationOut[iImg].data.size)
+
+        segmentationOut[iImg].attribute_string = metaXml
+
+    # Re-slice image data back into 2D images
     imagesOut = [None] * data.shape[-1]
     for iImg in range(data.shape[-1]):
         # Create new MRD instance for the final image
@@ -301,7 +360,7 @@ def process_image(images, connection, config, metadata):
 
         imagesOut[iImg].attribute_string = metaXml
 
-    return imagesOut
+    return imagesOut,segmentationOut
 
 # Create an example ROI <3
 def create_example_roi(img_size):
