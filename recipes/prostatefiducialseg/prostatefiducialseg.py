@@ -260,7 +260,7 @@ def process_image(images, connection, config, metadata):
         oldHeader.data_type = segmentationOut[iImg].data_type
 
         # Unused example, as images are grouped by series before being passed into this function now
-        # oldHeader.image_series_index = currentSeries
+        oldHeader.image_series_index = currentSeries
 
         # Increment series number when flag detected (i.e. follow ICE logic for splitting series)
         if mrdhelper.get_meta_value(meta[iImg], 'IceMiniHead') is not None:
@@ -319,7 +319,7 @@ def process_image(images, connection, config, metadata):
         oldHeader.data_type = imagesOut[iImg].data_type
 
         # Unused example, as images are grouped by series before being passed into this function now
-        # oldHeader.image_series_index = currentSeries
+        oldHeader.image_series_index = currentSeries+1
 
         # Increment series number when flag detected (i.e. follow ICE logic for splitting series)
         if mrdhelper.get_meta_value(meta[iImg], 'IceMiniHead') is not None:
@@ -336,6 +336,9 @@ def process_image(images, connection, config, metadata):
         tmpMeta['WindowWidth']                    = str((maxVal+1))
         tmpMeta['SequenceDescriptionAdditional']  = 'OpenRecon'
         tmpMeta['Keep_image_geometry']            = 1
+
+        logging.info("Creating ROI_example")
+        tmpMeta['ROI_example'] = create_example_roi(data.shape)
 
         if ('parameters' in config) and ('options' in config['parameters']):
             # Example for sending ROIs
