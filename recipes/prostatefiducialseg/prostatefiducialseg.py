@@ -199,15 +199,14 @@ def process_image(images, connection, config, metadata):
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
     # debug
-    # subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # debug
 
     subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
 
-    logging.info("Config: \n%s", config)
+    # logging.info("Config: \n%s", config)
 
     print('Prediction done')
-    # TODO add t1_from_h5.nii AND MAKE THIS 4D
 
     # subprocess.run(["cp", "output/prob_class0.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
@@ -220,7 +219,13 @@ def process_image(images, connection, config, metadata):
     data = data_img.get_fdata()
 
     # make marker segmentations white in the image:
-    # data = data + segmentation * 2000
+    data = data + segmentation * 2000
+    new_img = nib.nifti1.Nifti1Image(data, xform)
+    nib.save(new_img, 't1_before_scaling_h5.nii')
+    # debug
+    subprocess.run(["cp", "t1_before_scaling_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # debug
+
 
     segmentation = segmentation[:, :, :, None, None]
     segmentation = segmentation.transpose((0, 1, 3, 4, 2))
@@ -308,28 +313,28 @@ def process_image(images, connection, config, metadata):
     return imagesOut
 
 # Create an example ROI <3
-def create_roi(segmentation):
-    labeled = label(segmentation)
-    props = regionprops(labeled)
+# def create_roi(segmentation):
+#     labeled = label(segmentation)
+#     props = regionprops(labeled)
 
-    if not props:
-        return []
+#     if not props:
+#         return []
 
-    rois = []
-    rgb = (1, 0, 0)  # Red
-    thickness = 1
-    style = 0
-    visibility = 1
+#     rois = []
+#     rgb = (1, 0, 0)  # Red
+#     thickness = 1
+#     style = 0
+#     visibility = 1
 
-    for i, region in enumerate(props):
-        # Get bounding box: (min_row, min_col, max_row, max_col)
-        minr, minc, maxr, maxc = region.bbox
-        width = maxc - minc
-        height = maxr - minr
+#     for i, region in enumerate(props):
+#         # Get bounding box: (min_row, min_col, max_row, max_col)
+#         minr, minc, maxr, maxc = region.bbox
+#         width = maxc - minc
+#         height = maxr - minr
 
-        logging.info("Creating ROI %d at (x=%d, y=%d, w=%d, h=%d)", i, minc, minr, width, height)
+#         logging.info("Creating ROI %d at (x=%d, y=%d, w=%d, h=%d)", i, minc, minr, width, height)
 
-        roi = mrdhelper.create_roi(minc, minr, width, height, rgb, thickness, style, visibility)
-        rois.append(roi)
+#         roi = mrdhelper.create_roi(minc, minr, width, height, rgb, thickness, style, visibility)
+#         rois.append(roi)
 
-    return rois
+#     return rois
