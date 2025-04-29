@@ -212,8 +212,8 @@ def process_image(images, connection, config, metadata):
     # subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # subprocess.run(["cp", "output/prob_class2.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
 
-    # img = nib.load('output/prob_class1.nii.gz')
-    img = nib.load('t1_from_h5.nii')
+    img = nib.load('output/prob_class1.nii.gz')
+    # img = nib.load('t1_from_h5.nii')
     data = img.get_fdata()
     logging.debug("Shape after loading output data is %s" % (data.shape,))
 
