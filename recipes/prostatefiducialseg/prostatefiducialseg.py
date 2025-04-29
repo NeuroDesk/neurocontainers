@@ -220,7 +220,7 @@ def process_image(images, connection, config, metadata):
     data = data_img.get_fdata()
 
     # make marker segmentations white in the image:
-    data = data + segmentation * 2000
+    # data = data + segmentation * 2000
 
     segmentation = segmentation[:, :, :, None, None]
     segmentation = segmentation.transpose((0, 1, 3, 4, 2))
@@ -284,9 +284,9 @@ def process_image(images, connection, config, metadata):
         # Example for sending ROIs
         # if ('parameters' in config) and ('options' in config['parameters']):
         # if config['parameters']['options'] == 'roi':
-        logging.info("Creating ROI")
-        currentSegmentation = segmentation[...,iImg].transpose((3, 2, 0, 1))
-        tmpMeta['ROI'] = create_roi(currentSegmentation)
+        # logging.info("Creating ROI")
+        # currentSegmentation = segmentation[...,iImg].transpose((3, 2, 0, 1))
+        # tmpMeta['ROI'] = create_roi(currentSegmentation)
 
         #     # Example for setting colormap
         #     if config['parameters']['options'] == 'colormap':
