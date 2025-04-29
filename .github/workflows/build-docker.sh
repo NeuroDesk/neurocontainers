@@ -36,6 +36,33 @@ else
   echo "[DEBUG] Changes found"
 fi
 
+if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+  if [ -n "$GH_REGISTRY" ]; then
+    echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
+    # Push to GH Packages
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
+    time docker push $IMAGEID:$BUILDDATE
+    echo "[DEBUG] done Pushing to GitHub Registry!"
+    docker push $IMAGEID:latest
+  else
+    echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
+  fi
+  # Push to Dockerhub
+  if [ -n "$DOCKERHUB_ORG" ]; then
+    echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
+    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
+    time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
+    echo "[DEBUG] done Pushing to Dockerhub Registry!"
+    docker push $DOCKERHUB_ORG/$IMAGENAME:latest
+  else
+    echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
+  fi
+else
+  echo "[DEBUG] Skipping push to registry. Not on main branch"
+fi
+
 # Build singularity container and upload to cache to speed up testing of images:
 
 # install apptainer if no singularity executable is available
@@ -70,38 +97,9 @@ echo "[DEBUG] building singularity image from docker image:"
 time singularity build "$IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg" docker-daemon://$IMAGEID:$SHORT_SHA
 echo "[DEBUG] done building singularity image from docker image!"
 
-# cleanup
-if [ -f "${IMAGENAME}_${BUILDDATE}.tar" ]; then
-  rm -rf ${IMAGENAME}_${BUILDDATE}.tar
-fi
 
 echo "[DEBUG] Attempting upload to Nectar Object Storage:"
 time rclone copy $IMAGE_HOME/${IMAGENAME}_${BUILDDATE}.simg nectar:/neurodesk/temporary-builds-new
 echo "[DEBUG] Done with uploading to Nectar Object Storage!"
 
-if [ "$GITHUB_REF" == "refs/heads/main" ]; then
-  if [ -n "$GH_REGISTRY" ]; then
-    echo "[DEBUG] Pushing to GitHub Registry $GH_REGISTRY"
-    # Push to GH Packages
-    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
-    docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-    time docker push $IMAGEID:$BUILDDATE
-    echo "[DEBUG] done Pushing to GitHub Registry!"
-    docker push $IMAGEID:latest
-  else
-    echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
-  fi
-  # Push to Dockerhub
-  if [ -n "$DOCKERHUB_ORG" ]; then
-    echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
-    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
-    docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
-    time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
-    echo "[DEBUG] done Pushing to Dockerhub Registry!"
-    docker push $DOCKERHUB_ORG/$IMAGENAME:latest
-  else
-    echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
-  fi
-else
-  echo "[DEBUG] Skipping push to registry. Not on main branch"
-fi
+
