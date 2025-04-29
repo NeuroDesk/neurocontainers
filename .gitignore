@@ -30,3 +30,4 @@ build/
 local/
 env/
 sifs/
+output_dcm

@@ -42,3 +42,7 @@ tests:
       python3 /opt/code/python-ismrmrd-server/mrd2dicom.py \
         -o /host/home/ashley/repos/prostate/test/output_dcm \
         /host/home/ashley/repos/prostate/test/output.h5
+
+      python3 /opt/code/python-ismrmrd-server/mrd2dicom.py \
+        -o /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/output_dcm \
+        /host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/output.h5
