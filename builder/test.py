@@ -21,10 +21,77 @@ def get_recipe_metadata(recipe):
     return description_file["name"], description_file["version"]
 
 
-def run_docker_test(tag, test):
-    print(tag, test)
+def run_docker_prep(prep, volume_name):
+    name = prep.get("name")
+    image = prep.get("image")
+    script = prep.get("script")
+    if name is None or image is None or script is None:
+        raise ValueError("Prep step must have a name, image and script")
 
-    raise NotImplementedError("Docker test execution is not implemented yet")
+    # Docker run the script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{volume_name}:/test",
+            image,
+            "bash",
+            "-c",
+            f"""set -ex
+                cd /test
+                {script}""",
+        ],
+    )
+
+
+def run_docker_test(tag, test):
+    script = test.get("script")
+    if script is None:
+        raise ValueError("Test step must have a script")
+
+    # Create a docker volume for the test, if it exists remove it first
+    volume_name = f"neurocontainer-test-{tag.replace(':', '-')}"
+    try:
+        subprocess.check_call(
+            ["docker", "volume", "rm", volume_name],
+            stdout=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError as e:
+        # check to make sure the volume is not in use
+        if "is in use" in str(e):
+            raise ValueError(
+                f"Volume {volume_name} is in use, please remove it manually"
+            )
+
+        # If the volume does not exist, ignore the error
+        pass
+    subprocess.check_call(
+        ["docker", "volume", "create", volume_name],
+        stdout=subprocess.DEVNULL,
+    )
+
+    # For each prep step in the test, run it in a docker container
+    for prep in test["prep"]:
+        run_docker_prep(prep, volume_name)
+
+    # Docker run the test script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{volume_name}:/test",
+            tag,
+            "bash",
+            "-c",
+            f"""set -ex
+                cd /test
+                {script}""",
+        ],
+    )
 
 
 def run_test(tag, test):
