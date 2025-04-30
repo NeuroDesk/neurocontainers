@@ -14,7 +14,6 @@ import constants
 from time import perf_counter
 import nibabel as nib
 import subprocess
-from skimage.measure import regionprops, label
 
 
 # Folder for debug output files
@@ -199,14 +198,15 @@ def process_image(images, connection, config, metadata):
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
     # debug
-    subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
+    # subprocess.run(["cp", "t1_from_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # debug
 
     subprocess.run(["predict2.py", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
 
-    # logging.info("Config: \n%s", config)
+    logging.info("Config: \n%s", config)
 
     print('Prediction done')
+    # TODO add t1_from_h5.nii AND MAKE THIS 4D
 
     # subprocess.run(["cp", "output/prob_class0.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
     # subprocess.run(["cp", "output/prob_class1.nii.gz", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
@@ -214,22 +214,15 @@ def process_image(images, connection, config, metadata):
 
     segmentation_img = nib.load('output/prob_class1.nii.gz')
     segmentation = segmentation_img.get_fdata()
+    # segmentation = segmentation[:, :, :, None, None]
+    # segmentation = segmentation.transpose((0, 1, 3, 4, 2))
 
     data_img = nib.load('t1_from_h5.nii')
     data = data_img.get_fdata()
 
     # make marker segmentations white in the image:
     data = data + segmentation * 2000
-    new_img = nib.nifti1.Nifti1Image(data, xform)
-    nib.save(new_img, 't1_before_scaling_h5.nii')
-    # debug
-    subprocess.run(["cp", "t1_before_scaling_h5.nii", "/host/home/ubuntu/neurocontainers/recipes/prostatefiducialseg/"])
-    # debug
 
-
-    segmentation = segmentation[:, :, :, None, None]
-    segmentation = segmentation.transpose((0, 1, 3, 4, 2))
-    
     data = data[:, :, :, None, None]
     data = data.transpose((0, 1, 3, 4, 2))
 
@@ -289,9 +282,8 @@ def process_image(images, connection, config, metadata):
         # Example for sending ROIs
         # if ('parameters' in config) and ('options' in config['parameters']):
         # if config['parameters']['options'] == 'roi':
-        # logging.info("Creating ROI")
-        # currentSegmentation = segmentation[...,iImg].transpose((3, 2, 0, 1))
-        # tmpMeta['ROI'] = create_roi(currentSegmentation)
+        logging.info("Creating ROI_example")
+        tmpMeta['ROI_example'] = create_example_roi(data.shape)
 
         #     # Example for setting colormap
         #     if config['parameters']['options'] == 'colormap':
@@ -313,28 +305,22 @@ def process_image(images, connection, config, metadata):
     return imagesOut
 
 # Create an example ROI <3
-# def create_roi(segmentation):
-#     labeled = label(segmentation)
-#     props = regionprops(labeled)
+def create_example_roi(img_size):
+    t = np.linspace(0, 2*np.pi)
+    x = 16*np.power(np.sin(t), 3)
+    y = -13*np.cos(t) + 5*np.cos(2*t) + 2*np.cos(3*t) + np.cos(4*t)
 
-#     if not props:
-#         return []
+    # Place ROI in bottom right of image, offset and scaled to 10% of the image size
+    x = (x-np.min(x)) / (np.max(x) - np.min(x))
+    y = (y-np.min(y)) / (np.max(y) - np.min(y))
+    x = (x * 0.08*img_size[0]) + 0.82*img_size[0]
+    y = (y * 0.10*img_size[1]) + 0.80*img_size[1]
 
-#     rois = []
-#     rgb = (1, 0, 0)  # Red
-#     thickness = 1
-#     style = 0
-#     visibility = 1
+    rgb = (1,0,0)  # Red, green, blue color -- normalized to 1
+    thickness  = 1 # Line thickness
+    style      = 0 # Line style (0 = solid, 1 = dashed)
+    visibility = 1 # Line visibility (0 = false, 1 = true)
 
-#     for i, region in enumerate(props):
-#         # Get bounding box: (min_row, min_col, max_row, max_col)
-#         minr, minc, maxr, maxc = region.bbox
-#         width = maxc - minc
-#         height = maxr - minr
 
-#         logging.info("Creating ROI %d at (x=%d, y=%d, w=%d, h=%d)", i, minc, minr, width, height)
-
-#         roi = mrdhelper.create_roi(minc, minr, width, height, rgb, thickness, style, visibility)
-#         rois.append(roi)
-
-#     return rois
+    roi = mrdhelper.create_roi(x, y, rgb, thickness, style, visibility)
+    return roi
