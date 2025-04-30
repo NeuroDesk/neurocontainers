@@ -64,8 +64,6 @@ else
 fi
 
 
-# # install apptainer if no singularity executable is available
-
 # install apptainer if no singularity executable is available
 if ! command -v singularity &>/dev/null; then
   #This prevents the sometimes stuck apt process from stopping the build
