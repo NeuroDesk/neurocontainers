@@ -142,9 +142,9 @@ def process_image(images, connection, config, metadata):
         return []
 
     # Create folder, if necessary
-    if not os.path.exists(debugFolder):
-        os.makedirs(debugFolder)
-        logging.debug("Created folder " + debugFolder + " for debug output files")
+    # if not os.path.exists(debugFolder):
+    #     os.makedirs(debugFolder)
+    #     logging.debug("Created folder " + debugFolder + " for debug output files")
 
     # logging.debug("Processing data with %d images of type %s", len(images), ismrmrd.get_dtype_from_data_type(images[0].data_type))
 
