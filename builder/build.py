@@ -557,7 +557,7 @@ def main_generate(args):
     # Write README.md
     with open(os.path.join(ctx.build_directory, "README.md"), "w") as f:
         f.write(ctx.readme)
-        #add empty line at the end so that promt in a container is on the new line:
+        # add empty line at the end so that promt in a container is on the new line:
         f.write("\n")
 
     # Write all files
@@ -651,8 +651,18 @@ def main_generate(args):
         print("Docker image built successfully at", ctx.tag)
 
         if args.login:
+            abs_path = os.path.abspath(recipe_path)
+
             subprocess.check_call(
-                ["docker", "run", "--rm", "-it", "-v", "/:/host", ctx.tag],
+                [
+                    "docker",
+                    "run",
+                    "--rm",
+                    "-it",
+                    "-v",
+                    abs_path + ":/buildhostdirectory",
+                    ctx.tag,
+                ],
                 cwd=ctx.build_directory,
             )
             return
