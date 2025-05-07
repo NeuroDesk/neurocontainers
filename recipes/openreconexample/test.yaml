@@ -10,7 +10,6 @@ tests:
       python3 /opt/code/python-ismrmrd-server/main.py -v -r -H=0.0.0.0 -p=9002 -s -S=/tmp/share/saved_data &
       sleep 5
 
-      rm /buildhostdirectory/t1_from_h5.nii
       rm /buildhostdirectory/output.h5
       python3 /opt/code/python-ismrmrd-server/client.py \
         -G dataset \

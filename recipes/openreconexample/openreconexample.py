@@ -176,9 +176,25 @@ def process_image(images, connection, config, metadata):
     new_img = nib.nifti1.Nifti1Image(data, xform)
     nib.save(new_img, 't1_from_h5.nii')
 
-    subprocess.run(["bet2", "-i", "t1_from_h5.nii", "-m", "/opt/models/model.pth", "-o", "output"])
+    # bet2 Usage: 
+    # bet2 <input_fileroot> <output_fileroot> [options]
+    # Optional arguments (You may optionally specify one or more of):
+        # -o,--outline    generate brain surface outline overlaid onto original image
+        # -m,--mask <m>   generate binary brain mask
+        # -s,--skull      generate approximate skull image
+        # -n,--nooutput   don't generate segmented brain image output
+        # -f <f>          fractional intensity threshold (0->1); default=0.5; smaller values give larger brain outline estimates
+        # -g <g>          vertical gradient in fractional intensity threshold (-1->1); default=0; positive values give larger brain outline at bottom, smaller at top
+        # -r,--radius <r> head radius (mm not voxels); initial surface sphere is set to half of this
+        # -w,--smooth <r> smoothness factor; default=1; values smaller than 1 produce more detailed brain surface, values larger than one produce smoother, less detailed surface
+        # -c <x y z>      centre-of-gravity (voxels not mm) of initial mesh surface.
+        # -t,--threshold  -apply thresholding to segmented brain image and mask
+        # -e,--mesh       generates brain surface as mesh in vtk format
+        # -v,--verbose    switch on diagnostic messages
+        # -h,--help       displays this help, then exits
+    subprocess.run(["bet2", "t1_from_h5.nii", "t1_from_h5_bet2.nii.gz", "-f", "0.65"])
 
-    data_img = nib.load('t1_from_h5.nii')
+    data_img = nib.load('t1_from_h5_bet2.nii.gz')
     data = data_img.get_fdata()
     data = data[:, :, :, None, None]
     data = data.transpose((0, 1, 3, 4, 2))

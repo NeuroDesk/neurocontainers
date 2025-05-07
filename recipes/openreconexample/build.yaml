@@ -16,9 +16,9 @@ build:
     - environment:
         DEBIAN_FRONTEND: noninteractive
     - install:
-        bzip2 ca-certificates git wget build-essential python3-pip
+        bzip2 ca-certificates git wget build-essential python3-pip python-is-python3
 
-    # openrecon
+    # openrecon dependencies
     - group:
       - workdir: /opt/code
 
@@ -69,6 +69,22 @@ build:
           - find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \;
           - find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix
 
+    #BET2 application
+    - install:
+        - gcc-aarch64-linux-gnu cmake make build-essential
+    
+    - run:  
+        - git clone https://github.com/Bostrix/FSL-BET2
+        - cd FSL-BET2
+        - mkdir build
+        - cd build
+        - cmake ..
+        - make
+
+    - environment:
+        PATH: ${PATH}:/opt/code/FSL-BET2/bin
+
+    #openrecon application
     - copy: openreconexample.py /opt/code/python-ismrmrd-server/openreconexample.py
 
 readme: |-
