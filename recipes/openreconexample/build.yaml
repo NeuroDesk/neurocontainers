@@ -92,5 +92,9 @@ readme: |-
   ## openreconexample/{{ context.version }} ##
   Example for building an openrecon container in Neurodesk
 
+  you can build this recipe with:
+  ```bash
+  ./builder/build.py generate openreconexample --recreate --build --login
+  ```
 
   ----------------------------------
