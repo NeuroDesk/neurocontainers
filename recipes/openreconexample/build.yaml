@@ -92,6 +92,12 @@ readme: |-
   ## openreconexample/{{ context.version }} ##
   Example for building an openrecon container in Neurodesk
 
+  make sure that neurodocker is installed:
+  ```
+  python -m pip install neurodocker
+  export PATH=$PATH:~/.local/lib/python3.12/site-packages/bin
+  ```
+
   you can build this recipe with:
   ```bash
   ./builder/build.py generate openreconexample --recreate --build --login --architecture x86_64
