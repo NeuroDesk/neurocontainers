@@ -8,7 +8,7 @@ architectures:
 build:
   kind: neurodocker
 
-  base-image: nipreps/fmriprep:24.1.1
+  base-image: nipreps/fmriprep:{{ context.version }}
   pkg-manager: apt
 
   directives: []

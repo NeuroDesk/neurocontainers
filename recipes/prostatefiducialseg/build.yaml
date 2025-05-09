@@ -1,128 +1,77 @@
 name: prostatefiducialseg
 version: 3.0.0
 architectures:
-  - x86_64
+    - x86_64
 
 readme_url: https://raw.githubusercontent.com/astewartau/prostate/refs/heads/main/README.md
 
 variables:
-  conda_version: "4.12.0"
-  conda_download_url:
-    try:
-      - value: "https://repo.anaconda.com/miniconda/Miniconda3-py39_{{ context.conda_version }}-Linux-x86_64.sh"
-        condition: arch=="x86_64"
+    conda_version: "4.12.0"
+    conda_download_url:
+        try:
+            - value: "https://repo.anaconda.com/miniconda/Miniconda3-py39_{{ context.conda_version }}-Linux-x86_64.sh"
+              condition: arch=="x86_64"
 
 files:
-  - name: prostatefiducialseg.py
-    filename: prostatefiducialseg.py
+    - name: prostatefiducialseg.py
+      filename: prostatefiducialseg.py
 
 build:
-  kind: neurodocker
-  base-image: ubuntu:22.04
-  pkg-manager: apt
+    kind: neurodocker
+    base-image: ubuntu:22.04
+    pkg-manager: apt
 
-  directives:
-    - environment:
-        DEBIAN_FRONTEND: noninteractive
-    - install:
-        bzip2 ca-certificates git wget build-essential
+    directives:
+        - environment:
+              DEBIAN_FRONTEND: noninteractive
+        - install: bzip2 ca-certificates git wget build-essential
 
-    # Miniconda installer
-    - workdir: /tmp
-    - run:
-        - curl -fsSL -o miniconda.sh {{ context.conda_download_url }}
-        - bash miniconda.sh -b -p /opt/miniconda-{{ context.conda_version }}
-        - rm miniconda.sh
-    - environment:
-        PATH: /opt/miniconda-{{ context.conda_version }}/bin:$PATH
-    - run:
-        - conda config --system --prepend channels conda-forge
-        - conda config --system --set channel_priority strict
-        - conda clean --all --yes
+        # Miniconda installer
+        - workdir: /tmp
+        - run:
+              - curl -fsSL -o miniconda.sh {{ context.conda_download_url }}
+              - bash miniconda.sh -b -p /opt/miniconda-{{ context.conda_version }}
+              - rm miniconda.sh
+        - environment:
+              PATH: /opt/miniconda-{{ context.conda_version }}/bin:$PATH
+        - run:
+              - conda config --system --prepend channels conda-forge
+              - conda config --system --set channel_priority strict
+              - conda clean --all --yes
 
-    # install mamba to speed up installs
-    - run:
-        - conda install mamba
-        - mamba clean --all --yes
+        # install mamba to speed up installs
+        - run:
+              - conda install mamba
+              - mamba clean --all --yes
 
-    - run:
-        - mamba install -y --name base "python=3.10"
-        - mamba clean --all --yes
+        - run:
+              - mamba install -y --name base "python=3.10"
+              - mamba clean --all --yes
 
-    # openrecon
-    - group:
-      - workdir: /opt/code
+        - include: macros/openrecon/neurodocker.yaml
 
-      - install:
-          - build-essential
-          - libxslt1.1
-          - libhdf5-103
-          - libboost-program-options1.74.0
-          - libpugixml1v5
-          - vim
-          - dos2unix
-          - git
-          - cmake
-          - g++
-          - libhdf5-dev
-          - libxml2-dev
-          - libxslt1-dev
-          - libboost-all-dev
-          - libfftw3-dev
-          - libpugixml-dev
+        # install pip packages
+        - run:
+              - pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+              - pip install nibabel SimpleITK osfclient torchio
 
-      - run:
-          - git clone https://github.com/ismrmrd/ismrmrd.git
-          - cd ./ismrmrd
-          - cmake .
-          - make -j $(nproc)
-          - make install
+        # download model
+        - workdir: /opt
+        - run:
+              - mkdir -p /opt/models
+              - osf -p f7hjv fetch T1-20250428-163831-0-best1.pth /opt/models/model.pth
 
-      - run:
-          - git clone https://github.com/ismrmrd/siemens_to_ismrmrd.git
-          - cd siemens_to_ismrmrd
-          - mkdir build
-          - cd build
-          - cmake ..
-          - make -j $(nproc)
-          - make install
-
-      - run:
-          - pip3 install h5py ismrmrd matplotlib pydicom==3.0.1 pynetdicom nibabel
-
-      - run:
-          - git clone https://github.com/ismrmrd/ismrmrd-python-tools.git
-          - cd ismrmrd-python-tools
-          - pip3 install --no-cache-dir .
-
-      - run:
-          - git clone https://github.com/kspaceKelvin/python-ismrmrd-server
-          - find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \;
-          - find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix
-
-    # install pip packages
-    - run:
-        - pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
-        - pip install nibabel SimpleITK osfclient torchio
-
-    # download model
-    - workdir: /opt
-    - run:
-        - mkdir -p /opt/models
-        - osf -p f7hjv fetch T1-20250428-163831-0-best1.pth /opt/models/model.pth
-
-    # clone prostate segmentation repository
-    - workdir: /opt
-    - run:
-        - git clone https://github.com/astewartau/prostate-fiducial-seg.git
-        - cd /opt/prostate-fiducial-seg
-        - git checkout 6daa4e3
-        - chmod +x predict2.py
-    - environment:
-        PATH: /opt/prostate-fiducial-seg:$PATH
-    - copy: prostatefiducialseg.py /opt/code/python-ismrmrd-server/prostatefiducialseg.py
+        # clone prostate segmentation repository
+        - workdir: /opt
+        - run:
+              - git clone https://github.com/astewartau/prostate-fiducial-seg.git
+              - cd /opt/prostate-fiducial-seg
+              - git checkout 6daa4e3
+              - chmod +x predict2.py
+        - environment:
+              PATH: /opt/prostate-fiducial-seg:$PATH
+        - copy: prostatefiducialseg.py /opt/code/python-ismrmrd-server/prostatefiducialseg.py
 
 deploy:
-  bins:
-    - predict2.py
-
+    bins:
+        - predict2.py
