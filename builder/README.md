@@ -22,6 +22,12 @@ Normally you don't just want to generate the `Dockerfile`. If you want to build 
 ./builder/build.py generate niimath --recreate --build --test
 ```
 
+It is also possible to login to the container using `--login`:
+
+```sh
+./builder/build.py generate niimath --recreate --build --login
+```
+
 Often for GUI applications inside NeuroDesk you want singularity images. To generate one from the Docker image just add `--build-sif` and it will drop a .sif file in `./sifs`.
 
 ## Recipe Syntax

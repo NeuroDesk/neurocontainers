@@ -25,8 +25,9 @@ recipes/fsl/fslinstaller.py
 *.h5
 dicom_data
 *.utr
-
+t1_dcm
 build/
 local/
 env/
 sifs/
+output_dcm
