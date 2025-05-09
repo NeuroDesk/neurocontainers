@@ -141,6 +141,12 @@ class BuildContext(object):
         self.options = {}
         self.option_info = {}
         self.files = {}
+        self.lint_error = False
+
+    def lint_fail(self, message):
+        if self.lint_error:
+            raise ValueError("lint failed: " + message)
+        print("lint failed: " + message)
 
     def add_option(self, key, description="", default=False, version_suffix=""):
         self.options[key] = default
@@ -270,10 +276,30 @@ class BuildContext(object):
         with open(filename, "r") as f:
             return yaml.safe_load(f)
 
+    def check_docker_image(self, image):
+        if image == "":
+            raise ValueError("Docker image cannot be empty.")
+
+        if ":" not in image:
+            self.lint_fail("Docker image must have a tag. Use <image>:<tag> format.")
+            return image + ":latest"
+
+        name, tag = image.split(":", 1)
+
+        if name == "ubuntu":
+            if tag not in ["16.04", "18.04", "20.04", "22.04", "24.04", "26.04"]:
+                self.lint_fail(
+                    "Ubuntu version not supported. Use 16.04, 18.04, 20.04, 22.04, 24.04 or 26.04."
+                )
+
+        return image
+
     def build_neurodocker(self, build_directive, deploy):
         args = ["neurodocker", "generate", "docker"]
 
-        base = self.execute_template(build_directive.get("base-image") or "")
+        base = self.check_docker_image(
+            self.execute_template(build_directive.get("base-image") or "")
+        )
         pkg_manager = self.execute_template(build_directive.get("pkg-manager") or "")
 
         if base == "" or pkg_manager == "":
