@@ -1,0 +1,21 @@
+{
+  "name": "Neurocontainers Build Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12", 
+  "postCreateCommand": "python -m pip install --upgrade pip && python -m pip install neurodocker",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "silx.h5web"
+        }
+      },
+        "terminal.integrated.env.linux": {
+          "PATH": "${env:PATH}:~/.local/lib/python3.12/site-packages/bin"
+        }
+      }
+    }
+  },
+  "remoteEnv": {
+    "PATH": "${PATH}:~/.local/lib/python3.12/site-packages/bin"
+  }
+}
