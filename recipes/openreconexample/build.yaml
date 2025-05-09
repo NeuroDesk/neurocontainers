@@ -94,7 +94,7 @@ readme: |-
 
   you can build this recipe with:
   ```bash
-  ./builder/build.py generate openreconexample --recreate --build --login
+  ./builder/build.py generate openreconexample --recreate --build --login --architecture x86_64
   ```
 
   ----------------------------------
