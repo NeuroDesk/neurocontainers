@@ -442,6 +442,15 @@ def download_with_cache(url, check_only=False):
     return output_filename
 
 
+def get_build_platform(arch):
+    if arch == "x86_64":
+        return "linux/amd64"
+    elif arch == "aarch64":
+        return "linux/arm64"
+    else:
+        raise ValueError(f"Architecture {arch} not supported.")
+
+
 def main_generate(args):
     recipe_path = get_recipe_directory(args.name)
 
@@ -473,7 +482,7 @@ def main_generate(args):
     if draft:
         print("WARN: This is a draft recipe.")
 
-    arch = ARCHITECTURES[platform.machine()]
+    arch = ARCHITECTURES[args.architecture or platform.machine()]
 
     allowed_architectures = description_file.get("architectures") or []
     if allowed_architectures == []:
@@ -550,7 +559,9 @@ def main_generate(args):
         if args.recreate:
             shutil.rmtree(ctx.build_directory)
         else:
-            raise ValueError("Build directory already exists.")
+            raise ValueError(
+                "Build directory already exists. Pass --recreate to overwrite it."
+            )
 
     os.makedirs(ctx.build_directory)
 
@@ -645,7 +656,17 @@ def main_generate(args):
         # Shell out to Docker
         # docker-py does not support using BuildKit
         subprocess.check_call(
-            ["docker", "build", "-f", dockerfile_name, "-t", ctx.tag, "."],
+            [
+                "docker",
+                "build",
+                "--platform",
+                get_build_platform(ctx.arch),
+                "-f",
+                dockerfile_name,
+                "-t",
+                ctx.tag,
+                ".",
+            ],
             cwd=ctx.build_directory,
         )
         print("Docker image built successfully at", ctx.tag)
@@ -657,6 +678,8 @@ def main_generate(args):
                 [
                     "docker",
                     "run",
+                    "--platform",
+                    get_build_platform(ctx.arch),
                     "--rm",
                     "-it",
                     "-v",
@@ -761,6 +784,11 @@ def main(args):
     )
     build_parser.add_argument(
         "--test", action="store_true", help="Run tests after building"
+    )
+    build_parser.add_argument(
+        "--architecture",
+        help="Architecture to build for",
+        default=platform.machine(),
     )
     build_parser.add_argument(
         "--ignore-architectures", action="store_true", help="Ignore architecture checks"
