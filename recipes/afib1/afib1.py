@@ -272,8 +272,8 @@ def process_image(images, connection, config, metadata):
 
     # Display MetaAttributes for first image
     # KP: This needs to be tested on the scanner, testing with replayed DICOMs is no good because meta contains DicomJson inside XML
-#    logging.debug('Try logging meta')
-#    logging.debug("MetaAttributes[0]: %s", ismrmrd.Meta.serialize(meta[0]))
+    logging.debug('Try logging meta')
+    logging.debug("MetaAttributes[0]: %s", ismrmrd.Meta.serialize(meta[0]))
 
     # Optional serialization of ICE MiniHeader
 #    logging.debug('Try logging minihead')
@@ -299,8 +299,8 @@ def process_image(images, connection, config, metadata):
     opre_b1fwhm = 6.0
 
     # Finding this from metadata would be better..
-    tr_ratio   = 10
-    nominal_fa = 55
+    tr_ratio   = 5
+    nominal_fa = 60
 
     if ('parameters' in config):
         if ('interleaved' in config['parameters']) and (config['parameters']['interleaved'] == True):
@@ -313,19 +313,19 @@ def process_image(images, connection, config, metadata):
             nominal_fa = config['parameters']['nominal_fa']
         if ('brainmask' in config['parameters']) and (config['parameters']['brainmask'] == True):
             opre_brainmask = True
-        if ('mask_fwhm' in config['parameters']) and (1.0 <= config['parameters']['mask_fwhm'] <= 10.0):
-            opre_mask_fwhm = config['parameters']['mask_fwhm']
-        if ('mask_nerode' in config['parameters']) and (0 <= config['parameters']['mask_nerode'] <= 20):
-            opre_mask_nerode = config['parameters']['mask_nerode']
+        if ('mask_fwhm' in config['parameters']) and (1.0 <= config['parameters']['maskfwhm'] <= 10.0):
+            opre_mask_fwhm = config['parameters']['maskfwhm']
+        if ('mask_nerode' in config['parameters']) and (0 <= config['parameters']['masknerode'] <= 20):
+            opre_mask_nerode = config['parameters']['masknerode']
             opre_mask_nerode = np.around(opre_mask_nerode)
             opre_mask_nerode = opre_mask_nerode.astype(np.int16)
-        if ('mask_ndilate' in config['parameters']) and (0 <= config['parameters']['mask_ndilate'] <= 20):
-            opre_mask_ndilate = config['parameters']['mask_ndilate']
+        if ('mask_ndilate' in config['parameters']) and (0 <= config['parameters']['maskndilate'] <= 20):
+            opre_mask_ndilate = config['parameters']['maskndilate']
             opre_mask_ndilate = np.around(opre_mask_ndilate)
             opre_mask_ndilate = opre_mask_ndilate.astype(np.int16)
-        if ('mask_thresh' in config['parameters']) and (0.0 <= config['parameters']['mask_thresh'] <= 1.0):
+        if ('mask_thresh' in config['parameters']) and (0.0 <= config['parameters']['maskthresh'] <= 1.0):
             opre_mask_thresh = config['parameters']['mask_thresh']
-        if ('signal_thresh' in config['parameters']) and (0.1 <= config['parameters']['signal_thresh'] <= 4096.0):
+        if ('signal_thresh' in config['parameters']) and (0.1 <= config['parameters']['signalthresh'] <= 4096.0):
             opre_signal_thresh = config['parameters']['signal_thresh']
         if ('b1fwhm' in config['parameters']) and (-0.0001 <= config['parameters']['b1fwhm'] <= 10.0):
             opre_b1fwhm = config['parameters']['b1fwhm']
