@@ -98,6 +98,11 @@ readme: |-
   export PATH=$PATH:~/.local/lib/python3.12/site-packages/bin
   ```
 
+  make sure the requirements are installed:
+  ```
+  pip install -r requirements.txt
+  ```
+
   you can build this recipe with:
   ```bash
   ./builder/build.py generate openreconexample --recreate --build --login --architecture x86_64
