@@ -23,6 +23,7 @@ recipes/fsl/fslinstaller.py
 *.nii
 *.nii.gz
 *.h5
+*.IMA
 dicom_data
 *.utr
 t1_dcm
