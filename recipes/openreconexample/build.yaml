@@ -92,6 +92,8 @@ readme: |-
   ## openreconexample/{{ context.version }} ##
   Example for building an openrecon container in Neurodesk
 
+  make sure that docker is installed: https://www.docker.com/
+
   make sure that neurodocker is installed:
   ```
   python -m pip install neurodocker
