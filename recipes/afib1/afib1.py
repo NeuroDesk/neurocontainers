@@ -367,8 +367,8 @@ def process_image(imgGroup, connection, config, mrdHeader):
 
     # Masking
     if opre_brainmask:
-        subprocess.run(['bet2', 'nifti_tr1_image.nii', 'brain_tr1.nii', '-m'], check=True)
-        subprocess.run(['bet2', 'nifti_tr2_image.nii', 'brain_tr2.nii', '-m'], check=True)
+        subprocess.run(['bet2', 'nifti_tr1_image.nii', 'brain_tr1'], check=True)
+        subprocess.run(['bet2', 'nifti_tr2_image.nii', 'brain_tr2'], check=True)
         mask1 = nib.load('brain_tr1_mask.nii.gz').get_fdata().astype(bool)
         mask2 = nib.load('brain_tr2_mask.nii.gz').get_fdata().astype(bool)
 #        combined_mask = np.logical_or(mask1,mask2)
@@ -452,6 +452,7 @@ def process_image(imgGroup, connection, config, mrdHeader):
     # Troubleshooting
     b1_img = nib.nifti1.Nifti1Image(actual_fa, xform)
     nib.save(b1_img, 'nifti_b1_image.nii')
+    
 
     # And restore the other two dimensions
     actual_fa = actual_fa[..., np.newaxis, np.newaxis]
