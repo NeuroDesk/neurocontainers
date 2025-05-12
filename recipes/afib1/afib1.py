@@ -128,6 +128,8 @@ def process(connection, config, mrdHeader):
 
         if len(imgGroup) > 0:
             logging.info("Processing a group of images (untriggered)")
+            logging.info(mrdHeader)
+            raise Exception("Image group not empty at end of processing loop")
             image = process_image(imgGroup, connection, config, mrdHeader)
             connection.send_image(image)
             imgGroup = []
@@ -310,7 +312,9 @@ def process_image(imgGroup, connection, config, mrdHeader):
     opre_signal_thresh = 0.1
     opre_b1fwhm = 6.0
 
-    # Finding this from mrdHeader would be better..
+    # Trying to get it from the header. This will not work with DICOM data but should work on the scanner
+    TR_array = mrdHeader.sequenceParameters.TR
+    
     tr_ratio   = 5
     nominal_fa = 60
 
