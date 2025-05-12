@@ -95,6 +95,11 @@ readme: |-
   make sure that neurodocker is installed:
   ```
   python -m pip install neurodocker
+  ```
+  
+  #add it to the path, this depends on your python installation!, some examples below:
+  ```
+  export PATH=$PATH:~/.local/bin
   export PATH=$PATH:~/.local/lib/python3.12/site-packages/bin
   ```
 
