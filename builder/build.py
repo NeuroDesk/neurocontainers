@@ -57,6 +57,111 @@ def get_cache_dir():
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
 
+class NeuroDockerBuilder:
+    def __init__(self, base_image, pkg_manager="apt", add_default=True):
+        self.renderer_dict = {
+            "pkg_manager": pkg_manager,
+            "instructions": [],
+        }
+
+        self.add_directive("from_", base_image=base_image)
+
+        if add_default:
+            self.add_directive("_default")
+
+    def add_directive(self, directive, **kwargs):
+        """
+        Low level function to add a directive to the renderer_dict.
+        Can also be used to add templates.
+        :param directive: The name of the directive.
+        :param kwargs: The keyword arguments for the directive.
+        """
+        self.renderer_dict["instructions"].append({"name": directive, "kwds": kwargs})
+
+    def install_packages(self, packages):
+        """
+        Install packages using the specified package manager.
+        :param packages: List of packages to install.
+        """
+        self.add_directive("install", pkgs=packages, opts=None)
+
+    def run_command(self, command):
+        """
+        Run a command in the container.
+        :param args: The command to run.
+        """
+        self.add_directive("run", command=command)
+
+    def set_user(self, user):
+        """
+        Set the user for the container.
+        :param user: The user to set.
+        """
+        self.add_directive("user", user=user)
+
+    def set_workdir(self, path):
+        """
+        Set the working directory for the container.
+        :param path: The path to set as the working directory.
+        """
+        self.add_directive("workdir", path=path)
+
+    def set_entrypoint(self, entrypoint):
+        """
+        Set the entrypoint for the container.
+        :param entrypoint: The entrypoint to set.
+        """
+        self.add_directive("entrypoint", args=[entrypoint])
+
+    def set_environment(self, key, value):
+        """
+        Set an environment variable for the container.
+        :param key: The name of the environment variable.
+        :param value: The value of the environment variable.
+        """
+        self.add_directive("env", **{key: value})
+
+    def copy(self, *args):
+        """
+        Copy files into the container.
+        :param args: The files to copy.
+        """
+        source, destination = list(args[:-1]), args[-1]
+        self.add_directive("copy", source=source, destination=destination)
+
+    def generate(self):
+        """
+        Generate the NeuroDocker Dockerfile.
+        :return: The generated Dockerfile as a string.
+        """
+
+        from neurodocker.reproenv.renderers import DockerRenderer
+
+        if (
+            len(
+                [
+                    i
+                    for i in self.renderer_dict["instructions"]
+                    if i["name"] == "entrypoint"
+                ]
+            )
+            == 0
+            and len(
+                [
+                    i
+                    for i in self.renderer_dict["instructions"]
+                    if i["name"] == "_default"
+                ]
+            )
+            > 0
+        ):
+            self.set_entrypoint("/neurodocker/startup.sh")
+
+        r = DockerRenderer.from_dict(self.renderer_dict)
+
+        return str(r)
+
+
 class LocalBuildContext(object):
     def __init__(self, context, cache_id):
         self.context = context
@@ -295,8 +400,6 @@ class BuildContext(object):
         return image
 
     def build_neurodocker(self, build_directive, deploy):
-        args = ["neurodocker", "generate", "docker"]
-
         base = self.check_docker_image(
             self.execute_template(build_directive.get("base-image") or "")
         )
@@ -305,15 +408,11 @@ class BuildContext(object):
         if base == "" or pkg_manager == "":
             raise ValueError("Base image or package manager cannot be empty.")
 
-        args += ["--base-image", base, "--pkg-manager", pkg_manager]
+        builder = NeuroDockerBuilder(base, pkg_manager)
 
-        mount_point_list = " ".join(GLOBAL_MOUNT_POINT_LIST)
-
-        args += [
-            "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
-            "--run=chmod +x /usr/bin/ll",
-            f"--run=mkdir -p {mount_point_list}",
-        ]
+        builder.run_command("printf '#!/bin/bash\\nls -la' > /usr/bin/ll")
+        builder.run_command("chmod +x /usr/bin/ll")
+        builder.run_command("mkdir -p " + " ".join(GLOBAL_MOUNT_POINT_LIST))
 
         def add_directive(directive, locals):
             if "condition" in directive:
@@ -322,17 +421,21 @@ class BuildContext(object):
 
             if "install" in directive:
                 if type(directive["install"]) == str:
-                    return ["--install"] + self.execute_template(
-                        [
-                            f
-                            for f in directive["install"].replace("\n", " ").split(" ")
-                            if f != ""
-                        ],
-                        locals=locals,
+                    builder.install_packages(
+                        self.execute_template(
+                            [
+                                f
+                                for f in directive["install"]
+                                .replace("\n", " ")
+                                .split(" ")
+                                if f != ""
+                            ],
+                            locals=locals,
+                        )
                     )
                 elif type(directive["install"]) == list:
-                    return ["--install"] + self.execute_template(
-                        directive["install"], locals=locals
+                    builder.install_packages(
+                        self.execute_template(directive["install"], locals=locals)
                     )
                 else:
                     raise ValueError("Install directive must be a string or list.")
@@ -345,36 +448,30 @@ class BuildContext(object):
                     locals=locals,
                     methods=local.methods(),
                 )
-                run_param = (
-                    "--run=" + " ".join(local.run_args) + " " + " \\\n && ".join(args)
+                builder.run_command(
+                    " ".join(local.run_args) + " " + " \\\n && ".join(args)
                 )
-                return [run_param]
             elif "workdir" in directive:
-                return [
-                    "--workdir",
-                    self.execute_template(directive["workdir"], locals=locals),
-                ]
+                builder.set_workdir(
+                    self.execute_template(directive["workdir"], locals=locals)
+                )
             elif "user" in directive:
-                return [
-                    "--user",
-                    self.execute_template(directive["user"], locals=locals),
-                ]
+                builder.set_user(
+                    self.execute_template(directive["user"], locals=locals)
+                )
             elif "entrypoint" in directive:
-                return [
-                    "--entrypoint",
-                    self.execute_template(directive["entrypoint"], locals=locals),
-                ]
+                builder.set_entrypoint(
+                    self.execute_template(directive["entrypoint"], locals=locals)
+                )
             elif "environment" in directive:
                 if directive["environment"] == None:
                     raise ValueError("Environment must be a map of keys and values.")
 
-                ret = []
                 for key, value in directive["environment"].items():
-                    ret += [
-                        "--env",
-                        f"{self.execute_template(key, locals=locals)}={self.execute_template(value, locals=locals)}",
-                    ]
-                return ret
+                    builder.set_environment(
+                        self.execute_template(key, locals=locals),
+                        self.execute_template(value, locals=locals),
+                    )
             elif "template" in directive:
                 name = self.execute_template(
                     directive["template"].get("name") or "", locals=locals
@@ -382,13 +479,14 @@ class BuildContext(object):
                 if name == "":
                     raise ValueError("Template name cannot be empty.")
 
-                items = [
-                    f"{k}={self.execute_template(v, locals=locals)}"
-                    for k, v in directive["template"].items()
-                    if k != "name"
-                ]
-
-                return ["--" + name] + items
+                builder.add_directive(
+                    name,
+                    **{
+                        k: self.execute_template(v, locals=locals)
+                        for k, v in directive["template"].items()
+                        if k != "name"
+                    },
+                )
             elif "copy" in directive:
                 args = []
                 if type(directive["copy"]) == str:
@@ -403,7 +501,7 @@ class BuildContext(object):
                     if not self.file_exists(args[0]):
                         raise ValueError(f"File {args[0]} does not exist.")
 
-                return ["--copy"] + args
+                builder.copy(*args)
             elif "group" in directive:
                 variables = {**locals}
 
@@ -411,12 +509,8 @@ class BuildContext(object):
                     for key, value in directive["with"].items():
                         variables[key] = self.execute_template(value, locals=variables)
 
-                ret = []
-
                 for item in directive["group"]:
-                    ret += add_directive(item, locals=variables)
-
-                return ret
+                    add_directive(item, locals=variables)
             elif "include" in directive:
                 filename = self.execute_template(
                     directive["include"] or "", locals=locals
@@ -433,38 +527,29 @@ class BuildContext(object):
                     for key, value in directive["with"].items():
                         variables[key] = self.execute_template(value, locals=variables)
 
-                ret = []
-
                 for directive in include_file["directives"]:
-                    ret += add_directive(directive, locals=variables)
-
-                return ret
+                    add_directive(directive, locals=variables)
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
         locals = {}
 
         for directive in build_directive["directives"]:
-            args += add_directive(directive, locals=locals)
+            add_directive(directive, locals=locals)
 
         if deploy is not None:
             if "path" in deploy:
-                args += [
-                    "--env",
-                    "DEPLOY_PATH=" + ":".join(self.execute_template(deploy["path"])),
-                ]
+                builder.set_environment(
+                    "DEPLOY_PATH", ":".join(self.execute_template(deploy["path"]))
+                )
             if "bins" in deploy:
-                args += [
-                    "--env",
-                    "DEPLOY_BINS=" + ":".join(self.execute_template(deploy["bins"])),
-                ]
+                builder.set_environment(
+                    "DEPLOY_BINS", ":".join(self.execute_template(deploy["bins"]))
+                )
 
-        args += ["--copy", "README.md", "/README.md"]
+        builder.copy("README.md", "/README.md")
 
-        p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        output, _ = p.communicate(input=b"y\n")
-
-        output = output.decode("utf-8")
+        output = builder.generate()
 
         # Hack to remove the localedef installation since neurodocker adds it.
         if build_directive.get("fix-locale-def"):
