@@ -29,28 +29,27 @@ function test_file_linking {
 
     # if the file starts with a shabang test it recursively
     if [ "$(head -n 1 $filename | grep '#!')" ]; then
-        echo "File $filename is a script."
+        # Get just the interpreter
+        interpreter=$(head -n 1 $filename | grep '#!' | awk '{print $1}' | cut -c 3-)
 
-        # Check if the file exists
-        for i in $(cat $filename | grep '#!' | awk '{print $2}')
-        do
-        test_file $i
-        done
+        echo "File $filename is a script using $interpreter."
+
+        # Check if the interpreter works
+        test_file $interpreter
 
         return 0
     fi
 
     # If the file is dynamically linked, check if the libraries exist
-    if ldd "$filename" &> /dev/null; then
-        echo "File $i is dynamically linked."
-        for j in $(ldd "$filename" | awk '{print $3}')
-        do
-        if [ -f "$j" ]; then
-            echo "Library $j exists."
-        else
-            echo "Library $j does not exist."
-            exit 1
-        fi
+    if ldd "$filename" &>/dev/null; then
+        echo "File $filename is dynamically linked."
+        for j in $(ldd "$filename" | awk '{print $3}'); do
+            if [ -f "$j" ]; then
+                echo "Library $j exists."
+            else
+                echo "Library $j does not exist."
+                exit 1
+            fi
         done
     else
         echo "File $i is staticky linked."
@@ -61,16 +60,14 @@ function main {
     echo "Testing DEPLOY_BINS and DEPLOY_PATH..."
 
     # Get every file in DEPLOY_BINS split with :
-    for i in $(echo $DEPLOY_BINS | tr ":" "\n")
-    do
+    for i in $(echo $DEPLOY_BINS | tr ":" "\n"); do
         filename=$(which $i)
 
         test_file $filename
     done
 
     # Get every directory in DEPLOY_PATH split with :
-    for i in $(echo $DEPLOY_PATH | tr ":" "\n")
-    do
+    for i in $(echo $DEPLOY_PATH | tr ":" "\n"); do
         # Check if the directory exists
         if [ -d "$i" ]; then
             echo "Directory $i exists."
@@ -82,9 +79,8 @@ function main {
         echo "Testing directory $i..."
 
         # For each executable file in the directory test it.
-        for j in $(ls $i)
-        do
-            filename=$i/$j
+        for j in $(ls $i); do
+            filename=$i$j
 
             # if the file is not executable skip it
             if [ ! -x "$filename" ]; then
