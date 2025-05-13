@@ -46,7 +46,32 @@ def run_docker_prep(prep, volume_name):
     )
 
 
+def run_builtin_test(tag, test):
+    # built-in tests are found next to this file
+    builtin_test = os.path.join(os.path.dirname(__file__), test)
+    if not os.path.exists(builtin_test):
+        raise ValueError(f"Builtin test {test} does not exist")
+
+    test_content = open(builtin_test).read()
+
+    # Docker run the test script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            tag,
+            "bash",
+            "-c",
+            test_content,
+        ],
+    )
+
+
 def run_docker_test(tag, test):
+    if test.get("builtin") == "test_deploy.sh":
+        return run_builtin_test(tag, test.get("builtin"))
+
     script = test.get("script")
     if script is None:
         raise ValueError("Test step must have a script")
@@ -73,8 +98,9 @@ def run_docker_test(tag, test):
     )
 
     # For each prep step in the test, run it in a docker container
-    for prep in test["prep"]:
-        run_docker_prep(prep, volume_name)
+    if "prep" in test:
+        for prep in test["prep"]:
+            run_docker_prep(prep, volume_name)
 
     # Docker run the test script in the container mounting the volume as /test
     subprocess.check_call(

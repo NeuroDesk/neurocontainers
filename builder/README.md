@@ -145,14 +145,24 @@ files:
     filename: hello.sh
 ```
 
-Files still have to be added to the container with...
+Files can be downloaded from the internet. Files will be cached locally on the system and reused between builds...
+
+```yaml
+files:
+  - name: hello.zip
+    filename: https://example.com/hello.zip
+```
+
+Files can be referenced directly in run directives with...
 
 ```yaml
 build:
   # ...
   directives:
     # ...
-    - copy: install.packages.jl /opt
+    - run:
+      # Install cat12
+      - unzip -q {{ get_file("hello.zip") }} -d /tmp
 ```
 
 ## NeuroDocker Builder
