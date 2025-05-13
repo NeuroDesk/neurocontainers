@@ -153,7 +153,7 @@ def process_image(images, connection, config, metadata):
     read_dir  = np.array(images[0].read_dir )
     phase_dir = np.array(images[0].phase_dir)
     slice_dir = np.array(images[0].slice_dir)
-    logging.info(f'MRD computed maxtrix [x y z] : {matrix   }')
+    logging.info(f'MRD computed matrix [x y z] : {matrix   }')
     logging.info(f'MRD computed fov     [x y z] : {fov      }')
     logging.info(f'MRD computed voxel   [x y z] : {voxelsize}')
     logging.info(f'MRD read_dir         [x y z] : {read_dir }')

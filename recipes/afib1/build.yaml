@@ -1,0 +1,102 @@
+name: afib1
+version: 1.4.0
+architectures:
+  - x86_64
+
+files:
+  - name: afib1.py
+    filename: afib1.py
+
+build:
+  kind: neurodocker
+  base-image: ubuntu:22.04
+  pkg-manager: apt
+
+  directives:
+    - environment:
+        DEBIAN_FRONTEND: noninteractive
+    - install:
+        bzip2 ca-certificates git wget build-essential python3-pip python-is-python3
+
+    # openrecon dependencies
+    - group:
+      - workdir: /opt/code
+
+      - install:
+          - build-essential
+          - libxslt1.1
+          - libhdf5-103
+          - libboost-program-options1.74.0
+          - libpugixml1v5
+          - vim
+          - dos2unix
+          - git
+          - cmake
+          - g++
+          - libhdf5-dev
+          - libxml2-dev
+          - libxslt1-dev
+          - libboost-all-dev
+          - libfftw3-dev
+          - libpugixml-dev
+
+      - run:
+          - git clone https://github.com/ismrmrd/ismrmrd.git
+          - cd ./ismrmrd
+          - cmake .
+          - make -j $(nproc)
+          - make install
+
+      - run:
+          - git clone https://github.com/ismrmrd/siemens_to_ismrmrd.git
+          - cd siemens_to_ismrmrd
+          - mkdir build
+          - cd build
+          - cmake ..
+          - make -j $(nproc)
+          - make install
+
+      - run:
+          - pip3 install h5py ismrmrd matplotlib pydicom==3.0.1 pynetdicom nibabel scipy scikit-image 
+
+      - run:
+          - git clone https://github.com/ismrmrd/ismrmrd-python-tools.git
+          - cd ismrmrd-python-tools
+          - pip3 install --no-cache-dir .
+
+      - run:
+          - git clone https://github.com/kspaceKelvin/python-ismrmrd-server
+          - find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \;
+          - find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix
+          # replace 'invertcontrast' in main.py with 'default_replace_with_valid_name' to avoid running 
+          - sed -i 's/invertcontrast/default_replace_with_valid_name/g' /opt/code/python-ismrmrd-server/main.py
+
+    #BET2 application
+    - install:
+        - gcc-aarch64-linux-gnu cmake make build-essential
+    
+    - run:  
+        - git clone https://github.com/Bostrix/FSL-BET2
+        - cd FSL-BET2
+        - mkdir build
+        - cd build
+        - cmake ..
+        - make
+
+    - environment:
+        PATH: ${PATH}:/opt/code/FSL-BET2/bin
+
+    #openrecon application
+    - copy: afib1.py /opt/code/python-ismrmrd-server/afib1.py
+
+readme: |-
+  ----------------------------------
+  ## afib1/{{ context.version }} ##
+  Example for building an openrecon container in Neurodesk
+
+  you can build this recipe with:
+  ```bash
+  ./builder/build.py generate afib1 --recreate --build --login --architecture x86_64
+  ```
+
+  ----------------------------------
