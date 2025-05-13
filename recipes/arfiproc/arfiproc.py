@@ -83,8 +83,10 @@ def process(connection, config, metadata):
                     imgGroup = []
 
                 # Only process magnitude images -- send phase images back without modification (fallback for images with unknown type)
-                if (item.image_type is ismrmrd.IMTYPE_MAGNITUDE) or (item.image_type == 0):
+                if (item.image_type is ismrmrd.IMTYPE_MAGNITUDE) or (item.image_type == 0) or (item.image_type is ismrmrd.IMTYPE_PHASE):
                     imgGroup.append(item)
+                    logging.info("appended Here %s",item.image_type)
+
                 else:
                     tmpMeta = ismrmrd.Meta.deserialize(item.attribute_string)
                     tmpMeta['Keep_image_geometry']    = 1

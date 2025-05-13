@@ -14,7 +14,7 @@ tests:
       python3 /opt/code/python-ismrmrd-server/client.py \
         -G dataset \
         -o /buildhostdirectory/output.h5 \
-        /buildhostdirectory/t1.h5 \
+        /buildhostdirectory/input_data.h5 \
         -c arfiproc
 
       # Check output h5 data in "H5Web" VS code plugin viewer
