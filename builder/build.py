@@ -925,6 +925,13 @@ def generate_from_description(
     if ctx.name == "" or ctx.version == "" or ctx.readme == "":
         raise ValueError("Name, version, or readme cannot be empty.")
 
+    # Get hardcoded deploy info
+    if "deploy" in description_file:
+        if "bins" in description_file["deploy"]:
+            ctx.deploy_bins = ctx.execute_template(description_file["deploy"]["bins"], locals=locals)  # type: ignore
+        if "path" in description_file["deploy"]:
+            ctx.deploy_path = ctx.execute_template(description_file["deploy"]["path"], locals=locals)  # type: ignore
+
     ctx.tag = f"{name}:{version}"
 
     # Get build information

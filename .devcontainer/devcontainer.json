@@ -1,6 +1,6 @@
 {
   "name": "Neurocontainers Build Environment",
-  "postCreateCommand": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt",
+  "postCreateCommand": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt && python3 -m pip install -e .",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "privileged": true,
   "features": {
