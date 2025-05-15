@@ -1,6 +1,10 @@
 name: qsmxt
 version: 8.0.3
 
+copyright:
+  - license: GPL-3.0-only # has to be SPDX Identifier
+    url: https://github.com/QSMxT/QSMxT/blob/main/LICENSE
+
 architectures:
   - x86_64
   - aarch64

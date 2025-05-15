@@ -1,4 +1,7 @@
 tests:
+  - name: Simple Deploy Bins/Path Test
+    builtin: test_deploy.sh
+
   - name: Test NiiMath
     script: |
       #!/usr/bin/env bash

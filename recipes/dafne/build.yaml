@@ -34,8 +34,6 @@ build:
         pip_install: pyradiomics dafne==1.8a4
         version: py38_22.11.1-1
 
-    - copy: test.sh /test.sh
-
 deploy:
   bins:
     - dafne
@@ -64,7 +62,3 @@ readme: |-
   License: GNU General Public License, https://dafne.network/documentation/#license
 
   ----------------------------------
-
-files:
-  - name: test.sh
-    contents: dafne

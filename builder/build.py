@@ -44,11 +44,200 @@ ARCHITECTURES = {
     "aarch64": "aarch64",
 }
 
+
+def get_cache_dir():
+    # Get the cache directory
+    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
+    if not os.path.exists(cache_dir):
+        os.makedirs(cache_dir)
+
+    return cache_dir
+
+
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
 
+class NeuroDockerBuilder:
+    def __init__(self, base_image, pkg_manager="apt", add_default=True):
+        self.renderer_dict = {
+            "pkg_manager": pkg_manager,
+            "instructions": [],
+        }
+
+        self.add_directive("from_", base_image=base_image)
+
+        if add_default:
+            self.add_directive("_default")
+
+    def add_directive(self, directive, **kwargs):
+        """
+        Low level function to add a directive to the renderer_dict.
+        Can also be used to add templates.
+        :param directive: The name of the directive.
+        :param kwargs: The keyword arguments for the directive.
+        """
+        self.renderer_dict["instructions"].append({"name": directive, "kwds": kwargs})
+
+    def install_packages(self, packages):
+        """
+        Install packages using the specified package manager.
+        :param packages: List of packages to install.
+        """
+        self.add_directive("install", pkgs=packages, opts=None)
+
+    def run_command(self, command):
+        """
+        Run a command in the container.
+        :param args: The command to run.
+        """
+        self.add_directive("run", command=command)
+
+    def set_user(self, user):
+        """
+        Set the user for the container.
+        :param user: The user to set.
+        """
+        self.add_directive("user", user=user)
+
+    def set_workdir(self, path):
+        """
+        Set the working directory for the container.
+        :param path: The path to set as the working directory.
+        """
+        self.add_directive("workdir", path=path)
+
+    def set_entrypoint(self, entrypoint):
+        """
+        Set the entrypoint for the container.
+        :param entrypoint: The entrypoint to set.
+        """
+        self.add_directive("entrypoint", args=[entrypoint])
+
+    def set_environment(self, key, value):
+        """
+        Set an environment variable for the container.
+        :param key: The name of the environment variable.
+        :param value: The value of the environment variable.
+        """
+        self.add_directive("env", **{key: value})
+
+    def copy(self, *args):
+        """
+        Copy files into the container.
+        :param args: The files to copy.
+        """
+        source, destination = list(args[:-1]), args[-1]
+        self.add_directive("copy", source=source, destination=destination)
+
+    def generate(self):
+        """
+        Generate the NeuroDocker Dockerfile.
+        :return: The generated Dockerfile as a string.
+        """
+
+        from neurodocker.reproenv.renderers import DockerRenderer
+
+        if (
+            len(
+                [
+                    i
+                    for i in self.renderer_dict["instructions"]
+                    if i["name"] == "entrypoint"
+                ]
+            )
+            == 0
+            and len(
+                [
+                    i
+                    for i in self.renderer_dict["instructions"]
+                    if i["name"] == "_default"
+                ]
+            )
+            > 0
+        ):
+            self.set_entrypoint("/neurodocker/startup.sh")
+
+        r = DockerRenderer.from_dict(self.renderer_dict)
+
+        return str(r)
+
+
+class LocalBuildContext(object):
+    def __init__(self, context, cache_id):
+        self.context = context
+        self.run_args = []
+        self.mounted_cache = False
+        self.cache_id = cache_id
+
+    def try_mount_cache(self):
+        target = "/.neurocontainer-cache/" + self.cache_id
+
+        if self.mounted_cache:
+            return target
+
+        cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cache_relpath = os.path.relpath(cache_dir, self.context.build_directory)
+
+        self.run_args.append(
+            f"--mount=type=bind,source={cache_relpath},target={target},readonly"
+        )
+        self.mounted_cache = True
+
+        return target
+
+    def ensure_context_cached(self, cache_filename, guest_filename):
+        # Check if the file is already cached
+        context_cache_dir = self.context.get_context_cache_dir(self.cache_id)
+
+        cached_file = os.path.join(context_cache_dir, guest_filename)
+        if os.path.exists(cached_file):
+            return guest_filename
+
+        # if not then link it from the cache
+        os.link(cache_filename, cached_file)
+
+        # return the filename
+        return guest_filename
+
+    def get_file(self, filename):
+        file_info = self.context.files.get(filename)
+        if file_info is None:
+            raise ValueError(f"File {filename} not found.")
+
+        if "cached_path" in file_info:
+            cache_dir = self.try_mount_cache()
+            cache_filename = self.ensure_context_cached(
+                file_info["cached_path"],
+                filename,
+            )
+            return cache_dir + "/" + cache_filename
+        else:
+            raise ValueError("File has no cached path or context path.")
+
+    def methods(self):
+        return {
+            "get_file": self.get_file,
+        }
+
+
+def hash_obj(obj):
+    # Hash the object using SHA256
+    if isinstance(obj, str):
+        obj = obj.encode("utf-8")
+    elif isinstance(obj, dict):
+        obj = yaml.dump(obj).encode("utf-8")
+    elif isinstance(obj, list):
+        obj = yaml.dump(obj).encode("utf-8")
+    else:
+        raise ValueError("Object type not supported.")
+
+    return hashlib.sha256(obj).hexdigest()
+
+
 class BuildContext(object):
-    def __init__(self, name, version, arch):
+    def __init__(self, base_path, name, version, arch):
+        self.base_path = base_path
         self.name = name
         self.version = version
         self.original_version = version
@@ -56,6 +245,13 @@ class BuildContext(object):
         self.max_parallel_jobs = os.cpu_count()
         self.options = {}
         self.option_info = {}
+        self.files = {}
+        self.lint_error = False
+
+    def lint_fail(self, message):
+        if self.lint_error:
+            raise ValueError("lint failed: " + message)
+        print("lint failed: " + message)
 
     def add_option(self, key, description="", default=False, version_suffix=""):
         self.options[key] = default
@@ -89,27 +285,37 @@ class BuildContext(object):
     def set_max_parallel_jobs(self, max_parallel_jobs):
         self.max_parallel_jobs = max_parallel_jobs
 
-    def render_template(self, template, locals=None):
+    def get_context_cache_dir(self, cache_id):
+        cache_dir = os.path.join(self.build_directory, "cache", cache_id)
+        if not os.path.exists(cache_dir):
+            os.makedirs(cache_dir)
+
+        return cache_dir
+
+    def render_template(self, template, locals=None, methods=None):
         tpl = _jinja_env.from_string(template)
         return tpl.render(
             context=self,
             arch=self.arch,
             parallel_jobs=self.max_parallel_jobs,
             local=locals,
+            **(methods or {}),
         )
 
     def execute_condition(self, condition, locals=None):
         result = self.render_template("{{" + condition + "}}", locals=locals)
         return result == "True"
 
-    def execute_template(self, obj, locals=None):
+    def execute_template(self, obj, locals=None, methods=None):
         if type(obj) == str:
             try:
-                return self.render_template(obj, locals=locals)
+                return self.render_template(obj, locals=locals, methods=methods)
             except jinja2.exceptions.TemplateSyntaxError as e:
                 raise ValueError(f"Template syntax error: {e} in {obj}")
         elif type(obj) == list:
-            return [self.execute_template(o, locals=locals) for o in obj]
+            return [
+                self.execute_template(o, locals=locals, methods=methods) for o in obj
+            ]
         elif type(obj) == dict:
             if "try" in obj:
                 for value in obj["try"]:
@@ -120,27 +326,93 @@ class BuildContext(object):
         else:
             raise ValueError("Template object not supported.")
 
+    def add_file(self, file, recipe_path, check_only=False):
+        name = file["name"]
+
+        if name == "":
+            raise ValueError("File name cannot be empty.")
+
+        output_filename = os.path.join(self.build_directory, name)
+
+        if "url" in file:
+            # download and cache the file
+            url = self.execute_template(file["url"])
+            cached_file = download_with_cache(url, check_only=check_only)
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "cached_path": cached_file,
+            }
+        else:
+            if "contents" in file:
+                contents = self.execute_template(file["contents"])
+                with open(output_filename, "w") as f:
+                    f.write(contents)
+            elif "filename" in file:
+                base = os.path.abspath(recipe_path)
+                filename = os.path.join(base, file["filename"])
+                with open(output_filename, "wb") as f:
+                    with open(filename, "rb") as f2:
+                        f.write(f2.read())
+            else:
+                raise ValueError("File contents not found.")
+
+            if "executable" in file and file["executable"]:
+                os.chmod(output_filename, 0o755)
+
+            self.files[name] = {
+                "cached_path": output_filename,
+            }
+
     def file_exists(self, filename):
         return os.path.exists(os.path.join(self.build_directory, filename))
 
-    def build_neurodocker(self, build_directive, deploy, test_cases):
-        args = ["neurodocker", "generate", "docker"]
+    def generate_cache_id(self, directive):
+        return "h" + directive[:8]
 
-        base = self.execute_template(build_directive.get("base-image") or "")
+    def load_include_file(self, filename):
+        filename = os.path.join(self.base_path, filename)
+
+        if not os.path.exists(filename):
+            raise ValueError(f"Include file {filename} not found.")
+
+        with open(filename, "r") as f:
+            return yaml.safe_load(f)
+
+    def check_docker_image(self, image):
+        if image == "":
+            raise ValueError("Docker image cannot be empty.")
+
+        if ":" not in image:
+            self.lint_fail("Docker image must have a tag. Use <image>:<tag> format.")
+            return image + ":latest"
+
+        name, tag = image.split(":", 1)
+
+        if name == "ubuntu":
+            if tag not in ["16.04", "18.04", "20.04", "22.04", "24.04", "26.04"]:
+                self.lint_fail(
+                    "Ubuntu version not supported. Use 16.04, 18.04, 20.04, 22.04, 24.04 or 26.04."
+                )
+
+        return image
+
+    def build_neurodocker(self, build_directive, deploy):
+        base = self.check_docker_image(
+            self.execute_template(build_directive.get("base-image") or "")
+        )
         pkg_manager = self.execute_template(build_directive.get("pkg-manager") or "")
 
         if base == "" or pkg_manager == "":
             raise ValueError("Base image or package manager cannot be empty.")
 
-        args += ["--base-image", base, "--pkg-manager", pkg_manager]
+        builder = NeuroDockerBuilder(base, pkg_manager)
 
-        mount_point_list = " ".join(GLOBAL_MOUNT_POINT_LIST)
-
-        args += [
-            "--run=printf '#!/bin/bash\\nls -la' > /usr/bin/ll",
-            "--run=chmod +x /usr/bin/ll",
-            f"--run=mkdir -p {mount_point_list}",
-        ]
+        builder.run_command("printf '#!/bin/bash\\nls -la' > /usr/bin/ll")
+        builder.run_command("chmod +x /usr/bin/ll")
+        builder.run_command("mkdir -p " + " ".join(GLOBAL_MOUNT_POINT_LIST))
 
         def add_directive(directive, locals):
             if "condition" in directive:
@@ -149,53 +421,57 @@ class BuildContext(object):
 
             if "install" in directive:
                 if type(directive["install"]) == str:
-                    return ["--install"] + self.execute_template(
-                        [
-                            f
-                            for f in directive["install"].replace("\n", " ").split(" ")
-                            if f != ""
-                        ],
-                        locals=locals,
+                    builder.install_packages(
+                        self.execute_template(
+                            [
+                                f
+                                for f in directive["install"]
+                                .replace("\n", " ")
+                                .split(" ")
+                                if f != ""
+                            ],
+                            locals=locals,
+                        )
                     )
                 elif type(directive["install"]) == list:
-                    return ["--install"] + self.execute_template(
-                        directive["install"], locals=locals
+                    builder.install_packages(
+                        self.execute_template(directive["install"], locals=locals)
                     )
                 else:
                     raise ValueError("Install directive must be a string or list.")
             elif "run" in directive:
-                return [
-                    "--run="
-                    + " \\\n && ".join(
-                        self.execute_template(directive["run"], locals=locals)
-                    )
-                ]
+                local = LocalBuildContext(
+                    self, self.generate_cache_id(hash_obj(directive))
+                )
+                args = self.execute_template(
+                    directive["run"],
+                    locals=locals,
+                    methods=local.methods(),
+                )
+                builder.run_command(
+                    " ".join(local.run_args) + " " + " \\\n && ".join(args)
+                )
             elif "workdir" in directive:
-                return [
-                    "--workdir",
-                    self.execute_template(directive["workdir"], locals=locals),
-                ]
+                builder.set_workdir(
+                    self.execute_template(directive["workdir"], locals=locals)
+                )
             elif "user" in directive:
-                return [
-                    "--user",
-                    self.execute_template(directive["user"], locals=locals),
-                ]
+                builder.set_user(
+                    self.execute_template(directive["user"], locals=locals)
+                )
             elif "entrypoint" in directive:
-                return [
-                    "--entrypoint",
-                    self.execute_template(directive["entrypoint"], locals=locals),
-                ]
+                builder.set_entrypoint(
+                    self.execute_template(directive["entrypoint"], locals=locals)
+                )
             elif "environment" in directive:
                 if directive["environment"] == None:
                     raise ValueError("Environment must be a map of keys and values.")
 
-                ret = []
                 for key, value in directive["environment"].items():
-                    ret += [
-                        "--env",
-                        f"{self.execute_template(key, locals=locals)}={self.execute_template(value, locals=locals)}",
-                    ]
-                return ret
+                    builder.set_environment(
+                        self.execute_template(key, locals=locals),
+                        self.execute_template(value, locals=locals),
+                    )
             elif "template" in directive:
                 name = self.execute_template(
                     directive["template"].get("name") or "", locals=locals
@@ -203,13 +479,14 @@ class BuildContext(object):
                 if name == "":
                     raise ValueError("Template name cannot be empty.")
 
-                items = [
-                    f"{k}={self.execute_template(v, locals=locals)}"
-                    for k, v in directive["template"].items()
-                    if k != "name"
-                ]
-
-                return ["--" + name] + items
+                builder.add_directive(
+                    name,
+                    **{
+                        k: self.execute_template(v, locals=locals)
+                        for k, v in directive["template"].items()
+                        if k != "name"
+                    },
+                )
             elif "copy" in directive:
                 args = []
                 if type(directive["copy"]) == str:
@@ -224,7 +501,7 @@ class BuildContext(object):
                     if not self.file_exists(args[0]):
                         raise ValueError(f"File {args[0]} does not exist.")
 
-                return ["--copy"] + args
+                builder.copy(*args)
             elif "group" in directive:
                 variables = {**locals}
 
@@ -232,41 +509,47 @@ class BuildContext(object):
                     for key, value in directive["with"].items():
                         variables[key] = self.execute_template(value, locals=variables)
 
-                ret = []
-
                 for item in directive["group"]:
-                    ret += add_directive(item, locals=variables)
+                    add_directive(item, locals=variables)
+            elif "include" in directive:
+                filename = self.execute_template(
+                    directive["include"] or "", locals=locals
+                )
 
-                return ret
+                include_file = self.load_include_file(filename)
+
+                if include_file.get("builder") != "neurodocker":
+                    raise ValueError("Include file must be a neurodocker file.")
+
+                variables = {**locals}
+
+                if "with" in directive:
+                    for key, value in directive["with"].items():
+                        variables[key] = self.execute_template(value, locals=variables)
+
+                for directive in include_file["directives"]:
+                    add_directive(directive, locals=variables)
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
         locals = {}
 
         for directive in build_directive["directives"]:
-            args += add_directive(directive, locals=locals)
+            add_directive(directive, locals=locals)
 
         if deploy is not None:
             if "path" in deploy:
-                args += [
-                    "--env",
-                    "DEPLOY_PATH=" + ":".join(self.execute_template(deploy["path"])),
-                ]
+                builder.set_environment(
+                    "DEPLOY_PATH", ":".join(self.execute_template(deploy["path"]))
+                )
             if "bins" in deploy:
-                args += [
-                    "--env",
-                    "DEPLOY_BINS=" + ":".join(self.execute_template(deploy["bins"])),
-                ]
+                builder.set_environment(
+                    "DEPLOY_BINS", ":".join(self.execute_template(deploy["bins"]))
+                )
 
-        args += ["--copy", "README.md", "/README.md"]
+        builder.copy("README.md", "/README.md")
 
-        for test_case in test_cases:
-            args += ["--copy", f"tests/{test_case}", f"/tests/{test_case}"]
-
-        p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        output, _ = p.communicate(input=b"y\n")
-
-        output = output.decode("utf-8")
+        output = builder.generate()
 
         # Hack to remove the localedef installation since neurodocker adds it.
         if build_directive.get("fix-locale-def"):
@@ -380,13 +663,22 @@ def main_init(args):
                 "name": name,
                 "version": version,
                 "architectures": ["x86_64"],
+                "files": [
+                    {
+                        "name": "hello.txt",  # Example file
+                        "contents": "Hello, world!",  # Example content
+                    }
+                ],
                 "build": {
                     "kind": "neurodocker",
                     "base-image": "ubuntu:24.04",
                     "pkg-manager": "apt",
                     "directives": [
-                        {"run": ["echo 'Hello World'"]},
+                        {"run": ['cat {{ get_file("hello.txt") }}']},
                     ],
+                },
+                "deploy": {
+                    "bins": ["TODO"],
                 },
                 "readme": "TODO",
             },
@@ -452,6 +744,7 @@ def get_build_platform(arch):
 
 
 def main_generate(args):
+    base_path = os.getcwd()
     recipe_path = get_recipe_directory(args.name)
 
     # Load description file
@@ -481,6 +774,9 @@ def main_generate(args):
     draft = description_file.get("draft") or False
     if draft:
         print("WARN: This is a draft recipe.")
+        if args.auto_build:
+            print("WARN: Auto build is enabled. Skipping build.")
+            return
 
     arch = ARCHITECTURES[args.architecture or platform.machine()]
 
@@ -491,7 +787,7 @@ def main_generate(args):
     if arch not in allowed_architectures and not args.ignore_architectures:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
 
-    ctx = BuildContext(name, version, arch)
+    ctx = BuildContext(base_path, name, version, arch)
     ctx.set_max_parallel_jobs(args.max_parallel_jobs)
 
     if "variables" in description_file:
@@ -552,6 +848,13 @@ def main_generate(args):
 
     ctx.deploy = description_file.get("deploy") or None
 
+    # Check if deploy is empty
+    if ctx.deploy is None:
+        raise ValueError("No deploy info found in description file.")
+
+    if len(ctx.deploy.get("path", [])) == 0 and len(ctx.deploy.get("bins", [])) == 0:
+        raise ValueError("No deploy path or bins found in description file.")
+
     # Create build directory
     ctx.build_directory = os.path.join(args.output_directory, name)
 
@@ -572,71 +875,14 @@ def main_generate(args):
         f.write("\n")
 
     # Write all files
-    ctx.files = description_file.get("files") or []
-    for file in ctx.files:
-        name = file["name"]
-
-        if name == "":
-            raise ValueError("File name cannot be empty.")
-
-        output_filename = os.path.join(ctx.build_directory, name)
-
-        if "contents" in file:
-            contents = ctx.execute_template(file["contents"])
-            with open(output_filename, "w") as f:
-                f.write(contents)
-        elif "filename" in file:
-            base = os.path.abspath(recipe_path)
-            filename = os.path.join(base, file["filename"])
-            with open(output_filename, "wb") as f:
-                with open(filename, "rb") as f2:
-                    f.write(f2.read())
-        elif "url" in file:
-            # download and cache the file
-            url = ctx.execute_template(file["url"])
-            cached_file = download_with_cache(url, args.check_only)
-            shutil.copy(cached_file, output_filename)
-        else:
-            raise ValueError("File contents not found.")
-
-        if "executable" in file and file["executable"]:
-            os.chmod(output_filename, 0o755)
-
-    # if test.yaml is next to the description file, read it
-    test_info = []
-    test_file = os.path.join(recipe_path, "test.yaml")
-    if os.path.exists(test_file):
-        with open(test_file, "r") as f:
-            test_info = yaml.safe_load(f).get("tests") or []
-
-    test_cases = []
-
-    os.makedirs(os.path.join(ctx.build_directory, "tests"))
-
-    for test in test_info:
-        name = ctx.execute_template(test.get("name") or "")
-        script = ctx.execute_template(test.get("script") or "")
-        if name == "" or script == "":
-            raise ValueError("Test name or script cannot be empty.")
-
-        # Check if condition is met
-        if "if" in test:
-            if not ctx.execute_condition(test["if"]):
-                continue
-
-        filename = name.lower().replace(" ", "_") + ".sh"
-        test_cases.append(filename)
-
-        with open(os.path.join(ctx.build_directory, "tests", filename), "w") as f:
-            f.write(script)
-
-        os.chmod(os.path.join(ctx.build_directory, "tests", filename), 0o755)
+    for file in description_file.get("files", []):
+        ctx.add_file(file, recipe_path, check_only=args.check_only)
 
     dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
 
     # Write Dockerfile
     if ctx.build_kind == "neurodocker":
-        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy, test_cases)
+        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy)
 
         with open(os.path.join(ctx.build_directory, dockerfile_name), "w") as f:
             f.write(dockerfile)
@@ -711,31 +957,11 @@ def main_generate(args):
             )
 
             print("Singularity image built successfully as", ctx.tag + ".sif")
-
-        if args.test:
-            print("Running tests...")
-            if len(test_cases) == 0:
-                print("No tests found.")
-                return
-
-            if not shutil.which("docker"):
-                raise ValueError("Docker not found in PATH.")
-
-            for filename in test_cases:
-                subprocess.check_call(
-                    ["docker", "run", ctx.tag, "/tests/" + filename],
-                    cwd=ctx.build_directory,
-                )
-
-            print("Tests passed.")
     else:
         if args.build_sif:
             raise ValueError(
                 "Building Singularity image requires building the Docker image first."
             )
-
-        if args.test:
-            raise ValueError("Running tests requires building the Docker image first.")
 
 
 def main(args):
@@ -807,6 +1033,11 @@ def main(args):
         "--check-only",
         action="store_true",
         help="Check the recipe and exit without building",
+    )
+    build_parser.add_argument(
+        "--auto-build",
+        action="store_true",
+        help="Set if the recipe is being built in CI",
     )
 
     init_parser = command.add_parser(

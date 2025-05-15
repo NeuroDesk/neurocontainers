@@ -26,7 +26,9 @@ build:
     - run:
         - python3.8 -m pip install ipykernel jupyterlab
 
-deploy: {}
+deploy:
+  bins:
+    - jupyter-lab
 
 readme: |-
   ----------------------------------

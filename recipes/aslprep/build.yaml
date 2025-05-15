@@ -1,6 +1,10 @@
 name: aslprep
 version: 0.7.5
 
+copyright:
+  - license: BSD-3-Clause # has to be SPDX Identifier
+    url: https://github.com/pennlinc/aslprep/blob/main/LICENSE.md
+
 architectures:
   - x86_64
 
