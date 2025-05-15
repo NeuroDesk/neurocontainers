@@ -1,100 +1,54 @@
 name: arfiproc
 version: 1.0.0
 architectures:
-  - x86_64
+    - x86_64
 
 files:
-  - name: arfiproc.py
-    filename: arfiproc.py
+    - name: arfiproc.py
+      filename: arfiproc.py
 
 build:
-  kind: neurodocker
-  base-image: ubuntu:22.04
-  pkg-manager: apt
+    kind: neurodocker
+    base-image: ubuntu:22.04
+    pkg-manager: apt
 
-  directives:
-    - environment:
-        DEBIAN_FRONTEND: noninteractive
-    - install:
-        bzip2 ca-certificates git wget build-essential python3-pip python-is-python3
+    directives:
+        - environment:
+              DEBIAN_FRONTEND: noninteractive
 
-    # openrecon dependencies
-    - group:
-      - workdir: /opt/code
+        - install: bzip2 ca-certificates git wget build-essential python3-pip python-is-python3
 
-      - install:
-          - build-essential
-          - libxslt1.1
-          - libhdf5-103
-          - libboost-program-options1.74.0
-          - libpugixml1v5
-          - vim
-          - dos2unix
-          - git
-          - cmake
-          - g++
-          - libhdf5-dev
-          - libxml2-dev
-          - libxslt1-dev
-          - libboost-all-dev
-          - libfftw3-dev
-          - libpugixml-dev
+        - include: macros/openrecon/neurodocker.yaml
 
-      - run:
-          - git clone https://github.com/ismrmrd/ismrmrd.git
-          - cd ./ismrmrd
-          - cmake .
-          - make -j $(nproc)
-          - make install
+        #openrecon application
+        - copy: arfiproc.py /opt/code/python-ismrmrd-server/arfiproc.py
 
-      - run:
-          - git clone https://github.com/ismrmrd/siemens_to_ismrmrd.git
-          - cd siemens_to_ismrmrd
-          - mkdir build
-          - cd build
-          - cmake ..
-          - make -j $(nproc)
-          - make install
-
-      - run:
-          - pip3 install h5py ismrmrd matplotlib pydicom==3.0.1 pynetdicom nibabel
-
-      - run:
-          - git clone https://github.com/ismrmrd/ismrmrd-python-tools.git
-          - cd ismrmrd-python-tools
-          - pip3 install --no-cache-dir .
-
-      - run:
-          - git clone https://github.com/kspaceKelvin/python-ismrmrd-server
-          - find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \;
-          - find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix
-
-
-    #openrecon application
-    - copy: arfiproc.py /opt/code/python-ismrmrd-server/arfiproc.py
+deploy:
+    bins:
+        - python3
 
 readme: |-
-  ----------------------------------
-  ## arfiproc/{{ context.version }} ##
-  Example for building an openrecon container in Neurodesk
+    ----------------------------------
+    ## arfiproc/{{ context.version }} ##
+    Example for building an openrecon container in Neurodesk
 
-  make sure that neurodocker is installed:
-  ```
-  python -m pip install neurodocker
-  #export PATH=$PATH:~/.local/lib/python3.12/site-packages/bin
-  ```
-  export PATH=$PATH:~/.local/bin
-  
- 
+    make sure that neurodocker is installed:
+    ```
+    python -m pip install neurodocker
+    #export PATH=$PATH:~/.local/lib/python3.12/site-packages/bin
+    ```
+    export PATH=$PATH:~/.local/bin
 
-  make sure the requirements are installed:
-  ```
-  pip install -r requirements.txt
-  ```
 
-  you can build this recipe with:
-  ```bash
-  ./builder/build.py generate arfiproc --recreate --build --login --architecture x86_64
-  ```
 
-  ----------------------------------
+    make sure the requirements are installed:
+    ```
+    pip install -r requirements.txt
+    ```
+
+    you can build this recipe with:
+    ```bash
+    ./builder/build.py generate arfiproc --recreate --build --login --architecture x86_64
+    ```
+
+    ----------------------------------
