@@ -33,15 +33,6 @@ architectures:
 # Use the upstream readme file.
 readme_url: https://raw.githubusercontent.com/QSMxT/QSMxT/main/docs/container_readme.md
 
-variables:
-  conda_version: "4.12.0"
-  conda_download_url:
-    try:
-      - value: "https://repo.anaconda.com/miniconda/Miniconda3-py37_{{ context.conda_version }}-Linux-x86_64.sh"
-        condition: arch=="x86_64"
-      - value: "https://repo.anaconda.com/miniconda/Miniconda3-py37_{{ context.conda_version }}-Linux-aarch64.sh"
-        condition: arch=="aarch64"
-
 build:
   kind: neurodocker
 
@@ -50,32 +41,34 @@ build:
 
   directives:
     # Install basic dependencies
-    - environment:
-        DEBIAN_FRONTEND: noninteractive
-    - install:
-        bzip2 ca-certificates unzip cmake dbus-x11 libgtk2.0-0 git graphviz wget
-        zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6
-        libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6
-        libqt5svg5-dev libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev
-        libsqlite3-dev libopenjp2-7 build-essential
-    - environment:
-        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - group:
+        - environment:
+            DEBIAN_FRONTEND: noninteractive
+        - install:
+            bzip2 ca-certificates unzip cmake dbus-x11 libgtk2.0-0 git graphviz wget
+            zip libgl1 libglib2.0 libglu1-mesa libsm6 libxrender1 libxt6 libxcomposite1 libfreetype6
+            libfontconfig1 libxkbcommon0 libxcursor1 libxi6 libxrandr2 libxtst6
+            libqt5svg5-dev libqt5opengl5-dev libqt5opengl5 libqt5gui5 libqt5core5a libsuitesparse-dev
+            libsqlite3-dev libopenjp2-7 build-essential
+        - environment:
+            PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
     # Install BET2
-    # BET2 is broken on Ubuntu 24.04 due to /opt/bet2/utils/options.h:609:7: error: ISO C++17 does not allow dynamic exception specifications
-    # And Ubuntu 22.04 as well.
-    # https://github.com/aghaeifar/bet2 is a up to date fork of the original BET2
-    - workdir: /opt/bet2
-    - run:
-        - git clone https://github.com/aghaeifar/bet2 .
-        - mkdir build
-        - cd build
-        - cmake ..
-        - make
-        - ln -s /opt/bet2/bin/bet2 /bin/bet
-    - workdir: /opt
-    - environment:
-        SUBJECTS_DIR: /tmp
+    - group:
+        # BET2 is broken on Ubuntu 24.04 due to /opt/bet2/utils/options.h:609:7: error: ISO C++17 does not allow dynamic exception specifications
+        # And Ubuntu 22.04 as well.
+        # https://github.com/aghaeifar/bet2 is a up to date fork of the original BET2
+        - workdir: /opt/bet2
+        - run:
+            - git clone https://github.com/aghaeifar/bet2 .
+            - mkdir build
+            - cd build
+            - cmake ..
+            - make
+            - ln -s /opt/bet2/bin/bet2 /bin/bet
+        - workdir: /opt
+        - environment:
+            SUBJECTS_DIR: /tmp
 
     # Install ANTs
     - template:
@@ -84,222 +77,244 @@ build:
         method: source
 
     # Install dcm2niix
-    - workdir: /opt/dcm2niix
-    - run:
-        - git clone --branch v1.0.20240202 --depth 1 https://github.com/rordenlab/dcm2niix.git .
-        - mkdir build && cd build
-        - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
-        - make
-        - make install
+    - group:
+        - workdir: /opt/dcm2niix
+        - run:
+            - git clone --branch v1.0.20240202 --depth 1 https://github.com/rordenlab/dcm2niix.git .
+            - mkdir build && cd build
+            - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
+            - make
+            - make install
 
     # Install Miniconda
-    - workdir: /opt
-    - environment:
-        CONDA_DIR: /opt/miniconda-{{ context.conda_version }}
-        PATH: /opt/miniconda-{{ context.conda_version }}/bin:$PATH
-    - run:
-        - export PATH="/opt/miniconda-{{ context.conda_version }}/bin:$PATH"
-        - echo "Downloading Miniconda installer ..."
-        - conda_installer="/tmp/miniconda.sh"
-        - curl -fsSL -o "$conda_installer" {{ context.conda_download_url }}
-        - bash "$conda_installer" -b -p /opt/miniconda-{{ context.conda_version }}
-        - rm -f "$conda_installer"
-        # Prefer packages in conda-forge
-        - conda config --system --prepend channels conda-forge
-        # Packages in lower-priority channels not considered if a package with the same
-        # name exists in a higher priority channel. Can dramatically speed up installations.
-        # Conda recommends this as a default
-        # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html
-        - conda config --set channel_priority strict
-        - conda config --system --set auto_update_conda false
-        - conda config --system --set show_channel_urls true
-        # Enable `conda activate`
-        - conda init bash
-        - conda install -y  --name base "python=3.8"
-        # Clean up
-        - sync && conda clean --all --yes && sync
-        - rm -rf ~/.cache/pip/*
-    - run:
-        - rm -rf /usr/bin/python3.8
-        - ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8
-    - run:
-        - pip install setuptools==69.5.1
+    - group:
+        - variables:
+            conda_version: "4.12.0"
+            conda_download_url:
+              try:
+                - value: "https://repo.anaconda.com/miniconda/Miniconda3-py37_{{ context.conda_version }}-Linux-x86_64.sh"
+                  condition: arch=="x86_64"
+                - value: "https://repo.anaconda.com/miniconda/Miniconda3-py37_{{ context.conda_version }}-Linux-aarch64.sh"
+                  condition: arch=="aarch64"
+        - workdir: /opt
+        - environment:
+            CONDA_DIR: /opt/miniconda-{{ context.conda_version }}
+            PATH: /opt/miniconda-{{ context.conda_version }}/bin:$PATH
+        - run:
+            - export PATH="/opt/miniconda-{{ context.conda_version }}/bin:$PATH"
+            - echo "Downloading Miniconda installer ..."
+            - conda_installer="/tmp/miniconda.sh"
+            - curl -fsSL -o "$conda_installer" {{ context.conda_download_url }}
+            - bash "$conda_installer" -b -p /opt/miniconda-{{ context.conda_version }}
+            - rm -f "$conda_installer"
+            # Prefer packages in conda-forge
+            - conda config --system --prepend channels conda-forge
+            # Packages in lower-priority channels not considered if a package with the same
+            # name exists in a higher priority channel. Can dramatically speed up installations.
+            # Conda recommends this as a default
+            # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html
+            - conda config --set channel_priority strict
+            - conda config --system --set auto_update_conda false
+            - conda config --system --set show_channel_urls true
+            # Enable `conda activate`
+            - conda init bash
+            - conda install -y  --name base "python=3.8"
+            # Clean up
+            - sync && conda clean --all --yes && sync
+            - rm -rf ~/.cache/pip/*
+        - run:
+            - rm -rf /usr/bin/python3.8
+            - ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8
+        - run:
+            - pip install setuptools==69.5.1
 
-    # There is no precompiled h5py for aarch64
-    - workdir: /opt
-    - run:
-        - curl -fsSL -o hdf5-1.14.5.tar.gz https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.tar.gz
-        - tar -xzf hdf5-1.14.5.tar.gz
-        - cd hdf5-1.14.5
-        - ./configure --prefix=/usr
-        - make -j4
-        - make install
-      condition: arch=="aarch64"
-    - run:
-        - pip install h5py==3.11.0
-      condition: arch=="aarch64"
+    # Install Python packages
+    - group:
+        # There is no precompiled h5py for aarch64
+        - workdir: /opt
+        - run:
+            - curl -fsSL -o hdf5-1.14.5.tar.gz https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_5/downloads/hdf5-1.14.5.tar.gz
+            - tar -xzf hdf5-1.14.5.tar.gz
+            - cd hdf5-1.14.5
+            - ./configure --prefix=/usr
+            - make -j4
+            - make install
+          condition: arch=="aarch64"
+        - run:
+            - pip install h5py==3.11.0
+          condition: arch=="aarch64"
 
-    - run:
-        - pip install dunamai
-        - pip install git+https://github.com/astewartau/nii2dcm.git@qsm
-        - pip install nextqsm
-        - nextqsm --download_weights
+        - run:
+            - pip install dunamai
+            - pip install git+https://github.com/astewartau/nii2dcm.git@qsm
+            - pip install nextqsm
+            - nextqsm --download_weights
 
     # Install FastSurfer
-    - run:
-        - git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer
-        - sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt
-        - pip install -r /opt/FastSurfer/requirements.txt
-      condition: arch=="x86_64"
-    # Try a different version of FastSurfer for aarch64
-    - run:
-        - git clone --depth 1 --branch v2.1.0 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer
-        - sed -i 's/simpleitk==2.1.1/simpleitk==2.2.0/g' /opt/FastSurfer/requirements_cpu.txt
-        - sed -i 's/torch==1.12.0+cpu/torch==1.12.1/g' /opt/FastSurfer/requirements_cpu.txt
-        - sed -i 's/torchvision==0.13.0+cpu/torchvision==0.13.1/g' /opt/FastSurfer/requirements_cpu.txt
-        - pip install -r /opt/FastSurfer/requirements_cpu.txt
-      condition: arch=="aarch64"
-    - environment:
-        FASTSURFER_HOME: /opt/FastSurfer
-        PATH: $PATH:/opt/FastSurfer
+    - group:
+        - run:
+            - git clone --depth 1 --branch v1.1.1-2 https://github.com/astewartau/FastSurfer.git /opt/FastSurfer
+            - sed -i 's/cu113/cpu/g' /opt/FastSurfer/requirements.txt
+            - pip install -r /opt/FastSurfer/requirements.txt
+          condition: arch=="x86_64"
+        # Try a different version of FastSurfer for aarch64
+        - run:
+            - git clone --depth 1 --branch v2.1.0 https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer
+            - sed -i 's/simpleitk==2.1.1/simpleitk==2.2.0/g' /opt/FastSurfer/requirements_cpu.txt
+            - sed -i 's/torch==1.12.0+cpu/torch==1.12.1/g' /opt/FastSurfer/requirements_cpu.txt
+            - sed -i 's/torchvision==0.13.0+cpu/torchvision==0.13.1/g' /opt/FastSurfer/requirements_cpu.txt
+            - pip install -r /opt/FastSurfer/requirements_cpu.txt
+          condition: arch=="aarch64"
+        - environment:
+            FASTSURFER_HOME: /opt/FastSurfer
+            PATH: $PATH:/opt/FastSurfer
+        - test:
+            name: Test FastSurfer
+            script: |
+              cd /opt/FastSurfer/
+              wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
+              mv 5e9bf3ab430166067ea05564\?action\=download test.nii.gz
+              ./run_fastsurfer.sh --t1 /opt/FastSurfer/test.nii.gz --sid test --seg_only
 
     - environment:
         PATH: $PATH:/opt/miniconda-latest/bin
 
     # Install bru2
-    - workdir: /opt/bru2
-    - run:
-        - wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip
-        - unzip Bru2_Linux.zip
-        - rm Bru2_Linux.zip
-      condition: arch=="x86_64"
-    # There is no precompiled Bru2 for aarch64
-    # We need to install Lazarus and compile it ourselves
-    - run:
-        - curl -fsSL -o fpc-laz_3.2.3-240813_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/fpc-laz_3.2.3-240813_arm64.deb/download
-        - curl -fsSL -o fpc-src_3.2.3-240813_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/fpc-src_3.2.3-240813_arm64.deb/download
-        - curl -fsSL -o lazarus-project_4.0.0-0_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/lazarus-project_4.0.0-0_arm64.deb/download
-        - apt-get update
-        - apt-get install -y ./fpc-laz_3.2.3-240813_arm64.deb ./fpc-src_3.2.3-240813_arm64.deb ./lazarus-project_4.0.0-0_arm64.deb
-        - rm *.deb
-        - rm -rf /var/lib/apt/lists/*
-      condition: arch=="aarch64"
-    - run:
-        - git clone --depth 1 --branch v1.0.20180303 https://github.com/neurolabusc/Bru2Nii.git
-        - cd Bru2Nii
-        - lazbuild -B Bru2.lpr
-        - lazbuild -B Bru2Nii.lpr
-        - strip Bru2
-        - strip Bru2Nii
-        - mv Bru2 /opt/bru2
-        - mv Bru2Nii /opt/bru2/Bru2Nii.tmp
-        - cd /opt/bru2
-        - rm -rf Bru2Nii
-        - mv Bru2Nii.tmp Bru2Nii
-      condition: arch=="aarch64"
-    - environment:
-        PATH: $PATH:/opt/bru2
+    - group:
+        - workdir: /opt/bru2
+        - run:
+            - wget https://github.com/neurolabusc/Bru2Nii/releases/download/v1.0.20180303/Bru2_Linux.zip
+            - unzip Bru2_Linux.zip
+            - rm Bru2_Linux.zip
+          condition: arch=="x86_64"
+        # There is no precompiled Bru2 for aarch64
+        # We need to install Lazarus and compile it ourselves
+        - run:
+            - curl -fsSL -o fpc-laz_3.2.3-240813_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/fpc-laz_3.2.3-240813_arm64.deb/download
+            - curl -fsSL -o fpc-src_3.2.3-240813_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/fpc-src_3.2.3-240813_arm64.deb/download
+            - curl -fsSL -o lazarus-project_4.0.0-0_arm64.deb https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20arm64%20DEB/Lazarus%204.0RC2/lazarus-project_4.0.0-0_arm64.deb/download
+            - apt-get update
+            - apt-get install -y ./fpc-laz_3.2.3-240813_arm64.deb ./fpc-src_3.2.3-240813_arm64.deb ./lazarus-project_4.0.0-0_arm64.deb
+            - rm *.deb
+            - rm -rf /var/lib/apt/lists/*
+          condition: arch=="aarch64"
+        - run:
+            - git clone --depth 1 --branch v1.0.20180303 https://github.com/neurolabusc/Bru2Nii.git
+            - cd Bru2Nii
+            - lazbuild -B Bru2.lpr
+            - lazbuild -B Bru2Nii.lpr
+            - strip Bru2
+            - strip Bru2Nii
+            - mv Bru2 /opt/bru2
+            - mv Bru2Nii /opt/bru2/Bru2Nii.tmp
+            - cd /opt/bru2
+            - rm -rf Bru2Nii
+            - mv Bru2Nii.tmp Bru2Nii
+          condition: arch=="aarch64"
+        - environment:
+            PATH: $PATH:/opt/bru2
 
     # Install Julia
-    - workdir: /opt
-    - run:
-        - wget https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
-        - tar zxvf julia-1.9.3-linux-x86_64.tar.gz
-        - rm -rf julia-1.9.3-linux-x86_64.tar.gz
-      condition: arch=="x86_64"
-    - run:
-        - wget https://julialang-s3.julialang.org/bin/linux/aarch64/1.9/julia-1.9.3-linux-aarch64.tar.gz
-        - tar zxvf julia-1.9.3-linux-aarch64.tar.gz
-        - rm -rf julia-1.9.3-linux-aarch64.tar.gz
-      condition: arch=="aarch64"
-    - environment:
-        PATH: $PATH:/opt/julia-1.9.3/bin
+    - group:
+        - workdir: /opt
+        - run:
+            - wget https://julialang-s3.julialang.org/bin/linux/x64/1.9/julia-1.9.3-linux-x86_64.tar.gz
+            - tar zxvf julia-1.9.3-linux-x86_64.tar.gz
+            - rm -rf julia-1.9.3-linux-x86_64.tar.gz
+          condition: arch=="x86_64"
+        - run:
+            - wget https://julialang-s3.julialang.org/bin/linux/aarch64/1.9/julia-1.9.3-linux-aarch64.tar.gz
+            - tar zxvf julia-1.9.3-linux-aarch64.tar.gz
+            - rm -rf julia-1.9.3-linux-aarch64.tar.gz
+          condition: arch=="aarch64"
+        - environment:
+            PATH: $PATH:/opt/julia-1.9.3/bin
 
     # Install Julia packages
-    - workdir: /opt
-    - copy: install.packages.jl /opt
-
-    # Explanation for Julia hack:
-    # --env JULIA_DEPOT_PATH="/opt/julia_depot" \
-    # --run="julia install_packages.jl" \
-    # --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
-
-    # The problem is that Julia packages install by default in the homedirectory
-    # in singularity this homedirectory does not exist later on
-    # so we have to set the Julia depot path to a path that's available in the image later
-    # but: Julia assumes that this path is writable :( because it stores precompiled outputs there
-    # solution is to to add a writable path before the unwritable path
-    # behaviour: julia writes precompiled stuff to ~/.julia and searches for packages in both, but can't find them in ~/.julia and then searches in /opt/
-    # if anyone has a better way of doing this, please let me know: @sbollmann_MRI (Twitter)
-    - environment:
-        JULIA_DEPOT_PATH: /opt/julia_depot
-    - run:
-        - julia install.packages.jl
-    - environment:
-        JULIA_DEPOT_PATH: ~/.julia:/opt/julia_depot
+    - group:
+        - workdir: /opt
+        - file:
+            name: install.packages.jl
+            contents: |
+              using Pkg
+              ENV["JULIA_PKG_PRECOMPILE_AUTO"]=0
+              Pkg.add(Pkg.PackageSpec(name="ArgParse", version=v"1.1.5"))
+              Pkg.add(Pkg.PackageSpec(name="FFTW", version=v"1.8.0"))
+              Pkg.add(Pkg.PackageSpec(name="MriResearchTools", version=v"2.2.0"))
+              Pkg.add(Pkg.PackageSpec(name="QuantitativeSusceptibilityMappingTGV", version=v"0.2.1"))
+              Pkg.add(Pkg.PackageSpec(name="ROMEO", version=v"1.1.1"))
+              Pkg.add(Pkg.PackageSpec(name="CLEARSWI", version=v"1.0.0"))
+              Pkg.add(Pkg.PackageSpec(name="QSM", version=v"0.5.4"))
+        # Explanation for Julia hack:
+        # --env JULIA_DEPOT_PATH="/opt/julia_depot" \
+        # --run="julia install_packages.jl" \
+        # --env JULIA_DEPOT_PATH="~/.julia:/opt/julia_depot" \
+        #
+        # The problem is that Julia packages install by default in the homedirectory
+        # in singularity this homedirectory does not exist later on
+        # so we have to set the Julia depot path to a path that's available in the image later
+        # but: Julia assumes that this path is writable :( because it stores precompiled outputs there
+        # solution is to to add a writable path before the unwritable path
+        # behaviour: julia writes precompiled stuff to ~/.julia and searches for packages in both, but can't find them in ~/.julia and then searches in /opt/
+        # if anyone has a better way of doing this, please let me know: @sbollmann_MRI (Twitter)
+        - environment:
+            JULIA_DEPOT_PATH: /opt/julia_depot
+        - run:
+            - julia {{ get_file("install.packages.jl") }}
+        - environment:
+            JULIA_DEPOT_PATH: ~/.julia:/opt/julia_depot
 
     # Install QSMxT-UI
-    - run:
-        - git clone --depth 1 --branch v0.51 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI
-    - run:
-        - wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz
-        - tar xf node-v14.17.0-linux-x64.tar.xz
-        - rm node-v14.17.0-linux-x64.tar.xz
-      condition: arch=="x86_64"
-    - run:
-        - wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-arm64.tar.xz
-        - tar xf node-v14.17.0-linux-arm64.tar.xz
-        - rm node-v14.17.0-linux-arm64.tar.xz
-      condition: arch=="aarch64"
-    - environment:
-        PATH: $PATH:/opt/node-v14.17.0-linux-x64/bin
-      condition: arch=="x86_64"
-    - environment:
-        PATH: $PATH:/opt/node-v14.17.0-linux-arm64/bin
-      condition: arch=="aarch64"
-    - run:
-        - QSMxT-UI/setup.sh
+    - group:
+        - run:
+            - git clone --depth 1 --branch v0.51 https://github.com/astewartau/QSMxT-UI-2 QSMxT-UI
+        - run:
+            - wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-x64.tar.xz
+            - tar xf node-v14.17.0-linux-x64.tar.xz
+            - rm node-v14.17.0-linux-x64.tar.xz
+          condition: arch=="x86_64"
+        - run:
+            - wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-arm64.tar.xz
+            - tar xf node-v14.17.0-linux-arm64.tar.xz
+            - rm node-v14.17.0-linux-arm64.tar.xz
+          condition: arch=="aarch64"
+        - environment:
+            PATH: $PATH:/opt/node-v14.17.0-linux-x64/bin
+          condition: arch=="x86_64"
+        - environment:
+            PATH: $PATH:/opt/node-v14.17.0-linux-arm64/bin
+          condition: arch=="aarch64"
+        - run:
+            - QSMxT-UI/setup.sh
 
     # Install QSMxT last for caching.
-    - run:
-        - pip install qsmxt=={{ context.version }}
+    - group:
+        - run:
+            - pip install qsmxt=={{ context.version }}
 
     - environment:
         LC_ALL: C.UTF-8
         LANG: C.UTF-8
 
-deploy:
-  path:
-    - /opt/ants-2.4.3/
-    - /opt/FastSurfer
-    - /opt/QSMxT-UI
-  bins:
-    - nipypecli
-    - bet
-    - dcm2niix
-    - Bru2
-    - Bru2Nii
-    - tgv_qsm
-    - julia
-    - python3
-    - python
-    - pytest
-    - predict_all.py
-    - qsmxt
-    - qsmxt-gui
-    - dicom-sort
-    - dicom-convert
-    - nifti-convert
-
-files:
-  - name: install.packages.jl
-    contents: |
-      using Pkg
-      ENV["JULIA_PKG_PRECOMPILE_AUTO"]=0
-      Pkg.add(Pkg.PackageSpec(name="ArgParse", version=v"1.1.5"))
-      Pkg.add(Pkg.PackageSpec(name="FFTW", version=v"1.8.0"))
-      Pkg.add(Pkg.PackageSpec(name="MriResearchTools", version=v"2.2.0"))
-      Pkg.add(Pkg.PackageSpec(name="QuantitativeSusceptibilityMappingTGV", version=v"0.2.1"))
-      Pkg.add(Pkg.PackageSpec(name="ROMEO", version=v"1.1.1"))
-      Pkg.add(Pkg.PackageSpec(name="CLEARSWI", version=v"1.0.0"))
-      Pkg.add(Pkg.PackageSpec(name="QSM", version=v"0.5.4"))
+    - deploy:
+        path:
+          - /opt/ants-2.4.3/
+          - /opt/FastSurfer
+          - /opt/QSMxT-UI
+        bins:
+          - nipypecli
+          - bet
+          - dcm2niix
+          - Bru2
+          - Bru2Nii
+          - tgv_qsm
+          - julia
+          - python3
+          - python
+          - pytest
+          - predict_all.py
+          - qsmxt
+          - qsmxt-gui
+          - dicom-sort
+          - dicom-convert
+          - nifti-convert
