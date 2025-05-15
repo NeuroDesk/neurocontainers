@@ -9,6 +9,7 @@ import shutil
 import jinja2
 import platform
 import hashlib
+import typing
 
 GLOBAL_MOUNT_POINT_LIST = [
     "/afm01",
@@ -45,7 +46,11 @@ ARCHITECTURES = {
 }
 
 
-def get_cache_dir():
+def get_repo_path() -> str:
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+def get_cache_dir() -> str:
     # Get the cache directory
     cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
     if not os.path.exists(cache_dir):
@@ -54,11 +59,23 @@ def get_cache_dir():
     return cache_dir
 
 
+def load_description_file(recipe_dir: str) -> typing.Any:
+    # Load the description file
+    description_file = os.path.join(recipe_dir, "build.yaml")
+    if not os.path.exists(description_file):
+        raise ValueError(f"Description file {description_file} does not exist.")
+
+    with open(description_file, "r") as f:
+        return yaml.safe_load(f)
+
+
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
 
 class NeuroDockerBuilder:
-    def __init__(self, base_image, pkg_manager="apt", add_default=True):
+    def __init__(
+        self, base_image: str, pkg_manager: str = "apt", add_default: bool = True
+    ):
         self.renderer_dict = {
             "pkg_manager": pkg_manager,
             "instructions": [],
@@ -69,7 +86,7 @@ class NeuroDockerBuilder:
         if add_default:
             self.add_directive("_default")
 
-    def add_directive(self, directive, **kwargs):
+    def add_directive(self, directive: typing.Any, **kwargs: typing.Any):
         """
         Low level function to add a directive to the renderer_dict.
         Can also be used to add templates.
@@ -78,42 +95,42 @@ class NeuroDockerBuilder:
         """
         self.renderer_dict["instructions"].append({"name": directive, "kwds": kwargs})
 
-    def install_packages(self, packages):
+    def install_packages(self, packages: typing.List[str]):
         """
         Install packages using the specified package manager.
         :param packages: List of packages to install.
         """
         self.add_directive("install", pkgs=packages, opts=None)
 
-    def run_command(self, command):
+    def run_command(self, command: str):
         """
         Run a command in the container.
         :param args: The command to run.
         """
         self.add_directive("run", command=command)
 
-    def set_user(self, user):
+    def set_user(self, user: str):
         """
         Set the user for the container.
         :param user: The user to set.
         """
         self.add_directive("user", user=user)
 
-    def set_workdir(self, path):
+    def set_workdir(self, path: str):
         """
         Set the working directory for the container.
         :param path: The path to set as the working directory.
         """
         self.add_directive("workdir", path=path)
 
-    def set_entrypoint(self, entrypoint):
+    def set_entrypoint(self, entrypoint: str):
         """
         Set the entrypoint for the container.
         :param entrypoint: The entrypoint to set.
         """
         self.add_directive("entrypoint", args=[entrypoint])
 
-    def set_environment(self, key, value):
+    def set_environment(self, key: str, value: str):
         """
         Set an environment variable for the container.
         :param key: The name of the environment variable.
@@ -121,7 +138,7 @@ class NeuroDockerBuilder:
         """
         self.add_directive("env", **{key: value})
 
-    def copy(self, *args):
+    def copy(self, *args: str):
         """
         Copy files into the container.
         :param args: The files to copy.
@@ -129,7 +146,7 @@ class NeuroDockerBuilder:
         source, destination = list(args[:-1]), args[-1]
         self.add_directive("copy", source=source, destination=destination)
 
-    def generate(self):
+    def generate(self) -> str:
         """
         Generate the NeuroDocker Dockerfile.
         :return: The generated Dockerfile as a string.
@@ -236,8 +253,16 @@ def hash_obj(obj):
 
 
 class BuildContext(object):
-    def __init__(self, base_path, name, version, arch):
+    build_directory: str | None = None
+    readme: str | None = None
+    tag: str | None = None
+    build_info: typing.Any | None = None
+    build_kind: str | None = None
+    dockerfile_name: str | None = None
+
+    def __init__(self, base_path, recipe_path, name, version, arch):
         self.base_path = base_path
+        self.recipe_path = recipe_path
         self.name = name
         self.version = version
         self.original_version = version
@@ -247,6 +272,8 @@ class BuildContext(object):
         self.option_info = {}
         self.files = {}
         self.lint_error = False
+        self.deploy_bins = []
+        self.deploy_path = []
 
     def lint_fail(self, message):
         if self.lint_error:
@@ -286,6 +313,9 @@ class BuildContext(object):
         self.max_parallel_jobs = max_parallel_jobs
 
     def get_context_cache_dir(self, cache_id):
+        if self.build_directory is None:
+            raise ValueError("Build directory not set.")
+
         cache_dir = os.path.join(self.build_directory, "cache", cache_id)
         if not os.path.exists(cache_dir):
             os.makedirs(cache_dir)
@@ -306,7 +336,7 @@ class BuildContext(object):
         result = self.render_template("{{" + condition + "}}", locals=locals)
         return result == "True"
 
-    def execute_template(self, obj, locals=None, methods=None):
+    def execute_template(self, obj, locals, methods=None):
         if type(obj) == str:
             try:
                 return self.render_template(obj, locals=locals, methods=methods)
@@ -320,13 +350,22 @@ class BuildContext(object):
             if "try" in obj:
                 for value in obj["try"]:
                     if self.execute_condition(value["condition"], locals=locals):
-                        return self.execute_template(value["value"])
+                        return self.execute_template(value["value"], locals=locals)
 
                 raise NotImplementedError("Try not implemented.")
         else:
             raise ValueError("Template object not supported.")
 
-    def add_file(self, file, recipe_path, check_only=False):
+    def execute_template_string(self, obj: str, locals, methods=None) -> str:
+        try:
+            return self.render_template(obj, locals=locals, methods=methods)
+        except jinja2.exceptions.TemplateSyntaxError as e:
+            raise ValueError(f"Template syntax error: {e} in {obj}")
+
+    def add_file(self, file, recipe_path, locals, check_only=False):
+        if self.build_directory is None:
+            raise ValueError("Build directory not set.")
+
         name = file["name"]
 
         if name == "":
@@ -336,7 +375,7 @@ class BuildContext(object):
 
         if "url" in file:
             # download and cache the file
-            url = self.execute_template(file["url"])
+            url = self.execute_template(file["url"], locals=locals)
             cached_file = download_with_cache(url, check_only=check_only)
 
             if "executable" in file and file["executable"]:
@@ -347,7 +386,7 @@ class BuildContext(object):
             }
         else:
             if "contents" in file:
-                contents = self.execute_template(file["contents"])
+                contents = self.execute_template_string(file["contents"], locals=locals)
                 with open(output_filename, "w") as f:
                     f.write(contents)
             elif "filename" in file:
@@ -366,13 +405,16 @@ class BuildContext(object):
                 "cached_path": output_filename,
             }
 
-    def file_exists(self, filename):
+    def file_exists(self, filename: str) -> bool:
+        if self.build_directory is None:
+            raise ValueError("Build directory not set.")
+
         return os.path.exists(os.path.join(self.build_directory, filename))
 
-    def generate_cache_id(self, directive):
+    def generate_cache_id(self, directive: str) -> str:
         return "h" + directive[:8]
 
-    def load_include_file(self, filename):
+    def load_include_file(self, filename: str) -> typing.Any:
         filename = os.path.join(self.base_path, filename)
 
         if not os.path.exists(filename):
@@ -381,7 +423,7 @@ class BuildContext(object):
         with open(filename, "r") as f:
             return yaml.safe_load(f)
 
-    def check_docker_image(self, image):
+    def check_docker_image(self, image: str) -> str:
         if image == "":
             raise ValueError("Docker image cannot be empty.")
 
@@ -399,11 +441,20 @@ class BuildContext(object):
 
         return image
 
-    def build_neurodocker(self, build_directive, deploy):
-        base = self.check_docker_image(
-            self.execute_template(build_directive.get("base-image") or "")
+    def build_neurodocker(self, build_directive, locals):
+        base_raw = self.execute_template(
+            build_directive.get("base-image") or "", locals=locals
         )
-        pkg_manager = self.execute_template(build_directive.get("pkg-manager") or "")
+        if not isinstance(base_raw, str):
+            raise ValueError("Base image must be a string.")
+
+        base = self.check_docker_image(base_raw)
+
+        pkg_manager = self.execute_template(
+            build_directive.get("pkg-manager") or "", locals=locals
+        )
+        if not isinstance(pkg_manager, str):
+            raise ValueError("Package manager must be a string.")
 
         if base == "" or pkg_manager == "":
             raise ValueError("Base image or package manager cannot be empty.")
@@ -421,22 +472,28 @@ class BuildContext(object):
 
             if "install" in directive:
                 if type(directive["install"]) == str:
-                    builder.install_packages(
-                        self.execute_template(
-                            [
-                                f
-                                for f in directive["install"]
-                                .replace("\n", " ")
-                                .split(" ")
-                                if f != ""
-                            ],
-                            locals=locals,
+                    pkg_list = self.execute_template(
+                        [
+                            f
+                            for f in directive["install"].replace("\n", " ").split(" ")
+                            if f != ""
+                        ],
+                        locals=locals,
+                    )
+                    if not isinstance(pkg_list, list):
+                        raise ValueError(
+                            "Install directive must be a list of packages."
                         )
-                    )
+                    builder.install_packages(pkg_list)  # type: ignore
                 elif type(directive["install"]) == list:
-                    builder.install_packages(
-                        self.execute_template(directive["install"], locals=locals)
+                    pkg_list = self.execute_template(
+                        directive["install"], locals=locals
                     )
+                    if not isinstance(pkg_list, list):
+                        raise ValueError(
+                            "Install directive must be a list of packages."
+                        )
+                    builder.install_packages(pkg_list)  # type: ignore
                 else:
                     raise ValueError("Install directive must be a string or list.")
             elif "run" in directive:
@@ -448,30 +505,45 @@ class BuildContext(object):
                     locals=locals,
                     methods=local.methods(),
                 )
+                if not isinstance(args, list):
+                    raise ValueError("Run directive must be a list of commands.")
                 builder.run_command(
-                    " ".join(local.run_args) + " " + " \\\n && ".join(args)
+                    " ".join(local.run_args) + " " + " \\\n && ".join(args)  # type: ignore
                 )
             elif "workdir" in directive:
-                builder.set_workdir(
-                    self.execute_template(directive["workdir"], locals=locals)
-                )
+                workdir = self.execute_template(directive["workdir"], locals=locals)
+                if not isinstance(workdir, str):
+                    raise ValueError("Workdir must be a string.")
+
+                builder.set_workdir(workdir)
             elif "user" in directive:
-                builder.set_user(
-                    self.execute_template(directive["user"], locals=locals)
-                )
+                user = self.execute_template(directive["user"], locals=locals)
+                if not isinstance(user, str):
+                    raise ValueError("User must be a string.")
+
+                builder.set_user(user)
             elif "entrypoint" in directive:
-                builder.set_entrypoint(
-                    self.execute_template(directive["entrypoint"], locals=locals)
+                entrypoint = self.execute_template(
+                    directive["entrypoint"], locals=locals
                 )
+                if not isinstance(entrypoint, str):
+                    raise ValueError("Entrypoint must be a string.")
+
+                builder.set_entrypoint(entrypoint)
             elif "environment" in directive:
                 if directive["environment"] == None:
                     raise ValueError("Environment must be a map of keys and values.")
 
                 for key, value in directive["environment"].items():
-                    builder.set_environment(
-                        self.execute_template(key, locals=locals),
-                        self.execute_template(value, locals=locals),
-                    )
+                    key = self.execute_template(key, locals=locals)
+                    if not isinstance(key, str):
+                        raise ValueError("Environment key must be a string.")
+
+                    value = self.execute_template(value, locals=locals)
+                    if not isinstance(value, str):
+                        raise ValueError("Environment value must be a string.")
+
+                    builder.set_environment(key, value)  # type: ignore
             elif "template" in directive:
                 name = self.execute_template(
                     directive["template"].get("name") or "", locals=locals
@@ -496,12 +568,19 @@ class BuildContext(object):
                 elif type(directive["copy"]) == list:
                     args = self.execute_template(directive["copy"], locals=locals)
 
+                if not isinstance(args, list):
+                    raise ValueError("Copy directive must be a list of files.")
+
                 if len(args) == 2:
+                    arg = args[0]
+                    if not isinstance(arg, str):
+                        raise ValueError("Copy directive must be a list of files.")
+
                     # check to make sure the first reference is a file and it exists.
-                    if not self.file_exists(args[0]):
+                    if not self.file_exists(arg):
                         raise ValueError(f"File {args[0]} does not exist.")
 
-                builder.copy(*args)
+                builder.copy(*args)  # type: ignore
             elif "group" in directive:
                 variables = {**locals}
 
@@ -516,6 +595,9 @@ class BuildContext(object):
                     directive["include"] or "", locals=locals
                 )
 
+                if not isinstance(filename, str):
+                    raise ValueError("Include filename must be a string.")
+
                 include_file = self.load_include_file(filename)
 
                 if include_file.get("builder") != "neurodocker":
@@ -529,23 +611,46 @@ class BuildContext(object):
 
                 for directive in include_file["directives"]:
                     add_directive(directive, locals=variables)
+            elif "file" in directive:
+                self.add_file(directive["file"], self.recipe_path, locals=locals)
+            elif "variables" in directive:
+                for key, value in directive["variables"].items():
+                    locals[key] = self.execute_template(value, locals=locals)
+            elif "test" in directive:
+                # TODO: implement test directive
+                pass
+            elif "deploy" in directive:
+                if "bins" in directive["deploy"]:
+                    bins = self.execute_template(
+                        directive["deploy"]["bins"], locals=locals
+                    )
+                    if not isinstance(bins, list):
+                        raise ValueError("Deploy bins must be a list.")
+                    self.deploy_bins.extend(bins)
+
+                if "path" in directive["deploy"]:
+                    path = self.execute_template(
+                        directive["deploy"]["path"], locals=locals
+                    )
+                    if not isinstance(path, list):
+                        raise ValueError("Deploy path must be a list.")
+                    self.deploy_path.extend(path)
             else:
                 raise ValueError(f"Directive {directive} not supported.")
-
-        locals = {}
 
         for directive in build_directive["directives"]:
             add_directive(directive, locals=locals)
 
-        if deploy is not None:
-            if "path" in deploy:
-                builder.set_environment(
-                    "DEPLOY_PATH", ":".join(self.execute_template(deploy["path"]))
-                )
-            if "bins" in deploy:
-                builder.set_environment(
-                    "DEPLOY_BINS", ":".join(self.execute_template(deploy["bins"]))
-                )
+        if len(self.deploy_path) > 0:
+            path = self.execute_template(self.deploy_path, locals=locals)
+            if not isinstance(path, list):
+                raise ValueError("Deploy path must be a list.")
+            builder.set_environment("DEPLOY_PATH", ":".join(path))  # type: ignore
+        if len(self.deploy_bins) > 0:
+            bins = self.execute_template(self.deploy_bins, locals=locals)
+            if not isinstance(bins, list):
+                raise ValueError("Deploy bins must be a list.")
+            builder.set_environment("DEPLOY_BINS", ":".join(bins))  # type: ignore
 
         builder.copy("README.md", "/README.md")
 
@@ -569,7 +674,9 @@ def http_get(url):
         return response.read().decode("utf-8")
 
 
-def build_tinyrange(tinyrange_path, description_file, output_dir, name, version):
+def build_tinyrange(
+    tinyrange_path: str, description_file: str, output_dir: str, name: str, version: str
+):
     tinyrange_config = None
     try:
         with open("tinyrange.yaml", "r") as f:
@@ -637,18 +744,15 @@ def build_tinyrange(tinyrange_path, description_file, output_dir, name, version)
     )
 
 
-def get_recipe_directory(name):
-    return os.path.join("recipes", name)
+def get_recipe_directory(repo_path, name):
+    return os.path.join(repo_path, "recipes", name)
 
 
-def main_init(args):
-    name = args.name
-    version = args.version
-
+def init_new_recipe(repo_path: str, name: str, version: str):
     if name == "" or version == "":
         raise ValueError("Name and version cannot be empty.")
 
-    recipe_path = get_recipe_directory(name)
+    recipe_path = get_recipe_directory(repo_path, name)
     if not os.path.exists(recipe_path):
         os.makedirs(recipe_path)
 
@@ -693,15 +797,6 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def get_cache_dir():
-    # Get the cache directory
-    cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "neurocontainers")
-    if not os.path.exists(cache_dir):
-        os.makedirs(cache_dir)
-
-    return cache_dir
-
-
 def download_with_cache(url, check_only=False):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
@@ -734,7 +829,7 @@ def download_with_cache(url, check_only=False):
     return output_filename
 
 
-def get_build_platform(arch):
+def get_build_platform(arch: str) -> str:
     if arch == "x86_64":
         return "linux/amd64"
     elif arch == "aarch64":
@@ -743,59 +838,55 @@ def get_build_platform(arch):
         raise ValueError(f"Architecture {arch} not supported.")
 
 
-def main_generate(args):
-    base_path = os.getcwd()
-    recipe_path = get_recipe_directory(args.name)
-
-    # Load description file
-    description_file = yaml.safe_load(
-        open(os.path.join(recipe_path, "build.yaml"), "r")
-    )
-
-    if description_file == None:
-        raise ValueError("Description file is empty.")
+def generate_from_description(
+    repo_path: str,
+    recipe_path: str,
+    description_file: typing.Any,
+    output_directory: str,
+    architecture: str | None = None,
+    ignore_architecture: bool | None = False,
+    auto_build: bool = False,
+    max_parallel_jobs: int | None = None,
+    options: list[str] | None = None,
+    recreate_output_dir: bool = False,
+    check_only: bool = False,
+) -> BuildContext | None:
+    if max_parallel_jobs is None:
+        max_parallel_jobs = os.cpu_count()
 
     # Get basic information
     name = description_file.get("name") or ""
     version = description_file.get("version") or ""
-
-    if args.build_tinyrange:
-        build_tinyrange(
-            args.tinyrange_path,
-            args.description_file,
-            args.output_directory,
-            name,
-            version,
-        )
-        return
 
     readme = description_file.get("readme") or ""
 
     draft = description_file.get("draft") or False
     if draft:
         print("WARN: This is a draft recipe.")
-        if args.auto_build:
+        if auto_build:
             print("WARN: Auto build is enabled. Skipping build.")
-            return
+            return None
 
-    arch = ARCHITECTURES[args.architecture or platform.machine()]
+    arch = ARCHITECTURES[architecture or platform.machine()]
 
     allowed_architectures = description_file.get("architectures") or []
     if allowed_architectures == []:
         raise ValueError("No architectures specified in description file.")
 
-    if arch not in allowed_architectures and not args.ignore_architectures:
+    if arch not in allowed_architectures and not ignore_architecture:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
 
-    ctx = BuildContext(base_path, name, version, arch)
-    ctx.set_max_parallel_jobs(args.max_parallel_jobs)
+    ctx = BuildContext(repo_path, recipe_path, name, version, arch)
+    ctx.set_max_parallel_jobs(max_parallel_jobs)
+
+    locals = {}
 
     if "variables" in description_file:
         for key, value in description_file["variables"].items():
-            ctx.__dict__[key] = ctx.execute_template(value)
+            ctx.__dict__[key] = ctx.execute_template(value, locals=locals)
 
-    options = description_file.get("options") or {}
-    for key, value in options.items():
+    description_options = description_file.get("options") or {}
+    for key, value in description_options.items():
         ctx.add_option(
             key,
             description=value.get("description") or "",
@@ -804,8 +895,8 @@ def main_generate(args):
         )
 
     # Set options from command line
-    if args.option is not None:
-        for option in args.option:
+    if options is not None:
+        for option in options:
             key, value = option.split("=")
             ctx.set_option(key, value)
 
@@ -821,12 +912,12 @@ def main_generate(args):
         else:
             raise ValueError("README.md not found and readme is empty")
 
-    ctx.readme = ctx.execute_template(readme)
+    ctx.readme = ctx.execute_template_string(readme, locals=locals)
 
     # If readme is not found, try to get it from a URL
     # This is done after so we don't execute the template
     if "readme_url" in description_file:
-        readme_url = ctx.execute_template(description_file["readme_url"])
+        readme_url = ctx.execute_template(description_file["readme_url"], locals=locals)
         if readme_url != "":
             ctx.readme = http_get(readme_url)
 
@@ -846,20 +937,11 @@ def main_generate(args):
     if ctx.build_kind == "":
         raise ValueError("Build kind cannot be empty.")
 
-    ctx.deploy = description_file.get("deploy") or None
-
-    # Check if deploy is empty
-    if ctx.deploy is None:
-        raise ValueError("No deploy info found in description file.")
-
-    if len(ctx.deploy.get("path", [])) == 0 and len(ctx.deploy.get("bins", [])) == 0:
-        raise ValueError("No deploy path or bins found in description file.")
-
     # Create build directory
-    ctx.build_directory = os.path.join(args.output_directory, name)
+    ctx.build_directory = os.path.join(output_directory, name)
 
     if os.path.exists(ctx.build_directory):
-        if args.recreate:
+        if recreate_output_dir:
             shutil.rmtree(ctx.build_directory)
         else:
             raise ValueError(
@@ -870,98 +952,201 @@ def main_generate(args):
 
     # Write README.md
     with open(os.path.join(ctx.build_directory, "README.md"), "w") as f:
+        if ctx.readme == None:
+            raise ValueError("README.md is empty.")
+
         f.write(ctx.readme)
         # add empty line at the end so that promt in a container is on the new line:
         f.write("\n")
 
     # Write all files
     for file in description_file.get("files", []):
-        ctx.add_file(file, recipe_path, check_only=args.check_only)
+        ctx.add_file(file, recipe_path, check_only=check_only, locals=locals)
 
-    dockerfile_name = "{}_{}.Dockerfile".format(ctx.name, ctx.version.replace(":", "_"))
+    ctx.dockerfile_name = "{}_{}.Dockerfile".format(
+        ctx.name, ctx.version.replace(":", "_")
+    )
 
     # Write Dockerfile
     if ctx.build_kind == "neurodocker":
-        dockerfile = ctx.build_neurodocker(ctx.build_info, ctx.deploy)
+        dockerfile = ctx.build_neurodocker(ctx.build_info, locals=locals)
 
-        with open(os.path.join(ctx.build_directory, dockerfile_name), "w") as f:
+        with open(os.path.join(ctx.build_directory, ctx.dockerfile_name), "w") as f:
             f.write(dockerfile)
     else:
         raise ValueError("Build kind not supported.")
 
-    if args.check_only:
-        print("Dockerfile generated successfully at", dockerfile_name)
-        return
+    if check_only:
+        print("Dockerfile generated successfully at", ctx.dockerfile_name)
+        return ctx
 
-    if args.build:
-        print("Building Docker image...")
+    return ctx
 
-        if not shutil.which("docker"):
-            raise ValueError("Docker not found in PATH.")
 
-        # Shell out to Docker
-        # docker-py does not support using BuildKit
+def build_and_run_container(
+    dockerfile_name: str,
+    name: str,
+    version: str,
+    tag: str,
+    architecture: str,
+    recipe_path: str,
+    build_directory: str,
+    login=False,
+    build_sif=False,
+):
+    if not shutil.which("docker"):
+        raise ValueError("Docker not found in PATH.")
+
+    # Shell out to Docker
+    # docker-py does not support using BuildKit
+    subprocess.check_call(
+        [
+            "docker",
+            "build",
+            "--platform",
+            get_build_platform(architecture),
+            "-f",
+            dockerfile_name,
+            "-t",
+            tag,
+            ".",
+        ],
+        cwd=build_directory,
+    )
+    print("Docker image built successfully at", tag)
+
+    if login:
+        abs_path = os.path.abspath(recipe_path)
+
         subprocess.check_call(
             [
                 "docker",
-                "build",
+                "run",
                 "--platform",
-                get_build_platform(ctx.arch),
-                "-f",
-                dockerfile_name,
-                "-t",
-                ctx.tag,
-                ".",
+                get_build_platform(architecture),
+                "--rm",
+                "-it",
+                "-v",
+                abs_path + ":/buildhostdirectory",
+                tag,
             ],
-            cwd=ctx.build_directory,
+            cwd=build_directory,
         )
-        print("Docker image built successfully at", ctx.tag)
+        return
 
-        if args.login:
-            abs_path = os.path.abspath(recipe_path)
+    if build_sif:
+        print("Building Singularity image...")
 
-            subprocess.check_call(
-                [
-                    "docker",
-                    "run",
-                    "--platform",
-                    get_build_platform(ctx.arch),
-                    "--rm",
-                    "-it",
-                    "-v",
-                    abs_path + ":/buildhostdirectory",
-                    ctx.tag,
-                ],
-                cwd=ctx.build_directory,
-            )
-            return
+        if not shutil.which("singularity"):
+            raise ValueError("Singularity not found in PATH.")
 
-        if args.build_sif:
-            print("Building Singularity image...")
+        output_filename = os.path.join("sifs", f"{name}_{version}.sif")
+        if not os.path.exists("sifs"):
+            os.makedirs("sifs")
 
-            if not shutil.which("singularity"):
-                raise ValueError("Singularity not found in PATH.")
+        subprocess.check_call(
+            [
+                "singularity",
+                "build",
+                "--force",
+                output_filename,
+                "docker-daemon://" + tag,
+            ],
+        )
 
-            output_filename = os.path.join("sifs", f"{ctx.name}_{ctx.version}.sif")
-            if not os.path.exists("sifs"):
-                os.makedirs("sifs")
+        print("Singularity image built successfully as", tag + ".sif")
 
-            subprocess.check_call(
-                [
-                    "singularity",
-                    "build",
-                    "--force",
-                    output_filename,
-                    "docker-daemon://" + ctx.tag,
-                ],
-            )
 
-            print("Singularity image built successfully as", ctx.tag + ".sif")
+def autodetect_recipe_path(repo_path: str, path: str) -> str:
+    # look for build.yaml in path and keep going up until we find it or reach the repo path
+
+    # if path is not a descendant of the repo path, raise an error
+    if not os.path.commonpath([repo_path, path]) == repo_path:
+        raise ValueError("Path is not a descendant of the repo path.")
+
+    while path != repo_path:
+        if os.path.exists(os.path.join(path, "build.yaml")):
+            return path
+
+        path = os.path.dirname(path)
+
+    raise ValueError("No build.yaml found in path.")
+
+
+def generate_main():
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder - Generate Docker images from description files",
+    )
+
+    args = root.parse_args()
+
+    repo_path = get_repo_path()
+    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+    build_directory = os.path.join(repo_path, "build")
+
+    print(f"Generating Dockerfile from {recipe_path}...")
+
+    generate_from_description(
+        repo_path,
+        recipe_path,
+        load_description_file(recipe_path),
+        build_directory,
+        architecture=platform.machine(),
+        recreate_output_dir=True,
+    )
+
+
+def build_main(login=False):
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder - Build Docker images from description files",
+    )
+
+    args = root.parse_args()
+
+    repo_path = get_repo_path()
+    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+    build_directory = os.path.join(repo_path, "build")
+
+    print(f"Generate Dockerfile from {recipe_path}...")
+
+    ctx = generate_from_description(
+        repo_path,
+        recipe_path,
+        load_description_file(recipe_path),
+        build_directory,
+        architecture=platform.machine(),
+        recreate_output_dir=True,
+    )
+    if ctx is None:
+        print("Recipe generation failed.")
+        sys.exit(1)
+
+    if ctx.dockerfile_name is None:
+        raise ValueError("Dockerfile name not set.")
+    if ctx.build_directory is None:
+        raise ValueError("Build directory not set.")
+    if ctx.tag is None:
+        raise ValueError("Tag not set.")
+
+    if login:
+        print(f"Building and Running Docker image {ctx.tag}...")
     else:
-        if args.build_sif:
-            raise ValueError(
-                "Building Singularity image requires building the Docker image first."
-            )
+        print(f"Building Docker image {ctx.tag}...")
+
+    build_and_run_container(
+        ctx.dockerfile_name,
+        ctx.name,
+        ctx.version,
+        ctx.tag,
+        ctx.arch,
+        recipe_path,
+        ctx.build_directory,
+        login=login,
+    )
+
+
+def login_main():
+    build_main(login=True)
 
 
 def main(args):
@@ -1049,10 +1234,62 @@ def main(args):
 
     args = root.parse_args()
 
+    repo_path = get_repo_path()
+
     if args.command == "init":
-        main_init(args)
+        init_new_recipe(
+            repo_path,
+            args.name,
+            args.version,
+        )
     elif args.command == "generate":
-        main_generate(args)
+        recipe_path = get_recipe_directory(repo_path, args.name)
+
+        if args.build_tinyrange:
+            build_tinyrange(
+                args.tinyrange_path,
+                os.path.join(recipe_path, "build.yaml"),
+                args.output_directory,
+                args.name,
+                args.version,
+            )
+            return
+
+        ctx = generate_from_description(
+            repo_path,
+            recipe_path,
+            load_description_file(recipe_path),
+            args.output_directory,
+            architecture=args.architecture,
+            ignore_architecture=args.ignore_architectures,
+            auto_build=args.auto_build,
+            max_parallel_jobs=args.max_parallel_jobs,
+            options=args.option,
+            recreate_output_dir=args.recreate,
+        )
+
+        if args.build:
+            if ctx is None:
+                print("Recipe generation failed.")
+                sys.exit(1)
+            if ctx.dockerfile_name is None:
+                raise ValueError("Dockerfile name not set.")
+            if ctx.build_directory is None:
+                raise ValueError("Build directory not set.")
+            if ctx.tag is None:
+                raise ValueError("Tag not set.")
+
+            build_and_run_container(
+                ctx.dockerfile_name,
+                ctx.name,
+                ctx.version,
+                ctx.tag,
+                ctx.arch,
+                recipe_path,
+                ctx.build_directory,
+                login=args.login,
+                build_sif=args.build_sif,
+            )
     else:
         root.print_help()
         sys.exit(1)
