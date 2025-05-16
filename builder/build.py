@@ -1064,7 +1064,181 @@ def build_and_run_container(
         print("Singularity image built successfully as", tag + ".sif")
 
 
-def autodetect_recipe_path(repo_path: str, path: str) -> str:
+def run_docker_prep(prep, volume_name):
+    name = prep.get("name")
+    image = prep.get("image")
+    script = prep.get("script")
+    if name is None or image is None or script is None:
+        raise ValueError("Prep step must have a name, image and script")
+
+    # Docker run the script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{volume_name}:/test",
+            image,
+            "bash",
+            "-c",
+            f"""set -ex
+                cd /test
+                {script}""",
+        ],
+    )
+
+
+def run_builtin_test(tag, test):
+    # built-in tests are found next to this file
+    builtin_test = os.path.join(os.path.dirname(__file__), test)
+    if not os.path.exists(builtin_test):
+        raise ValueError(f"Builtin test {test} does not exist")
+
+    test_content = open(builtin_test).read()
+
+    # Docker run the test script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            tag,
+            "bash",
+            "-c",
+            test_content,
+        ],
+    )
+
+
+def run_docker_test(tag, test):
+    if test.get("builtin") == "test_deploy.sh":
+        return run_builtin_test(tag, test.get("builtin"))
+
+    script = test.get("script")
+    if script is None:
+        raise ValueError("Test step must have a script")
+
+    # Create a docker volume for the test, if it exists remove it first
+    volume_name = f"neurocontainer-test-{tag.replace(':', '-')}"
+    try:
+        subprocess.check_call(
+            ["docker", "volume", "rm", volume_name],
+            stdout=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError as e:
+        # check to make sure the volume is not in use
+        if "is in use" in str(e):
+            raise ValueError(
+                f"Volume {volume_name} is in use, please remove it manually"
+            )
+
+        # If the volume does not exist, ignore the error
+        pass
+    subprocess.check_call(
+        ["docker", "volume", "create", volume_name],
+        stdout=subprocess.DEVNULL,
+    )
+
+    # For each prep step in the test, run it in a docker container
+    if "prep" in test:
+        for prep in test["prep"]:
+            run_docker_prep(prep, volume_name)
+
+    # Docker run the test script in the container mounting the volume as /test
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{volume_name}:/test",
+            tag,
+            "bash",
+            "-c",
+            f"""set -ex
+                cd /test
+                {script}""",
+        ],
+    )
+
+
+def run_test(tag, test):
+    print(f"Running test {test["name"]} on image {tag}")
+    return run_docker_test(tag, test)
+
+
+def check_docker(tag):
+    # use docker image inspect
+    subprocess.check_call(
+        ["docker", "image", "inspect", tag],
+        stdout=subprocess.DEVNULL,
+    )
+
+
+def get_directives(description_file: dict) -> list[dict]:
+    # Get directives from the description file
+    if "build" not in description_file:
+        raise ValueError("Description file must have a build key")
+
+    if "directives" not in description_file["build"]:
+        raise ValueError("Description file must have a build.directives key")
+
+    return description_file["build"]["directives"]
+
+
+def get_all_tests(recipe_path: str) -> list[dict]:
+    # tests can come from two locations. Either in the description file or in a separate test.yaml file.
+
+    tests = []
+
+    if os.path.exists(os.path.join(recipe_path, "test.yaml")):
+        with open(os.path.join(recipe_path, "test.yaml"), "r") as f:
+            test_file = yaml.safe_load(f)
+            if "tests" not in test_file:
+                raise ValueError("Test file must have a tests key")
+            tests.extend(test_file["tests"])
+
+    description_file = load_description_file(recipe_path)
+
+    directives = get_directives(description_file)
+
+    def walk_directives(directives):
+        for directive in directives:
+            if "group" in directive:
+                walk_directives(directive["group"])
+            elif "test" in directive:
+                tests.append(directive["test"])
+
+    walk_directives(directives)
+
+    return tests
+
+
+def get_tag_from_description_file(description_file: dict) -> str:
+    # Get the tag from the description file
+    if "name" not in description_file:
+        raise ValueError("Description file must have a name key")
+
+    if "version" not in description_file:
+        raise ValueError("Description file must have a version key")
+
+    name = description_file["name"]
+    version = description_file["version"]
+
+    return f"{name}:{version}"
+
+
+def run_tests(recipe_path: str):
+    description_file = load_description_file(recipe_path)
+
+    tag = get_tag_from_description_file(description_file)
+
+    for test in get_all_tests(recipe_path):
+        run_test(tag, test)
+
+
+def autodetect_recipe_path(repo_path: str, path: str) -> str | None:
     # look for build.yaml in path and keep going up until we find it or reach the repo path
 
     # if path is not a descendant of the repo path, raise an error
@@ -1077,7 +1251,22 @@ def autodetect_recipe_path(repo_path: str, path: str) -> str:
 
         path = os.path.dirname(path)
 
-    raise ValueError("No build.yaml found in path.")
+    return None
+
+
+def generate_dockerfile(repo_path, recipe_path):
+    build_directory = os.path.join(repo_path, "build")
+
+    print(f"Generate Dockerfile from {recipe_path}...")
+
+    return generate_from_description(
+        repo_path,
+        recipe_path,
+        load_description_file(recipe_path),
+        build_directory,
+        architecture=platform.machine(),
+        recreate_output_dir=True,
+    )
 
 
 def generate_main():
@@ -1088,42 +1277,17 @@ def generate_main():
     args = root.parse_args()
 
     repo_path = get_repo_path()
+
     recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
-    build_directory = os.path.join(repo_path, "build")
+    if recipe_path is None:
+        print("No recipe found in current directory.")
+        sys.exit(1)
 
-    print(f"Generating Dockerfile from {recipe_path}...")
-
-    generate_from_description(
-        repo_path,
-        recipe_path,
-        load_description_file(recipe_path),
-        build_directory,
-        architecture=platform.machine(),
-        recreate_output_dir=True,
-    )
+    generate_dockerfile(repo_path, recipe_path)
 
 
-def build_main(login=False):
-    root = argparse.ArgumentParser(
-        description="NeuroContainer Builder - Build Docker images from description files",
-    )
-
-    args = root.parse_args()
-
-    repo_path = get_repo_path()
-    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
-    build_directory = os.path.join(repo_path, "build")
-
-    print(f"Generate Dockerfile from {recipe_path}...")
-
-    ctx = generate_from_description(
-        repo_path,
-        recipe_path,
-        load_description_file(recipe_path),
-        build_directory,
-        architecture=platform.machine(),
-        recreate_output_dir=True,
-    )
+def generate_and_build(repo_path, recipe_path, login=False):
+    ctx = generate_dockerfile(repo_path, recipe_path)
     if ctx is None:
         print("Recipe generation failed.")
         sys.exit(1)
@@ -1152,8 +1316,63 @@ def build_main(login=False):
     )
 
 
+def build_main(login=False):
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder - Build Docker images from description files",
+    )
+
+    args = root.parse_args()
+
+    repo_path = get_repo_path()
+
+    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+    if recipe_path is None:
+        print("No recipe found in current directory.")
+        sys.exit(1)
+
+    generate_and_build(repo_path, recipe_path, login=login)
+
+
 def login_main():
     build_main(login=True)
+
+
+def test_main():
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder - Run tests on Docker images",
+    )
+
+    args = root.parse_args()
+
+    repo_path = get_repo_path()
+
+    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+    if recipe_path is None:
+        print("No recipe found in current directory.")
+        sys.exit(1)
+
+    generate_and_build(repo_path, recipe_path, login=False)
+
+    run_tests(recipe_path)
+
+
+def init_main():
+    root = argparse.ArgumentParser(
+        description="NeuroContainer Builder - Initialize a new recipe",
+    )
+
+    root.add_argument("name", help="Name of the recipe to create")
+    root.add_argument("version", help="Version of the recipe to create")
+
+    args = root.parse_args()
+
+    repo_path = get_repo_path()
+
+    init_new_recipe(
+        repo_path,
+        args.name,
+        args.version,
+    )
 
 
 def main(args):
