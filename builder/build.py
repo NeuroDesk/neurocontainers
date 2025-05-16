@@ -10,6 +10,7 @@ import jinja2
 import platform
 import hashlib
 import typing
+import json
 
 GLOBAL_MOUNT_POINT_LIST = [
     "/afm01",
@@ -767,22 +768,27 @@ def init_new_recipe(repo_path: str, name: str, version: str):
                 "name": name,
                 "version": version,
                 "architectures": ["x86_64"],
-                "files": [
-                    {
-                        "name": "hello.txt",  # Example file
-                        "contents": "Hello, world!",  # Example content
-                    }
+                "copyright": [
+                    {"license": "TODO", "url": "TODO"},
                 ],
                 "build": {
                     "kind": "neurodocker",
                     "base-image": "ubuntu:24.04",
                     "pkg-manager": "apt",
                     "directives": [
+                        {
+                            "file": {
+                                "name": "hello.txt",  # Example file
+                                "contents": "Hello, world!",  # Example content
+                            }
+                        },
                         {"run": ['cat {{ get_file("hello.txt") }}']},
+                        {
+                            "deploy": {
+                                "bins": ["TODO"],
+                            }
+                        },
                     ],
-                },
-                "deploy": {
-                    "bins": ["TODO"],
                 },
                 "readme": "TODO",
             },
@@ -838,6 +844,52 @@ def get_build_platform(arch: str) -> str:
         raise ValueError(f"Architecture {arch} not supported.")
 
 
+def load_spdx_licenses():
+    # the JSON file is next to the script
+    spdx_licenses_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "licenses.json"
+    )
+
+    if not os.path.exists(spdx_licenses_file):
+        raise ValueError("SPDX licenses file not found.")
+
+    with open(spdx_licenses_file, "r") as f:
+        spdx_licenses = json.load(f)
+
+        ret = {}
+
+        for license in spdx_licenses["licenses"]:
+            if "licenseId" in license:
+                ret[license["licenseId"]] = license
+
+        return ret
+
+
+def validate_license(description_file):
+    # don't try to validate if the license is not present
+    if "copyright" not in description_file:
+        return
+
+    valid_licenses = load_spdx_licenses()
+
+    copyright_list = description_file["copyright"]
+    if not isinstance(copyright_list, list):
+        raise ValueError("Copyright must be a list of dicts.")
+
+    for copyright in copyright_list:
+        if "license" in copyright:
+            if copyright["license"] not in valid_licenses:
+                raise ValueError(
+                    f"License {copyright['license']} not found in SPDX licenses."
+                )
+        elif "name" in copyright:
+            # ignore custom licenses
+            pass
+
+        if "url" not in copyright:
+            raise ValueError("License URL not found in copyright.")
+
+
 def generate_from_description(
     repo_path: str,
     recipe_path: str,
@@ -875,6 +927,8 @@ def generate_from_description(
 
     if arch not in allowed_architectures and not ignore_architecture:
         raise ValueError(f"Architecture {arch} not supported by this recipe.")
+
+    validate_license(description_file)
 
     ctx = BuildContext(repo_path, recipe_path, name, version, arch)
     ctx.set_max_parallel_jobs(max_parallel_jobs)
@@ -1187,7 +1241,7 @@ def get_directives(description_file: dict) -> list[dict]:
     return description_file["build"]["directives"]
 
 
-def get_all_tests(recipe_path: str) -> list[dict]:
+def get_all_tests(description_file: typing.Any, recipe_path: str) -> list[dict]:
     # tests can come from two locations. Either in the description file or in a separate test.yaml file.
 
     tests = []
@@ -1198,8 +1252,6 @@ def get_all_tests(recipe_path: str) -> list[dict]:
             if "tests" not in test_file:
                 raise ValueError("Test file must have a tests key")
             tests.extend(test_file["tests"])
-
-    description_file = load_description_file(recipe_path)
 
     directives = get_directives(description_file)
 
@@ -1234,7 +1286,7 @@ def run_tests(recipe_path: str):
 
     tag = get_tag_from_description_file(description_file)
 
-    for test in get_all_tests(recipe_path):
+    for test in get_all_tests(description_file, recipe_path):
         run_test(tag, test)
 
 
