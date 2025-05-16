@@ -579,7 +579,8 @@ class BuildContext(object):
 
                     # check to make sure the first reference is a file and it exists.
                     if not self.file_exists(arg):
-                        raise ValueError(f"File {args[0]} does not exist.")
+                        filename = args[0]
+                        raise ValueError(f"File {filename} does not exist.")
 
                 builder.copy(*args)  # type: ignore
             elif "group" in directive:
@@ -1173,7 +1174,8 @@ def run_docker_test(tag, test):
         raise ValueError("Test step must have a script")
 
     # Create a docker volume for the test, if it exists remove it first
-    volume_name = f"neurocontainer-test-{tag.replace(':', '-')}"
+    cleaned_tag = tag.replace(":", "-")
+    volume_name = f"neurocontainer-test-{cleaned_tag}"
     try:
         subprocess.check_call(
             ["docker", "volume", "rm", volume_name],
@@ -1217,7 +1219,8 @@ def run_docker_test(tag, test):
 
 
 def run_test(tag, test):
-    print(f"Running test {test["name"]} on image {tag}")
+    test_name = test["name"]
+    print(f"Running test {test_name} on image {tag}")
     return run_docker_test(tag, test)
 
 
@@ -1350,10 +1353,12 @@ def generate_and_build(repo_path, recipe_path, login=False):
     if ctx.tag is None:
         raise ValueError("Tag not set.")
 
+    tag = ctx.tag
+
     if login:
-        print(f"Building and Running Docker image {ctx.tag}...")
+        print(f"Building and Running Docker image {tag}...")
     else:
-        print(f"Building Docker image {ctx.tag}...")
+        print(f"Building Docker image {tag}...")
 
     build_and_run_container(
         ctx.dockerfile_name,
