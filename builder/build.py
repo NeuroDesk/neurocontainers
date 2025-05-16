@@ -878,10 +878,9 @@ def validate_license(description_file):
 
     for copyright in copyright_list:
         if "license" in copyright:
-            if copyright["license"] not in valid_licenses:
-                raise ValueError(
-                    f"License {copyright['license']} not found in SPDX licenses."
-                )
+            license = copyright["license"]
+            if license not in valid_licenses:
+                raise ValueError(f"License {license} not found in SPDX licenses.")
         elif "name" in copyright:
             # ignore custom licenses
             pass
