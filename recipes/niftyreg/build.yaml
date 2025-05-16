@@ -3,6 +3,7 @@ version: 1.4.0
 
 architectures:
   - x86_64
+  - aarch64
 
 build:
   kind: neurodocker
@@ -11,6 +12,9 @@ build:
   pkg-manager: apt
 
   directives:
+    - variables:
+        revision: 8ad2f11507ddedb09ed74a9bd97377b70532ee75
+
     - install:
         - libgomp1
         - ca-certificates
@@ -22,14 +26,18 @@ build:
     - workdir: /opt/niftyreg-1.4.0
 
     - run:
-        - curl -fsSL --retry 5 https://github.com/KCL-BMEIS/niftyreg/archive/8ad2f11507ddedb09ed74a9bd97377b70532ee75.tar.gz | tar -xz -C ./
+        - curl -fsSL --retry 5 https://github.com/KCL-BMEIS/niftyreg/archive/{{ local.revision }}.tar.gz | tar -xz -C ./
 
     - run:
-        - mv niftyreg-8ad2f11507ddedb09ed74a9bd97377b70532ee75 src
+        - mv niftyreg-{{ local.revision }} src
         - mkdir build
 
     - run:
-        - cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-1.4.0
+        - cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-{{ context.version }}
+      condition: arch == "x86_64"
+    - run:
+        - cmake -S src -B build -D CMAKE_INSTALL_PREFIX=/opt/niftyreg-{{ context.version }} -D USE_SSE=OFF
+      condition: arch == "aarch64"
 
     - run:
         - cd build
@@ -37,12 +45,16 @@ build:
         - make install
 
     - environment:
-        PATH: /opt/niftyreg-1.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:~/.local/bin
-        TOOLBOX_PATH: /opt/niftyreg-1.4.0/
+        PATH: /opt/niftyreg-{{ context.version }}/bin:${PATH}
+        TOOLBOX_PATH: /opt/niftyreg-{{ context.version }}/
 
-deploy:
-  path:
-    - /opt/niftyreg-1.4.0/bin/
+    - deploy:
+        path:
+          - /opt/niftyreg-1.4.0/bin/
+
+    - test:
+        name: Simple Deploy Bins/Path Test
+        builtin: test_deploy.sh
 
 readme: |
   ----------------------------------

@@ -32,3 +32,5 @@ local/
 env/
 sifs/
 output_dcm
+*.egg-info
+__pycache__/
