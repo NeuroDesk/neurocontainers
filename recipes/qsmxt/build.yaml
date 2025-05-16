@@ -71,10 +71,16 @@ build:
             SUBJECTS_DIR: /tmp
 
     # Install ANTs
-    - template:
-        name: ants
-        version: 2.4.3
-        method: source
+    - group:
+        - variables:
+            ants_version: 2.4.3
+        - template:
+            name: ants
+            version: "{{ local.ants_version }}"
+            method: source
+        - deploy:
+            - path:
+                - /opt/ants-{{ local.ants_version }}/
 
     # Install dcm2niix
     - group:
@@ -127,6 +133,10 @@ build:
             - ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8
         - run:
             - pip install setuptools==69.5.1
+        - deploy:
+            bins:
+              - python3
+              - python
 
     # Install Python packages
     - group:
@@ -168,8 +178,12 @@ build:
         - environment:
             FASTSURFER_HOME: /opt/FastSurfer
             PATH: $PATH:/opt/FastSurfer
+        - deploy:
+            path:
+              - /opt/FastSurfer
         - test:
             name: Test FastSurfer
+            manual: true
             script: |
               cd /opt/FastSurfer/
               wget https://files.au-1.osf.io/v1/resources/bt4ez/providers/osfstorage/5e9bf3ab430166067ea05564?action=download&direct&version=1
@@ -296,10 +310,9 @@ build:
         LC_ALL: C.UTF-8
         LANG: C.UTF-8
 
+    # Unsorted deploy bins/path
     - deploy:
         path:
-          - /opt/ants-2.4.3/
-          - /opt/FastSurfer
           - /opt/QSMxT-UI
         bins:
           - nipypecli
@@ -309,8 +322,6 @@ build:
           - Bru2Nii
           - tgv_qsm
           - julia
-          - python3
-          - python
           - pytest
           - predict_all.py
           - qsmxt
@@ -318,3 +329,7 @@ build:
           - dicom-sort
           - dicom-convert
           - nifti-convert
+
+    - test:
+        name: Simple Deploy Bins/Path Test
+        builtin: test_deploy.sh
