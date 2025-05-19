@@ -7,28 +7,18 @@ Either use [UV](https://docs.astral.sh/uv/) and `uv run` in front of the other c
 ```sh
 python3 -m venv env
 source env/bin/activate
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Introduction
 
-Run `./builder/build.py init <name> <version>` to create a new recipe.
+Run `sf-init <name> <version>` to create a new recipe.
 
-Run `./builder/build.py generate <name>` to generate a `Dockerfile`. You will get an error if a recipe has already been generated since it stores temporary files in the `./build` directory. You can pass `--recreate` to `generate` to automatically delete the directory.
+Run `sf-generate <name>` to generate a `Dockerfile`. If your in the same directory as a recipe the name is optional and automatically detected.
 
-Normally you don't just want to generate the `Dockerfile`. If you want to build the container as well pass `--build` (You'll need to have Docker installed and accessible by your current user). You can also run test scripts with `--test`. For example you can build and test the Niimath container you can run...
+Run `sf-build <name>` to generate and build the `Dockerfile`. This should be used instead of `docker build` since the context is generated in a separate `build` directory.
 
-```sh
-./builder/build.py generate niimath --recreate --build --test
-```
-
-It is also possible to login to the container using `--login`:
-
-```sh
-./builder/build.py generate niimath --recreate --build --login
-```
-
-Often for GUI applications inside NeuroDesk you want singularity images. To generate one from the Docker image just add `--build-sif` and it will drop a .sif file in `./sifs`.
+A common workflow involves building the container and running a command inside it. You can run `sf-login <name>` to build a container and immediately drop into a shell.
 
 ## Recipe Syntax
 

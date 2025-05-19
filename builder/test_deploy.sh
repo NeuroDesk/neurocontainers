@@ -61,6 +61,12 @@ function main {
 
     # Get every file in DEPLOY_BINS split with :
     for i in $(echo $DEPLOY_BINS | tr ":" "\n"); do
+        # Check if the file is on the PATH
+        if [ ! -f "$(which $i)" ]; then
+            echo "File $i does not exist on the PATH."
+            exit 1
+        fi
+        
         filename=$(which $i)
 
         test_file $filename

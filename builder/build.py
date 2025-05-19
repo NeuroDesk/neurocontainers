@@ -789,6 +789,12 @@ def init_new_recipe(repo_path: str, name: str, version: str):
                                 "bins": ["TODO"],
                             }
                         },
+                        {
+                            "test": {
+                                "name": "Simple Deploy Bins/Path Test",
+                                "builtin": "test_deploy.sh",
+                            },
+                        },
                     ],
                 },
                 "readme": "TODO",
@@ -1328,14 +1334,26 @@ def generate_main():
         description="NeuroContainer Builder - Generate Docker images from description files",
     )
 
+    # add a optional name positional argument
+    root.add_argument(
+        "name",
+        help="Name of the recipe to generate",
+        type=str,
+        nargs="?",
+    )
+
     args = root.parse_args()
 
     repo_path = get_repo_path()
 
-    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
-    if recipe_path is None:
-        print("No recipe found in current directory.")
-        sys.exit(1)
+    recipe_path = ""
+    if args.name == None:
+        recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+        if recipe_path is None:
+            print("No recipe found in current directory.")
+            sys.exit(1)
+    else:
+        recipe_path = get_recipe_directory(repo_path, args.name)
 
     generate_dockerfile(repo_path, recipe_path)
 
@@ -1377,14 +1395,26 @@ def build_main(login=False):
         description="NeuroContainer Builder - Build Docker images from description files",
     )
 
+    # add a optional name positional argument
+    root.add_argument(
+        "name",
+        help="Name of the recipe to generate",
+        type=str,
+        nargs="?",
+    )
+
     args = root.parse_args()
 
     repo_path = get_repo_path()
 
-    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
-    if recipe_path is None:
-        print("No recipe found in current directory.")
-        sys.exit(1)
+    recipe_path = ""
+    if args.name == None:
+        recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+        if recipe_path is None:
+            print("No recipe found in current directory.")
+            sys.exit(1)
+    else:
+        recipe_path = get_recipe_directory(repo_path, args.name)
 
     generate_and_build(repo_path, recipe_path, login=login)
 
@@ -1398,14 +1428,26 @@ def test_main():
         description="NeuroContainer Builder - Run tests on Docker images",
     )
 
+    # add a optional name positional argument
+    root.add_argument(
+        "name",
+        help="Name of the recipe to generate",
+        type=str,
+        nargs="?",
+    )
+
     args = root.parse_args()
 
     repo_path = get_repo_path()
 
-    recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
-    if recipe_path is None:
-        print("No recipe found in current directory.")
-        sys.exit(1)
+    recipe_path = ""
+    if args.name == None:
+        recipe_path = autodetect_recipe_path(repo_path, os.getcwd())
+        if recipe_path is None:
+            print("No recipe found in current directory.")
+            sys.exit(1)
+    else:
+        recipe_path = get_recipe_directory(repo_path, args.name)
 
     generate_and_build(repo_path, recipe_path, login=False)
 
