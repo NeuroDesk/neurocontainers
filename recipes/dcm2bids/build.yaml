@@ -10,7 +10,10 @@ build:
   base-image: unfmontreal/dcm2bids:{{ context.version }}
   pkg-manager: apt
 
-  directives: []
+  directives:
+  - run:
+      - chmod a+rwx /dcm2bids/dcm2bids -R 
+  - user: dcm2bidsuser
 
 deploy:
   bins:
