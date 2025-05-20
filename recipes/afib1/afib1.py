@@ -77,12 +77,13 @@ def process(connection, config, mrdHeader):
                 # When this criteria is met, run process_group() on the accumulated
                 # data, which returns images that are sent back to the client.
                 # e.g. when the series number changes:
-                if item.image_series_index != currentSeries:
-                    logging.info("Processing a group of images because series index changed to %d", item.image_series_index)
-                    currentSeries = item.image_series_index
-                    image = process_image(imgGroup, connection, config, mrdHeader)
-                    connection.send_image(image)
-                    imgGroup = []
+#                KP: This is good for EPI but not sensible when there are multiple series arriving simultaneously.
+#                if item.image_series_index != currentSeries:
+#                    logging.info("Processing a group of images because series index changed to %d", item.image_series_index)
+#                    currentSeries = item.image_series_index
+#                    image = process_image(imgGroup, connection, config, mrdHeader)
+#                    connection.send_image(image)
+#                    imgGroup = []
 
                 # Only process magnitude images -- send phase images back without modification (fallback for images with unknown type)
                 if (item.image_type is ismrmrd.IMTYPE_MAGNITUDE) or (item.image_type == 0):
@@ -258,6 +259,7 @@ def process_raw(acqGroup, connection, config, mrdHeader):
 
 def process_image(imgGroup, connection, config, mrdHeader):
     if len(imgGroup) == 0:
+        logging.debug("Empty imgGroup, returning")
         return []
 
     logging.info(f'-----------------------------------------------')
@@ -300,53 +302,30 @@ def process_image(imgGroup, connection, config, mrdHeader):
 #    np.save(debugFolder + "/" + "imgOrig.npy", data)
 
     logging.debug('Do the afi stuff.')
-    # Parameters, defaults
-    opre_sendoriginal = False
-    opre_interleaved = False
-    opre_b1output = 'pu'
-    opre_brainmask = True
-    opre_mask_fwhm = 4.0
-    opre_mask_nerode = 2
-    opre_mask_ndilate = 4
-    opre_mask_thresh = 0.6
-    opre_signal_thresh = 0.1
-    opre_b1fwhm = 6.0
 
-    # Trying to get it from the header. This will not work with DICOM data but should work on the scanner
-    TR_array = mrdHeader.sequenceParameters.TR
-    
+    # Parameters come first
     tr_ratio   = 5
     nominal_fa = 60
 
-    if ('parameters' in config):
-        if ('sendoriginal' in config['parameters']) and (config['parameters']['sendoriginal'] == True):
-            opre_sendoriginal = True
-        if ('interleaved' in config['parameters']) and (config['parameters']['interleaved'] == True):
-            opre_interleaved = True
-        if ('b1output' in config['parameters']) and (config['parameters']['b1output'] == 'pu'):
-            opre_b1output = 'pu'
-        if ('tr_ratio' in config['parameters']) and (0.1 <= config['parameters']['tr_ratio'] <= 100.0):
-            tr_ratio = config['parameters']['tr_ratio']
-        if ('nominal_fa' in config['parameters']) and (1.0 <= config['parameters']['nominal_fa'] <= 180.0):
-            nominal_fa = config['parameters']['nominal_fa']
-        if ('brainmask' in config['parameters']) and (config['parameters']['brainmask'] == True):
-            opre_brainmask = True
-        if ('mask_fwhm' in config['parameters']) and (1.0 <= config['parameters']['maskfwhm'] <= 10.0):
-            opre_mask_fwhm = config['parameters']['maskfwhm']
-        if ('mask_nerode' in config['parameters']) and (0 <= config['parameters']['masknerode'] <= 20):
-            opre_mask_nerode = config['parameters']['masknerode']
-            opre_mask_nerode = np.around(opre_mask_nerode)
-            opre_mask_nerode = opre_mask_nerode.astype(np.int16)
-        if ('mask_ndilate' in config['parameters']) and (0 <= config['parameters']['maskndilate'] <= 20):
-            opre_mask_ndilate = config['parameters']['maskndilate']
-            opre_mask_ndilate = np.around(opre_mask_ndilate)
-            opre_mask_ndilate = opre_mask_ndilate.astype(np.int16)
-        if ('mask_thresh' in config['parameters']) and (0.0 <= config['parameters']['maskthresh'] <= 1.0):
-            opre_mask_thresh = config['parameters']['mask_thresh']
-        if ('signal_thresh' in config['parameters']) and (0.1 <= config['parameters']['signalthresh'] <= 4096.0):
-            opre_signal_thresh = config['parameters']['signal_thresh']
-        if ('b1fwhm' in config['parameters']) and (-0.0001 <= config['parameters']['b1fwhm'] <= 10.0):
-            opre_b1fwhm = config['parameters']['b1fwhm']
+    # Trying to get it from the header. This will not work with DICOM data but should work on the scanner.
+    # Log them but don't use them. In future, we can set some more stuff automatically.
+    TR_array = mrdHeader.sequenceParameters.TR
+    flipAngle_deg = mrdHeader.sequenceParameters.flipAngle_deg
+    logging.debug("TR is %s", TR)
+    logging.debug("flipAngle_deg is %s", flipAngle_deg)
+
+    opre_sendoriginal = mrdhelper.get_json_config_param(config, 'sendoriginal', default=False, type='bool')
+    opre_interleaved = mrdhelper.get_json_config_param(config, 'interleaved', default=False, type='bool')
+    opre_b1output = mrdhelper.get_json_config_param(config, 'b1output', default='pu', type='str')
+    tr_ratio = mrdhelper.get_json_config_param(config, 'tr_ratio', default=5.0, type='float')
+    nominal_fa = mrdhelper.get_json_config_param(config, 'nominal_fa', default=60.0, type='float')
+    opre_brainmask = mrdhelper.get_json_config_param(config, 'brainmask', default=True, type='bool')
+    opre_mask_fwhm = mrdhelper.get_json_config_param(config, 'maskfwhm', default=4.0, type='float')
+    opre_mask_nerode = mrdhelper.get_json_config_param(config, 'masknerode', default=2, type='int')
+    opre_mask_ndilate = mrdhelper.get_json_config_param(config, 'maskndilate', default=4, type='int')
+    opre_mask_thresh = mrdhelper.get_json_config_param(config, 'mask_thresh', default=0.6, type='float')
+    opre_signal_thresh = mrdhelper.get_json_config_param(config, 'signalthresh', default=0.1, type='float')
+    opre_b1fwhm = mrdhelper.get_json_config_param(config, 'b1fwhm', default=6.0, type='float')
 
     voxel_sizes = (
         mrdHeader.encoding[0].encodedSpace.fieldOfView_mm.y / mrdHeader.encoding[0].encodedSpace.matrixSize.y,
