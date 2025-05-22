@@ -1,5 +1,5 @@
 name: deepretinotopy
-version: 1.0.9
+version: 1.0.10
 
 architectures:
   - x86_64
@@ -10,6 +10,7 @@ build:
   base-image: ghcr.io/neurodesk/freesurfer_7.3.2:20230216
   pkg-manager: yum
 
+  # Delete the line containing localedef which is added automatically by NeuroDocker.
   fix-locale-def: true
 
   directives:
@@ -39,9 +40,9 @@ build:
     - run:
         - git clone https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox.git
         - cd deepRetinotopy_TheToolbox
-        - git checkout 51437f47db4153bb21a9370be758aaad2fe15eb6
+        - git checkout 690a683016b4c7423aa6a6c80dc91cf476629a12
         - files_to_download=("osfstorage/new_models/deepRetinotopy_polarAngle_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_LH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_LH_model5.pt" "osfstorage/new_models/deepRetinotopy_polarAngle_RH_model4.pt" "osfstorage/new_models/deepRetinotopy_eccentricity_RH_model2.pt" "osfstorage/new_models/deepRetinotopy_pRFsize_RH_model5.pt")
-        - for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done'
+        - for file in "${files_to_download[@]}"; do path="${file:15}"; mkdir -p "${path%/*}"; chmod 777 "${path%/*}"; osf -p ermbz fetch "$file" "$path"; echo "$file"; new_path=$(echo "$path" | sed -E 's/model[0-9]+/model/'); mv "$path" "$new_path"; echo "Renamed $path to $new_path"; done
 
     - workdir: /opt/deepRetinotopy_TheToolbox
 
@@ -50,6 +51,17 @@ build:
 
 deploy:
   bins:
+    - wb_view
+    - wb_command
+    - wb_shortcuts
+    - python
+    - deepRetinotopy
+    - signMaps
+    - 1_native2fsaverage.sh
+    - 2_inference.py
+    - 3_fsaverage2native.sh
+    - 4_signmaps.py
+    - transform_polarangle_lh.py
     - midthickness_surf.py
 
 readme: |-

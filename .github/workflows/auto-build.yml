@@ -5,7 +5,7 @@ on:
     paths:
       - recipes/**
     branches:
-      - master
+      - main
 
 jobs:
   list-apps:

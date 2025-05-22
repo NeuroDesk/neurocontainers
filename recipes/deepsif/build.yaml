@@ -4,6 +4,14 @@ version: 0.0.1
 architectures:
   - x86_64
 
+files:
+  - name: generate_tvb_data
+    executable: true
+    contents: |
+      #!/bin/bash
+
+      /opt/miniconda-4.7.12/envs/deepsif-{{ context.version }}/bin/python3 DeepSIF/forward/generate_tvb_data.py $@
+
 build:
   kind: neurodocker
 
@@ -104,7 +112,11 @@ build:
         RUNLEVEL: "3"
         XDG_RUNTIME_DIR: /neurodesk-storage
 
-    - user: neuro
+    - copy: generate_tvb_data /usr/bin
+
+deploy:
+  bins:
+    - generate_tvb_data
 
 readme: |-
   ----------------------------------

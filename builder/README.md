@@ -1,5 +1,15 @@
 # NeuroContainers YAML Build System
 
+## Setup
+
+Either use [UV](https://docs.astral.sh/uv/) and `uv run` in front of the other commands or use `venv` with...
+
+```sh
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
 ## Introduction
 
 Run `./builder/build.py init <name> <version>` to create a new recipe.
@@ -10,6 +20,12 @@ Normally you don't just want to generate the `Dockerfile`. If you want to build 
 
 ```sh
 ./builder/build.py generate niimath --recreate --build --test
+```
+
+It is also possible to login to the container using `--login`:
+
+```sh
+./builder/build.py generate niimath --recreate --build --login
 ```
 
 Often for GUI applications inside NeuroDesk you want singularity images. To generate one from the Docker image just add `--build-sif` and it will drop a .sif file in `./sifs`.
@@ -24,9 +40,15 @@ Recipes are split into a few sections...
 
 This is `name`, `version`, `architectures`, and `readme`.
 
+You can optionally add `copyright` with license information. The license has to be a SPDX identifier from https://spdx.org/licenses/.
+
 ```yaml
 name: qsmxt
 version: 8.0.0
+
+copyright:
+  - license: GPL-3.0-only # has to be SPDX Identifier
+    url: https://github.com/QSMxT/QSMxT/blob/main/LICENSE
 
 architectures:
   - x86_64
@@ -129,14 +151,24 @@ files:
     filename: hello.sh
 ```
 
-Files still have to be added to the container with...
+Files can be downloaded from the internet. Files will be cached locally on the system and reused between builds...
+
+```yaml
+files:
+  - name: hello.zip
+    filename: https://example.com/hello.zip
+```
+
+Files can be referenced directly in run directives with...
 
 ```yaml
 build:
   # ...
   directives:
     # ...
-    - copy: install.packages.jl /opt
+    - run:
+      # Install cat12
+      - unzip -q {{ get_file("hello.zip") }} -d /tmp
 ```
 
 ## NeuroDocker Builder

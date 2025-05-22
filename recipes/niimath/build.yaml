@@ -1,10 +1,6 @@
 name: niimath
 version: 1.0.0
 
-variables:
-  github_url: https://github.com/rordenlab/niimath.git
-  revision: 5876e5bc573ef37fb9243566df4d561b8c16cea4
-
 architectures:
   - x86_64
   - aarch64
@@ -17,17 +13,33 @@ build:
 
   directives:
     - install: build-essential git libz-dev file
-    # Do the build and install on a layer so we can remove it later
-    - run:
-        - git clone {{ context.github_url }} /tmp/niimath
-        - cd /tmp/niimath
-        - git reset --hard {{ context.revision }}
-        - cd ./src
-        # Build a static binary
-        - make static -j{{ parallel_jobs }}
-        - cp niimath /usr/bin
-        - rm -rf /tmp/niimath
 
-deploy:
-  bins:
-    - niimath
+    # Do the build and install on a layer so we can remove it later
+    - group:
+        - variables:
+            github_url: https://github.com/rordenlab/niimath.git
+            revision: 5876e5bc573ef37fb9243566df4d561b8c16cea4
+        - run:
+            - git clone {{ local.github_url }} /tmp/niimath
+            - cd /tmp/niimath
+            - git reset --hard {{ local.revision }}
+            - cd ./src
+            # Build a static binary
+            - make static -j{{ parallel_jobs }}
+            - cp niimath /usr/bin
+            - rm -rf /tmp/niimath
+
+    - deploy:
+        bins:
+          - niimath
+
+    - test:
+        name: Simple Deploy Bins/Path Test
+        builtin: test_deploy.sh
+
+    - test:
+        name: Test NiiMath
+        script: |
+          #!/usr/bin/env bash
+          file /usr/bin/niimath
+          niimath

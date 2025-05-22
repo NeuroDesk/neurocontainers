@@ -23,10 +23,14 @@ recipes/fsl/fslinstaller.py
 *.nii
 *.nii.gz
 *.h5
+*.IMA
 dicom_data
 *.utr
-
+t1_dcm
 build/
 local/
 env/
 sifs/
+output_dcm
+*.egg-info
+__pycache__/

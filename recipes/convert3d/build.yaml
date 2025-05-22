@@ -1,0 +1,20 @@
+name: convert3d
+version: 1.0.0
+
+architectures:
+  - x86_64
+
+build:
+  kind: neurodocker
+
+  base-image: debian:bookworm
+  pkg-manager: apt
+
+  directives:
+    - template:
+        name: convert3d
+        version: "{{ context.version }}"
+
+deploy:
+  path:
+    - /opt/convert3d-{{ context.version }}/bin/

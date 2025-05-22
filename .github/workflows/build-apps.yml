@@ -71,11 +71,16 @@ jobs:
       - name: Generate Dockerfile
         run: |
           echo "APPLICATION: $APPLICATION"
-          ./builder/build.py generate $APPLICATION --recreate
+          ./builder/build.py generate $APPLICATION --recreate --auto-build
       - name: Set image variables
         id: IMAGEVARS
         run: |
           DOCKERFILE=`basename $(find ./build/$APPLICATION/ -type f -iname "*.Dockerfile" | head -1)`
+          # if the dockerfile is not found, exit with error
+          if [ -z "$DOCKERFILE" ]; then
+            echo "Dockerfile not found for $APPLICATION"
+            exit 1
+          fi
           IMAGENAME=$(echo $(basename $DOCKERFILE .Dockerfile) | tr '[A-Z]' '[a-z]')
           echo "IMAGENAME: $IMAGENAME"
           echo "IMAGENAME_TEST=${IMAGENAME//_/ }" >> $GITHUB_ENV
@@ -87,13 +92,17 @@ jobs:
       - name: Log into Dockerhub (optional)
         if: "${{ env.DOCKERHUB_ORG != '' }}"
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Run docker builder and build singularity/apptainer image
+        run: /bin/bash .github/workflows/build-docker-and-simg.sh $IMAGENAME
+      - name: Upload nectar object storage
+        run: /bin/bash .github/workflows/upload-nectar.sh $IMAGENAME
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-2
-      - name: Run docker builder + Upload to docker and github registry
-        run: /bin/bash .github/workflows/build-docker.sh $IMAGENAME
+      - name: Upload to AWS S3 
+        run: /bin/bash .github/workflows/upload-aws-s3.sh $IMAGENAME
       - name: Generate job output
         run: |
           echo "The container has been successfully build. To test the container, run this:" >> $GITHUB_STEP_SUMMARY
@@ -107,7 +116,7 @@ jobs:
           filename: .github/new_container_issue_template.md
       - name: Check image for wasted space using dive
         uses: MartinHeinz/dive-action@d76c172050c82c60a3742ab5487c2d3ac8b3306f
-        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/master'}}
+        if: ${{ !contains(github.event.head_commit.message, 'skipdive') && github.ref == 'refs/heads/main'}}
         with:
           image: vnmd/${{ env.IMAGENAME }}:${{ env.BUILDDATE }}
           config: ${{ github.workspace }}/.github/.dive-ci.yml
