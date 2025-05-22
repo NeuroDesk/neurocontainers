@@ -12,7 +12,10 @@ curl -X GET https://neurocontainers.neurodesk.org/temporary-builds-new/{{ env.IM
 singularity shell --overlay /tmp/apptainer_overlay {{ env.IMAGENAME }}_{{ env.BUILDDATE }}.simg
 ```
 
-If test was successful, then add to apps.json to release:
+If test was successful, then add to apps.json to release to Neurodesk:
 https://github.com/NeuroDesk/neurocommand/edit/main/neurodesk/apps.json
+
+Or add to the Open Recon recipes to release for that:
+https://github.com/NeuroDesk/openrecon/tree/main/recipes
 
 Please close this issue when completed :)
