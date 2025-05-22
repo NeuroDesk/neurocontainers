@@ -38,7 +38,7 @@ directives:
       - make install
 
   - run:
-      - pip3 install h5py ismrmrd matplotlib pydicom==3.0.1 pynetdicom nibabel
+      - pip3 install h5py ismrmrd matplotlib pydicom==3.0.1 pynetdicom nibabel scipy scikit-image 
 
   - run:
       - git clone https://github.com/ismrmrd/ismrmrd-python-tools.git
@@ -49,3 +49,5 @@ directives:
       - git clone https://github.com/kspaceKelvin/python-ismrmrd-server
       - find /opt/code/python-ismrmrd-server -name "*.sh" -exec chmod +x {} \;
       - find /opt/code/python-ismrmrd-server -name "*.sh" | xargs dos2unix
+    # replace 'invertcontrast' in main.py with 'default_replace_with_valid_name' to avoid running 
+      - sed -i 's/invertcontrast/default_replace_with_valid_name/g' /opt/code/python-ismrmrd-server/main.py
