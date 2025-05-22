@@ -265,7 +265,7 @@ build:
 
 deploy:
   path:
-    - /opt/ants-2.4.3/
+    - /opt/ants-2.4.3/bin
     - /opt/FastSurfer
     - /opt/QSMxT-UI
   bins:
