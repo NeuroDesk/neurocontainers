@@ -77,13 +77,13 @@ def process(connection, config, mrdHeader):
                 # When this criteria is met, run process_group() on the accumulated
                 # data, which returns images that are sent back to the client.
                 # e.g. when the series number changes:
-#                KP: This is good for EPI but not sensible when there are multiple series arriving simultaneously.
-#                if item.image_series_index != currentSeries:
-#                    logging.info("Processing a group of images because series index changed to %d", item.image_series_index)
-#                    currentSeries = item.image_series_index
-#                    image = process_image(imgGroup, connection, config, mrdHeader)
-#                    connection.send_image(image)
-#                    imgGroup = []
+                # KP: This is good for EPI but not sensible when there are multiple series arriving simultaneously.
+                # if item.image_series_index != currentSeries:
+                # logging.info("Processing a group of images because series index changed to %d", item.image_series_index)
+                # currentSeries = item.image_series_index
+                # image = process_image(imgGroup, connection, config, mrdHeader)
+                # connection.send_image(image)
+                # imgGroup = []
 
                 # Only process magnitude images -- send phase images back without modification (fallback for images with unknown type)
                 if (item.image_type is ismrmrd.IMTYPE_MAGNITUDE) or (item.image_type == 0):
@@ -130,7 +130,7 @@ def process(connection, config, mrdHeader):
         if len(imgGroup) > 0:
             logging.info("Processing a group of images (untriggered)")
             logging.info(mrdHeader)
-            raise Exception("Image group not empty at end of processing loop")
+            # raise Exception("Image group not empty at end of processing loop")
             image = process_image(imgGroup, connection, config, mrdHeader)
             connection.send_image(image)
             imgGroup = []
@@ -292,14 +292,14 @@ def process_image(imgGroup, connection, config, mrdHeader):
     logging.debug("MetaAttributes[0]: %s", ismrmrd.Meta.serialize(meta[0]))
 
     # Optional serialization of ICE MiniHeader
-#    logging.debug('Try logging minihead')
+    # logging.debug('Try logging minihead')
     if 'IceMiniHead' in meta[0]:
         logging.debug("IceMiniHead[0]: %s", base64.b64decode(meta[0]['IceMiniHead']).decode('utf-8'))
 
 
     logging.debug("Stebo: Original image data is size %s" % (data.shape,))
     # e.g. gre with 128x128x10 with phase and magnitude results in [128 128 1 1 1]
-#    np.save(debugFolder + "/" + "imgOrig.npy", data)
+    # np.save(debugFolder + "/" + "imgOrig.npy", data)
 
     logging.debug('Do the afi stuff.')
 
@@ -309,9 +309,9 @@ def process_image(imgGroup, connection, config, mrdHeader):
 
     # Trying to get it from the header. This will not work with DICOM data but should work on the scanner.
     # Log them but don't use them. In future, we can set some more stuff automatically.
-    TR_array = mrdHeader.sequenceParameters.TR
-    flipAngle_deg = mrdHeader.sequenceParameters.flipAngle_deg
-    logging.debug("TR is %s", TR)
+    TR_array = getattr(mrdHeader.sequenceParameters, "TR", None)
+    flipAngle_deg = getattr(mrdHeader.sequenceParameters, "flipAngle_deg", None)
+    logging.debug("TR_array is %s", TR_array)
     logging.debug("flipAngle_deg is %s", flipAngle_deg)
 
     opre_sendoriginal = mrdhelper.get_json_config_param(config, 'sendoriginal', default=False, type='bool')
@@ -354,7 +354,7 @@ def process_image(imgGroup, connection, config, mrdHeader):
         subprocess.run(['bet2', 'nifti_tr2_image.nii', 'brain_tr2'], check=True)
         mask1 = nib.load('brain_tr1_mask.nii.gz').get_fdata().astype(bool)
         mask2 = nib.load('brain_tr2_mask.nii.gz').get_fdata().astype(bool)
-#        combined_mask = np.logical_or(mask1,mask2)
+        # combined_mask = np.logical_or(mask1,mask2)
         combined_mask = mask1
 
         for _ in range(opre_mask_nerode):
@@ -451,21 +451,21 @@ def process_image(imgGroup, connection, config, mrdHeader):
     #data = data[:, :, :, None, None]
     data = data.transpose((0, 1, 4, 3, 2))
 
-#    if mrdhelper.get_json_config_param(config, 'options') == 'complex':
-#        # Complex images are requested
-#        data = data.astype(np.complex64)
-#        maxVal = data.max()
-#    else:
-#        # Determine max value (12 or 16 bit)
+    # if mrdhelper.get_json_config_param(config, 'options') == 'complex':
+        # Complex images are requested
+        # data = data.astype(np.complex64)
+        #  maxVal = data.max()
+    # else:
+        # Determine max value (12 or 16 bit)
     BitsStored = 12
-#        if (mrdhelper.get_userParameterLong_value(mrdHeader, "BitsStored") is not None):
-#            BitsStored = mrdhelper.get_userParameterLong_value(mrdHeader, "BitsStored")
+        # if (mrdhelper.get_userParameterLong_value(mrdHeader, "BitsStored") is not None):
+            # BitsStored = mrdhelper.get_userParameterLong_value(mrdHeader, "BitsStored")
     maxVal = 2**BitsStored - 1
 
         # Normalize and convert to int16
         # Nuh uh, no normalizing here!
     data = data.astype(np.float64)
-#        data *= maxVal/data.max()
+    # data *= maxVal/data.max()
     data = np.around(data)
     data = data.astype(np.int16)
 
@@ -510,7 +510,7 @@ def process_image(imgGroup, connection, config, mrdHeader):
         tmpMeta['ImageProcessingHistory']         = ['PYTHON', 'AFIB1']
         tmpMeta['WindowCenter']                   = str((maxVal+1)/2)
         tmpMeta['WindowWidth']                    = str((maxVal+1))
-#        tmpMeta['SequenceDescriptionAdditional']  = 'FIRE'
+        # tmpMeta['SequenceDescriptionAdditional']  = 'FIRE'
         tmpMeta['SequenceDescriptionAdditional']  = 'AFI B1+ Map'
         tmpMeta['Keep_image_geometry']            = 1
 
