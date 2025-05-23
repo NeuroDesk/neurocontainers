@@ -59,9 +59,7 @@ build:
             method: source
         - deploy:
             path:
-              - /opt/ants-{{ local.ants_version }}/
-            bins:
-              - AverageImages
+              - /opt/ants-{{ local.ants_version }}/bin
 
     # Install dcm2niix
     - group:
