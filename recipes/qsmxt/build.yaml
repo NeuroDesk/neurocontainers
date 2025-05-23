@@ -60,6 +60,8 @@ build:
         - deploy:
             path:
               - /opt/ants-{{ local.ants_version }}/
+            bins:
+              - AverageImages
 
     # Install dcm2niix
     - group:
