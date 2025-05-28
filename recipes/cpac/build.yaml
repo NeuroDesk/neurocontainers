@@ -1,6 +1,10 @@
 name: cpac
 version: 1.8.7
 
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/bids-apps/CPAC/blob/master/LICENSE
+
 architectures:
   - x86_64
 

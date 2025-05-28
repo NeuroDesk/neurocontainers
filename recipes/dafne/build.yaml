@@ -1,6 +1,10 @@
 name: dafne
 version: 1.8a4
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/dafne-imaging/dafne/blob/master/LICENSE
+
 architectures:
   - x86_64
 

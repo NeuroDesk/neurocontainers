@@ -1,6 +1,10 @@
 name: brainlifecli
 version: 1.7.0
 
+copyright:
+  - license: MIT
+    url: https://github.com/brainlife/cli/blob/master/LICENSE
+
 architectures:
   - x86_64
 

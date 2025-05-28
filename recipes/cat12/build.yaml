@@ -3,6 +3,10 @@ name: cat12
 version: "12.9"
 draft: true
 
+copyright:
+  - license: GPL-2.0
+    url: https://github.com/ChristianGaser/cat12?tab=GPL-2.0-1-ov-file#readme
+    
 # https://github.com/ChristianGaser/cat12/releases
 # with 12.9 we use the new versioning scheme instead of the old (r****)
 

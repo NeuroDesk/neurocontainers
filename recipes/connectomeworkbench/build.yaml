@@ -1,6 +1,10 @@
 name: connectomeworkbench
 version: 2.0.1
 
+copyright:
+  - license: GPL-2.0
+    url: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+    
 architectures:
   - x86_64
 

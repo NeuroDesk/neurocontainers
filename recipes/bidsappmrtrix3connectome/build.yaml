@@ -1,6 +1,11 @@
 name: bidsappmrtrix3connectome
 
 version: 0.5.3
+
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/bids-apps/MRtrix3_connectome/blob/master/LICENSE
+   
 architectures:
   - x86_64
 

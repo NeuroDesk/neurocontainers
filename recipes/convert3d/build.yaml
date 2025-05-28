@@ -1,6 +1,10 @@
 name: convert3d
 version: 1.0.0
 
+copyright:
+  - license: GPL-2.0
+    url: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
 architectures:
   - x86_64
 
