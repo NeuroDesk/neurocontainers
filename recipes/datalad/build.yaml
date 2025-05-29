@@ -3,11 +3,11 @@ version: 1.1.5
 
 copyright:
   - license: MIT
-    url:
+    url: https://spdx.org/licenses/MIT.html
   - license: BSD-3-Clause
-    url:
+    url: https://spdx.org/licenses/BSD-3-Clause.html
   - license: BSD-2-Clause
-    url:
+    url: https://spdx.org/licenses/BSD-2-Clause.html
 
 architectures:
 - x86_64
