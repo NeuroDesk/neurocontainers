@@ -1,6 +1,10 @@
 name: surfice
 version: 1.0.20210730
 
+copyright:
+  - license: BSD-2-Clause
+    url: https://github.com/neurolabusc/surf-ice/blob/master/LICENSE
+
 architectures:
   - x86_64
 

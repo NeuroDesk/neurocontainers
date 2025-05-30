@@ -1,6 +1,10 @@
 name: sigviewer
 version: 0.6.4
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/cbrnr/sigviewer/blob/main/LICENSE
+
 architectures:
   - x86_64
 

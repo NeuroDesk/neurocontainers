@@ -1,6 +1,10 @@
 name: spm12
 version: r7771
 
+copyright:
+  - license: GPL-2.0
+    url: https://github.com/spm/spm12/blob/main/LICENCE.txt
+
 architectures:
   - x86_64
 

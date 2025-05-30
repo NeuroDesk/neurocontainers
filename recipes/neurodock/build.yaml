@@ -1,6 +1,10 @@
 name: neurodock
 version: 1.0.0
 
+copyright:
+  - name: neurodock license
+    url: https://github.com/muscbridge/PyDesigner?tab=License-1-ov-file#readme
+    
 architectures:
   - x86_64
 

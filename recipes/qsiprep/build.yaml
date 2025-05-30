@@ -1,6 +1,10 @@
 name: qsiprep
 version: 1.0.1
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/pennlinc/qsiprep/blob/master/LICENSE
+
 architectures:
   - x86_64
 

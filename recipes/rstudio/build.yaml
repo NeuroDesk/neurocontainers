@@ -1,6 +1,10 @@
 name: rstudio
 version: 2023.12.1
 
+copyright:
+  - license: AGPL-3.0
+    url: https://spdx.org/licenses/AGPL-3.0.html
+
 architectures:
   - x86_64
 

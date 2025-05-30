@@ -1,6 +1,10 @@
 name: niftyreg
 version: 1.4.0
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/KCL-BMEIS/niftyreg/blob/master/LICENSE.txt
+
 architectures:
   - x86_64
   - aarch64

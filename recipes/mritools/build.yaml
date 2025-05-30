@@ -1,6 +1,10 @@
 name: mritools
 version: 3.3.0
 
+copyright:
+  - license: MIT
+    url: https://github.com/korbinian90/CompileMRI.jl/blob/master/LICENSE
+
 architectures:
   - x86_64
 

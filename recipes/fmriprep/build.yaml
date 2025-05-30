@@ -2,6 +2,10 @@ name: fmriprep
 
 version: 24.1.1
 
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/nipreps/fmriprep/blob/master/LICENSE
+    
 architectures:
   - x86_64
 

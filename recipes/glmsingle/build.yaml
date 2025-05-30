@@ -1,6 +1,10 @@
 name: glmsingle
 version: "1.2"
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/cvnlab/GLMsingle/blob/main/LICENSE
+
 architectures:
   - x86_64
 

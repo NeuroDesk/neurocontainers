@@ -1,6 +1,10 @@
 name: palm
 version: alpha119
 
+copyright:
+  - license: GPL-3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+
 architectures:
   - x86_64
 

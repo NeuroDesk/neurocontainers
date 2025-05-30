@@ -1,6 +1,10 @@
 name: romeo
 version: 3.2.8
 
+copyright:
+  - license: MIT
+    url: https://github.com/korbinian90/ROMEO.jl/blob/master/LICENSE
+
 architectures:
   - x86_64
 

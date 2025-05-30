@@ -1,6 +1,10 @@
 name: spinalcordtoolbox
 version: "6.4"
 
+copyright:
+  - license: LGPL-3.0
+    url: https://github.com/spinalcordtoolbox/spinalcordtoolbox/blob/master/LICENSE
+
 architectures:
   - x86_64
 

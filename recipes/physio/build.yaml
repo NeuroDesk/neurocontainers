@@ -1,6 +1,10 @@
 name: physio
 version: r2021a
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/translationalneuromodeling/tapas/blob/master/PhysIO/LICENSE
+
 architectures:
   - x86_64
 

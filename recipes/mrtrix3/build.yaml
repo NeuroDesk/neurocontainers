@@ -1,5 +1,10 @@
 name: mrtrix3
 version: 3.0.4
+
+copyright:
+  - license: MPL-2.0
+    url: https://github.com/MRtrix3/mrtrix3/blob/master/LICENCE.txt
+    
 architectures:
   - x86_64
 build:

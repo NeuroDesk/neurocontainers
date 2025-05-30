@@ -1,6 +1,10 @@
 name: eeglab
 version: "2020.0"
 
+copyright:
+  - license: BSD-2-Clause
+    url: https://github.com/sccn/eeglab/blob/develop/LICENSE
+
 architectures:
   - x86_64
 

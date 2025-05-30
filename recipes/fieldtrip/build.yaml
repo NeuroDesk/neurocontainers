@@ -1,6 +1,10 @@
 name: fieldtrip
 version: "20220617"
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/fieldtrip/fieldtrip?tab=GPL-3.0-1-ov-file#readme
+
 architectures:
   - x86_64
 

@@ -1,6 +1,10 @@
 name: hmri
 version: 0.6.1
 
+copyright:
+  - license: GPL-2.0
+    url: https://github.com/hMRI-group/hMRI-toolbox/blob/master/LICENSE
+
 architectures:
   - x86_64
 

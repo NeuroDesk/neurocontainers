@@ -1,6 +1,10 @@
 name: deepsif
 version: 0.0.1
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/bfinl/DeepSIF/blob/main/LICENSE.txt
+
 architectures:
   - x86_64
 

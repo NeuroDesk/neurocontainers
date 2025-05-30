@@ -1,6 +1,9 @@
 name: mne
 version: 1.7.1
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/mne-tools/mne-bids-pipeline/blob/main/LICENSE.txt
 architectures:
   - x86_64
 
