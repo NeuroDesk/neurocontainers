@@ -1,6 +1,10 @@
 name: pydeface
 version: 2.0.2
 
+copyright:
+  - license: MIT
+    url: https://github.com/poldracklab/pydeface/blob/master/LICENSE.txt
+
 architectures:
   - x86_64
 

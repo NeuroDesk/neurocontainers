@@ -1,6 +1,10 @@
 name: laynii
 version: 2.2.1
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/layerfMRI/LAYNII/blob/master/LICENSE
+
 architectures:
   - x86_64
 

@@ -1,6 +1,10 @@
 name: nipype
 version: 1.8.5
 
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/nipy/nipype/blob/master/LICENSE
+
 architectures:
   - x86_64
 

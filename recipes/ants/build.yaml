@@ -1,5 +1,10 @@
 name: ants
 version: 2.6.0 # https://github.com/ANTsX/ANTs/releases
+
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/afni/afni?tab=License-1-ov-file
+
 architectures:
   - x86_64
 build:

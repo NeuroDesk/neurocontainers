@@ -1,6 +1,12 @@
 name: dsistudio
 version: 2024.06.12
 
+copyright:
+  - license: CC-BY-NC-SA-4.0
+    url: https://github.com/frankyeh/DSI-Studio/blob/master/LICENSE
+  - license: LGPL-3.0
+    url: https://spdx.org/licenses/LGPL-3.0.html
+    
 architectures:
   - x86_64
 

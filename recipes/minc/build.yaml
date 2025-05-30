@@ -1,6 +1,10 @@
 name: minc
 version: 1.9.18
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/BIC-MNI/minc-toolkit?tab=License-1-ov-file
+
 architectures:
   - x86_64
 

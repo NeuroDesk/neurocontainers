@@ -1,6 +1,10 @@
 name: hcpasl
 version: 1.0.0
 
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/physimals/hcp-asl/blob/master/LICENSE
+    
 architectures:
   - x86_64
 

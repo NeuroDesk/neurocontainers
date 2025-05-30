@@ -1,6 +1,10 @@
 name: mricrogl
 version: 1.2.20211006
 
+copyright:
+  - name: mricrogl license
+    url: https://github.com/rordenlab/MRIcroGL/blob/master/license.txt
+    
 architectures:
   - x86_64
 

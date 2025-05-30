@@ -1,6 +1,10 @@
 name: niimath
 version: 1.0.0
 
+copyright:
+  - license: BSD-2-Clause
+    url: https://github.com/rordenlab/niimath/blob/master/LICENSE
+
 architectures:
   - x86_64
   - aarch64

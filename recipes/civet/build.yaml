@@ -1,7 +1,16 @@
 name: civet
 version: 2.1.1
 draft: true # this recipe doesn't work
-
+copyright:
+  - name: CIVET license
+    url: https://github.com/aces/CIVET_Full_Project/blob/master/LICENSE
+  - license: GPL-2.0
+    url: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  - license: LGPL-2.1
+    url: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+  - name: CGAL license
+    url: https://www.cgal.org/license.html
+ 
 architectures:
     - x86_64
 

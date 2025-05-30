@@ -1,6 +1,10 @@
 name: vesselboost
 version: 1.0.3
 
+copyright:
+  - license: MIT
+    url: https://github.com/KMarshallX/VesselBoost/blob/master/LICENSE
+
 architectures:
   - x86_64
 

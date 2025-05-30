@@ -1,6 +1,10 @@
 name: hnncore
 version: "0.3"
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/jonescompneurolab/hnn-core/blob/master/LICENSE
+
 architectures:
   - x86_64
 

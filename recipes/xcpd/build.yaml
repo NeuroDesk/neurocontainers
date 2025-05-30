@@ -1,6 +1,10 @@
 name: xcpd
 version: 0.10.5
 
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/PennLINC/xcp_d/blob/main/LICENSE
+
 architectures:
   - x86_64
 

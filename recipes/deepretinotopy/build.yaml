@@ -1,6 +1,10 @@
 name: deepretinotopy
 version: 1.0.10
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/felenitaribeiro/deepRetinotopy_TheToolbox/blob/main/LICENSE
+
 architectures:
   - x86_64
 

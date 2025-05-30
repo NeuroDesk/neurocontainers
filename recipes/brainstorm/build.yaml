@@ -1,6 +1,10 @@
 name: brainstorm
 version: "3.211130"
 
+copyright:
+  - license: GPL-3.0
+    url: https://github.com/brainstorm-tools/brainstorm3/blob/master/LICENSE
+
 architectures:
   - x86_64
 

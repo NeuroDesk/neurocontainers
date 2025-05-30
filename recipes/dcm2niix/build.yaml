@@ -1,5 +1,10 @@
 name: dcm2niix
 version: v1.0.20240202
+
+copyright:
+  - name: dcm2niix license
+    url: https://github.com/rordenlab/dcm2niix/blob/master/license.txt
+
 architectures:
   - x86_64
 build:

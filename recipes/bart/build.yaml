@@ -1,6 +1,10 @@
 name: bart
 version: 0.9.00
 
+copyright:
+  - license: BSD-3-Clause # has to be SPDX Identifier
+    url: https://github.com/mrirecon/bart/blob/master/LICENSE
+    
 architectures:
   - x86_64
 

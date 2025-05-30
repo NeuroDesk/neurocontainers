@@ -1,6 +1,10 @@
 name: vina
 version: 1.2.3
 
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/ccsb-scripps/AutoDock-Vina/blob/develop/LICENSE
+
 architectures:
   - x86_64
 
