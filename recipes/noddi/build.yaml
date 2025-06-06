@@ -1,0 +1,63 @@
+name: noddi
+version: '1.0'
+architectures:
+  - x86_64
+  - aarch64
+readme: |2-
+      to run this container 
+      singularity run --cleanenv \
+      --bind <your_folder>:/In_fold \
+      noddi-singularity.sif \
+      /In_fold/<NODDI image> \
+      /In_fold/<brain_mask> \
+      /In_fold/<NODDI_roi> \
+      /In_fold/<bval> \
+      /In_fold/<bvecs> \
+      /In_fold/<FittedParams.mat> \
+      /in_fold/<output_map>
+build:
+  kind: neurodocker
+  base-image: ubuntu:20.04
+  pkg-manager: apt
+  directives:
+    - install: wget unzip zip git openjdk-8-jre xvfb
+    - template:
+        name: matlabmcr
+        install_path: /usr/local/MATLAB
+        version: 2020b
+    - run:
+        - mkdir /In_fold
+        - mkdir /Out_fold
+    - file:
+        name: ss_noddi.zip
+        url: >-
+          https://github.com/CyclotronResearchCentre/NODDI_singularity/archive/refs/heads/main.zip
+    - run:
+        - mkdir -p /opt/ss_noddi
+        - unzip -q {{ get_file ss_noddi.zip }} -d /opt/ss_noddi_tmp
+        - >-
+          cp -r /opt/ss_noddi_tmp/NODDI_singularity-main/ss_noddi_App/*
+          /opt/ss_noddi/
+        - rm -rf /opt/ss_noddi_tmp
+    - environment:
+        PATH: /opt/ss_noddi:${PATH}
+    - file:
+        name: ss_noddi
+        contents: >-
+          #!/usr/bin/env bash
+
+
+          bash /opt/ss_noddi/run_ss_noddi.sh
+          /usr/local/MATLAB/MATLAB_Runtime/v99 "$@"
+    - copy:
+        - ss_noddi
+        - /usr/bin
+    - run:
+        - chmod +x /usr/bin/ss_noddi
+    - deploy:
+        path: []
+        bins:
+          - run_ss_noddi.sh
+copyright:
+  - license: GPL-3.0
+    url: https://opensource.org/licenses/GPL-3.0
