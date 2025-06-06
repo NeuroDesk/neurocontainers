@@ -1,8 +1,9 @@
 name: noddi
-version: '1.0'
+version: "1.0"
+
 architectures:
   - x86_64
-  - aarch64
+
 readme: |2-
       to run this container 
       singularity run --cleanenv \
@@ -15,6 +16,7 @@ readme: |2-
       /In_fold/<bvecs> \
       /In_fold/<FittedParams.mat> \
       /in_fold/<output_map>
+
 build:
   kind: neurodocker
   base-image: ubuntu:20.04
@@ -34,13 +36,9 @@ build:
           https://github.com/CyclotronResearchCentre/NODDI_singularity/archive/refs/heads/main.zip
     - run:
         - mkdir -p /opt/ss_noddi
-        - unzip -q {{ get_file ss_noddi.zip }} -d /opt/ss_noddi_tmp
-        - >-
-          cp -r /opt/ss_noddi_tmp/NODDI_singularity-main/ss_noddi_App/*
-          /opt/ss_noddi/
+        - unzip -q {{ get_file "ss_noddi.zip" }} -d /opt/ss_noddi_tmp
+        - cp -r /opt/ss_noddi_tmp/NODDI_singularity-main/ss_noddi_App/* /opt/ss_noddi/
         - rm -rf /opt/ss_noddi_tmp
-    - environment:
-        PATH: /opt/ss_noddi:${PATH}
     - file:
         name: ss_noddi
         contents: >-
@@ -58,6 +56,7 @@ build:
         path: []
         bins:
           - run_ss_noddi.sh
+
 copyright:
   - license: GPL-3.0
     url: https://opensource.org/licenses/GPL-3.0
