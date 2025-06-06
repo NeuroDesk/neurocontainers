@@ -367,7 +367,7 @@ class BuildContext(object):
         if self.build_directory is None:
             raise ValueError("Build directory not set.")
 
-        name = file["name"]
+        name = self.execute_template(file["name"], locals=locals)
 
         if name == "":
             raise ValueError("File name cannot be empty.")
