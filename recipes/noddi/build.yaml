@@ -36,7 +36,7 @@ build:
           https://github.com/CyclotronResearchCentre/NODDI_singularity/archive/refs/heads/main.zip
     - run:
         - mkdir -p /opt/ss_noddi
-        - unzip -q {{ get_file "ss_noddi.zip" }} -d /opt/ss_noddi_tmp
+        - unzip -q {{ get_file("ss_noddi.zip") }} -d /opt/ss_noddi_tmp
         - cp -r /opt/ss_noddi_tmp/NODDI_singularity-main/ss_noddi_App/* /opt/ss_noddi/
         - rm -rf /opt/ss_noddi_tmp
     - file:
