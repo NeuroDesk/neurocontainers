@@ -1,0 +1,22 @@
+name: mipav
+version: 11.3.3
+architectures:
+  - x86_64
+readme: >-
+  The MIPAV (Medical Image Processing, Analysis, and Visualization) application
+  enables quantitative analysis and visualization of medical images of numerous
+  modalities such as PET, MRI, CT, or microscopy.
+build:
+  kind: neurodocker
+  base-image: ubuntu:24.04
+  pkg-manager: apt
+  directives:
+    - file:
+        name: mipav_unix_11_3_3.sh
+        url: >-
+          https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/mipav_unix_11_3_3.sh
+    - run:
+        - sh {{ get_file("mipav_unix_11_3_3.sh") }}
+copyright:
+  - name: Medical Image Processing, Analysis and Visualization
+    url: https://mipav.cit.nih.gov/clickwrap.php
