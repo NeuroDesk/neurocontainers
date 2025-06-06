@@ -11,12 +11,30 @@ build:
   base-image: ubuntu:24.04
   pkg-manager: apt
   directives:
+    - workdir: /opt
+    - install:
+        - libfreetype6
+        - expect
     - file:
-        name: mipav_unix_11_3_3.sh
+        name: mipav_unix_11.3.3.sh
         url: >-
           https://object-store.rc.nectar.org.au/v1/AUTH_dead991e1fa847e3afcca2d3a7041f5d/build/mipav_unix_11_3_3.sh
+    # - run:
+        # - cp {{ get_file("mipav_unix_11.3.3.sh") }} .
+        # - cp {{ get_file("mipav_unix_{{ context.version }}.sh") }} .
+        # - ./mipav_unix_{{ context.version }}.sh -q -dir /opt/mipav    
     - run:
-        - sh {{ get_file("mipav_unix_11_3_3.sh") }}
+        - cat > install_mipav.exp << 'EOD'
+        #!/usr/bin/expect -f
+        spawn sh {{ get_file("mipav_unix_11.3.3.sh") }}
+        expect "OK \\\[o, Enter\\\], Cancel \\\[c\\\]"
+        send "o\r"
+        expect "Yes \\\[1\\\], No \\\[2\\\]"
+        send "1\r"
+        expect eof
+        EOD
+        chmod +x install_mipav.exp
+        ./install_mipav.exp
 copyright:
   - name: Medical Image Processing, Analysis and Visualization
     url: https://mipav.cit.nih.gov/clickwrap.php
