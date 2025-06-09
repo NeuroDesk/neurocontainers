@@ -7,7 +7,7 @@ copyright:
   url: https://github.com/MIC-DKFZ/TractSeg/blob/master/LICENSE
 build:
   kind: neurodocker
-  base-image: wasserth/tractseg_container:{{ context.version }}
+  base-image: wasserth/tractseg_container:master
   pkg-manager: apt
   directives: []
 deploy:
