@@ -1,0 +1,46 @@
+name: fitlins
+version: 0.11.0
+architectures:
+  - x86_64
+build:
+  kind: neurodocker
+  base-image: poldracklab/fitlins:0.11.0
+  pkg-manager: apt
+  directives: []
+copyright:
+  - license: Apache-2.0
+    url: https://github.com/poldracklab/fitlins/blob/master/LICENSE
+readme: |
+      ----------------------------------
+      ## fitlins/{{ context.version }} ##
+      FitLins is a tool for estimating linear models, defined by the BIDS Stats-Models specification       proposal, to BIDS-formatted datasets.
+
+      FitLins is developed against fMRIPrep-preprocessed datasets, but is intended to work with any dataset following the BIDS Derivatives draft specification.
+
+      Example models can be found in examples/models in the main repository and FitLins Example Models in the documentation.
+
+      This pipeline is developed by the Poldrack lab at Stanford University for use at the Center for Reproducible Neuroscience (CRN), as well as for open-source software distribution.
+
+      
+
+      Example:
+      ```
+      fitlins data/bids_root/ out/ participant \
+      -d data/derivatives/fmriprep/ -w work/
+   
+      ```
+
+      More documentation can be found here:
+      https://fitlins.readthedocs.io/en/latest/index.html
+
+      Citation:
+      ```
+      https://zenodo.org/records/7217447
+      ```
+
+      License:
+      Apache-2.0
+
+      To run container outside of this environment: ml fitlins/{{ context.version }}
+
+      ----------------------------------
