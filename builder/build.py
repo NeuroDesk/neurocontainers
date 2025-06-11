@@ -84,6 +84,9 @@ class NeuroDockerBuilder:
 
         self.add_directive("from_", base_image=base_image)
 
+        # Always set the root user for the neurocontainer installation.
+        self.set_user("root")
+
         if add_default:
             self.add_directive("_default")
 
