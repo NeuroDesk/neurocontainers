@@ -370,7 +370,7 @@ class BuildContext(object):
         if self.build_directory is None:
             raise ValueError("Build directory not set.")
 
-        name = self.execute_template(file["name"], locals=locals)
+        name = self.execute_template_string(file["name"], locals=locals)
 
         if name == "":
             raise ValueError("File name cannot be empty.")
@@ -463,7 +463,9 @@ class BuildContext(object):
         if base == "" or pkg_manager == "":
             raise ValueError("Base image or package manager cannot be empty.")
 
-        builder = NeuroDockerBuilder(base, pkg_manager)
+        builder = NeuroDockerBuilder(
+            base, pkg_manager, build_directive.get("add-default-template", True)
+        )
 
         builder.run_command("printf '#!/bin/bash\\nls -la' > /usr/bin/ll")
         builder.run_command("chmod +x /usr/bin/ll")
