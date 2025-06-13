@@ -1,17 +1,17 @@
 name: tractseg
 version: '2.9'
 architectures:
-- x86_64
+  - x86_64
 copyright:
-- license: Apache-2.0
-  url: https://github.com/MIC-DKFZ/TractSeg/blob/master/LICENSE
+  - license: Apache-2.0
+    url: https://github.com/MIC-DKFZ/TractSeg/blob/master/LICENSE
 build:
   kind: neurodocker
   base-image: wasserth/tractseg_container:master
   pkg-manager: apt
-  directives: []
-deploy:
-  bins:
-   - tractseg
-readme: This is a recipe for Tractseg/{{ context.version }}
+  directives:
+    - deploy:
+        bins:
+          - tractseg
+  add-default-template: false
 readme_url: https://github.com/MIC-DKFZ/TractSeg/blob/master/Readme.md
