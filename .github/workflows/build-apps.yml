@@ -68,6 +68,9 @@ jobs:
           sudo mv /var/lib/docker /home/runner/work/docker
           sudo ln -s /home/runner/work/docker /var/lib/docker
           sudo systemctl restart docker
+      - name: Install Builder Dependancies
+        run: |
+          pip install -r requirements.txt
       - name: Generate Dockerfile
         run: |
           echo "APPLICATION: $APPLICATION"
