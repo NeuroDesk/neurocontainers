@@ -68,3 +68,6 @@ readme: |-
   License: MIT, https://github.com/brainlife/cli?tab=MIT-1-ov-file#readme
 
   ----------------------------------
+
+categories:
+  - "workflows"

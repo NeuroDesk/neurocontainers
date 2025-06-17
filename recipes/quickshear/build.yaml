@@ -115,3 +115,6 @@ readme: |
 files:
     - name: invertcontrast.py
       filename: invertcontrast.py
+
+categories:
+  - "data organisation"

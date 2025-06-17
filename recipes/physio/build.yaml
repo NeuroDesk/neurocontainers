@@ -93,3 +93,10 @@ readme: |
   To run container outside of this environment: ml physio/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "functional imaging"
+
+gui_apps:
+  - name: "physioGUI"
+    exec: "bash run_spm12.sh /opt/mcr/v99/ fmri"

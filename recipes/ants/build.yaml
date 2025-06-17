@@ -50,3 +50,8 @@ readme: |
 
   License: Apache 2 License, https://github.com/ANTsX/ANTs?tab=Apache-2.0-1-ov-file#readme
   ----------------------------------
+
+categories:
+  - "image registration"
+  - "structural imaging"
+  - "image segmentation"

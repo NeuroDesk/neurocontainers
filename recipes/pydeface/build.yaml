@@ -55,3 +55,6 @@ readme: |
   To run container outside of this environment: ml pydeface/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "image segmentation"

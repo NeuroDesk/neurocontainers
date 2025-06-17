@@ -47,3 +47,10 @@ readme: |-
   ```
 
   ----------------------------------
+
+categories:
+  - "electrophysiology"
+
+gui_apps:
+  - name: "sigviewerGUI"
+    exec: "sigviewer"

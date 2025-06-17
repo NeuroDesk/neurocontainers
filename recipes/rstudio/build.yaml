@@ -145,3 +145,10 @@ files:
       if("caret" %in% rownames(installed.packages()) == FALSE) {install.packages("caret", dependencies = TRUE)}
       if("car" %in% rownames(installed.packages()) == FALSE) {install.packages("car")}
       if("BayesFactor" %in% rownames(installed.packages()) == FALSE) {install.packages("BayesFactor", dependencies = TRUE)}
+
+categories:
+  - "statistics"
+
+gui_apps:
+  - name: "rstudioGUI"
+    exec: "rstudio"

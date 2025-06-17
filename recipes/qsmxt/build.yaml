@@ -311,3 +311,9 @@ build:
     - test:
         name: Simple Deploy Bins/Path Test
         builtin: test_deploy.sh
+
+categories:
+  - "phase processing"
+  - "quantitative imaging"
+  - "structural imaging"
+  - "workflows"

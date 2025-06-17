@@ -43,3 +43,12 @@ readme: |-
   To run container outside of this environment: ml minc/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "image segmentation"
+  - "image registration"
+  - "structural imaging"
+
+gui_apps:
+  - name: "registerGUI"
+    exec: "register"

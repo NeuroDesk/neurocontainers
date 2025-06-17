@@ -109,3 +109,12 @@ readme: |
   To run container outside of this environment: ml cat12/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "image segmentation"
+  - "image registration"
+  - "structural imaging"
+
+gui_apps:
+  - name: "cat12GUI"
+    exec: "bash run_spm12.sh /opt/mcr/v93/"

@@ -47,3 +47,6 @@ readme: |-
   License: Custom license non-commerical, non-clinical care: https://github.com/muscbridge/PyDesigner?tab=License-1-ov-file#readme
 
   ----------------------------------
+
+categories:
+  - "diffusion imaging"

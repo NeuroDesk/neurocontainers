@@ -63,3 +63,10 @@ readme: |-
   To run applications outside of this container: ml eeglab/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "electrophysiology"
+
+gui_apps:
+  - name: "eeglabGUI"
+    exec: "EEGLAB"

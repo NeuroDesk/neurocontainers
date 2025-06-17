@@ -64,3 +64,6 @@ readme: |-
   License: 3-clause BSD license, https://github.com/mrirecon/bart?tab=BSD-3-Clause-1-ov-file#readme
 
   ----------------------------------
+
+categories:
+  - "image reconstruction"

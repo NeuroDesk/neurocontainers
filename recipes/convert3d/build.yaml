@@ -22,3 +22,6 @@ build:
 deploy:
   path:
     - /opt/convert3d-{{ context.version }}/bin/
+
+categories:
+  - "data organisation"

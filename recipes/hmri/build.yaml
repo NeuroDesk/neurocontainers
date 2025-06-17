@@ -66,3 +66,11 @@ readme: |-
   To run container outside of this environment: ml hmri/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "quantitative imaging"
+  - "structural imaging"
+
+gui_apps:
+  - name: "hmriGUI"
+    exec: "bash run_spm12.sh /opt/mcr/R2023a fmri"

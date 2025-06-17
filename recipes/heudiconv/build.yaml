@@ -50,3 +50,6 @@ readme: |
 files:
   - name: test.sh
     contents: heudiconv
+
+categories:
+  - "data organisation"

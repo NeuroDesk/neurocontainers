@@ -51,3 +51,10 @@ readme: |-
   To run container outside of this environment: ml conn/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "functional imaging"
+
+gui_apps:
+  - name: "connGUI"
+    exec: "conn"
