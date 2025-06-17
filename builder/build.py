@@ -121,17 +121,32 @@ def generate_release_file(name: str, version: str, architecture: str, recipe_pat
             "exec": gui_app["exec"]
         }
     
-    # Create releases directory structure
-    repo_path = get_repo_path()
-    releases_dir = os.path.join(repo_path, "releases", name)
-    os.makedirs(releases_dir, exist_ok=True)
+    # Convert to JSON string for potential GitHub Actions use
+    release_json = json.dumps(release_data, indent=2)
     
-    # Write release file
-    release_file = os.path.join(releases_dir, f"{version}.json")
-    with open(release_file, 'w') as f:
-        json.dump(release_data, f, indent=2)
-    
-    print(f"Generated release file: {release_file}")
+    # Check if running in GitHub Actions
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        # In GitHub Actions, output the release data for workflow use
+        github_output = os.environ.get("GITHUB_OUTPUT")
+        if github_output:
+            with open(github_output, "a") as f:
+                f.write(f"container_name={name}\n")
+                f.write(f"container_version={version}\n")
+                # For multiline output, use heredoc format
+                f.write(f"release_file_content<<EOF\n{release_json}\nEOF\n")
+        print(f"Generated release data for {name} {version} (GitHub Actions mode)")
+    else:
+        # Local development mode - write file directly
+        repo_path = get_repo_path()
+        releases_dir = os.path.join(repo_path, "releases", name)
+        os.makedirs(releases_dir, exist_ok=True)
+        
+        # Write release file
+        release_file = os.path.join(releases_dir, f"{version}.json")
+        with open(release_file, 'w') as f:
+            f.write(release_json)
+        
+        print(f"Generated release file: {release_file}")
 
 
 def should_generate_release_file(generate_release_flag: bool = False) -> bool:

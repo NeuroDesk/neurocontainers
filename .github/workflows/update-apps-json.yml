@@ -1,7 +1,8 @@
 name: Update apps.json
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
     paths:
       - "releases/**/*.json"
