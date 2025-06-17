@@ -118,6 +118,8 @@ jobs:
           CONTAINER_VERSION: ${{ steps.generate.outputs.container_version }}
           RELEASE_CONTENT: ${{ steps.generate.outputs.release_file_content }}
         run: |
+          gh auth setup-git
+
           # Configure git
           git config --global user.name "neurocontainers-bot"
           git config --global user.email "neurocontainers-bot@neurodesk.github.io"
