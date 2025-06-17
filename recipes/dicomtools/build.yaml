@@ -89,3 +89,6 @@ readme: |-
   To run container outside of this environment: ml dicomtools/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "data organisation"

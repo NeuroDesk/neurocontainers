@@ -98,3 +98,6 @@ readme: |-
   license: LGPLv3 (https://github.com/spinalcordtoolbox/spinalcordtoolbox/blob/master/LICENSE)
 
   ----------------------------------
+
+categories:
+  - "spine"

@@ -79,3 +79,6 @@ readme: |-
   To run container outside of this environment: ml bidstools/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "data organisation"

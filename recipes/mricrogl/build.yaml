@@ -67,3 +67,10 @@ readme: |-
   ```
 
   ----------------------------------
+
+categories:
+  - "visualization"
+
+gui_apps:
+  - name: "mricroglGUI"
+    exec: "MRIcroGL"

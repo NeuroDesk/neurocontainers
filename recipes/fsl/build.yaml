@@ -6,6 +6,17 @@ version: 6.0.7.16
 copyright:
   - name: fsl license
     url: https://fsl.fmrib.ox.ac.uk/fsl/docs/#/license
+
+categories:
+  - "functional imaging"
+  - "structural imaging"
+  - "diffusion imaging"
+  - "image segmentation"
+  - "image registration"
+
+gui_apps:
+  - name: "fsleyesGUI"
+    exec: "fsleyes"
     
 options:
   workshop:

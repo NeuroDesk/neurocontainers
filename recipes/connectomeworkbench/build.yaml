@@ -32,3 +32,7 @@ deploy:
     - wb_view
     - wb_command
     - wb_shortcuts
+
+categories:
+  - "functional imaging"
+  - "data organisation"

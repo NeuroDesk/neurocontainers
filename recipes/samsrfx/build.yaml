@@ -57,3 +57,10 @@ readme: |-
   To run container outside of this environment: ml samsrfx/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "functional imaging"
+
+gui_apps:
+  - name: "samsrfxGUI"
+    exec: "samsrfx"

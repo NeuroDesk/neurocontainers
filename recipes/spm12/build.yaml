@@ -101,3 +101,13 @@ readme: |-
   To run container outside of this environment: ml spm12/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - "functional imaging"
+  - "image segmentation"
+  - "image registration"
+  - "structural imaging"
+
+gui_apps:
+  - name: "spm12GUI"
+    exec: "bash run_spm12.sh /opt/mcr/v97/"

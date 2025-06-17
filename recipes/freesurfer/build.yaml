@@ -230,3 +230,11 @@ files:
 # yum install mlocate
 # updatedb
 # locate libQt5XcbQpa.so.5
+
+categories:
+  - "image segmentation"
+  - "structural imaging"
+
+gui_apps:
+  - name: "freeviewGUI"
+    exec: "freeview"

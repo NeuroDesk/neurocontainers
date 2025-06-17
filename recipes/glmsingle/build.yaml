@@ -81,3 +81,6 @@ readme: |-
   [Prince, J.S., Charest, I., Kurzawski, J.W., Pyles, J.A., Tarr, M., Kay, K.N. Improving the accuracy of single-trial fMRI response estimates using GLMsingle. *eLife* (2022).](https://doi.org/10.7554/eLife.77599)
   ```
   ----------------------------------
+
+categories:
+  - "functional imaging"

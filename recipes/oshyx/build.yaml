@@ -109,3 +109,6 @@ readme: |-
   * `sub-XX_volumes.csv`: Volumes of the four labels (as described above). Units for volume are in mm<sup>3</sup>.
 
   ----------------------------------
+
+categories:
+  - "image segmentation"

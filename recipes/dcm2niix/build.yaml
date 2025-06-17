@@ -58,3 +58,6 @@ readme: |-
   https://github.com/rordenlab/dcm2niix/blob/master/license.txt
 
   ----------------------------------
+
+categories:
+  - "data organisation"

@@ -74,3 +74,6 @@ readme: |-
 files:
   - name: vesselboost.py
     filename: vesselboost.py
+
+categories:
+  - "image segmentation"

@@ -106,3 +106,6 @@ readme: |-
   License: Apache 2.0 https://github.com/nighres/nighres?tab=Apache-2.0-1-ov-file#readme
 
   ----------------------------------
+
+categories:
+  - "structural imaging"

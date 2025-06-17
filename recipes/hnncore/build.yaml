@@ -51,3 +51,6 @@ readme: |-
    hnn-gui
 
    https://jonescompneurolab.github.io/hnn-core
+
+categories:
+  - "electrophysiology"

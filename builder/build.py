@@ -11,6 +11,7 @@ import platform
 import hashlib
 import typing
 import json
+import datetime
 
 GLOBAL_MOUNT_POINT_LIST = [
     "/afm01",
@@ -71,6 +72,106 @@ def load_description_file(recipe_dir: str) -> typing.Any:
 
 
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
+
+
+def generate_release_file(
+    name: str,
+    version: str,
+    architecture: str,
+    recipe_path: str,
+    build_directory: str,
+    build_info: dict,
+) -> None:
+    """
+    Generate a release JSON file for the built container.
+
+    Args:
+        name: Container name
+        version: Container version
+        architecture: Target architecture
+        recipe_path: Path to the recipe directory
+        build_directory: Build output directory
+        build_info: Full build configuration from YAML
+    """
+    if build_info is None:
+        build_info = {}
+
+    # Extract categories from build.yaml
+    categories = build_info.get("categories", ["other"])
+
+    # Extract GUI applications from build.yaml
+    gui_apps = build_info.get("gui_apps", [])
+
+    # Create CLI app entry (always present)
+    build_date = datetime.datetime.now().strftime("%Y%m%d")
+    cli_app_name = f"{name} {version}"
+
+    # Create release data structure
+    release_data = {
+        "apps": {
+            cli_app_name: {"version": version, "build_date": build_date, "exec": ""}
+        },
+        "categories": categories,
+    }
+
+    # Add GUI apps from build.yaml
+    for gui_app in gui_apps:
+        gui_app_name = f"{gui_app['name']}-{name} {version}"
+        release_data["apps"][gui_app_name] = {
+            "version": build_date,
+            "exec": gui_app["exec"],
+        }
+
+    # Convert to JSON string for potential GitHub Actions use
+    release_json = json.dumps(release_data, indent=2)
+
+    # Check if running in GitHub Actions
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        # In GitHub Actions, output the release data for workflow use
+        github_output = os.environ.get("GITHUB_OUTPUT")
+        if github_output:
+            with open(github_output, "a") as f:
+                f.write(f"container_name={name}\n")
+                f.write(f"container_version={version}\n")
+                # For multiline output, use heredoc format
+                f.write(f"release_file_content<<EOF\n{release_json}\nEOF\n")
+        print(f"Generated release data for {name} {version} (GitHub Actions mode)")
+    else:
+        # Local development mode - write file directly
+        repo_path = get_repo_path()
+        releases_dir = os.path.join(repo_path, "releases", name)
+        os.makedirs(releases_dir, exist_ok=True)
+
+        # Write release file
+        release_file = os.path.join(releases_dir, f"{version}.json")
+        with open(release_file, "w") as f:
+            f.write(release_json)
+
+        print(f"Generated release file: {release_file}")
+
+
+def should_generate_release_file(generate_release_flag: bool = False) -> bool:
+    """
+    Determine if release file should be generated based on environment.
+
+    Args:
+        generate_release_flag: Command line flag to force release generation
+
+    Returns True if running in CI, auto-build mode, or flag is set.
+    """
+    # Check command line flag first
+    if generate_release_flag:
+        return True
+
+    # Check for common CI environment variables
+    ci_vars = ["CI", "GITHUB_ACTIONS", "GITLAB_CI", "TRAVIS", "CIRCLECI", "JENKINS_URL"]
+
+    for var in ci_vars:
+        if os.environ.get(var):
+            return True
+
+    # Check for auto-build mode (set via command line)
+    return os.environ.get("AUTO_BUILD", "false").lower() == "true"
 
 
 class NeuroDockerBuilder:
@@ -264,7 +365,7 @@ class BuildContext(object):
     build_kind: str | None = None
     dockerfile_name: str | None = None
 
-    def __init__(self, base_path, recipe_path, name, version, arch):
+    def __init__(self, base_path, recipe_path, name, version, arch, check_only):
         self.base_path = base_path
         self.recipe_path = recipe_path
         self.name = name
@@ -278,6 +379,7 @@ class BuildContext(object):
         self.lint_error = False
         self.deploy_bins = []
         self.deploy_path = []
+        self.check_only = check_only
 
     def lint_fail(self, message):
         if self.lint_error:
@@ -380,7 +482,11 @@ class BuildContext(object):
         if "url" in file:
             # download and cache the file
             url = self.execute_template(file["url"], locals=locals)
-            cached_file = download_with_cache(url, check_only=check_only)
+            cached_file = download_with_cache(
+                url,
+                check_only=check_only,
+                insecure=file.get("insecure", False),
+            )
 
             if "executable" in file and file["executable"]:
                 os.chmod(output_filename, 0o755)
@@ -619,7 +725,12 @@ class BuildContext(object):
                 for directive in include_file["directives"]:
                     add_directive(directive, locals=variables)
             elif "file" in directive:
-                self.add_file(directive["file"], self.recipe_path, locals=locals)
+                self.add_file(
+                    directive["file"],
+                    self.recipe_path,
+                    locals=locals,
+                    check_only=self.check_only,
+                )
             elif "variables" in directive:
                 for key, value in directive["variables"].items():
                     locals[key] = self.execute_template(value, locals=locals)
@@ -815,7 +926,7 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def download_with_cache(url, check_only=False):
+def download_with_cache(url, check_only=False, insecure=False):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
         raise ValueError("curl not found in PATH.")
@@ -839,8 +950,13 @@ def download_with_cache(url, check_only=False):
 
     # download the file
     print(f"Downloading {url} to {output_filename}")
+    # Use full argument names for curl for clarity
+    curl_args = ["curl", "--location", "--output", output_filename, url]
+    if insecure:
+        curl_args.append("--insecure")
+
     subprocess.check_call(
-        ["curl", "-L", "-o", output_filename, url],
+        curl_args,
         stdout=subprocess.DEVNULL,
     )
 
@@ -941,7 +1057,7 @@ def generate_from_description(
 
     validate_license(description_file)
 
-    ctx = BuildContext(repo_path, recipe_path, name, version, arch)
+    ctx = BuildContext(repo_path, recipe_path, name, version, arch, check_only)
     ctx.set_max_parallel_jobs(max_parallel_jobs)
 
     locals = {}
@@ -1065,6 +1181,8 @@ def build_and_run_container(
     build_directory: str,
     login=False,
     build_sif=False,
+    build_info=None,
+    generate_release=False,
 ):
     if not shutil.which("docker"):
         raise ValueError("Docker not found in PATH.")
@@ -1086,6 +1204,12 @@ def build_and_run_container(
         cwd=build_directory,
     )
     print("Docker image built successfully at", tag)
+
+    # Generate release file if in CI or auto-build mode
+    if should_generate_release_file(generate_release):
+        generate_release_file(
+            name, version, architecture, recipe_path, build_directory, build_info
+        )
 
     if login:
         abs_path = os.path.abspath(recipe_path)
@@ -1392,6 +1516,8 @@ def generate_and_build(repo_path, recipe_path, login=False):
         recipe_path,
         ctx.build_directory,
         login=login,
+        build_info=ctx.build_info,
+        generate_release=False,  # This call doesn't have access to args
     )
 
 
@@ -1553,6 +1679,11 @@ def main(args):
         action="store_true",
         help="Set if the recipe is being built in CI",
     )
+    build_parser.add_argument(
+        "--generate-release",
+        action="store_true",
+        help="Generate release files after successful build",
+    )
 
     init_parser = command.add_parser(
         "init",
@@ -1595,6 +1726,7 @@ def main(args):
             max_parallel_jobs=args.max_parallel_jobs,
             options=args.option,
             recreate_output_dir=args.recreate,
+            check_only=args.check_only,
         )
 
         if args.build:
@@ -1618,6 +1750,8 @@ def main(args):
                 ctx.build_directory,
                 login=args.login,
                 build_sif=args.build_sif,
+                build_info=ctx.build_info,
+                generate_release=args.generate_release,
             )
     else:
         root.print_help()

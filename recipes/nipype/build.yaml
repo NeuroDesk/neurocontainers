@@ -242,3 +242,6 @@ files:
       esac
 
       trap - 1 2 3
+
+categories:
+  - "workflows"
