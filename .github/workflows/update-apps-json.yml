@@ -12,6 +12,11 @@ jobs:
   update-apps-json:
     runs-on: ubuntu-latest
 
+    # add permission to create PRs in neurocommand repo
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Checkout neurocontainers repo
         uses: actions/checkout@v4
