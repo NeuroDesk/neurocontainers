@@ -1726,6 +1726,7 @@ def main(args):
             max_parallel_jobs=args.max_parallel_jobs,
             options=args.option,
             recreate_output_dir=args.recreate,
+            check_only=args.check_only,
         )
 
         if args.build:
