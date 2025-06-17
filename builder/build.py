@@ -380,7 +380,11 @@ class BuildContext(object):
         if "url" in file:
             # download and cache the file
             url = self.execute_template(file["url"], locals=locals)
-            cached_file = download_with_cache(url, check_only=check_only)
+            cached_file = download_with_cache(
+                url,
+                check_only=check_only,
+                insecure=file.get("insecure", False),
+            )
 
             if "executable" in file and file["executable"]:
                 os.chmod(output_filename, 0o755)
@@ -815,7 +819,7 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def download_with_cache(url, check_only=False):
+def download_with_cache(url, check_only=False, insecure=False):
     # download with curl to a temporary file
     if shutil.which("curl") is None:
         raise ValueError("curl not found in PATH.")
@@ -839,8 +843,13 @@ def download_with_cache(url, check_only=False):
 
     # download the file
     print(f"Downloading {url} to {output_filename}")
+    # Use full argument names for curl for clarity
+    curl_args = ["curl", "--location", "--output", output_filename, url]
+    if insecure:
+        curl_args.append("--insecure")
+
     subprocess.check_call(
-        ["curl", "-L", "-o", output_filename, url],
+        curl_args,
         stdout=subprocess.DEVNULL,
     )
 
