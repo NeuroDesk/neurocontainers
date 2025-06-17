@@ -27,24 +27,17 @@ jobs:
         run: |
           python3 tools/generate_apps_json.py --output apps.json
 
-      - name: Checkout neurocommand repo
-        uses: actions/checkout@v4
-        with:
-          repository: neurodesk/neurocommand
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: neurocommand
-          fetch-depth: 0
-
-      - name: Configure git
-        run: |
-          git config --global user.name "neurocontainers-bot"
-          git config --global user.email "neurocontainers-bot@neurodesk.github.io"
-
       - name: Create pull request
         env:
           GH_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         run: |
+          gh repo clone neurodesk/neurocommand neurocommand -- --depth=1
+
           cd neurocommand
+
+          # Configure git
+          git config user.name "neurocontainers-bot"
+          git config user.email "neurocontainers-bot@neurodesk.github.io"
 
           # Create a new branch for the update
           BRANCH_NAME="update-apps-json-$(date +%Y%m%d-%H%M%S)"
