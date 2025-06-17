@@ -106,7 +106,8 @@ def generate_release_file(name: str, version: str, architecture: str, recipe_pat
     release_data = {
         "apps": {
             cli_app_name: {
-                "version": build_date,
+                "version": version,
+                "build_date": build_date,
                 "exec": ""
             }
         },
