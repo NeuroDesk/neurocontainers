@@ -12,11 +12,6 @@ jobs:
   update-apps-json:
     runs-on: ubuntu-latest
 
-    # add permission to create PRs in neurocommand repo
-    permissions:
-      contents: write
-      pull-requests: write
-
     steps:
       - name: Checkout neurocontainers repo
         uses: actions/checkout@v4
@@ -47,7 +42,7 @@ jobs:
 
       - name: Create pull request
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         run: |
           cd neurocommand
 
