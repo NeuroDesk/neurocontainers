@@ -31,6 +31,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         run: |
+          gh auth setup-git
+
           gh repo clone neurodesk/neurocommand neurocommand -- --depth=1
 
           cd neurocommand
