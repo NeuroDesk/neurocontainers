@@ -1729,6 +1729,17 @@ def main(args):
             check_only=args.check_only,
         )
 
+        # Generate release file if requested (even without building)
+        if ctx and args.generate_release and should_generate_release_file(args.generate_release):
+            generate_release_file(
+                ctx.name,
+                ctx.version,
+                ctx.arch,
+                recipe_path,
+                ctx.build_directory,
+                ctx.build_info,
+            )
+
         if args.build:
             if ctx is None:
                 print("Recipe generation failed.")
