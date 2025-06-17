@@ -42,7 +42,7 @@ jobs:
 
       - name: Create pull request
         env:
-          GITHUB_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
+          GH_TOKEN: ${{ secrets.NEURODESK_GITHUB_TOKEN_ISSUE_AUTOMATION }}
         run: |
           cd neurocommand
 
