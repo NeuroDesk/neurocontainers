@@ -74,16 +74,20 @@ def load_description_file(recipe_dir: str) -> typing.Any:
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 
 
-
-
-def generate_release_file(name: str, version: str, architecture: str, recipe_path: str, 
-                         build_directory: str, build_info: dict) -> None:
+def generate_release_file(
+    name: str,
+    version: str,
+    architecture: str,
+    recipe_path: str,
+    build_directory: str,
+    build_info: dict,
+) -> None:
     """
     Generate a release JSON file for the built container.
-    
+
     Args:
         name: Container name
-        version: Container version  
+        version: Container version
         architecture: Target architecture
         recipe_path: Path to the recipe directory
         build_directory: Build output directory
@@ -91,40 +95,36 @@ def generate_release_file(name: str, version: str, architecture: str, recipe_pat
     """
     if build_info is None:
         build_info = {}
-    
+
     # Extract categories from build.yaml
     categories = build_info.get("categories", ["other"])
-    
+
     # Extract GUI applications from build.yaml
     gui_apps = build_info.get("gui_apps", [])
-    
+
     # Create CLI app entry (always present)
     build_date = datetime.datetime.now().strftime("%Y%m%d")
     cli_app_name = f"{name} {version}"
-    
+
     # Create release data structure
     release_data = {
         "apps": {
-            cli_app_name: {
-                "version": version,
-                "build_date": build_date,
-                "exec": ""
-            }
+            cli_app_name: {"version": version, "build_date": build_date, "exec": ""}
         },
-        "categories": categories
+        "categories": categories,
     }
-    
+
     # Add GUI apps from build.yaml
     for gui_app in gui_apps:
         gui_app_name = f"{gui_app['name']}-{name} {version}"
         release_data["apps"][gui_app_name] = {
             "version": build_date,
-            "exec": gui_app["exec"]
+            "exec": gui_app["exec"],
         }
-    
+
     # Convert to JSON string for potential GitHub Actions use
     release_json = json.dumps(release_data, indent=2)
-    
+
     # Check if running in GitHub Actions
     if os.environ.get("GITHUB_ACTIONS") == "true":
         # In GitHub Actions, output the release data for workflow use
@@ -141,42 +141,35 @@ def generate_release_file(name: str, version: str, architecture: str, recipe_pat
         repo_path = get_repo_path()
         releases_dir = os.path.join(repo_path, "releases", name)
         os.makedirs(releases_dir, exist_ok=True)
-        
+
         # Write release file
         release_file = os.path.join(releases_dir, f"{version}.json")
-        with open(release_file, 'w') as f:
+        with open(release_file, "w") as f:
             f.write(release_json)
-        
+
         print(f"Generated release file: {release_file}")
 
 
 def should_generate_release_file(generate_release_flag: bool = False) -> bool:
     """
     Determine if release file should be generated based on environment.
-    
+
     Args:
         generate_release_flag: Command line flag to force release generation
-    
+
     Returns True if running in CI, auto-build mode, or flag is set.
     """
     # Check command line flag first
     if generate_release_flag:
         return True
-    
+
     # Check for common CI environment variables
-    ci_vars = [
-        "CI",
-        "GITHUB_ACTIONS", 
-        "GITLAB_CI",
-        "TRAVIS",
-        "CIRCLECI",
-        "JENKINS_URL"
-    ]
-    
+    ci_vars = ["CI", "GITHUB_ACTIONS", "GITLAB_CI", "TRAVIS", "CIRCLECI", "JENKINS_URL"]
+
     for var in ci_vars:
         if os.environ.get(var):
             return True
-            
+
     # Check for auto-build mode (set via command line)
     return os.environ.get("AUTO_BUILD", "false").lower() == "true"
 
@@ -372,7 +365,7 @@ class BuildContext(object):
     build_kind: str | None = None
     dockerfile_name: str | None = None
 
-    def __init__(self, base_path, recipe_path, name, version, arch):
+    def __init__(self, base_path, recipe_path, name, version, arch, check_only):
         self.base_path = base_path
         self.recipe_path = recipe_path
         self.name = name
@@ -386,6 +379,7 @@ class BuildContext(object):
         self.lint_error = False
         self.deploy_bins = []
         self.deploy_path = []
+        self.check_only = check_only
 
     def lint_fail(self, message):
         if self.lint_error:
@@ -731,7 +725,12 @@ class BuildContext(object):
                 for directive in include_file["directives"]:
                     add_directive(directive, locals=variables)
             elif "file" in directive:
-                self.add_file(directive["file"], self.recipe_path, locals=locals)
+                self.add_file(
+                    directive["file"],
+                    self.recipe_path,
+                    locals=locals,
+                    check_only=self.check_only,
+                )
             elif "variables" in directive:
                 for key, value in directive["variables"].items():
                     locals[key] = self.execute_template(value, locals=locals)
@@ -1058,7 +1057,7 @@ def generate_from_description(
 
     validate_license(description_file)
 
-    ctx = BuildContext(repo_path, recipe_path, name, version, arch)
+    ctx = BuildContext(repo_path, recipe_path, name, version, arch, check_only)
     ctx.set_max_parallel_jobs(max_parallel_jobs)
 
     locals = {}
@@ -1205,10 +1204,12 @@ def build_and_run_container(
         cwd=build_directory,
     )
     print("Docker image built successfully at", tag)
-    
+
     # Generate release file if in CI or auto-build mode
     if should_generate_release_file(generate_release):
-        generate_release_file(name, version, architecture, recipe_path, build_directory, build_info)
+        generate_release_file(
+            name, version, architecture, recipe_path, build_directory, build_info
+        )
 
     if login:
         abs_path = os.path.abspath(recipe_path)
