@@ -108,9 +108,7 @@ def generate_release_file(
 
     # Create release data structure
     release_data = {
-        "apps": {
-            cli_app_name: {"version": version, "build_date": build_date, "exec": ""}
-        },
+        "apps": {cli_app_name: {"version": build_date, "exec": ""}},
         "categories": categories,
     }
 
@@ -1730,7 +1728,11 @@ def main(args):
         )
 
         # Generate release file if requested (even without building)
-        if ctx and args.generate_release and should_generate_release_file(args.generate_release):
+        if (
+            ctx
+            and args.generate_release
+            and should_generate_release_file(args.generate_release)
+        ):
             generate_release_file(
                 ctx.name,
                 ctx.version,
