@@ -11,6 +11,7 @@ import platform
 import hashlib
 import typing
 import json
+import datetime
 
 GLOBAL_MOUNT_POINT_LIST = [
     "/afm01",
@@ -71,6 +72,97 @@ def load_description_file(recipe_dir: str) -> typing.Any:
 
 
 _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
+
+
+
+
+def generate_release_file(name: str, version: str, architecture: str, recipe_path: str, 
+                         build_directory: str, build_info: dict) -> None:
+    """
+    Generate a release JSON file for the built container.
+    
+    Args:
+        name: Container name
+        version: Container version  
+        architecture: Target architecture
+        recipe_path: Path to the recipe directory
+        build_directory: Build output directory
+        build_info: Full build configuration from YAML
+    """
+    if build_info is None:
+        build_info = {}
+    
+    # Extract categories from build.yaml
+    categories = build_info.get("categories", ["other"])
+    
+    # Extract GUI applications from build.yaml
+    gui_apps = build_info.get("gui_apps", [])
+    
+    # Create CLI app entry (always present)
+    build_date = datetime.datetime.now().strftime("%Y%m%d")
+    cli_app_name = f"{name} {version}"
+    
+    # Create release data structure
+    release_data = {
+        "apps": {
+            cli_app_name: {
+                "version": build_date,
+                "exec": ""
+            }
+        },
+        "categories": categories
+    }
+    
+    # Add GUI apps from build.yaml
+    for gui_app in gui_apps:
+        gui_app_name = f"{gui_app['name']}-{name} {version}"
+        release_data["apps"][gui_app_name] = {
+            "version": build_date,
+            "exec": gui_app["exec"]
+        }
+    
+    # Create releases directory structure
+    repo_path = get_repo_path()
+    releases_dir = os.path.join(repo_path, "releases", name)
+    os.makedirs(releases_dir, exist_ok=True)
+    
+    # Write release file
+    release_file = os.path.join(releases_dir, f"{version}.json")
+    with open(release_file, 'w') as f:
+        json.dump(release_data, f, indent=2)
+    
+    print(f"Generated release file: {release_file}")
+
+
+def should_generate_release_file(generate_release_flag: bool = False) -> bool:
+    """
+    Determine if release file should be generated based on environment.
+    
+    Args:
+        generate_release_flag: Command line flag to force release generation
+    
+    Returns True if running in CI, auto-build mode, or flag is set.
+    """
+    # Check command line flag first
+    if generate_release_flag:
+        return True
+    
+    # Check for common CI environment variables
+    ci_vars = [
+        "CI",
+        "GITHUB_ACTIONS", 
+        "GITLAB_CI",
+        "TRAVIS",
+        "CIRCLECI",
+        "JENKINS_URL"
+    ]
+    
+    for var in ci_vars:
+        if os.environ.get(var):
+            return True
+            
+    # Check for auto-build mode (set via command line)
+    return os.environ.get("AUTO_BUILD", "false").lower() == "true"
 
 
 class NeuroDockerBuilder:
@@ -1065,6 +1157,8 @@ def build_and_run_container(
     build_directory: str,
     login=False,
     build_sif=False,
+    build_info=None,
+    generate_release=False,
 ):
     if not shutil.which("docker"):
         raise ValueError("Docker not found in PATH.")
@@ -1086,6 +1180,10 @@ def build_and_run_container(
         cwd=build_directory,
     )
     print("Docker image built successfully at", tag)
+    
+    # Generate release file if in CI or auto-build mode
+    if should_generate_release_file(generate_release):
+        generate_release_file(name, version, architecture, recipe_path, build_directory, build_info)
 
     if login:
         abs_path = os.path.abspath(recipe_path)
@@ -1392,6 +1490,8 @@ def generate_and_build(repo_path, recipe_path, login=False):
         recipe_path,
         ctx.build_directory,
         login=login,
+        build_info=ctx.build_info,
+        generate_release=False,  # This call doesn't have access to args
     )
 
 
@@ -1553,6 +1653,11 @@ def main(args):
         action="store_true",
         help="Set if the recipe is being built in CI",
     )
+    build_parser.add_argument(
+        "--generate-release",
+        action="store_true",
+        help="Generate release files after successful build",
+    )
 
     init_parser = command.add_parser(
         "init",
@@ -1618,6 +1723,8 @@ def main(args):
                 ctx.build_directory,
                 login=args.login,
                 build_sif=args.build_sif,
+                build_info=ctx.build_info,
+                generate_release=args.generate_release,
             )
     else:
         root.print_help()
