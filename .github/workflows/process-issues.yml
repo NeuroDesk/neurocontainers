@@ -1,0 +1,281 @@
+name: Process Contribution Issues
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  check-issue-opened:
+    if: github.event_name == 'issues' && contains(github.event.issue.title, '[CONTRIBUTION]')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install js-yaml
+        run: npm install js-yaml
+
+      - name: Parse YAML from issue body
+        id: parse-yaml
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const yaml = require('js-yaml');
+            const issueBody = context.payload.issue.body;
+
+            // Extract YAML content from issue body
+            const yamlRegex = /```yaml\n([\s\S]*?)\n```/;
+            const match = issueBody.match(yamlRegex);
+
+            if (!match) {
+              core.setFailed('No YAML content found in issue body');
+              return;
+            }
+
+            try {
+              const yamlContent = match[1];
+              const parsedYaml = yaml.load(yamlContent);
+              
+              if (!parsedYaml.name) {
+                core.setFailed('YAML must contain a "name" field');
+                return;
+              }
+              
+              core.setOutput('yaml_content', yamlContent);
+              core.setOutput('name', parsedYaml.name);
+              core.setOutput('parsed', JSON.stringify(parsedYaml));
+            } catch (error) {
+              core.setFailed(`Failed to parse YAML: ${error.message}`);
+            }
+
+      - name: Check if file exists
+        id: check-file
+        run: |
+          FILE_PATH="recipes/${{ steps.parse-yaml.outputs.name }}/build.yaml"
+          if [ -f "$FILE_PATH" ]; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+            echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+            cat "$FILE_PATH" > existing_content.yaml
+          else
+            echo "file_exists=false" >> $GITHUB_OUTPUT
+            echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create diff comment for updates
+        if: steps.check-file.outputs.file_exists == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+
+            // Write new content to temporary file
+            fs.writeFileSync('new_content.yaml', `${{ steps.parse-yaml.outputs.yaml_content }}`);
+
+            // Generate diff
+            let diff;
+            try {
+              diff = execSync('diff -u existing_content.yaml new_content.yaml || true', { encoding: 'utf-8' });
+            } catch (error) {
+              diff = error.stdout || 'Error generating diff';
+            }
+
+            if (diff.trim()) {
+              const comment = `## 📝 Update Detected
+              
+              This will update the existing file at \`${{ steps.check-file.outputs.file_path }}\`.
+              
+              ### Diff:
+              \`\`\`diff
+              ${diff}
+              \`\`\`
+              
+              A contributor with write access needs to comment "LGTM" to apply this update.`;
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+      - name: Add initial comment
+        if: steps.check-file.outputs.file_exists == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 🎉 New Contribution Detected
+
+            This will create a new file at \`${{ steps.check-file.outputs.file_path }}\`.
+
+            ### YAML Content:
+            \`\`\`yaml
+            ${{ steps.parse-yaml.outputs.yaml_content }}
+            \`\`\`
+
+            A contributor with write access needs to comment "LGTM" to create this file.`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+
+  process-lgtm-comment:
+    if: |
+      github.event_name == 'issue_comment' && 
+      github.event.issue.state == 'open' &&
+      contains(github.event.issue.title, '[CONTRIBUTION]') &&
+      contains(github.event.comment.body, 'LGTM')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check commenter permissions
+        id: check-permissions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commenter = context.payload.comment.user.login;
+
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: commenter
+              });
+              
+              if (permission.permission === 'write' || permission.permission === 'admin') {
+                core.setOutput('has_write_access', 'true');
+                console.log(`User ${commenter} has ${permission.permission} access`);
+              } else {
+                core.setOutput('has_write_access', 'false');
+                console.log(`User ${commenter} has ${permission.permission} access - insufficient`);
+              }
+            } catch (error) {
+              core.setOutput('has_write_access', 'false');
+              console.log(`Error checking permissions: ${error.message}`);
+            }
+
+      - name: React to comment if no write access
+        if: steps.check-permissions.outputs.has_write_access == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '❌ Sorry @' + context.payload.comment.user.login + ', you need write access to approve contributions.'
+            });
+
+      - name: Process approved contribution
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        run: |
+          echo "User has write access, proceeding with contribution"
+
+      - name: Checkout repository
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install js-yaml
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        run: npm install js-yaml
+
+      - name: Parse YAML from issue
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        id: parse-yaml
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const yaml = require('js-yaml');
+            const issueBody = context.payload.issue.body;
+
+            const yamlRegex = /```yaml\n([\s\S]*?)\n```/;
+            const match = issueBody.match(yamlRegex);
+
+            if (!match) {
+              core.setFailed('No YAML content found in issue body');
+              return;
+            }
+
+            const yamlContent = match[1];
+            const parsedYaml = yaml.load(yamlContent);
+
+            core.setOutput('yaml_content', yamlContent);
+            core.setOutput('name', parsedYaml.name);
+
+      - name: Create recipe file
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        run: |
+          RECIPE_DIR="recipes/${{ steps.parse-yaml.outputs.name }}"
+          mkdir -p "$RECIPE_DIR"
+
+          cat > "$RECIPE_DIR/build.yaml" << 'EOF'
+          ${{ steps.parse-yaml.outputs.yaml_content }}
+          EOF
+
+      - name: Commit and push changes
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add recipes/
+          git commit --author="${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>" -m "Add/Update recipe for ${{ steps.parse-yaml.outputs.name }} from issue #${{ github.event.issue.number }}"
+          git push
+
+      - name: Close issue with success message
+        if: steps.check-permissions.outputs.has_write_access == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ Contribution approved by @${context.payload.comment.user.login}!\n\nThe recipe has been successfully added/updated at \`recipes/${{ steps.parse-yaml.outputs.name }}/build.yaml\`.`
+            });
+
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
