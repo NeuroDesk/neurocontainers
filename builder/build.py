@@ -77,10 +77,7 @@ _jinja_env = jinja2.Environment(undefined=jinja2.StrictUndefined)
 def generate_release_file(
     name: str,
     version: str,
-    architecture: str,
-    recipe_path: str,
-    build_directory: str,
-    build_info: dict,
+    recipe: dict,
 ) -> None:
     """
     Generate a release JSON file for the built container.
@@ -93,14 +90,14 @@ def generate_release_file(
         build_directory: Build output directory
         build_info: Full build configuration from YAML
     """
-    if build_info is None:
+    if recipe is None:
         build_info = {}
 
     # Extract categories from build.yaml
-    categories = build_info.get("categories", ["other"])
+    categories = recipe.get("categories", ["other"])
 
     # Extract GUI applications from build.yaml
-    gui_apps = build_info.get("gui_apps", [])
+    gui_apps = recipe.get("gui_apps", [])
 
     # Create CLI app entry (always present)
     build_date = datetime.datetime.now().strftime("%Y%m%d")
@@ -1179,7 +1176,6 @@ def build_and_run_container(
     build_directory: str,
     login=False,
     build_sif=False,
-    build_info=None,
     generate_release=False,
 ):
     if not shutil.which("docker"):
@@ -1205,9 +1201,7 @@ def build_and_run_container(
 
     # Generate release file if in CI or auto-build mode
     if should_generate_release_file(generate_release):
-        generate_release_file(
-            name, version, architecture, recipe_path, build_directory, build_info
-        )
+        generate_release_file(name, version, load_description_file(recipe_path))
 
     if login:
         abs_path = os.path.abspath(recipe_path)
@@ -1514,7 +1508,6 @@ def generate_and_build(repo_path, recipe_path, login=False):
         recipe_path,
         ctx.build_directory,
         login=login,
-        build_info=ctx.build_info,
         generate_release=False,  # This call doesn't have access to args
     )
 
@@ -1713,10 +1706,12 @@ def main(args):
             )
             return
 
+        recipe = load_description_file(recipe_path)
+
         ctx = generate_from_description(
             repo_path,
             recipe_path,
-            load_description_file(recipe_path),
+            recipe,
             args.output_directory,
             architecture=args.architecture,
             ignore_architecture=args.ignore_architectures,
@@ -1736,10 +1731,7 @@ def main(args):
             generate_release_file(
                 ctx.name,
                 ctx.version,
-                ctx.arch,
-                recipe_path,
-                ctx.build_directory,
-                ctx.build_info,
+                recipe,
             )
 
         if args.build:
@@ -1763,7 +1755,6 @@ def main(args):
                 ctx.build_directory,
                 login=args.login,
                 build_sif=args.build_sif,
-                build_info=ctx.build_info,
                 generate_release=args.generate_release,
             )
     else:

@@ -1,12 +1,11 @@
 {
   "apps": {
     "niimath 1.0.0": {
-      "version": "1.0.0",
-      "build_date": "20250617",
+      "version": "20250617",
       "exec": ""
     }
   },
   "categories": [
-    "other"
+    "data organisation"
   ]
 }
