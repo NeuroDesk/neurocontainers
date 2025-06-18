@@ -20,6 +20,26 @@ Run `sf-build <name>` to generate and build the `Dockerfile`. This should be use
 
 A common workflow involves building the container and running a command inside it. You can run `sf-login <name>` to build a container and immediately drop into a shell.
 
+### Architecture Options
+
+All build commands (`sf-build`, `sf-login`, `sf-test`) support architecture options:
+
+- `--architecture <arch>`: Specify the target architecture (e.g., `x86_64`, `aarch64`, `arm64`). Defaults to the current machine's architecture.
+- `--ignore-architectures`: Ignore architecture compatibility checks in the recipe.
+- `--generate-release`: Generate release files after successful build (for `sf-build` and `sf-login`).
+
+Example usage:
+```sh
+# Build for ARM64 architecture
+sf-build myrecipe --architecture aarch64
+
+# Build ignoring architecture restrictions
+sf-build myrecipe --architecture x86_64 --ignore-architectures
+
+# Build and generate release files
+sf-build myrecipe --generate-release
+```
+
 ## Recipe Syntax
 
 Recipes are written in [YAML](https://en.wikipedia.org/wiki/YAML) and most fields support [jinja](https://jinja.palletsprojects.com/en/stable/) for template variables.
