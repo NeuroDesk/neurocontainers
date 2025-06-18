@@ -57,8 +57,7 @@ build:
         name: miniconda
         version: latest
         install_path: /opt/miniconda
-        pip_install:
-          - dmri-amico
+        pip_install: dmri-amico
     - deploy:
         path: []
         bins:
@@ -77,13 +76,13 @@ readme: >-
 
   Example:
 
-  ```
+  \\\`\\\`\\\`
 
   python
 
   import amico
 
-  ```
+  \\\`\\\`\\\`
 
 
   More documentation can be found here: https://github.com/daducci/AMICO/wiki
@@ -91,7 +90,7 @@ readme: >-
 
   Citation:
 
-  ```
+  \\\`\\\`\\\`
 
   Accelerated Microstructure Imaging via Convex Optimization (AMICO) from
   diffusion MRI data
@@ -130,7 +129,7 @@ readme: >-
   Neuroimage 215 (2020): 116835.
   https://doi.org/10.1016/j.neuroimage.2020.116835
 
-  ```
+  \\\`\\\`\\\`
 
 
   To run container outside of this environment: ml amico/2.1.0
@@ -140,3 +139,4 @@ readme: >-
 copyright:
   - name: AMICO software license agreement
     url: https://github.com/daducci/AMICO/blob/master/LICENSE
+
