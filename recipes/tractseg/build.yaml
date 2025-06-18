@@ -1,19 +1,26 @@
 name: tractseg
-version: '2.9'
+version: "2.9"
+
 architectures:
   - x86_64
+
 copyright:
   - license: Apache-2.0
     url: https://github.com/MIC-DKFZ/TractSeg/blob/master/LICENSE
+
 build:
   kind: neurodocker
+
   base-image: wasserth/tractseg_container:master
   pkg-manager: apt
+
   directives:
     - deploy:
         bins:
           - tractseg
+
   add-default-template: false
+
 structured_readme:
   description: >-
     Tool for fast and accurate white matter bundle segmentation from Diffusion
@@ -27,6 +34,7 @@ structured_readme:
     Wasserthal, Jakob, Peter Neher, and Klaus H. Maier-Hein. “TractSeg - Fast
     and Accurate White Matter Tract Segmentation.” NeuroImage 183 (2018):
     239–53. https://doi.org/10.1016/j.neuroimage.2018.07.070.
+
 readme: >-
   ----------------------------------
 
@@ -67,3 +75,6 @@ readme: >-
 
 
   ----------------------------------
+
+categories:
+  - "diffusion imaging"
