@@ -1435,7 +1435,7 @@ def autodetect_recipe_path(repo_path: str, path: str) -> str | None:
     return None
 
 
-def generate_dockerfile(repo_path, recipe_path):
+def generate_dockerfile(repo_path, recipe_path, architecture=None, ignore_architecture=False):
     build_directory = os.path.join(repo_path, "build")
 
     print(f"Generate Dockerfile from {recipe_path}...")
@@ -1445,7 +1445,8 @@ def generate_dockerfile(repo_path, recipe_path):
         recipe_path,
         load_description_file(recipe_path),
         build_directory,
-        architecture=platform.machine(),
+        architecture=architecture or platform.machine(),
+        ignore_architecture=ignore_architecture,
         recreate_output_dir=True,
     )
 
@@ -1479,8 +1480,8 @@ def generate_main():
     generate_dockerfile(repo_path, recipe_path)
 
 
-def generate_and_build(repo_path, recipe_path, login=False):
-    ctx = generate_dockerfile(repo_path, recipe_path)
+def generate_and_build(repo_path, recipe_path, login=False, architecture=None, ignore_architecture=False, generate_release=False):
+    ctx = generate_dockerfile(repo_path, recipe_path, architecture=architecture, ignore_architecture=ignore_architecture)
     if ctx is None:
         print("Recipe generation failed.")
         sys.exit(1)
@@ -1508,7 +1509,7 @@ def generate_and_build(repo_path, recipe_path, login=False):
         recipe_path,
         ctx.build_directory,
         login=login,
-        generate_release=False,  # This call doesn't have access to args
+        generate_release=generate_release,
     )
 
 
@@ -1524,6 +1525,21 @@ def build_main(login=False):
         type=str,
         nargs="?",
     )
+    root.add_argument(
+        "--architecture",
+        help="Architecture to build for",
+        default=platform.machine(),
+    )
+    root.add_argument(
+        "--ignore-architectures", 
+        action="store_true", 
+        help="Ignore architecture checks"
+    )
+    root.add_argument(
+        "--generate-release",
+        action="store_true",
+        help="Generate release files after successful build",
+    )
 
     args = root.parse_args()
 
@@ -1538,7 +1554,14 @@ def build_main(login=False):
     else:
         recipe_path = get_recipe_directory(repo_path, args.name)
 
-    generate_and_build(repo_path, recipe_path, login=login)
+    generate_and_build(
+        repo_path, 
+        recipe_path, 
+        login=login,
+        architecture=args.architecture,
+        ignore_architecture=args.ignore_architectures,
+        generate_release=args.generate_release,
+    )
 
 
 def login_main():
@@ -1557,6 +1580,16 @@ def test_main():
         type=str,
         nargs="?",
     )
+    root.add_argument(
+        "--architecture",
+        help="Architecture to build for",
+        default=platform.machine(),
+    )
+    root.add_argument(
+        "--ignore-architectures", 
+        action="store_true", 
+        help="Ignore architecture checks"
+    )
 
     args = root.parse_args()
 
@@ -1571,7 +1604,13 @@ def test_main():
     else:
         recipe_path = get_recipe_directory(repo_path, args.name)
 
-    generate_and_build(repo_path, recipe_path, login=False)
+    generate_and_build(
+        repo_path, 
+        recipe_path, 
+        login=False,
+        architecture=args.architecture,
+        ignore_architecture=args.ignore_architectures,
+    )
 
     run_tests(recipe_path)
 
