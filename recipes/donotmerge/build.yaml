@@ -1,0 +1,39 @@
+name: donotmerge
+version: 1.0.0
+architectures:
+  - x86_64
+structured_readme:
+  description: Do not merge
+  example: not to be merged
+  documentation: ''
+  citation: Not (Merge)
+build:
+  kind: neurodocker
+  base-image: ubuntu:24.04
+  pkg-manager: apt
+  directives: []
+categories:
+  - programming
+  - visualization
+readme: |-
+  ----------------------------------
+  ## donotmerge/1.0.0 ##
+
+  Do not merge
+
+  Example:
+  \\\`\\\`\\\`
+  not to be merged
+  \\\`\\\`\\\`
+
+  More documentation can be found here: 
+
+  Citation:
+  \\\`\\\`\\\`
+  Not (Merge)
+  \\\`\\\`\\\`
+
+  To run container outside of this environment: ml donotmerge/1.0.0
+
+  ----------------------------------
+
