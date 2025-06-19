@@ -3,16 +3,15 @@ name: Process Contribution Issues
 on:
   issues:
     types: [opened]
-  issue_comment:
-    types: [created]
 
 jobs:
-  check-issue-opened:
-    if: github.event_name == 'issues' && contains(github.event.issue.title, '[CONTRIBUTION]')
+  process-contribution:
+    if: contains(github.event.issue.title, '[CONTRIBUTION]')
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      contents: read
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,6 +57,18 @@ jobs:
               core.setFailed(`Failed to parse YAML: ${error.message}`);
             }
 
+      - name: Create branch name
+        id: create-branch
+        run: |
+          BRANCH_NAME="contribution-${{ github.event.issue.number }}-${{ steps.parse-yaml.outputs.name }}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create new branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b ${{ steps.create-branch.outputs.branch_name }}
+
       - name: Check if file exists
         id: check-file
         run: |
@@ -65,188 +76,14 @@ jobs:
           if [ -f "$FILE_PATH" ]; then
             echo "file_exists=true" >> $GITHUB_OUTPUT
             echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
-            cat "$FILE_PATH" > existing_content.yaml
+            echo "action=update" >> $GITHUB_OUTPUT
           else
             echo "file_exists=false" >> $GITHUB_OUTPUT
             echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+            echo "action=add" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create diff comment for updates
-        if: steps.check-file.outputs.file_exists == 'true'
-        uses: actions/github-script@v7
-        env:
-          YAML_CONTENT: ${{ steps.parse-yaml.outputs.yaml_content }}
-          FILE_PATH: ${{ steps.check-file.outputs.file_path }}
-        with:
-          script: |
-            const fs = require('fs');
-            const { execSync } = require('child_process');
-
-            // Write new content to temporary file
-            const yamlContent = process.env.YAML_CONTENT || '';
-            fs.writeFileSync('new_content.yaml', yamlContent);
-
-            // Generate diff
-            let diff;
-            try {
-              diff = execSync('diff -u existing_content.yaml new_content.yaml || true', { encoding: 'utf-8' });
-            } catch (error) {
-              diff = error.stdout || 'Error generating diff';
-            }
-
-            if (diff.trim()) {
-              const filePath = process.env.FILE_PATH || '';
-              const comment = `## 📝 Update Detected
-              
-              This will update the existing file at \`${filePath}\`.
-              
-              ### Diff:
-              \`\`\`diff
-              ${diff}
-              \`\`\`
-              
-              A contributor with write access needs to comment "LGTM" to apply this update.`;
-              
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: comment
-              });
-            }
-
-      - name: Add initial comment
-        if: steps.check-file.outputs.file_exists == 'false'
-        uses: actions/github-script@v7
-        env:
-          YAML_CONTENT: ${{ steps.parse-yaml.outputs.yaml_content }}
-          FILE_PATH: ${{ steps.check-file.outputs.file_path }}
-        with:
-          script: |
-            const yamlContent = process.env.YAML_CONTENT || '';
-            const filePath = process.env.FILE_PATH || '';
-            
-            const comment = `## 🎉 New Contribution Detected
-
-            This will create a new file at \`${filePath}\`.
-
-            ### YAML Content:
-            \`\`\`yaml
-            ${yamlContent}
-            \`\`\`
-
-            A contributor with write access needs to comment "LGTM" to create this file.`;
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: comment
-            });
-
-  process-lgtm-comment:
-    if: |
-      github.event_name == 'issue_comment' && 
-      github.event.issue.state == 'open' &&
-      contains(github.event.issue.title, '[CONTRIBUTION]') &&
-      contains(github.event.comment.body, 'LGTM')
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      contents: write
-      pull-requests: write
-    steps:
-      - name: Check commenter permissions
-        id: check-permissions
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const commenter = context.payload.comment.user.login;
-
-            try {
-              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                username: commenter
-              });
-              
-              if (permission.permission === 'write' || permission.permission === 'admin') {
-                core.setOutput('has_write_access', 'true');
-                console.log(`User ${commenter} has ${permission.permission} access`);
-              } else {
-                core.setOutput('has_write_access', 'false');
-                console.log(`User ${commenter} has ${permission.permission} access - insufficient`);
-              }
-            } catch (error) {
-              core.setOutput('has_write_access', 'false');
-              console.log(`Error checking permissions: ${error.message}`);
-            }
-
-      - name: React to comment if no write access
-        if: steps.check-permissions.outputs.has_write_access == 'false'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.reactions.createForIssueComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: context.payload.comment.id,
-              content: '-1'
-            });
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: '❌ Sorry @' + context.payload.comment.user.login + ', you need write access to approve contributions.'
-            });
-
-      - name: Process approved contribution
-        if: steps.check-permissions.outputs.has_write_access == 'true'
-        run: |
-          echo "User has write access, proceeding with contribution"
-
-      - name: Checkout repository
-        if: steps.check-permissions.outputs.has_write_access == 'true'
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js
-        if: steps.check-permissions.outputs.has_write_access == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install js-yaml
-        if: steps.check-permissions.outputs.has_write_access == 'true'
-        run: npm install js-yaml
-
-      - name: Parse YAML from issue
-        if: steps.check-permissions.outputs.has_write_access == 'true'
-        id: parse-yaml
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const yaml = require('js-yaml');
-            const issueBody = context.payload.issue.body;
-
-            const yamlRegex = /```yaml\n([\s\S]*?)\n```/;
-            const match = issueBody.match(yamlRegex);
-
-            if (!match) {
-              core.setFailed('No YAML content found in issue body');
-              return;
-            }
-
-            const yamlContent = match[1];
-            const parsedYaml = yaml.load(yamlContent);
-
-            core.setOutput('yaml_content', yamlContent);
-            core.setOutput('name', parsedYaml.name);
-
       - name: Create recipe file
-        if: steps.check-permissions.outputs.has_write_access == 'true'
         run: |
           RECIPE_DIR="recipes/${{ steps.parse-yaml.outputs.name }}"
           mkdir -p "$RECIPE_DIR"
@@ -255,38 +92,56 @@ jobs:
           ${{ steps.parse-yaml.outputs.yaml_content }}
           EOF
 
-      - name: Commit and push changes
-        if: steps.check-permissions.outputs.has_write_access == 'true'
+      - name: Commit changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
           git add recipes/
-          git commit --author="${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>" -m "Add/Update recipe for ${{ steps.parse-yaml.outputs.name }} from issue #${{ github.event.issue.number }}"
-          git push
+          git commit --author="${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>" -m "${{ steps.check-file.outputs.action == 'add' && 'Add' || 'Update' }} recipe for ${{ steps.parse-yaml.outputs.name }} from issue #${{ github.event.issue.number }}"
 
-      - name: Close issue with success message
-        if: steps.check-permissions.outputs.has_write_access == 'true'
+      - name: Push branch
+        run: |
+          git push origin ${{ steps.create-branch.outputs.branch_name }}
+
+      - name: Create pull request
+        id: create-pr
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.reactions.createForIssueComment({
+            const { data: pr } = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              comment_id: context.payload.comment.id,
-              content: '+1'
+              title: `${{ steps.check-file.outputs.action == 'add' && 'Add' || 'Update' }} recipe for ${{ steps.parse-yaml.outputs.name }}`,
+              body: `This PR was automatically generated from issue #${{ github.event.issue.number }}.
+
+              ## Summary
+              - ${{ steps.check-file.outputs.action == 'add' && 'Adds new' || 'Updates existing' }} recipe for \`${{ steps.parse-yaml.outputs.name }}\`
+              - Recipe file: \`${{ steps.check-file.outputs.file_path }}\`
+
+              ## YAML Content
+              \`\`\`yaml
+              ${{ steps.parse-yaml.outputs.yaml_content }}
+              \`\`\`
+
+              Closes #${{ github.event.issue.number }}`,
+              head: '${{ steps.create-branch.outputs.branch_name }}',
+              base: 'master'
             });
 
+            core.setOutput('pr_number', pr.number);
+            core.setOutput('pr_url', pr.html_url);
+
+      - name: Comment on issue with PR link
+        uses: actions/github-script@v7
+        with:
+          script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `✅ Contribution approved by @${context.payload.comment.user.login}!\n\nThe recipe has been successfully added/updated at \`recipes/${{ steps.parse-yaml.outputs.name }}/build.yaml\`.`
-            });
+              body: `✅ A pull request has been automatically created for your contribution!
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              state: 'closed'
+              🔗 Pull Request: #${{ steps.create-pr.outputs.pr_number }}
+              
+              The recipe for \`${{ steps.parse-yaml.outputs.name }}\` has been ${{ steps.check-file.outputs.action == 'add' && 'added' || 'updated' }} in the PR. A maintainer will review and merge it soon.
+              
+              Thank you for your contribution! 🎉`
             });
