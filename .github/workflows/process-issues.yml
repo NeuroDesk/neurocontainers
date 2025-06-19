@@ -123,7 +123,7 @@ jobs:
 
               Closes #${{ github.event.issue.number }}`,
               head: '${{ steps.create-branch.outputs.branch_name }}',
-              base: 'master'
+              base: 'main'
             });
 
             core.setOutput('pr_number', pr.number);
