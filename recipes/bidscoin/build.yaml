@@ -1,9 +1,9 @@
 name: bidscoin
 version: 4.6.2
 
-copyright:
-    - license: GPL-3.0-or-later
-      url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
+categories:
+    - "data organisation"
+    - "bids apps"
 
 architectures:
     - x86_64
@@ -23,7 +23,6 @@ build:
               FSLOUTPUTTYPE: NIFTI_GZ
 
         - install:
-              - ca-certificates   # Not sure what this is for
               - build-essential
               - python3-pyqt6     # Avoid GUI issues
               - build-essential   # Needed for pip (needs gcc)
@@ -134,6 +133,6 @@ readme: |-
 
     ----------------------------------
 
-categories:
-    - "data organisation"
-    - "bids apps"
+copyright:
+    - license: GPL-3.0-or-later
+      url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
