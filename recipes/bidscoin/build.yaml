@@ -1,47 +1,47 @@
 name: bidscoin
-version: 4.6.1
+version: 4.6.2
 
 copyright:
-  - license: GPL-3.0
+  - license: GPL-3.0-or-later
     url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
 
 architectures:
     - x86_64
+    - aarch64
 
 build:
     kind: neurodocker
 
-    base-image: debian:stable
+    base-image: ubuntu:24.04
+
     pkg-manager: apt
 
     directives:
         - environment:
               DEBIAN_FRONTEND: noninteractive
+              FSLDIR: /opt/miniconda-latest
+              FSLOUTPUTTYPE: NIFTI_GZ
 
         - install:
-              - ca-certificates
-              - git
+              - ca-certificates   # Not sure what this is for
               - build-essential
-              - cmake
-              - pigz
-
-        - run:
-              - git clone https://github.com/rordenlab/dcm2niix.git
-
-        - run:
-              - cd dcm2niix
-              - mkdir build && cd build
-              - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
-              - make install
-
-        - install:
-              - curl # sometimes needed for dcm2niix
-
-        - install:
-              - python3-pyqt6
-              - build-essential
+              - pigz              # Speeds up dcm2niix
+              - curl              # sometimes needed for dcm2niix
+              - python3-pyqt6     # Avoid GUI issues
+              - build-essential   # Needed for pip (needs gcc)
               - libgl1
               - libxcb-cursor0
+              - tk
+              - dbus
+              - qt6-wayland       # Make sure wayland is supported
+
+        - template:
+            name: dcm2niix
+            version: latest
+
+        - template:
+            name: bids_validator
+            version: 1.13.0
 
         - template:
               name: miniconda
@@ -49,13 +49,14 @@ build:
               pip_install: bidscoin[spec2nii2bids,deface]
               version: latest
 
-        - environment:
-              FSLDIR: /opt/miniconda-latest
-              FSLOUTPUTTYPE: NIFTI_GZ
+        - test:
+            name: Core function test
+            script: bidscoin -t   # NB: Requires a graphical display
 
 deploy:
     bins:
         - spec2nii
+        - dcm2niix
 
 # Test image with:
 # sudo docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bidscoin_${toolVersion}:TAG bidscoin -t
@@ -65,41 +66,36 @@ deploy:
 readme: |-
     ----------------------------------
     ## bidscoin/{{ context.version }} ##
+    
     Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
-
+  
     Tools included:
     ```
-    dcm2niix: https://github.com/rordenlab/dcm2niix (v1.0.20240202)
-    spec2nii: https://github.com/wtclarke/spec2nii (v0.8.2)
+    dcm2niix: https://github.com/rordenlab/dcm2niix
+    spec2nii: https://github.com/wtclarke/spec2nii
+    bids-validator: https://github.com/bids-standard/bids-validator
     bidscoin: https://bidscoin.readthedocs.io/en/{{ context.version }}
-        bidscoin
-        bidscoiner
-        bidseditor
-        bidsmapper
-        bidsparticipants
-        deface
-        dicomsort
-        echocombine
-        medeface
-        physio2tsv
-        plotphysio
-        rawmapper
-        slicereport
-        fixmeta
+      - bidscoin
+      - bidscoiner
+      - bidseditor
+      - bidsmapper
+      - bidsparticipants
+      - deface
+      - dicomsort
+      - echocombine
+      - medeface
+      - physio2tsv
+      - plotphysio
+      - rawmapper
+      - slicereport
+      - fixmeta
+
+    Example:
+    ```
+    ml bidscoin/{{ context.version }} bidscoin -h
     ```
 
-    Example converting dicom to BIDS:
-    ```
-    Getting started:
-    bidscoin -h
-
-    Convert DICOM to BIDS:
-    bidsmapper inputfolder bidsoutputfolder
-    bidscoiner inputfolder bidsoutputfolder
-    ```
-
-    More documentation can be found here:
-    https://bidscoin.readthedocs.io/
+    More documentation can be found here: https://bidscoin.readthedocs.io
 
     Citation:
     ```
@@ -112,3 +108,4 @@ readme: |-
 
 categories:
   - "data organisation"
+  - "bids apps"
