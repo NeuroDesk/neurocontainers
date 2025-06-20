@@ -4,3 +4,4 @@ tests:
   - name: Test bidscoin
     script: |
       bidscoin -t
+      pngappend

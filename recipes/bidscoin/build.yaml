@@ -25,8 +25,6 @@ build:
         - install:
               - ca-certificates   # Not sure what this is for
               - build-essential
-              - pigz              # Speeds up dcm2niix
-              - curl              # sometimes needed for dcm2niix
               - python3-pyqt6     # Avoid GUI issues
               - build-essential   # Needed for pip (needs gcc)
               - libgl1
@@ -36,12 +34,12 @@ build:
               - qt6-wayland       # Make sure wayland is supported
 
         - template:
-            name: dcm2niix
-            version: latest
+              name: dcm2niix
+              version: latest
 
         - template:
-            name: bids_validator
-            version: 1.13.0
+              name: bids_validator
+              version: 1.13.0
 
         - template:
               name: miniconda
@@ -49,14 +47,31 @@ build:
               pip_install: bidscoin[spec2nii2bids,deface]=={{ context.version }}
               version: latest
 
-        - test:
-            name: Core function test
-            script: bidscoin -t   # NB: Requires a graphical display
+        - deploy:
+              bins:
+                  - bidscoin
+                  - bidscoiner
+                  - bidseditor
+                  - bidsmapper
+                  - bidsparticipants
+                  - deface
+                  - dicomsort
+                  - echocombine
+                  - medeface
+                  - physio2tsv
+                  - plotphysio
+                  - rawmapper
+                  - slicereport
+                  - fixmeta
+                  - dcm2niix
+                  - spec2nii
+                  - bids-validator
 
-deploy:
-    bins:
-        - spec2nii
-        - dcm2niix
+        - test:
+              name: Basic integration test
+              script: |
+                  bidscoin -t   # NB: Requires a graphical display
+                  pngappend     # Test FSL tool
 
 # Test image with:
 # sudo docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bidscoin_${toolVersion}:TAG bidscoin -t
@@ -71,9 +86,6 @@ readme: |-
   
     Tools included:
     ```
-    dcm2niix: https://github.com/rordenlab/dcm2niix
-    spec2nii: https://github.com/wtclarke/spec2nii
-    bids-validator: https://github.com/bids-standard/bids-validator
     bidscoin: https://bidscoin.readthedocs.io/en/{{ context.version }}
       - bidscoin
       - bidscoiner
@@ -89,10 +101,20 @@ readme: |-
       - rawmapper
       - slicereport
       - fixmeta
+    dcm2niix: https://github.com/rordenlab/dcm2niix
+    spec2nii: https://github.com/wtclarke/spec2nii
+    bids-validator: https://github.com/bids-standard/bids-validator
 
     Example:
     ```
-    ml bidscoin/{{ context.version }} bidscoin -h
+    ml bidscoin/{{ context.version }}
+
+    # Getting started:
+    bidscoin -h
+
+    # To convert DICOM to BIDS:
+    bidsmapper inputfolder bidsoutputfolder
+    bidscoiner inputfolder bidsoutputfolder
     ```
 
     More documentation can be found here: https://bidscoin.readthedocs.io
