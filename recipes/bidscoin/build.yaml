@@ -1,5 +1,5 @@
 name: bidscoin
-version: 4.6.1
+version: 4.6.2
 
 copyright:
   - license: GPL-3.0
@@ -46,7 +46,7 @@ build:
         - template:
               name: miniconda
               conda_install: -c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt
-              pip_install: bidscoin[spec2nii2bids,deface]
+              pip_install: bidscoin[spec2nii2bids,deface]=={{ context.version }}
               version: latest
 
         - environment:
