@@ -2,8 +2,8 @@ name: bidscoin
 version: 4.6.2
 
 copyright:
-  - license: GPL-3.0-or-later
-    url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
+    - license: GPL-3.0-or-later
+      url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
 
 architectures:
     - x86_64
@@ -82,6 +82,12 @@ readme: |-
     ----------------------------------
     ## bidscoin/{{ context.version }} ##
     
+      ,-----.  ,--.,------.   ,---.               ,--.
+      |  |) /_ |  ||  .-.  \ '   .-'  ,---. ,---. `--',--,--,
+      |  .-.  \|  ||  |  \  :`.  `-. | .--'| .-. |,--.|      \
+      |  '--' /|  ||  '--'  /.-'    |\ `--.' '-' '|  ||  ||  |
+      `------' `--'`-------' `-----'  `---' `---' `--'`--''--'
+
     Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
   
     Tools included:
@@ -129,5 +135,5 @@ readme: |-
     ----------------------------------
 
 categories:
-  - "data organisation"
-  - "bids apps"
+    - "data organisation"
+    - "bids apps"
