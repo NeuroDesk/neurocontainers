@@ -31,6 +31,8 @@ jobs:
           script: |
             const yaml = require('js-yaml');
             const pako = require('pako');
+            const fs = require('fs');
+            const path = require('path');
             const issueBody = context.payload.issue.body;
 
             // Extract base64 encoded content from issue body
@@ -51,7 +53,7 @@ jobs:
               const decompressed = pako.inflate(compressedBuffer, { to: 'string' });
               const yamlContent = decompressed;
               
-              // Parse YAML
+              // Parse YAML to validate and get name
               const parsedYaml = yaml.load(yamlContent);
               
               if (!parsedYaml.name) {
@@ -59,7 +61,11 @@ jobs:
                 return;
               }
               
-              core.setOutput('yaml_content', yamlContent);
+              // Create recipe directory and write file directly
+              const recipeDir = path.join('recipes', parsedYaml.name);
+              fs.mkdirSync(recipeDir, { recursive: true });
+              fs.writeFileSync(path.join(recipeDir, 'build.yaml'), yamlContent);
+              
               core.setOutput('name', parsedYaml.name);
               core.setOutput('parsed', JSON.stringify(parsedYaml));
             } catch (error) {
@@ -92,14 +98,6 @@ jobs:
             echo "action=add" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create recipe file
-        run: |
-          RECIPE_DIR="recipes/${{ steps.parse-yaml.outputs.name }}"
-          mkdir -p "$RECIPE_DIR"
-
-          cat > "$RECIPE_DIR/build.yaml" << 'EOF'
-          ${{ steps.parse-yaml.outputs.yaml_content }}
-          EOF
 
       - name: Commit changes
         run: |
