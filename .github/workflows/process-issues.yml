@@ -21,28 +21,39 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install js-yaml
-        run: npm install js-yaml
+      - name: Install dependencies
+        run: npm install js-yaml pako
 
-      - name: Parse YAML from issue body
+      - name: Parse base64 encoded deflate compressed YAML from issue body
         id: parse-yaml
         uses: actions/github-script@v7
         with:
           script: |
             const yaml = require('js-yaml');
+            const pako = require('pako');
+            const fs = require('fs');
+            const path = require('path');
             const issueBody = context.payload.issue.body;
 
-            // Extract YAML content from issue body
-            const yamlRegex = /```yaml\n([\s\S]*?)\n```/;
-            const match = issueBody.match(yamlRegex);
+            // Extract base64 encoded content from issue body
+            const base64Regex = /```base64\n([\s\S]*?)\n```/;
+            const match = issueBody.match(base64Regex);
 
             if (!match) {
-              core.setFailed('No YAML content found in issue body');
+              core.setFailed('No base64 encoded content found in issue body');
               return;
             }
 
             try {
-              const yamlContent = match[1];
+              // Decode base64
+              const base64Content = match[1].trim();
+              const compressedBuffer = Buffer.from(base64Content, 'base64');
+              
+              // Decompress using pako (deflate)
+              const decompressed = pako.inflate(compressedBuffer, { to: 'string' });
+              const yamlContent = decompressed;
+              
+              // Parse YAML to validate and get name
               const parsedYaml = yaml.load(yamlContent);
               
               if (!parsedYaml.name) {
@@ -50,11 +61,15 @@ jobs:
                 return;
               }
               
-              core.setOutput('yaml_content', yamlContent);
+              // Create recipe directory and write file directly
+              const recipeDir = path.join('recipes', parsedYaml.name);
+              fs.mkdirSync(recipeDir, { recursive: true });
+              fs.writeFileSync(path.join(recipeDir, 'build.yaml'), yamlContent);
+              
               core.setOutput('name', parsedYaml.name);
               core.setOutput('parsed', JSON.stringify(parsedYaml));
             } catch (error) {
-              core.setFailed(`Failed to parse YAML: ${error.message}`);
+              core.setFailed(`Failed to process encoded content: ${error.message}`);
             }
 
       - name: Create branch name
@@ -83,14 +98,6 @@ jobs:
             echo "action=add" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create recipe file
-        run: |
-          RECIPE_DIR="recipes/${{ steps.parse-yaml.outputs.name }}"
-          mkdir -p "$RECIPE_DIR"
-
-          cat > "$RECIPE_DIR/build.yaml" << 'EOF'
-          ${{ steps.parse-yaml.outputs.yaml_content }}
-          EOF
 
       - name: Commit changes
         run: |
@@ -115,11 +122,6 @@ jobs:
               ## Summary
               - ${{ steps.check-file.outputs.action == 'add' && 'Adds new' || 'Updates existing' }} recipe for \`${{ steps.parse-yaml.outputs.name }}\`
               - Recipe file: \`${{ steps.check-file.outputs.file_path }}\`
-
-              ## YAML Content
-              \`\`\`yaml
-              ${{ steps.parse-yaml.outputs.yaml_content }}
-              \`\`\`
 
               Closes #${{ github.event.issue.number }}`,
               head: '${{ steps.create-branch.outputs.branch_name }}',
