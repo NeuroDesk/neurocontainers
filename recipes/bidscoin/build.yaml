@@ -1,61 +1,75 @@
 name: bidscoin
 version: 4.6.2
 
-copyright:
-  - license: GPL-3.0
-    url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
+categories:
+  - "data organisation"
+  - "bids apps"
 
 architectures:
-    - x86_64
+  - x86_64
+  - aarch64
 
 build:
-    kind: neurodocker
+  kind: neurodocker
 
-    base-image: debian:stable
-    pkg-manager: apt
+  base-image: ubuntu:24.04
 
-    directives:
-        - environment:
-              DEBIAN_FRONTEND: noninteractive
+  pkg-manager: apt
 
-        - install:
-              - ca-certificates
-              - git
-              - build-essential
-              - cmake
-              - pigz
+  directives:
+    - environment:
+        DEBIAN_FRONTEND: noninteractive
+        FSLDIR: /opt/miniconda-latest
+        FSLOUTPUTTYPE: NIFTI_GZ
 
-        - run:
-              - git clone https://github.com/rordenlab/dcm2niix.git
+    - install:
+        - python3-pyqt6     # Avoid GUI issues
+        - build-essential   # Needed for pip (needs gcc)
+        - libgl1
+        - libxcb-cursor0
+        - tk
+        - dbus
+        - qt6-wayland       # Make sure wayland is supported
 
-        - run:
-              - cd dcm2niix
-              - mkdir build && cd build
-              - cmake -DZLIB_IMPLEMENTATION=Cloudflare -DUSE_JPEGLS=ON -DUSE_OPENJPEG=ON ..
-              - make install
+    - template:
+        name: dcm2niix
+        version: latest
 
-        - install:
-              - curl # sometimes needed for dcm2niix
+    - template:
+        name: bids_validator
+        version: 1.13.0
 
-        - install:
-              - python3-pyqt6
-              - build-essential
-              - libgl1
-              - libxcb-cursor0
+    - template:
+        name: miniconda
+        conda_install: -c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt
+        pip_install: bidscoin[spec2nii2bids,deface]=={{ context.version }}
+        version: latest
 
-        - template:
-              name: miniconda
-              conda_install: -c conda-forge -c https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/ fsl-libvis fsl-avwutils fsl-flirt
-              pip_install: bidscoin[spec2nii2bids,deface]=={{ context.version }}
-              version: latest
+    - deploy:
+        bins:
+          - bidscoin
+          - bidscoiner
+          - bidseditor
+          - bidsmapper
+          - bidsparticipants
+          - deface
+          - dicomsort
+          - echocombine
+          - medeface
+          - physio2tsv
+          - plotphysio
+          - rawmapper
+          - slicereport
+          - fixmeta
+          - dcm2niix
+          - spec2nii
+          - bids-validator
 
-        - environment:
-              FSLDIR: /opt/miniconda-latest
-              FSLOUTPUTTYPE: NIFTI_GZ
-
-deploy:
-    bins:
-        - spec2nii
+    - test:
+        name: Basic integration test
+        script: |
+          bidscoin -t   # NB: Requires a graphical display
+          pngappend     # Test FSL tool
 
 # Test image with:
 # sudo docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix bidscoin_${toolVersion}:TAG bidscoin -t
@@ -63,52 +77,61 @@ deploy:
 # bidscoin -t
 
 readme: |-
-    ----------------------------------
-    ## bidscoin/{{ context.version }} ##
-    Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
+  ----------------------------------
+  ## bidscoin/{{ context.version }} ##
 
-    Tools included:
-    ```
-    dcm2niix: https://github.com/rordenlab/dcm2niix (v1.0.20240202)
-    spec2nii: https://github.com/wtclarke/spec2nii (v0.8.2)
-    bidscoin: https://bidscoin.readthedocs.io/en/{{ context.version }}
-        bidscoin
-        bidscoiner
-        bidseditor
-        bidsmapper
-        bidsparticipants
-        deface
-        dicomsort
-        echocombine
-        medeface
-        physio2tsv
-        plotphysio
-        rawmapper
-        slicereport
-        fixmeta
-    ```
+    ,-----.  ,--.,------.   ,---.               ,--.
+    |  |) /_ |  ||  .-.  \ '   .-'  ,---. ,---. `--',--,--,
+    |  .-.  \|  ||  |  \  :`.  `-. | .--'| .-. |,--.|      \
+    |  '--' /|  ||  '--'  /.-'    |\ `--.' '-' '|  ||  ||  |
+    `------' `--'`-------' `-----'  `---' `---' `--'`--''--'
 
-    Example converting dicom to BIDS:
-    ```
-    Getting started:
-    bidscoin -h
+  Contains a GUI and CLI tools needed for DICOM to BIDS conversion, as well as MRS spectroscopy and physiological data to BIDS conversion
+  
+  Tools included:
+  ```
+  bidscoin: https://bidscoin.readthedocs.io/en/{{ context.version }}
+    - bidscoin
+    - bidscoiner
+    - bidseditor
+    - bidsmapper
+    - bidsparticipants
+    - deface
+    - dicomsort
+    - echocombine
+    - medeface
+    - physio2tsv
+    - plotphysio
+    - rawmapper
+    - slicereport
+    - fixmeta
+  dcm2niix: https://github.com/rordenlab/dcm2niix
+  spec2nii: https://github.com/wtclarke/spec2nii
+  bids-validator: https://github.com/bids-standard/bids-validator
 
-    Convert DICOM to BIDS:
-    bidsmapper inputfolder bidsoutputfolder
-    bidscoiner inputfolder bidsoutputfolder
-    ```
+  Example:
+  ```
+  ml bidscoin/{{ context.version }}
 
-    More documentation can be found here:
-    https://bidscoin.readthedocs.io/
+  # Getting started:
+  bidscoin -h
 
-    Citation:
-    ```
-    Zwiers MP, Moia S, Oostenveld R. BIDScoin: A User-Friendly Application to Convert Source Data to Brain Imaging Data Structure. Front Neuroinform. 2022 Jan 13;15:770608. doi: 10.3389/fninf.2021.770608. PMID: 35095452; PMCID: PMC8792932.
-    ```
+  # To convert DICOM to BIDS:
+  bidsmapper inputfolder bidsoutputfolder
+  bidscoiner inputfolder bidsoutputfolder
+  ```
 
-    To run container outside of this environment: ml bidscoin/{{ context.version }}
+  More documentation can be found here: https://bidscoin.readthedocs.io
 
-    ----------------------------------
+  Citation:
+  ```
+  Zwiers MP, Moia S, Oostenveld R. BIDScoin: A User-Friendly Application to Convert Source Data to Brain Imaging Data Structure. Front Neuroinform. 2022 Jan 13;15:770608. doi: 10.3389/fninf.2021.770608. PMID: 35095452; PMCID: PMC8792932.
+  ```
 
-categories:
-  - "data organisation"
+  To run container outside of this environment: ml bidscoin/{{ context.version }}
+
+  ----------------------------------
+
+copyright:
+  - license: GPL-3.0-or-later
+    url: https://github.com/Donders-Institute/bidscoin/blob/master/LICENSE.txt
