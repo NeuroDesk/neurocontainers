@@ -103,13 +103,13 @@ build:
             - conda config --system --set show_channel_urls true
             # Enable `conda activate`
             - conda init bash
-            - conda install -y  --name base "python=3.8"
+            - conda install -y  --name base "python=3.11"
             # Clean up
             - sync && conda clean --all --yes && sync
             - rm -rf ~/.cache/pip/*
         - run:
-            - rm -rf /usr/bin/python3.8
-            - ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.8
+            - rm -rf /usr/bin/python3.11
+            - ln -s /opt/miniconda-latest/bin/python /usr/bin/python3.11
         - run:
             - pip install setuptools==69.5.1
         - deploy:
