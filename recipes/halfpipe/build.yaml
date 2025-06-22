@@ -1,4 +1,4 @@
-name: Halfpipe
+name: halfpipe
 version: 1.2.3
 architectures:
   - x86_64
