@@ -359,6 +359,7 @@ class BuildContext(object):
     build_info: typing.Any | None = None
     build_kind: str | None = None
     dockerfile_name: str | None = None
+    gpu: bool = False
 
     def __init__(self, base_path, recipe_path, name, version, arch, check_only):
         self.base_path = base_path
@@ -765,6 +766,10 @@ class BuildContext(object):
                 raise ValueError("Deploy bins must be a list.")
             builder.set_environment("DEPLOY_BINS", ":".join(bins))  # type: ignore
 
+        # Set GPU environment variable if GPU support is enabled
+        if hasattr(self, 'gpu') and self.gpu:
+            builder.set_environment("NEUROCONTAINER_GPU", "1")
+
         builder.copy("README.md", "/README.md")
 
         output = builder.generate()
@@ -1024,6 +1029,7 @@ def generate_from_description(
     options: list[str] | None = None,
     recreate_output_dir: bool = False,
     check_only: bool = False,
+    gpu: bool = False,
 ) -> BuildContext | None:
     if max_parallel_jobs is None:
         max_parallel_jobs = os.cpu_count()
@@ -1054,6 +1060,7 @@ def generate_from_description(
 
     ctx = BuildContext(repo_path, recipe_path, name, version, arch, check_only)
     ctx.set_max_parallel_jobs(max_parallel_jobs)
+    ctx.gpu = gpu
 
     locals = {}
 
@@ -1177,6 +1184,7 @@ def build_and_run_container(
     login=False,
     build_sif=False,
     generate_release=False,
+    gpu=False,
 ):
     if not shutil.which("docker"):
         raise ValueError("Docker not found in PATH.")
@@ -1206,18 +1214,24 @@ def build_and_run_container(
     if login:
         abs_path = os.path.abspath(recipe_path)
 
+        docker_run_cmd = [
+            "docker",
+            "run",
+            "--platform",
+            get_build_platform(architecture),
+            "--rm",
+            "-it",
+            "-v",
+            abs_path + ":/buildhostdirectory",
+        ]
+        
+        if gpu:
+            docker_run_cmd.extend(["--gpus", "all"])
+            
+        docker_run_cmd.append(tag)
+
         subprocess.check_call(
-            [
-                "docker",
-                "run",
-                "--platform",
-                get_build_platform(architecture),
-                "--rm",
-                "-it",
-                "-v",
-                abs_path + ":/buildhostdirectory",
-                tag,
-            ],
+            docker_run_cmd,
             cwd=build_directory,
         )
         return
@@ -1270,7 +1284,7 @@ def run_docker_prep(prep, volume_name):
     )
 
 
-def run_builtin_test(tag, test):
+def run_builtin_test(tag, test, gpu=False):
     # built-in tests are found next to this file
     builtin_test = os.path.join(os.path.dirname(__file__), test)
     if not os.path.exists(builtin_test):
@@ -1279,22 +1293,28 @@ def run_builtin_test(tag, test):
     test_content = open(builtin_test).read()
 
     # Docker run the test script in the container mounting the volume as /test
-    subprocess.check_call(
-        [
-            "docker",
-            "run",
-            "--rm",
-            tag,
-            "bash",
-            "-c",
-            test_content,
-        ],
-    )
+    docker_run_cmd = [
+        "docker",
+        "run",
+        "--rm",
+    ]
+    
+    if gpu:
+        docker_run_cmd.extend(["--gpus", "all"])
+    
+    docker_run_cmd.extend([
+        tag,
+        "bash",
+        "-c",
+        test_content,
+    ])
+    
+    subprocess.check_call(docker_run_cmd)
 
 
-def run_docker_test(tag, test):
+def run_docker_test(tag, test, gpu=False):
     if test.get("builtin") == "test_deploy.sh":
-        return run_builtin_test(tag, test.get("builtin"))
+        return run_builtin_test(tag, test.get("builtin"), gpu=gpu)
 
     script = test.get("script")
     if script is None:
@@ -1328,27 +1348,33 @@ def run_docker_test(tag, test):
             run_docker_prep(prep, volume_name)
 
     # Docker run the test script in the container mounting the volume as /test
-    subprocess.check_call(
-        [
-            "docker",
-            "run",
-            "--rm",
-            "-v",
-            f"{volume_name}:/test",
-            tag,
-            "bash",
-            "-c",
-            f"""set -ex
-                cd /test
-                {script}""",
-        ],
-    )
+    docker_run_cmd = [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        f"{volume_name}:/test",
+    ]
+    
+    if gpu:
+        docker_run_cmd.extend(["--gpus", "all"])
+    
+    docker_run_cmd.extend([
+        tag,
+        "bash",
+        "-c",
+        f"""set -ex
+            cd /test
+            {script}""",
+    ])
+    
+    subprocess.check_call(docker_run_cmd)
 
 
-def run_test(tag, test):
+def run_test(tag, test, gpu=False):
     test_name = test["name"]
     print(f"Running test {test_name} on image {tag}")
-    return run_docker_test(tag, test)
+    return run_docker_test(tag, test, gpu=gpu)
 
 
 def check_docker(tag):
@@ -1410,13 +1436,13 @@ def get_tag_from_description_file(description_file: dict) -> str:
     return f"{name}:{version}"
 
 
-def run_tests(recipe_path: str):
+def run_tests(recipe_path: str, gpu=False):
     description_file = load_description_file(recipe_path)
 
     tag = get_tag_from_description_file(description_file)
 
     for test in get_all_tests(description_file, recipe_path):
-        run_test(tag, test)
+        run_test(tag, test, gpu=gpu)
 
 
 def autodetect_recipe_path(repo_path: str, path: str) -> str | None:
@@ -1435,7 +1461,7 @@ def autodetect_recipe_path(repo_path: str, path: str) -> str | None:
     return None
 
 
-def generate_dockerfile(repo_path, recipe_path, architecture=None, ignore_architecture=False):
+def generate_dockerfile(repo_path, recipe_path, architecture=None, ignore_architecture=False, gpu=False):
     build_directory = os.path.join(repo_path, "build")
 
     print(f"Generate Dockerfile from {recipe_path}...")
@@ -1448,6 +1474,7 @@ def generate_dockerfile(repo_path, recipe_path, architecture=None, ignore_archit
         architecture=architecture or platform.machine(),
         ignore_architecture=ignore_architecture,
         recreate_output_dir=True,
+        gpu=gpu,
     )
 
 
@@ -1480,8 +1507,8 @@ def generate_main():
     generate_dockerfile(repo_path, recipe_path)
 
 
-def generate_and_build(repo_path, recipe_path, login=False, architecture=None, ignore_architecture=False, generate_release=False):
-    ctx = generate_dockerfile(repo_path, recipe_path, architecture=architecture, ignore_architecture=ignore_architecture)
+def generate_and_build(repo_path, recipe_path, login=False, architecture=None, ignore_architecture=False, generate_release=False, gpu=False):
+    ctx = generate_dockerfile(repo_path, recipe_path, architecture=architecture, ignore_architecture=ignore_architecture, gpu=gpu)
     if ctx is None:
         print("Recipe generation failed.")
         sys.exit(1)
@@ -1510,6 +1537,7 @@ def generate_and_build(repo_path, recipe_path, login=False, architecture=None, i
         ctx.build_directory,
         login=login,
         generate_release=generate_release,
+        gpu=gpu,
     )
 
 
@@ -1540,6 +1568,11 @@ def build_main(login=False):
         action="store_true",
         help="Generate release files after successful build",
     )
+    root.add_argument(
+        "--gpu",
+        action="store_true",
+        help="Enable GPU support by adding --gpus all to Docker run commands",
+    )
 
     args = root.parse_args()
 
@@ -1561,6 +1594,7 @@ def build_main(login=False):
         architecture=args.architecture,
         ignore_architecture=args.ignore_architectures,
         generate_release=args.generate_release,
+        gpu=args.gpu,
     )
 
 
@@ -1590,6 +1624,11 @@ def test_main():
         action="store_true", 
         help="Ignore architecture checks"
     )
+    root.add_argument(
+        "--gpu",
+        action="store_true",
+        help="Enable GPU support by adding --gpus all to Docker run commands",
+    )
 
     args = root.parse_args()
 
@@ -1610,9 +1649,10 @@ def test_main():
         login=False,
         architecture=args.architecture,
         ignore_architecture=args.ignore_architectures,
+        gpu=args.gpu,
     )
 
-    run_tests(recipe_path)
+    run_tests(recipe_path, gpu=args.gpu)
 
 
 def init_main():
@@ -1714,6 +1754,11 @@ def main(args):
         action="store_true",
         help="Generate release files after successful build",
     )
+    build_parser.add_argument(
+        "--gpu",
+        action="store_true",
+        help="Enable GPU support by adding --gpus all to Docker run commands",
+    )
 
     init_parser = command.add_parser(
         "init",
@@ -1759,6 +1804,7 @@ def main(args):
             options=args.option,
             recreate_output_dir=args.recreate,
             check_only=args.check_only,
+            gpu=args.gpu,
         )
 
         # Generate release file if requested (even without building)
@@ -1795,6 +1841,7 @@ def main(args):
                 login=args.login,
                 build_sif=args.build_sif,
                 generate_release=args.generate_release,
+                gpu=args.gpu,
             )
     else:
         root.print_help()
