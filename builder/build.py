@@ -766,10 +766,6 @@ class BuildContext(object):
                 raise ValueError("Deploy bins must be a list.")
             builder.set_environment("DEPLOY_BINS", ":".join(bins))  # type: ignore
 
-        # Set GPU environment variable if GPU support is enabled
-        if hasattr(self, 'gpu') and self.gpu:
-            builder.set_environment("NEUROCONTAINER_GPU", "1")
-
         builder.copy("README.md", "/README.md")
 
         output = builder.generate()
@@ -1224,10 +1220,10 @@ def build_and_run_container(
             "-v",
             abs_path + ":/buildhostdirectory",
         ]
-        
+
         if gpu:
             docker_run_cmd.extend(["--gpus", "all"])
-            
+
         docker_run_cmd.append(tag)
 
         subprocess.check_call(
@@ -1298,17 +1294,19 @@ def run_builtin_test(tag, test, gpu=False):
         "run",
         "--rm",
     ]
-    
+
     if gpu:
         docker_run_cmd.extend(["--gpus", "all"])
-    
-    docker_run_cmd.extend([
-        tag,
-        "bash",
-        "-c",
-        test_content,
-    ])
-    
+
+    docker_run_cmd.extend(
+        [
+            tag,
+            "bash",
+            "-c",
+            test_content,
+        ]
+    )
+
     subprocess.check_call(docker_run_cmd)
 
 
@@ -1355,19 +1353,21 @@ def run_docker_test(tag, test, gpu=False):
         "-v",
         f"{volume_name}:/test",
     ]
-    
+
     if gpu:
         docker_run_cmd.extend(["--gpus", "all"])
-    
-    docker_run_cmd.extend([
-        tag,
-        "bash",
-        "-c",
-        f"""set -ex
+
+    docker_run_cmd.extend(
+        [
+            tag,
+            "bash",
+            "-c",
+            f"""set -ex
             cd /test
             {script}""",
-    ])
-    
+        ]
+    )
+
     subprocess.check_call(docker_run_cmd)
 
 
@@ -1461,7 +1461,9 @@ def autodetect_recipe_path(repo_path: str, path: str) -> str | None:
     return None
 
 
-def generate_dockerfile(repo_path, recipe_path, architecture=None, ignore_architecture=False, gpu=False):
+def generate_dockerfile(
+    repo_path, recipe_path, architecture=None, ignore_architecture=False, gpu=False
+):
     build_directory = os.path.join(repo_path, "build")
 
     print(f"Generate Dockerfile from {recipe_path}...")
@@ -1507,8 +1509,22 @@ def generate_main():
     generate_dockerfile(repo_path, recipe_path)
 
 
-def generate_and_build(repo_path, recipe_path, login=False, architecture=None, ignore_architecture=False, generate_release=False, gpu=False):
-    ctx = generate_dockerfile(repo_path, recipe_path, architecture=architecture, ignore_architecture=ignore_architecture, gpu=gpu)
+def generate_and_build(
+    repo_path,
+    recipe_path,
+    login=False,
+    architecture=None,
+    ignore_architecture=False,
+    generate_release=False,
+    gpu=False,
+):
+    ctx = generate_dockerfile(
+        repo_path,
+        recipe_path,
+        architecture=architecture,
+        ignore_architecture=ignore_architecture,
+        gpu=gpu,
+    )
     if ctx is None:
         print("Recipe generation failed.")
         sys.exit(1)
@@ -1559,9 +1575,7 @@ def build_main(login=False):
         default=platform.machine(),
     )
     root.add_argument(
-        "--ignore-architectures", 
-        action="store_true", 
-        help="Ignore architecture checks"
+        "--ignore-architectures", action="store_true", help="Ignore architecture checks"
     )
     root.add_argument(
         "--generate-release",
@@ -1588,8 +1602,8 @@ def build_main(login=False):
         recipe_path = get_recipe_directory(repo_path, args.name)
 
     generate_and_build(
-        repo_path, 
-        recipe_path, 
+        repo_path,
+        recipe_path,
         login=login,
         architecture=args.architecture,
         ignore_architecture=args.ignore_architectures,
@@ -1620,9 +1634,7 @@ def test_main():
         default=platform.machine(),
     )
     root.add_argument(
-        "--ignore-architectures", 
-        action="store_true", 
-        help="Ignore architecture checks"
+        "--ignore-architectures", action="store_true", help="Ignore architecture checks"
     )
     root.add_argument(
         "--gpu",
@@ -1644,8 +1656,8 @@ def test_main():
         recipe_path = get_recipe_directory(repo_path, args.name)
 
     generate_and_build(
-        repo_path, 
-        recipe_path, 
+        repo_path,
+        recipe_path,
         login=False,
         architecture=args.architecture,
         ignore_architecture=args.ignore_architectures,
