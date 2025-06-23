@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'releases/*/**.json'
+      - "releases/*/**.json"
     branches:
       - master
       - main
@@ -31,17 +31,17 @@ jobs:
         run: |
           # Get list of modified release JSON files
           MODIFIED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep 'releases/.*/.*\.json' || true)
-          
+
           if [ -z "$MODIFIED_FILES" ]; then
             echo "has-changes=false" >> $GITHUB_OUTPUT
             echo "modified-releases=[]" >> $GITHUB_OUTPUT
             exit 0
           fi
-          
+
           echo "has-changes=true" >> $GITHUB_OUTPUT
           echo "Modified release files:"
           echo "$MODIFIED_FILES"
-          
+
           # Extract container name and version from release file paths
           RELEASES_JSON="["
           FIRST=true
@@ -59,7 +59,7 @@ jobs:
             RELEASES_JSON="$RELEASES_JSON{\"name\":\"$CONTAINER_NAME\",\"version\":\"$VERSION\",\"file\":\"$file\"}"
           done
           RELEASES_JSON="$RELEASES_JSON]"
-          
+
           echo "Generated releases JSON: $RELEASES_JSON"
           echo "modified-releases=$RELEASES_JSON" >> $GITHUB_OUTPUT
 
@@ -71,7 +71,7 @@ jobs:
       fail-fast: false
       matrix:
         release: ${{ fromJson(needs.detect-changes.outputs.modified-releases) }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -118,7 +118,7 @@ jobs:
           # Look for test configuration in recipe directory
           RECIPE_DIR="recipes/${{ matrix.release.name }}"
           TEST_CONFIG=""
-          
+
           if [ -f "$RECIPE_DIR/test.yaml" ]; then
             TEST_CONFIG="$RECIPE_DIR/test.yaml"
             echo "Found test.yaml"
@@ -129,18 +129,18 @@ jobs:
             echo "No test configuration found in $RECIPE_DIR"
             ls -la "$RECIPE_DIR" || echo "Recipe directory not found"
           fi
-          
+
           echo "test-config=$TEST_CONFIG" >> $GITHUB_OUTPUT
 
       - name: Run container tests
         id: test
         run: |
           cd builder
-          
+
           echo "Testing container: ${{ matrix.release.name }}:${{ matrix.release.version }}"
           echo "Release file: ${{ matrix.release.file }}"
           echo "Test config: ${{ steps.find-tests.outputs.test-config }}"
-          
+
           # Use the new release-aware container tester with test configuration
           if [ -n "${{ steps.find-tests.outputs.test-config }}" ]; then
             python container_tester.py \
@@ -161,7 +161,7 @@ jobs:
         if: always()
         run: |
           cd builder
-          
+
           # Generate markdown report from test results using dedicated script
           python generate_test_report.py \
             "test-results-${{ matrix.release.name }}.json" \
@@ -186,13 +186,13 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            
+
             const releaseName = '${{ matrix.release.name }}';
             const releaseVersion = '${{ matrix.release.version }}';
             const reportFile = `builder/test-report-${releaseName}.md`;
-            
+
             let reportContent = `## Test Results for ${releaseName}:${releaseVersion}\n\n`;
-            
+
             try {
               if (fs.existsSync(reportFile)) {
                 reportContent = fs.readFileSync(reportFile, 'utf8');
@@ -202,21 +202,21 @@ jobs:
             } catch (error) {
               reportContent += `❌ Error reading test report: ${error.message}`;
             }
-            
+
             // Find existing comment for this release
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.data.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes(`Test Results for ${releaseName}:${releaseVersion}`)
             );
-            
+
             const commentBody = `${reportContent}\n\n---\n*Automated test results for container: ${releaseName}:${releaseVersion}*`;
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -249,11 +249,11 @@ jobs:
         id: summary
         run: |
           cd test-results
-          
+
           TOTAL_RECIPES=0
           PASSED_RECIPES=0
           FAILED_RECIPES=0
-          
+
           for file in test-results-*.json; do
             if [ -f "$file" ]; then
               TOTAL_RECIPES=$((TOTAL_RECIPES + 1))
@@ -267,11 +267,11 @@ jobs:
               fi
             fi
           done
-          
+
           echo "total=$TOTAL_RECIPES" >> $GITHUB_OUTPUT
           echo "passed=$PASSED_RECIPES" >> $GITHUB_OUTPUT
           echo "failed=$FAILED_RECIPES" >> $GITHUB_OUTPUT
-          
+
           echo "Test Summary: $PASSED_RECIPES/$TOTAL_RECIPES recipes passed"
 
       - name: Set PR status
@@ -281,31 +281,31 @@ jobs:
             const total = parseInt('${{ steps.summary.outputs.total }}');
             const passed = parseInt('${{ steps.summary.outputs.passed }}');
             const failed = parseInt('${{ steps.summary.outputs.failed }}');
-            
+
             let summary = `## 🧪 Container Test Summary\n\n`;
             summary += `**Results:** ${passed}/${total} recipes passed\n\n`;
-            
+
             if (failed > 0) {
               summary += `❌ ${failed} recipe(s) failed testing\n`;
               summary += `Please check the individual test results above for details.\n\n`;
             } else {
               summary += `✅ All modified containers passed testing!\n\n`;
             }
-            
+
             summary += `*This comment will be updated as tests complete.*`;
-            
+
             // Find existing summary comment
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const summaryComment = comments.data.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes('Container Test Summary')
             );
-            
+
             if (summaryComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -321,7 +321,7 @@ jobs:
                 body: summary
               });
             }
-            
+
             // Fail the workflow if any tests failed
             if (failed > 0) {
               core.setFailed(`${failed} out of ${total} container tests failed`);
