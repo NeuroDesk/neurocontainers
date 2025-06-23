@@ -162,37 +162,12 @@ jobs:
         run: |
           cd builder
           
-          # Generate markdown report from test results
-          python -c "
-          import json, sys
-          try:
-              with open('test-results-${{ matrix.release.name }}.json', 'r') as f:
-                  results = json.load(f)
-              
-              report = f'## Test Results for ${{ matrix.release.name }}:${{ matrix.release.version }}\n\n'
-              report += f'**Status:** {\"✅ PASSED\" if results[\"failed\"] == 0 else \"❌ FAILED\"}\n'
-              report += f'**Summary:** {results[\"passed\"]}/{results[\"total_tests\"]} tests passed\n\n'
-              
-              if results['failed'] > 0:
-                  report += '### Failed Tests:\n'
-                  for test in results['test_results']:
-                      if test['status'] == 'failed':
-                          report += f'- ❌ {test[\"name\"]}\n'
-                          if test['stderr']:
-                              report += f'  ```\n  {test[\"stderr\"]}\n  ```\n'
-              
-              if results['passed'] > 0:
-                  report += '### Passed Tests:\n'
-                  for test in results['test_results']:
-                      if test['status'] == 'passed':
-                          report += f'- ✅ {test[\"name\"]}\n'
-              
-              with open('test-report-${{ matrix.release.name }}.md', 'w') as f:
-                  f.write(report)
-          except Exception as e:
-              with open('test-report-${{ matrix.release.name }}.md', 'w') as f:
-                  f.write(f'## Test Results for ${{ matrix.release.name }}:${{ matrix.release.version }}\n\n❌ **ERROR**: Could not generate test report: {str(e)}\n')
-          "
+          # Generate markdown report from test results using dedicated script
+          python generate_test_report.py \
+            "test-results-${{ matrix.release.name }}.json" \
+            "${{ matrix.release.name }}" \
+            "${{ matrix.release.version }}" \
+            --output "test-report-${{ matrix.release.name }}.md"
         continue-on-error: true
 
       - name: Upload test results
@@ -284,7 +259,7 @@ jobs:
               TOTAL_RECIPES=$((TOTAL_RECIPES + 1))
               
               # Check if any tests failed
-              FAILED_TESTS=$(jq '.summary.failed' "$file" 2>/dev/null || echo "1")
+              FAILED_TESTS=$(jq '.failed' "$file" 2>/dev/null || echo "1")
               if [ "$FAILED_TESTS" -eq 0 ]; then
                 PASSED_RECIPES=$((PASSED_RECIPES + 1))
               else
