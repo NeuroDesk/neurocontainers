@@ -58,6 +58,10 @@ class ContainerRuntime:
 class DockerRuntime(ContainerRuntime):
     """Docker container runtime implementation"""
 
+    def __init__(self):
+        super().__init__()
+        self.name = "docker"
+
     def is_available(self) -> bool:
         return shutil.which("docker") is not None
 
@@ -118,6 +122,10 @@ class DockerRuntime(ContainerRuntime):
 
 class ApptainerRuntime(ContainerRuntime):
     """Apptainer/Singularity container runtime implementation"""
+
+    def __init__(self):
+        super().__init__()
+        self.name = "apptainer"
 
     def is_available(self) -> bool:
         return (
@@ -377,7 +385,12 @@ class ContainerTester:
         """Select the best available container runtime"""
         if preferred:
             for runtime in self.runtimes:
-                if runtime.name == preferred.lower() and runtime.is_available():
+                # Handle both "apptainer" and "singularity" for ApptainerRuntime
+                runtime_names = [runtime.name]
+                if runtime.name == "apptainer":
+                    runtime_names.append("singularity")
+                
+                if preferred.lower() in runtime_names and runtime.is_available():
                     self.selected_runtime = runtime
                     self.test_extractor = TestDefinitionExtractor(runtime)
                     return runtime
