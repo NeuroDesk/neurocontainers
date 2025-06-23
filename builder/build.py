@@ -771,8 +771,7 @@ class BuildContext(object):
                 filename = f"{tool_name}.json"
 
                 # Write to a file in the context directory
-                context_dir = os.path.dirname(self.recipe_path)
-                boutique_file_path = os.path.join(context_dir, filename)
+                boutique_file_path = os.path.join(self.build_directory, filename)
 
                 with open(boutique_file_path, "w") as f:
                     f.write(boutique_json)
