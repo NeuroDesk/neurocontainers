@@ -751,6 +751,7 @@ class BuildContext(object):
                     self.deploy_path.extend(path)
             elif "boutique" in directive:
                 import json
+                import os
 
                 # TODO(joshua): Support template execution later.
                 boutique_data = directive["boutique"]
@@ -765,18 +766,22 @@ class BuildContext(object):
                 # Pretty print the JSON
                 boutique_json = json.dumps(boutique_data, indent=2, sort_keys=True)
 
+                # Get the tool name for the filename
+                tool_name = boutique_data.get("name", "tool")
+                filename = f"{tool_name}.json"
+
+                # Write to a file in the context directory
+                context_dir = os.path.dirname(self.recipe_path)
+                boutique_file_path = os.path.join(context_dir, filename)
+
+                with open(boutique_file_path, "w") as f:
+                    f.write(boutique_json)
+
                 # Create the /boutique directory in the container
                 builder.run_command("mkdir -p /boutique")
 
-                # Get the tool name for the filename
-                tool_name = boutique_data.get("name", "tool")
-                filename = f"/boutique/{tool_name}.json"
-
-                # Write the JSON file to the container
-                builder.run_command(f"cat << 'EOF' > {filename}\n{boutique_json}\nEOF")
-
-                # Make the file readable
-                builder.run_command(f"chmod 644 {filename}")
+                # Copy the boutique file to the container
+                builder.copy(filename, f"/boutique/{filename}")
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
