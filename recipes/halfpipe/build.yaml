@@ -20,7 +20,6 @@ build:
   directives: []
 categories:
   - functional imaging
-  - structural imaging
   - workflows
 readme: >-
   ----------------------------------
