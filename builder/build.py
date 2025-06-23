@@ -749,6 +749,34 @@ class BuildContext(object):
                     if not isinstance(path, list):
                         raise ValueError("Deploy path must be a list.")
                     self.deploy_path.extend(path)
+            elif "boutique" in directive:
+                import json
+
+                # TODO(joshua): Support template execution later.
+                boutique_data = directive["boutique"]
+
+                # Check if boutique_data is valid
+                if boutique_data is None:
+                    raise ValueError("Boutique directive data cannot be None")
+
+                if not isinstance(boutique_data, dict):
+                    raise ValueError("Boutique directive must be a dictionary")
+
+                # Pretty print the JSON
+                boutique_json = json.dumps(boutique_data, indent=2, sort_keys=True)
+
+                # Create the /boutique directory in the container
+                builder.run_command("mkdir -p /boutique")
+
+                # Get the tool name for the filename
+                tool_name = boutique_data.get("name", "tool")
+                filename = f"/boutique/{tool_name}.json"
+
+                # Write the JSON file to the container
+                builder.run_command(f"cat << 'EOF' > {filename}\n{boutique_json}\nEOF")
+
+                # Make the file readable
+                builder.run_command(f"chmod 644 {filename}")
             else:
                 raise ValueError(f"Directive {directive} not supported.")
 
