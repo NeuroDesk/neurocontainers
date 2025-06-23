@@ -66,7 +66,7 @@ jobs:
   test-containers:
     needs: detect-changes
     if: needs.detect-changes.outputs.has-changes == 'true'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -88,15 +88,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install container runtimes
+      - name: Verify container runtimes
         run: |
-          # Install Apptainer for .simg file support
-          wget -O apptainer.deb https://github.com/apptainer/apptainer/releases/download/v1.2.5/apptainer_1.2.5_amd64.deb
-          sudo dpkg -i apptainer.deb || sudo apt-get install -f -y
-          
-          # Verify installations
+          # Verify that container runtimes are available on self-hosted runner
           docker --version
-          apptainer --version
+          apptainer --version || singularity --version
 
       - name: Set up container cache
         uses: actions/cache@v4
