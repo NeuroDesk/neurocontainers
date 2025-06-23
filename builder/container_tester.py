@@ -20,11 +20,9 @@ import subprocess
 import sys
 import tempfile
 import yaml
-from pathlib import Path
-from typing import Dict, List, Optional, Union, Any
+from typing import Dict, List, Optional, Any
 import shutil
 import urllib.request
-import hashlib
 
 
 class ContainerRuntime:
@@ -161,11 +159,18 @@ class ApptainerRuntime(ContainerRuntime):
         if gpu:
             cmd.append("--nv")
 
-        # Set working directory
-        cmd.extend(["--pwd", working_dir])
+        # For Apptainer, only set working directory if it exists or we have volumes mounted
+        if volumes:
+            cmd.extend(["--pwd", working_dir])
 
-        # Add container and command
-        cmd.extend([container_ref, "bash", "-c", test_script])
+        # Add container and command - modify script to handle working directory if needed
+        if not volumes and working_dir != "/":
+            # If no volumes mounted, don't try to cd to /test, just run in root
+            final_script = test_script
+        else:
+            final_script = test_script
+            
+        cmd.extend([container_ref, "bash", "-c", final_script])
 
         return subprocess.run(cmd, capture_output=True, text=True)
 
@@ -517,11 +522,18 @@ class ContainerTester:
             if isinstance(script, list):
                 script = " && ".join(script)
 
-            # Create test volume if needed
+            # Create test volume and handle prep steps if needed
             volumes = []
-            if "prep" in test:
-                # TODO: Implement prep step handling
-                pass
+            volume_name = None
+            
+            # Only create volumes for Docker runtime if prep steps exist
+            if "prep" in test and self.selected_runtime.name == "docker":
+                volume_name = self._create_test_volume(container_ref)
+                volumes = [{"host": volume_name, "container": "/test"}]
+                
+                # Run prep steps
+                for prep in test["prep"]:
+                    self._run_prep_step(prep, volume_name, verbose)
 
             try:
                 proc_result = self.selected_runtime.run_test(
@@ -536,8 +548,80 @@ class ContainerTester:
             except Exception as e:
                 result["stderr"] = str(e)
                 result["status"] = "failed"
+            finally:
+                # Clean up test volume
+                if volume_name:
+                    self._cleanup_test_volume(volume_name)
 
         return result
+
+    def _create_test_volume(self, container_ref: str) -> str:
+        """Create a Docker test volume"""
+        if self.selected_runtime.name != "docker":
+            return None
+            
+        # Generate volume name from container reference
+        cleaned_ref = container_ref.replace(":", "-").replace("/", "-")
+        volume_name = f"neurocontainer-test-{cleaned_ref}"
+        
+        # Remove existing volume if it exists
+        try:
+            subprocess.run(
+                ["docker", "volume", "rm", volume_name],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+        except Exception:
+            pass
+            
+        # Create new volume
+        subprocess.run(
+            ["docker", "volume", "create", volume_name],
+            stdout=subprocess.DEVNULL,
+            check=True,
+        )
+        
+        return volume_name
+
+    def _cleanup_test_volume(self, volume_name: str):
+        """Clean up a Docker test volume"""
+        if self.selected_runtime.name != "docker" or not volume_name:
+            return
+            
+        try:
+            subprocess.run(
+                ["docker", "volume", "rm", volume_name],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+        except Exception:
+            pass
+
+    def _run_prep_step(self, prep: Dict[str, Any], volume_name: str, verbose: bool = False):
+        """Run a test preparation step"""
+        if self.selected_runtime.name != "docker":
+            return
+            
+        name = prep.get("name")
+        image = prep.get("image") 
+        script = prep.get("script")
+        
+        if not name or not image or not script:
+            raise ValueError("Prep step must have name, image, and script")
+            
+        if verbose:
+            print(f"Running prep step: {name}")
+            
+        cmd = [
+            "docker", "run", "--rm",
+            "-v", f"{volume_name}:/test",
+            image,
+            "bash", "-c", f"set -ex\ncd /test\n{script}"
+        ]
+        
+        subprocess.run(cmd, check=True)
 
     def _run_builtin_test(
         self,
@@ -548,6 +632,9 @@ class ContainerTester:
     ) -> Dict[str, Any]:
         """Run a builtin test (like test_deploy.sh)"""
         builtin_name = test["builtin"]
+        
+        if verbose:
+            print(f"Running builtin test: {builtin_name}")
 
         # Find builtin test script
         script_path = os.path.join(os.path.dirname(__file__), builtin_name)
@@ -647,12 +734,21 @@ def main():
 
     # Parse container reference if provided
     if args.container:
-        if ":" in args.container and not args.container.endswith(".sif"):
+        # Check if it's a file path
+        if os.path.exists(args.container) or args.container.startswith("/") or args.container.startswith("./"):
+            # It's a file path, use it directly
+            container_ref = args.container
+            name = os.path.basename(args.container).split("_")[0] if "_" in os.path.basename(args.container) else "unknown"
+            version = "latest"
+        elif ":" in args.container and not args.container.endswith((".sif", ".simg")):
+            # It's a name:version format
             name, version = args.container.split(":", 1)
+            container_ref = None  # Will be found later
         else:
-            # Assume it's a path or name without version
+            # Assume it's a name without version
             name = args.container
             version = "latest"
+            container_ref = None  # Will be found later
     else:
         if not args.list_containers:
             print(
@@ -661,12 +757,14 @@ def main():
             )
             sys.exit(1)
         name = version = None
+        container_ref = None
 
-    # Find container (skip if just listing)
+    # Find container (skip if just listing and if not already found)
     if not args.list_containers:
-        container_ref = tester.find_container(
-            name, version, args.location, args.release_file
-        )
+        if container_ref is None:
+            container_ref = tester.find_container(
+                name, version, args.location, args.release_file
+            )
         if not container_ref:
             print(f"Error: Container {name}:{version} not found", file=sys.stderr)
             sys.exit(1)
