@@ -767,6 +767,7 @@ class BuildContext(object):
             builder.set_environment("DEPLOY_BINS", ":".join(bins))  # type: ignore
 
         builder.copy("README.md", "/README.md")
+        builder.copy("build.yaml", "/build.yaml")
 
         output = builder.generate()
 
@@ -1148,6 +1149,13 @@ def generate_from_description(
     # Write all files
     for file in description_file.get("files", []):
         ctx.add_file(file, recipe_path, check_only=check_only, locals=locals)
+
+    # Copy build.yaml to build directory for inclusion in container
+    build_yaml_source = os.path.join(recipe_path, "build.yaml")
+    build_yaml_dest = os.path.join(ctx.build_directory, "build.yaml")
+    if os.path.exists(build_yaml_source):
+        with open(build_yaml_source, "r") as src, open(build_yaml_dest, "w") as dst:
+            dst.write(src.read())
 
     ctx.dockerfile_name = "{}_{}.Dockerfile".format(
         ctx.name, ctx.version.replace(":", "_")
