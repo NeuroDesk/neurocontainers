@@ -90,11 +90,13 @@ jobs:
 
       - name: Install container runtimes
         run: |
-          # Verify Docker installation (pre-installed in GitHub Actions)
-          docker --version
+          # Install Apptainer for .simg file support
+          wget -O apptainer.deb https://github.com/apptainer/apptainer/releases/download/v1.2.5/apptainer_1.2.5_amd64.deb
+          sudo dpkg -i apptainer.deb || sudo apt-get install -f -y
           
-          # Note: Apptainer installation can be added later if needed
-          # For now, we'll rely on Docker which is pre-installed and reliable
+          # Verify installations
+          docker --version
+          apptainer --version
 
       - name: Set up container cache
         uses: actions/cache@v4
@@ -114,6 +116,26 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Release file exists: $([ -f '${{ matrix.release.file }}' ] && echo 'yes' || echo 'no')"
 
+      - name: Find test configuration
+        id: find-tests
+        run: |
+          # Look for test configuration in recipe directory
+          RECIPE_DIR="recipes/${{ matrix.release.name }}"
+          TEST_CONFIG=""
+          
+          if [ -f "$RECIPE_DIR/test.yaml" ]; then
+            TEST_CONFIG="$RECIPE_DIR/test.yaml"
+            echo "Found test.yaml"
+          elif [ -f "$RECIPE_DIR/build.yaml" ]; then
+            TEST_CONFIG="$RECIPE_DIR/build.yaml"
+            echo "Found build.yaml (will extract tests from build directives)"
+          else
+            echo "No test configuration found in $RECIPE_DIR"
+            ls -la "$RECIPE_DIR" || echo "Recipe directory not found"
+          fi
+          
+          echo "test-config=$TEST_CONFIG" >> $GITHUB_OUTPUT
+
       - name: Run container tests
         id: test
         run: |
@@ -121,14 +143,22 @@ jobs:
           
           echo "Testing container: ${{ matrix.release.name }}:${{ matrix.release.version }}"
           echo "Release file: ${{ matrix.release.file }}"
+          echo "Test config: ${{ steps.find-tests.outputs.test-config }}"
           
-          # Use the new release-aware container tester with release file for build date extraction
-          python container_tester.py \
-            "${{ matrix.release.name }}:${{ matrix.release.version }}" \
-            --location auto \
-            --release-file "../${{ matrix.release.file }}" \
-            --output test-results-${{ matrix.release.name }}.json \
-            --verbose
+          # Use the new release-aware container tester with test configuration
+          if [ -n "${{ steps.find-tests.outputs.test-config }}" ]; then
+            python container_tester.py \
+              "${{ matrix.release.name }}:${{ matrix.release.version }}" \
+              --runtime apptainer \
+              --location auto \
+              --release-file "../${{ matrix.release.file }}" \
+              --test-config "../${{ steps.find-tests.outputs.test-config }}" \
+              --output test-results-${{ matrix.release.name }}.json \
+              --verbose
+          else
+            echo "No test configuration found - skipping tests"
+            echo '{"container":"${{ matrix.release.name }}:${{ matrix.release.version }}","total_tests":0,"passed":0,"failed":0,"skipped":1,"test_results":[{"name":"No tests found","status":"skipped","stderr":"No test configuration available"}]}' > test-results-${{ matrix.release.name }}.json
+          fi
         continue-on-error: true
 
       - name: Generate test report
