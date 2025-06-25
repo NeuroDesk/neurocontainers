@@ -311,8 +311,17 @@ class LocalBuildContext(object):
         if os.path.exists(cached_file):
             return guest_filename
 
-        # if not then link it from the cache
-        os.link(cache_filename, cached_file)
+        # if not then link it from the cache (skip in Pyodide to avoid large file copying)
+        try:
+            import sys
+            if 'pyodide' in sys.modules:
+                # In Pyodide, skip copying large files
+                return guest_filename
+            else:
+                os.link(cache_filename, cached_file)
+        except AttributeError:
+            # Fallback if os.link is not available
+            return guest_filename
 
         # return the filename
         return guest_filename
