@@ -455,8 +455,18 @@ class BuildContext(object):
                         return self.execute_template(value["value"], locals=locals)
 
                 raise NotImplementedError("Try not implemented.")
+            else:
+                # Handle regular dictionaries by processing each key-value pair
+                return {
+                    self.execute_template(k, locals=locals, methods=methods): 
+                    self.execute_template(v, locals=locals, methods=methods) 
+                    for k, v in obj.items()
+                }
+        elif obj is None or type(obj) in (int, float, bool):
+            # Handle primitive types - return as-is
+            return obj
         else:
-            raise ValueError("Template object not supported.")
+            raise ValueError(f"Template object not supported: {type(obj)} - {obj}")
 
     def execute_template_string(self, obj: str, locals, methods=None) -> str:
         try:
