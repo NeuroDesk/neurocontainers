@@ -17,7 +17,7 @@ build:
         name: miniconda
         version: latest
         install_path: /opt/miniconda
-        pip_install: https://github.com/ahzhu/eharmonize.git
+        pip_install: git+https://github.com/ahzhu/eharmonize.git
     - deploy:
         path: []
         bins:
