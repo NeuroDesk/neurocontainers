@@ -314,7 +314,8 @@ class LocalBuildContext(object):
         # if not then link it from the cache (skip in Pyodide to avoid large file copying)
         try:
             import sys
-            if 'pyodide' in sys.modules:
+
+            if "pyodide" in sys.modules:
                 # In Pyodide, skip copying large files
                 return guest_filename
             else:
@@ -467,8 +468,9 @@ class BuildContext(object):
             else:
                 # Handle regular dictionaries by processing each key-value pair
                 return {
-                    self.execute_template(k, locals=locals, methods=methods): 
-                    self.execute_template(v, locals=locals, methods=methods) 
+                    self.execute_template(
+                        k, locals=locals, methods=methods
+                    ): self.execute_template(v, locals=locals, methods=methods)
                     for k, v in obj.items()
                 }
         elif obj is None or type(obj) in (int, float, bool):
@@ -634,6 +636,7 @@ class BuildContext(object):
                 )
                 if not isinstance(args, list):
                     raise ValueError("Run directive must be a list of commands.")
+                args = [arg for arg in args if arg != None]
                 builder.run_command(
                     " ".join(local.run_args) + " " + " \\\n && ".join(args)  # type: ignore
                 )
