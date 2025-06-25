@@ -21,6 +21,7 @@ build:
         version: latest
         install_path: /opt/miniconda
     - run:
+        - cd /opt
         - git clone https://github.com/ahzhu/eharmonize.git
         - cd eharmonize
         # Replace git+ssh://git@ with https:// in setup.py to avoid SSH issues
