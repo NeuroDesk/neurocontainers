@@ -16,9 +16,11 @@ build:
         name: miniconda
         version: latest
         install_path: /opt/miniconda
+        pip_install: git+https://github.com/ahzhu/eharmonize.git
     - deploy:
         path: []
-        bins: []
+        bins:
+          - eharmonize
     - test:
         name: Basic Test
         script: eharmonize --help
