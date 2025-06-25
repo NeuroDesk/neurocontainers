@@ -6,18 +6,26 @@ structured_readme:
   description: ENIGMA Harmonization (eharmonize) is a python-based package that harmonizes provided data to included lifespan reference curves. The package is currently set up for outputs of the ENIGMA-DTI pipeline.
   example: eharmonize --help
   documentation: https://github.com/ahzhu/eharmonize
-  citation: 'ahzhu. (2025). ahzhu/eharmonize: Initial Release (v0.0.0). Zenodo. https://doi.org/10.5281/zenodo.15116825'
+  citation: "ahzhu. (2025). ahzhu/eharmonize: Initial Release (v0.0.0). Zenodo. https://doi.org/10.5281/zenodo.15116825"
 build:
   kind: neurodocker
   base-image: ubuntu:24.04
   pkg-manager: apt
   directives:
-    - install: git
+    - install: git openssh-client
+    - run:
+        - mkdir -p ~/.ssh
+        - ssh-keyscan github.com >> ~/.ssh/known_hosts
     - template:
         name: miniconda
         version: latest
         install_path: /opt/miniconda
-        pip_install: git+https://github.com/ahzhu/eharmonize.git
+    - run:
+        - git clone https://github.com/ahzhu/eharmonize.git
+        - cd eharmonize
+        # Replace git+ssh://git@ with https:// in setup.py to avoid SSH issues
+        - sed -i "s/git+ssh:\/\/git@/git+https:\/\//" setup.py
+        - python -m pip install --no-cache-dir .
     - deploy:
         path: []
         bins:
@@ -47,7 +55,7 @@ readme: |-
 
   ----------------------------------
 copyright:
-  - name: 'Unknown '
+  - name: "Unknown "
     url: https://github.com/ahzhu/eharmonize
 categories:
   - data organisation
