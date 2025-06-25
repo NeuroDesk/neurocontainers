@@ -25,11 +25,9 @@ readme: |-
   ----------------------------------
   ## fitlins/0.11.0 ##
 
-  FitLins is a tool for estimating linear models, defined by the BIDS
-    Stats-Models specification proposal, to BIDS-formatted datasets.
+  FitLins is a tool for estimating linear models, defined by the BIDS Stats-Models specification proposal, to BIDS-formatted datasets.
 
-    FitLins is developed against fMRIPrep-preprocessed datasets, but is intended
-    to work with any dataset following the BIDS Derivatives draft specification.
+  FitLins is developed against fMRIPrep-preprocessed datasets, but is intended to work with any dataset following the BIDS Derivatives draft specification.
 
   Example:
   ```
@@ -49,12 +47,10 @@ readme: |-
 categories:
   - functional imaging
 structured_readme:
-  description: |2-
-      FitLins is a tool for estimating linear models, defined by the BIDS
-      Stats-Models specification proposal, to BIDS-formatted datasets.
+  description: |-
+    FitLins is a tool for estimating linear models, defined by the BIDS Stats-Models specification proposal, to BIDS-formatted datasets.
 
-      FitLins is developed against fMRIPrep-preprocessed datasets, but is intended
-      to work with any dataset following the BIDS Derivatives draft specification.
+    FitLins is developed against fMRIPrep-preprocessed datasets, but is intended to work with any dataset following the BIDS Derivatives draft specification.
   example: '  fitlins data/bids_root/ out/ participant -d data/derivatives/fmriprep/ -w work/'
   documentation: '  https://fitlins.readthedocs.io/en/latest/index.html'
   citation: https://zenodo.org/records/7217447
