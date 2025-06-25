@@ -7,24 +7,41 @@ copyright:
     url: https://github.com/MIC-DKFZ/TractSeg/blob/master/LICENSE
 build:
   kind: neurodocker
-  base-image: ubuntu:24.04
+  base-image: ubuntu:22.04
   pkg-manager: apt
   directives:
     - template:
         name: mrtrix3
-        version: 3.0.0
+        version: 3.0.4
+    - template:
+        name: miniconda
+        version: py37_23.1.0-1
+        install_path: /opt/miniconda
+        mamba: true
+    - install:
+        - gcc
+        - g++
+        - libc6-dev
+        - build-essential
+        - python3-dev
+        - libx11-6
+        - libxext6
+        - libxt6
+        - libgl1-mesa-glx
+        - xvfb
+    # - user: jovyan
+    - run: 
+        - pip install packaging numpy
+    - run:
+        - pip install TractSeg==2.9
+    - run:
+        - # create `weights_dir=absolute_path_to_where_you_want_it` in `~/.tractseg/config.txt`
+        - mkdir -p ~/.tractseg && echo "weights_dir=/opt/miniconda/share/TractSeg/weights" > ~/.tractseg/config.txt
+    - run: 
+        - download_all_pretrained_weights
     - template:
         name: fsl
         version: 6.0.7.16
-    - template:
-        name: miniconda
-        version: latest
-        install_path: /opt/miniconda
-        conda_install: python==3.7
-        mamba: true
-        pip_install: TractSeg==2.9
-    - run:
-        - download_all_pretrained_weights
     - deploy:
         bins:
           - TractSeg
