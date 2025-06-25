@@ -12,6 +12,7 @@ build:
   base-image: ubuntu:24.04
   pkg-manager: apt
   directives:
+    - install: git openssh-client
     - template:
         name: miniconda
         version: latest
