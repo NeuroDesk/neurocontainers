@@ -5,42 +5,56 @@ architectures:
   - x86_64
 build:
   kind: neurodocker
-  base-image: poldracklab/fitlins:0.11.0
+  base-image: ubuntu:24.04
   pkg-manager: apt
-  directives: []
+  directives:
+    - install: graphviz
+    - template:
+        name: miniconda
+        version: latest
+        install_path: /opt/miniconda
+        mamba: true
+        conda_install: python=3.9 mkl=2021.4 mkl-service=2.4 numpy=1.21 scipy=1.8 networkx=2.7 scikit-learn=1.0 scikit-image matplotlib=3.5 seaborn=0.11 pytables=3.6 pandas=1.3 pytest nbformat nb_conda traits=6.2 afni-minimal
+        conda_opts: '--channel leej3'
+        pip_install: fitlins=0.11.0
   add-default-template: false
 copyright:
   - license: Apache-2.0
     url: https://github.com/poldracklab/fitlins/blob/master/LICENSE
-readme: >
+readme: |-
   ----------------------------------
-  ## fitlins/{{ context.version }} ##
+  ## fitlins/0.11.0 ##
 
   FitLins is a tool for estimating linear models, defined by the BIDS
-  Stats-Models specification proposal, to BIDS-formatted datasets.
+    Stats-Models specification proposal, to BIDS-formatted datasets.
 
-  FitLins is developed against fMRIPrep-preprocessed datasets, but is intended
-  to work with any dataset following the BIDS Derivatives draft specification.
-
-  Example models can be found in examples/models in the main repository and
-  FitLins Example Models in the documentation.
-
-  This pipeline is developed by the Poldrack lab at Stanford University for use
-  at the Center for Reproducible Neuroscience (CRN), as well as for open-source
-  software distribution.
+    FitLins is developed against fMRIPrep-preprocessed datasets, but is intended
+    to work with any dataset following the BIDS Derivatives draft specification.
 
   Example:
   ```
-  fitlins data/bids_root/ out/ participant \
-  -d data/derivatives/fmriprep/ -w work/
+  fitlins data/bids_root/ out/ participant -d data/derivatives/fmriprep/ -w work/
   ```
 
-  More documentation can be found here:
-  https://fitlins.readthedocs.io/en/latest/index.html
+  More documentation can be found here: https://fitlins.readthedocs.io/en/latest/index.html
 
-  Citation: https://zenodo.org/records/7217447
+  Citation:
+  ```
+  https://zenodo.org/records/7217447
+  ```
 
-  License: Apache-2.0
+  To run container outside of this environment: ml fitlins/0.11.0
 
-  To run container outside of this environment: ml fitlins/{{ context.version }}
   ----------------------------------
+categories:
+  - functional imaging
+structured_readme:
+  description: |2-
+      FitLins is a tool for estimating linear models, defined by the BIDS
+      Stats-Models specification proposal, to BIDS-formatted datasets.
+
+      FitLins is developed against fMRIPrep-preprocessed datasets, but is intended
+      to work with any dataset following the BIDS Derivatives draft specification.
+  example: '  fitlins data/bids_root/ out/ participant -d data/derivatives/fmriprep/ -w work/'
+  documentation: '  https://fitlins.readthedocs.io/en/latest/index.html'
+  citation: https://zenodo.org/records/7217447
