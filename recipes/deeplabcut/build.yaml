@@ -50,20 +50,40 @@ build:
   base-image: ubuntu:24.04
   pkg-manager: apt
   directives:
+    - file:
+        name: deeplabcut_env.yaml
+        contents: |
+          name: DEEPLABCUT
+          channels:
+            - conda-forge
+            - defaults
+          dependencies:
+            - python=3.10
+            - pip
+            - ipython
+            - jupyter
+            - nb_conda
+            - notebook<7.0.0
+            - ffmpeg
+            - pytables==3.8.0
+            - pip:
+              - torch
+              - torchvision
+              - deeplabcut[gui,modelzoo,wandb]==3.0.0rc8
+    - copy: deeplabcut_env.yaml /opt/deeplabcut_env.yaml
     - template:
         name: miniconda
         version: latest
         install_path: /opt/miniconda
-        pip_install: ''
-        conda_install: ''
-    - install: build-essential
-    - run:
-        - pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-        - pip install --pre deeplabcut[gui]
+        env_name: deeplabcut
+        mamba: true
+        yaml_file: /opt/deeplabcut_env.yaml
     - deploy:
         path: []
         bins:
           - python
+    - environment:
+        PATH: /opt/miniconda/envs/deeplabcut/bin:$PATH
     - test:
         name: Simple Exec Test
         script: python -c "import deeplabcut"
