@@ -35,6 +35,10 @@ build:
     - run:
         - pip install TractSeg==2.9
     - run:
+       - pip install -q wheel scipy nilearn matplotlib scikit-image nibabel dipy fury joblib seaborn cython
+    - run:
+       - pip install -q torch==1.6.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+    - run:
         - # create `weights_dir=absolute_path_to_where_you_want_it` in `~/.tractseg/config.txt`
         - mkdir -p ~/.tractseg && echo "weights_dir=/opt/miniconda/share/TractSeg/weights" > ~/.tractseg/config.txt
     - run: 
@@ -42,6 +46,7 @@ build:
     - template:
         name: fsl
         version: 6.0.7.16
+    - user: jovyan
     - deploy:
         bins:
           - TractSeg
@@ -58,6 +63,7 @@ readme: |-
 
   Example:
   ```
+  mkdir -p ~/.tractseg && echo "weights_dir=/opt/miniconda/share/TractSeg/weights" > ~/.tractseg/config.txt
   TractSeg -i Diffusion.nii.gz --raw_diffusion_input
   ```
 
