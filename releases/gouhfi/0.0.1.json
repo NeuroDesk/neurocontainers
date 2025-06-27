@@ -1,0 +1,11 @@
+{
+  "apps": {
+    "gouhfi 0.0.1": {
+      "version": "20250627",
+      "exec": ""
+    }
+  },
+  "categories": [
+    "image segmentation"
+  ]
+}
