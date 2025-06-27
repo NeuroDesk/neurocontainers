@@ -497,20 +497,29 @@ class BuildContext(object):
         output_filename = os.path.join(self.build_directory, name)
 
         if "url" in file:
-            # download and cache the file
-            url = self.execute_template(file["url"], locals=locals)
-            cached_file = download_with_cache(
-                url,
-                check_only=check_only,
-                insecure=file.get("insecure", False),
-            )
+            # Check if running in Pyodide environment
+            import sys
+            if "pyodide" in sys.modules:
+                # In Pyodide, create a dummy file entry for check_only mode
+                print(f"Pyodide environment: skipping file download for {file['url']}")
+                self.files[name] = {
+                    "cached_path": output_filename,
+                }
+            else:
+                # download and cache the file
+                url = self.execute_template(file["url"], locals=locals)
+                cached_file = download_with_cache(
+                    url,
+                    check_only=check_only,
+                    insecure=file.get("insecure", False),
+                )
 
-            if "executable" in file and file["executable"]:
-                os.chmod(output_filename, 0o755)
+                if "executable" in file and file["executable"]:
+                    os.chmod(output_filename, 0o755)
 
-            self.files[name] = {
-                "cached_path": cached_file,
-            }
+                self.files[name] = {
+                    "cached_path": cached_file,
+                }
         else:
             if "contents" in file:
                 contents = self.execute_template_string(file["contents"], locals=locals)
