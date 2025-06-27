@@ -42,9 +42,9 @@ if [ "$GITHUB_REF" == "refs/heads/main" ]; then
     # Push to GH Packages
     docker tag $IMAGEID:$SHORT_SHA $IMAGEID:$BUILDDATE
     docker tag $IMAGEID:$SHORT_SHA $IMAGEID:latest
-    time docker push $IMAGEID:$BUILDDATE
+    docker push $IMAGEID:$BUILDDATE &
     echo "[DEBUG] done Pushing to GitHub Registry!"
-    docker push $IMAGEID:latest
+    docker push $IMAGEID:latest &
   else
     echo "[DEBUG] Skipping push to GitHub Registry. secrets.GH_REGISTRY not found"
   fi
@@ -53,9 +53,10 @@ if [ "$GITHUB_REF" == "refs/heads/main" ]; then
     echo "[DEBUG] Pushing to Dockerhub Registry $DOCKERHUB_ORG"
     docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:$BUILDDATE
     docker tag $IMAGEID:$SHORT_SHA $DOCKERHUB_ORG/$IMAGENAME:latest
-    time docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE}
+    docker push $DOCKERHUB_ORG/${IMAGENAME}:${BUILDDATE} &
     echo "[DEBUG] done Pushing to Dockerhub Registry!"
-    docker push $DOCKERHUB_ORG/$IMAGENAME:latest
+    # run docker push in the background to avoid blocking the workflow
+    docker push $DOCKERHUB_ORG/$IMAGENAME:latest &
   else
     echo "[DEBUG] Skipping push to Dockerhub Registry. secrets.DOCKERHUB_ORG not found"
   fi
