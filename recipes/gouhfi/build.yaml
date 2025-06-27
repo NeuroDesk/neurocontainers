@@ -30,6 +30,9 @@ build:
         install_path: /opt/miniconda
         pip_install: torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
         conda_install: python=3.10
+    - install:
+        - git
+        - unzip
     - run:
         - cd /opt
         - git clone https://github.com/mafortin/GOUHFI.git
@@ -39,8 +42,7 @@ build:
         name: GOUHFI.zip
         url: https://zenodo.org/records/15255556/files/GOUHFI.zip?download=1
     - run:
-        - |
-          cd /opt/GOUHFI/trained_model/
+        - cd /opt/GOUHFI/trained_model/
         - unzip {{ get_file("GOUHFI.zip") }}
 categories:
   - image segmentation
@@ -54,9 +56,11 @@ readme: |-
   ```
   export GOUHFI_HOME=/opt/GOUHFI
 
-  run_brain_extraction -i /path/to/input_dir [-o /path/to/output_dir] [--modality t1] [--dilatation_voxels 2] [--mask_folder /path/to/new/masked] [--skip_morpho --rename ]
+  # run_brain_extraction -i /path/to/input_dir [-o /path/to/output_dir] [--modality t1] [--dilatation_voxels 2] [--mask_folder /path/to/new/masked] [--skip_morpho --rename ]
+  run_brain_extraction -i $GOUHFI_HOME/test_data/input-images-raw/ -o .
 
-  run_gouhfi -i /path/to/input_data -o /path/to/output_dir [--np N] [--folds "0 1 2 3 4"] [--reorder_labels] [--cpu]
+  # run_gouhfi -i /path/to/input_data -o /path/to/output_dir [--np N] [--folds "0 1 2 3 4"] [--reorder_labels] [--cpu]
+  run_goufhi -i $GOUHFI_HOME/test_data/input-images-lia-brain-extracted/single-sub/ -o .
   ```
 
   More documentation can be found here: https://github.com/mafortin/GOUHFI
