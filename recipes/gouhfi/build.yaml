@@ -26,7 +26,7 @@ build:
   directives:
     - template:
         name: miniconda
-        version: 25.5.1-0
+        version: py310_25.5.1-0
         install_path: /opt/miniconda
         pip_install: torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
         conda_install: python=3.10
