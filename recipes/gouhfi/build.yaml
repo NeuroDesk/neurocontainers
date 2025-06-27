@@ -28,6 +28,8 @@ build:
         name: miniconda
         version: 25.5.1-0
         install_path: /opt/miniconda
+        pip_install: torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+        conda_install: python=3.10
     - run:
         - cd /opt
         - git clone https://github.com/mafortin/GOUHFI.git
@@ -39,7 +41,7 @@ build:
     - run:
         - |
           cd /opt/GOUHFI/trained_model/
-        - unzip GOUHFI.zip
+        - unzip {{ get_file("GOUHFI.zip") }}
 categories:
   - image segmentation
 readme: |-
