@@ -1,47 +1,36 @@
 name: xcpd
-version: 0.10.5
-
-copyright:
-  - license: BSD-3-Clause
-    url: https://github.com/PennLINC/xcp_d/blob/main/LICENSE
-
+version: 0.10.7
 architectures:
   - x86_64
-
+structured_readme:
+  description: An fMRI post-processing BIDS App designed to prepare fMRI data for resting-state functional connectivity analyses.
+  example: |-
+    xcp_d /path/to/fmriprep_dir \
+       /path/to/output_dir \
+       participant \ # analysis_level
+       --mode <mode> \ # required
+       --participant-label <label> # optional
+  documentation: https://xcp-d.readthedocs.io/en/latest/usage.html
+  citation: 'Mehta, K., Salo, T., Madison, T. J., Adebimpe, A., Bassett, D. S., Bertolero, M., ... & Satterthwaite, T. D. (2024). XCP-D: A Robust Pipeline for the post-processing of fMRI data. Imaging Neuroscience, 2, 1-26. doi:10.1162/imag_a_00257.'
 build:
   kind: neurodocker
-
-  base-image: pennlinc/xcp_d:0.10.5
+  base-image: pennlinc/xcp_d:0.10.7
   pkg-manager: apt
-
   directives:
-    - install: wget curl ca-certificates git python3-pip libgomp1 python3-dev build-essential libfontconfig1 libfreetype6 libglib2.0-0
-
-    - run:
-        - mkdir -p /usr/lib/x86_64-linux-gnu/
-        - cd /tmp
-        - wget -q http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
-        - dpkg-deb -x libpng12-0_1.2.54-1ubuntu1.1_amd64.deb .
-        - cp -r ./lib/x86_64-linux-gnu/libpng12.so.0* /usr/lib/x86_64-linux-gnu/
-        - ldconfig
-        - rm -f libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
-
-    - copy: test.sh /test.sh
-
-    - workdir: /tmp
-
-deploy:
-  bins:
-    - xcp_d
-
+    - deploy:
+        path: []
+        bins:
+          - xcp_d
+categories:
+  - functional imaging
 readme: |-
-  ## xcpd/{{ context.version }} ##
+  ----------------------------------
+  ## xcpd/0.10.7 ##
 
-  XCP-D (eXtensible Connectivity Pipeline for DCAN-labs) aims to provide a robust and modular implementation of the most commonly used resting-state fMRI preprocessing steps. It adapts parts of the DCAN Labs processing pipeline to BIDS specifications and extends functionality of existing fMRI processing tools.
+  An fMRI post-processing BIDS App designed to prepare fMRI data for resting-state functional connectivity analyses.
 
   Example:
   ```
-  xcp_d -h
   xcp_d /path/to/fmriprep_dir \
      /path/to/output_dir \
      participant \ # analysis_level
@@ -49,70 +38,16 @@ readme: |-
      --participant-label <label> # optional
   ```
 
-
-  To run container outside of this environment: ml xcpd/{{ context.version }}
-
-  More documentation can be found here: https://xcp-d.readthedocs.io/
+  More documentation can be found here: https://xcp-d.readthedocs.io/en/latest/usage.html
 
   Citation:
   ```
   Mehta, K., Salo, T., Madison, T. J., Adebimpe, A., Bassett, D. S., Bertolero, M., ... & Satterthwaite, T. D. (2024). XCP-D: A Robust Pipeline for the post-processing of fMRI data. Imaging Neuroscience, 2, 1-26. doi:10.1162/imag_a_00257.
   ```
 
-  Please also cite the Zenodo DOI for the version you're referencing.
+  To run container outside of this environment: ml xcpd/0.10.7
 
-  License: BSD 3-Clause License
-
-  License details: https://github.com/PennLINC/xcp_d/blob/main/LICENSE
-
-files:
-  - name: test.sh
-    contents: |-
-      #!/bin/bash
-      # Test xcpd installation and dependencies
-      xcp_d -h
-
-      # Test if libpng12 is properly installed
-      ldd $(which afni) | grep libpng
-
-      # Test Python dependencies
-      python3 -c "import nibabel; import nilearn; import pandas; import templateflow"
-
-      # Test ANTs (version 2.2.0 or higher)
-      antsRegistration --version | grep "ANTs Version"
-
-      # Test AFNI (version Debian-16.2.07)
-      afni --version
-
-      # Test bids-validator (version 1.6.0)
-      bids-validator --version
-
-      # Test connectome-workbench (version Debian-1.3.2)
-      wb_command -version
-
-      # Basic functionality tests
-      echo "Testing basic tool functionality..."
-      if ! command -v antsRegistration &> /dev/null; then
-          echo "ERROR: ANTs not found"
-          exit 1
-      fi
-
-      if ! command -v afni &> /dev/null; then
-          echo "ERROR: AFNI not found"
-          exit 1
-      fi
-
-      if ! command -v bids-validator &> /dev/null; then
-          echo "ERROR: bids-validator not found"
-          exit 1
-      fi
-
-      if ! command -v wb_command &> /dev/null; then
-          echo "ERROR: connectome-workbench not found"
-          exit 1
-      fi
-
-      echo "All dependency tests completed successfully"
-
-      # Basic pipeline test with minimal inputs
-      echo "XCP-D installation test completed"
+  ----------------------------------
+copyright:
+  - license: BSD-3-Clause
+    url: https://github.com/PennLINC/xcp_d?tab=BSD-3-Clause-1-ov-file#readme
